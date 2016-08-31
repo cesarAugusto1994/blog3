@@ -21,7 +21,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <a class="text-right btn-link" href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Editar Post</a>
+                    <p><a class="text-right btn-link" href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Editar Post</a></p>
                     {{ post.descricao|raw }}
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">

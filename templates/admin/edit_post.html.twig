@@ -3,7 +3,7 @@
 {% block title %}Novo Post{% endblock %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="{{ asset('/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -110,10 +110,10 @@
 
 {% block javascript %} {{ parent() }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js"></script>
-    <script src="/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js"></script>
+    <script src="{{ asset('/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ asset('/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
-    <script src="/assets/plugins/ckeditor/ckeditor.js"></script>
+    <script src="{{ asset('/assets/plugins/ckeditor/ckeditor.js') }}"></script>
     <script>
         $(function () {
             // Replace the <textarea id="editor1"> with a CKEditor
