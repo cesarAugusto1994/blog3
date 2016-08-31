@@ -36,7 +36,7 @@
                                 {{ post.conteudo|slice(0, 201)|trim|raw }}
                             </h3>
                         </a>
-                        <p class="post-meta">Posted by <a href="#">{{ post.usuario.nome }}</a>
+                        <p class="post-meta">Posted by <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '', ' ' : '+' })|lower }) }}">{{ post.usuario.nome }}</a>
                             on {{ post.cadastro|date('F d, Y') }}</p>
                     </div>
                     <hr>

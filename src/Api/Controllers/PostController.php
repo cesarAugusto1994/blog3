@@ -133,7 +133,7 @@ class PostController
      */
     public function editarPost($id, Application $app)
     {
-        return $app['twig']->render('post_edit.html.twig', [
+        return $app['twig']->render('admin/edit_post.html.twig', [
             'post' => $app['posts.repository']->find($id),
         ]);
     }
@@ -182,7 +182,7 @@ class PostController
 
         if (!empty($_FILES['background'])) {
             $ext = strtolower(substr($_FILES['background']['name'], -4));
-            $background = $post->getTitulo() . $ext;
+            $background = str_replace(' ', '_',substr($post->getTitulo(), 0, 20)) . $ext;
             $dir = 'assets/blog/img/posts/';
             move_uploaded_file($_FILES['background']['tmp_name'], $dir . $background);
             $post->setBackground($background);
@@ -190,10 +190,9 @@ class PostController
 
         $app['posts.repository']->save($post);
 
+        $arrTags = explode(',', $request->get('tags'));
+
         if (!empty($arrTags)) {
-
-            $arrTags = explode(',', $request->get('tags'));
-
             foreach ($arrTags as $tag) {
                 $tags = new Tags();
                 $tags->setPost($post);
@@ -202,7 +201,7 @@ class PostController
             }
         }
         
-        return $app->redirect('post/'.$post->getId().'/'.str_replace('.', '+',substr($post->getTitulo(), 0, 30)));
+        return $app->redirect('post/'.$post->getId().'/'.str_replace(' ', '+',str_replace('.', '+',substr($post->getTitulo(), 0, 30))));
     }
     
     /**
