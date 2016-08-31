@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Cesar{% endblock %} - My Webpage</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {% block head %}
+        <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/assets/custom/css/AdminLTE.min.css">
+    {% endblock %}
+</head>
+<body class="hold-transition login-page">
+    {% block content %}{% endblock %}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
+</body>
+</html>

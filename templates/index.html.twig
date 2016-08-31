@@ -1,5 +1,55 @@
-{% extends "layout.html.twig" %}
+{% extends "template.html.twig" %}
 
 {% block content %}
-    Welcome to your new Silex Application!
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('{{ asset(app['background.default']) }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Grupo</h1>
+                        <hr class="small">
+                        <span class="subheading">Blog do Grupo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                <h3>{% if tag_message is defined %}{{ tag_message }}{% endif %}</h3>
+                <h3>{% if author_message is defined %}{{ author_message }}{% endif %}</h3>
+
+                {% for post in posts %}
+                    <div class="post-preview">
+                        <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace({'.': '', ' ' : '+' })|lower }) }}" >
+                            <h2 class="post-title">
+                                {{ post.titulo }}
+                            </h2>
+                            <h3 class="post-subtitle">
+                                {{ post.conteudo|slice(0, 201)|trim|raw }}
+                            </h3>
+                        </a>
+                        <p class="post-meta">Posted by <a href="#">{{ post.usuario.nome }}</a>
+                            on {{ post.cadastro|date('F d, Y') }}</p>
+                    </div>
+                    <hr>
+                {% endfor %}
+                <!-- Pager -->
+                <ul class="pager">
+                    <li class="next">
+                        <a href="#">Older Posts &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+
 {% endblock %}

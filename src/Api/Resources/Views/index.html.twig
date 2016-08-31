@@ -1,0 +1,34 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    {% for post in posts %}
+        <div class="blog-post sidebar-nav">
+            <h2 class="blog-post-title">{{ post.titulo }}</h2>
+            <p class="blog-post-meta">
+                <small>{{ post.cadastro|date('F j, Y H:i') }} by <a
+                            href="{{ app.url_generator.generate('author', { author : post.usuario.id, name : post.usuario.nome|replace(' ', '_')|lower }) }}">{{ post.usuario.nome }}</a>
+                    Updated {{ post.atualizado|date('F j, Y H:i') }}</small>
+            </p>
+            {% if post.descricao|length < 1000 %}
+                <p class="lead text-justify">{{ post.descricao|raw }}{% if post.descricao|length > 250 %}...{% endif %}</p>
+            {% else %}
+                <p class="lead text-justify">{{ post.conteudo|slice(0, 500)|trim|raw }}{% if post.descricao|length > 250 %}...{% endif %}</p>
+            {% endif %}
+            <p>
+                <a class="label label-default"
+                   href="{{ app.url_generator.generate('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace({'.': '', ' ' : '+' })|lower }) }}">Saiba
+                    mais...</a>
+            </p>
+        </div>
+    {% else %}
+        <div class="blog-header">
+            <h1 class="blog-title"><i class="fa fa-frown-o"></i> Opss..</h1>
+            <p class="lead blog-description"></p>
+        </div>
+        <p class="lead">N&atilde;o foi encontrado nenhum assunto relacionado a sua Pesquisa.</p>
+    {% endfor %}
+
+{% endblock %}

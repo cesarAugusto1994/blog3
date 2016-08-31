@@ -1,0 +1,67 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}{{ post.titulo }}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block body %}
+
+    <div class="blog-post">
+        <h2 class="blog-post-title">{{ post.titulo }}
+            <a href="{{ app.url_generator.generate('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}"><button class="btn btn-flat"><span class="fa fa-edit"></span></button></a>
+        </h2>
+        <small class="blog-post-meta">Created {{ post.cadastro|date('F j, Y H:i') }} by <a href="{{ app.url_generator.generate('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '', ' ' : '+' })|lower }) }}">{{ post.usuario.nome }}</a>
+        {% if post.atualizado %} Updated {{ post.atualizado|date('F j, Y H:i') }}{% endif %}</small>
+        <div id="conteudo"><p>{{ post.descricao|replace({'<p>' : '<p class="lead text-justify">', '</p>' : '</p>'})|raw }}</p></div>
+    </div>
+
+    {% if tags is defined %}
+        <p>Tags:
+            {% for tag in tags %}
+                <small><a href="{{ app.url_generator.generate('tag', { id : tag.id, tag : tag.nome }) }}"><label
+                                class="label label-{{ app['label.sorted'] }}">{{ tag.nome }}</label></a></small>
+            {% endfor %}</p>
+    {% endif %}
+
+    {% if links is defined %}
+        <table class="table table-bordered table-responsive">
+            <tbody>
+            {% for link in links %}
+                <tr>
+                    <td>
+                        {% if link.media == 'audio' %}
+                            <p class="lead">{{ link.titulo }}</p>
+                            <iframe width="100%" height="166" scrolling="no" frameborder="no"
+                                    src="{{ link.url }}&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+                        {% else %}
+                            <p class="lead"><a target="_blank" href="{{ link.url }}">{{ link.titulo }}</a></p>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <div class="sidebar-module">
+        <h4>Relacionados:</h4>
+        {% for relacionado in posts_relacionados %}
+            {% if relacionado.id != post.id %}
+                {% if relacionado.ativo == 1 %}
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail" style="height: 175px">
+                            <div class="caption">
+                                <h3><a href="{{ app.url_generator.generate('post', { postId : relacionado.id, postTitulo : relacionado.titulo|replace(' ', '-')|lower }) }}">{{ relacionado.titulo|slice(0, 60) }}</a></h3>
+                                <p>{{ relacionado.conteudo|slice(0, 118)|raw }} ...</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div id="disqus_thread"></div>
+
+    <script id="dsq-count-scr" src="//site-14.disqus.com/count.js" async></script>
+
+{% endblock %}

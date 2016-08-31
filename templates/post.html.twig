@@ -1,0 +1,72 @@
+{% extends "template.html.twig" %}
+
+{% block stylesheet %}{% endblock %}
+
+{% block content %}
+
+    <header class="intro-header" style="background-image: url('{% if post.background is not null %}{{ asset('assets/blog/img/posts/' ~ post.background ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ post.titulo }}</h1>
+                        <span class="meta">Posted by <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '', ' ' : '+' })|lower }) }}">{{ post.usuario.nome }}</a> on {{ post.cadastro|date('F d, Y') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    {{ post.descricao|raw }}
+                </div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <p class="lead">Tags:
+                        {% for tag in tags %}
+                            <a class="btn btn-link" href="{{ path('tag', { id : tag.id, tag : tag.nome }) }}">{{ tag.nome }}</a>
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div id="disqus_thread" style="padding: 2em;"></div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+        /*
+         var disqus_config = function () {
+         this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+         };
+         */
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = '//site-14.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <script src="https://code.getmdl.io/1.2.0/material.min.js"></script>
+    <script id="dsq-count-scr" src="//site-14.disqus.com/count.js" async></script>
+{% endblock %}

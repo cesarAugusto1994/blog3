@@ -1,0 +1,31 @@
+{% extends 'template_mdl.html.twig' %}
+
+{% block head %}{{ parent() }}{% endblock %}
+
+{% block body %}
+
+    {% for post in posts %}
+        <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+                <div class="mdl-card__supporting-text">
+                    <h4>{{ post.titulo }}</h4>
+                    {{ post.conteudo|slice(0, 500)|trim|raw }}
+                </div>
+                <div class="mdl-card__actions">
+                    <a href="{{ app.url_generator.generate('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace({'.': '', ' ' : '+' })|lower }) }}" class="mdl-button">Read more</a>
+                </div>
+            </div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3-{{ post.id }}">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3-{{ post.id }}">
+                <li class="mdl-menu__item"><a href="{{ app.url_generator.generate('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Editar</a></li>
+                <li class="mdl-menu__item" disabled>Ipsum</li>
+                <li class="mdl-menu__item">Dolor</li>
+            </ul>
+        </section>
+    {% endfor %}
+
+{% endblock %}
+
+{% block javascript %}{{ parent() }}{% endblock %}

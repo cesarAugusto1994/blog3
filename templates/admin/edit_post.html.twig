@@ -1,0 +1,127 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Novo Post{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css">
+{% endblock %}
+
+{% block body %}
+
+    <div class="blog-header">
+        <h1 class="blog-title">Editar Post</h1>
+        <p class="lead blog-description"></p>
+    </div>
+
+    <form method="post" class="form-horizontal" action="{{ app.url_generator.generate('save_edit_post') }}">
+        <input type="hidden" name="id" value="{{ post.id }}">
+        <div class="form-group">
+            <label for="titulo" class="col-sm-2 control-label">Titulo</label>
+            <div class="col-sm-10">
+                <input type="text" value="{% if post.titulo is defined  %}{{ post.titulo }}{% endif %}" class="form-control" id="titulo" name="titulo" placeholder="Titulo" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="titulo" class="col-sm-2 control-label">Tags</label>
+            <div class="col-sm-10">
+                <input type="text" value="{% if post.titulo is defined  %}{{ post.titulo }}{% endif %}" class="form-control" name="tags" data-role="tagsinput" placeholder="tags" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="descricao" class="col-sm-2 control-label">Descri&ccedil;&atilde;o</label>
+            <div class="col-sm-10">
+                <textarea class="textarea form-control"  id="descricao" name="descricao" placeholder="Descricao" placeholder="Place some text here" style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{% if post.descricao is defined  %}{{ post.descricao }}{% endif %}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="confirm" class="btn btn-bitbucket">Salvar</button>
+                <a id="add" class="btn btn-link" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-link"></span></a>
+            </div>
+        </div>
+    </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Adicionar Anexos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="titulo" class="col-sm-2 control-label">Titulo</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="midia" class="col-sm-2 control-label">Midia</label>
+                            <div class="col-sm-10">
+                                <select name="midia" id="midia" class="form-control">
+                                    <option value="audio">Audio</option>
+                                    <option value="video">Video</option>
+                                    <option value="outros">Outros</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="link" class="col-sm-2 control-label">Link</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="link" name="link" placeholder="link"
+                                          required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %} {{ parent() }}
+    <script src="/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js"></script>
+    <script src="/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <script>
+        $(function () {
+            // Replace the <textarea id="editor1"> with a CKEditor
+            // instance, using default configuration.
+            CKEDITOR.replace('descricao');
+            //bootstrap WYSIHTML5 - text editor
+            //$("#descricao").wysihtml5();
+        });
+    </script>
+    <script>
+
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+        /*
+         var disqus_config = function () {
+         this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+         };
+         */
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = '//site-14.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+{% endblock %}
