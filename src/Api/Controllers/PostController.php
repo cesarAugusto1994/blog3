@@ -161,6 +161,17 @@ class PostController
         $post->setConteudo(strip_tags($request->get('descricao')));
         $post->setAtualizado(new \DateTime('now'));
 
+        if (!empty($_FILES['background']['size'])) {
+            $dir = 'assets/blog/img/posts/';
+            $ext = strtolower(substr($_FILES['background']['name'], -4));
+            if($post->getBackground()){
+                unlink($dir.''.$post->getBackground());
+            }
+            $background = md5(microtime()).''.$ext;
+            $post->setBackground($background);
+            move_uploaded_file($_FILES['background']['tmp_name'], $dir . $background);
+        }
+
         $app['posts.repository']->save($post);
 
         return $app->redirect('post/'.$post->getId().'/'.str_replace('.', '+',substr($post->getTitulo(), 0, 30)));
@@ -188,7 +199,7 @@ class PostController
 
         if (!empty($_FILES['background']['size'])) {
             $ext = strtolower(substr($_FILES['background']['name'], -4));
-            $background = str_replace(' ', '_',substr($post->getTitulo(), 0, 20)) . $ext;
+            $background = md5(mktime()).''.$ext;
             $dir = 'assets/blog/img/posts/';
             move_uploaded_file($_FILES['background']['tmp_name'], $dir . $background);
             $post->setBackground($background);
