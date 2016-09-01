@@ -42,13 +42,24 @@
                             on {{ post.cadastro|date('F d, Y') }}</p>
                     </div>
                     <hr>
+                {% else %}
+                    <div class="post-preview">
+                        <h2 class="post-title">Nenhum Post encontrado.</h2>
+                            <h3 class="post-subtitle">
+                                {% if message %}
+                                    {{ message }}
+                                {% endif %}
+                            </h3>
+                    </div>
                 {% endfor %}
+                {% if posts|length > 5 %}
                 <!-- Pager -->
                 <ul class="pager">
                     <li class="next">
                         <a href="#">Older Posts &rarr;</a>
                     </li>
                 </ul>
+                {% endif %}
             </div>
         </div>
     </div>

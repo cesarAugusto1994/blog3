@@ -1,5 +1,25 @@
-{% extends "layout.html.twig" %}
+{% extends "template.html.twig" %}
 
 {% block content %}
-    Page not found.
+    <header class="intro-header" style="background-image: url('{{ asset(app['background.default']) }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>{{ code }} - P&aacute;gina n&atilde;o encontrada.</h1>
+                        <hr class="small">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2>P&aacute;gina n&atilde;o encontrada.</h2>
+                <p>{{ erro }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

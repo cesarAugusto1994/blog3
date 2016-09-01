@@ -28,7 +28,9 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <p class="lead"><a href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Tags:</a>
                         {% for tag in tags %}
-                            <a class="btn btn-link" href="{{ path('tag', { id : tag.id, tag : tag.nome }) }}">{{ tag.nome }}</a>
+                            {% if tag|length > 0 %}
+                                <a class="btn btn-link" href="{{ path('tag', { id : tag.id, tag : tag.nome }) }}">{{ tag.nome }}</a>
+                            {% endif %}
                         {% endfor %}
                     </p>
                 </div>

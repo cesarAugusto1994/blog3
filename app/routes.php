@@ -30,5 +30,5 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
         'errors/default.html.twig',
     );
 
-    return new \Symfony\Component\HttpFoundation\Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
+    return new \Symfony\Component\HttpFoundation\Response($app['twig']->resolveTemplate($templates)->render(['code' => $code, 'erro' => $e->getMessage()]), $code);
 });

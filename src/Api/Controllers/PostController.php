@@ -43,6 +43,10 @@ class PostController
 
         $links = $app['posts.links.repository']->findBy(['post' => $id]);
 
+        if (empty(current($post))) {
+            return $app->redirect('/');
+        }
+
         return $app['twig']->render('post.html.twig', [
             'post' => current($post),
             'tags' => $postTags,
@@ -120,9 +124,15 @@ class PostController
      */
     public function search($search, Application $app)
     {
+        $posts = $app['posts.repository']->search($search);
+
+        if (empty($posts)) {
+            $search = ' Parametro de pesquisa: '.$search;
+        }
+
         return $app['twig']->render('index.html.twig', [
-            'posts' => $app['posts.repository']->search($search),
-            'mensagem' => $search
+            'posts' => $posts,
+            'message' => $search
         ]);
     }
     
@@ -192,15 +202,15 @@ class PostController
 
         $arrTags = explode(',', $request->get('tags'));
 
-        if (!empty($arrTags)) {
-            foreach ($arrTags as $tag) {
+        foreach ($arrTags as $tag) {
+            if (!empty($tag)) {
                 $tags = new Tags();
                 $tags->setPost($post);
                 $tags->setNome($tag);
                 $app['tags.repository']->save($tags);
             }
         }
-        
+
         return $app->redirect('post/'.$post->getId().'/'.str_replace(' ', '+',str_replace('.', '+',substr($post->getTitulo(), 0, 30))));
     }
     
