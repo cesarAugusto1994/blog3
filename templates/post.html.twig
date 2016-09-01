@@ -1,5 +1,7 @@
 {% extends "template.html.twig" %}
 
+{% block title %}{{ post.titulo }} - Blog Grupo{% endblock %}
+
 {% block stylesheet %}{% endblock %}
 
 {% block content %}
@@ -21,11 +23,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p><a class="text-right btn-link" href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Editar Post</a></p>
                     {{ post.descricao|raw }}
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p class="lead">Tags:
+                    <p class="lead"><a href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Tags:</a>
                         {% for tag in tags %}
                             <a class="btn btn-link" href="{{ path('tag', { id : tag.id, tag : tag.nome }) }}">{{ tag.nome }}</a>
                         {% endfor %}
