@@ -18,6 +18,9 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#search">Pesquisar</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     {% for item in app['menus'] %}
                         <li>
                             <a href="{{ path(item.url) }}">{{ item.nome }}</a>
@@ -32,6 +35,14 @@
     </nav>
 
     {% block content %}{% endblock %}
+
+    <div id="search">
+        <button type="button" class="close">x</button>
+        <form action="{{ path('search') }}" method="get">
+            <input type="search" name="q" placeholder="Pesquisar" autocomplete="off"/>
+            <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </form>
+    </div>
 
     <footer>
         <div class="container">

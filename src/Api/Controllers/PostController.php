@@ -120,7 +120,7 @@ class PostController
      */
     public function search($search, Application $app)
     {
-        return $app['twig']->render('posts.html.twig', [
+        return $app['twig']->render('index.html.twig', [
             'posts' => $app['posts.repository']->search($search),
             'mensagem' => $search
         ]);
@@ -180,7 +180,7 @@ class PostController
         $post->setUsuario($usuario);
         $post->setAtivo(true);
 
-        if (!empty($_FILES['background'])) {
+        if (!empty($_FILES['background']['size'])) {
             $ext = strtolower(substr($_FILES['background']['name'], -4));
             $background = str_replace(' ', '_',substr($post->getTitulo(), 0, 20)) . $ext;
             $dir = 'assets/blog/img/posts/';
