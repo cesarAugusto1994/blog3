@@ -126,13 +126,9 @@ class PostController
     {
         $posts = $app['posts.repository']->search($search);
 
-        if (empty($posts)) {
-            $search = ' Parametro de pesquisa: '.$search;
-        }
-
         return $app['twig']->render('index.html.twig', [
             'posts' => $posts,
-            'message' => $search
+            'message' => ' Parametro de pesquisa: '.$search
         ]);
     }
     

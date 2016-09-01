@@ -17,18 +17,24 @@ include __DIR__.'/routes/user.php';
 include __DIR__.'/routes/access.php';
 
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
-    /*
-        if ($app['debug']) {
-            return;
-        }
-    */
-    // 404.html, or 40x.html, or 4xx.html, or error.html
-    $templates = array(
-        'errors/'.$code.'.html.twig',
-        'errors/'.substr($code, 0, 2).'x.html.twig',
-        'errors/'.substr($code, 0, 1).'xx.html.twig',
-        'errors/default.html.twig',
-    );
 
-    return new \Symfony\Component\HttpFoundation\Response($app['twig']->resolveTemplate($templates)->render(['code' => $code, 'erro' => $e->getMessage()]), $code);
+    switch ($code) {
+        case 400 :
+            $message = 'Ocorreu um erro no m&aacute;quina local.';
+            break;
+        case 404 :
+            $message = 'Página não encontrada.';
+            break;
+        case 500 :
+            $message = 'Um erro ocorreu no servidor.';
+            break;
+        case 504 :
+            $message = 'Erro interno no servidor.';
+            break;
+        default :
+            $message = 'Um erro ocorreu.';
+            break;
+    }
+
+    return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
 });

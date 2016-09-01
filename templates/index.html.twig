@@ -27,6 +27,7 @@
 
                 <h3>{% if tag_message is defined %}{{ tag_message }}{% endif %}</h3>
                 <h3>{% if author_message is defined %}{{ author_message }}{% endif %}</h3>
+                <h3>{% if message is defined %}{{ message }}{% endif %}</h3>
 
                 {% for post in posts %}
                     <div class="post-preview">
@@ -41,24 +42,17 @@
                         <p class="post-meta">Posted by <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '', ' ' : '+' })|lower }) }}">{{ post.usuario.nome }}</a>
                             on {{ post.cadastro|date('F d, Y') }}</p>
                     </div>
-                    <hr>
                 {% else %}
                     <div class="post-preview">
                         <h2 class="post-title">Nenhum Post encontrado.</h2>
-                            <h3 class="post-subtitle">
-                                {% if message %}
-                                    {{ message }}
-                                {% endif %}
-                            </h3>
                     </div>
                 {% endfor %}
                 {% if posts|length > 5 %}
-                <!-- Pager -->
-                <ul class="pager">
-                    <li class="next">
-                        <a href="#">Older Posts &rarr;</a>
-                    </li>
-                </ul>
+                    <ul class="pager">
+                        <li class="next">
+                            <a href="#">Older Posts &rarr;</a>
+                        </li>
+                    </ul>
                 {% endif %}
             </div>
         </div>

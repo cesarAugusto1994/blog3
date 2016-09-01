@@ -7,8 +7,6 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\HttpFragmentServiceProvider;
 
 $app = new Application();
-$app['debug'] = true;
-ini_set('display_errors', 1);
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new AssetServiceProvider());
 $app->register(new TwigServiceProvider());
