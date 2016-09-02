@@ -128,7 +128,7 @@ class PostController
 
         return $app['twig']->render('index.html.twig', [
             'posts' => $posts,
-            'message' => ' Parametro de pesquisa: '.$search
+            'message' => ' Parâmetro de pesquisa: '.$search
         ]);
     }
     
