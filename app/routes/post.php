@@ -53,3 +53,7 @@ $app->get('/author/{author}/{name}', function($author, $name) use ($app){
 $app->get('/archives/{year}/{month}', function($year, $month) use ($app){
     return $app['post.controller']->postsByYearAndMonth($year, $month, $app);
 })->bind('archives_by_year_month')->value('year', 2016);
+
+$app->get('page/{page}', function($page) use($app) {
+    return $app['index.controller']->index($page, $app);
+})->bind('page');

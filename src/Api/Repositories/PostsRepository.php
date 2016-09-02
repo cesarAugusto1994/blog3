@@ -17,6 +17,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostsRepository extends EntityRepository
 {
+    /**
+     * @param int $offset
+     * @param int $max
+     * @return array
+     */
+    public function getAll($offset = 0, $max = 5)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.ativo = :ativo')
+            ->setParameter(':ativo', true)
+            ->orderBy('p.cadastro', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($max)
+            ->getQuery()->getResult();
+    }
+    
+    /**
+     * @param Posts $posts
+     */
     public function save(Posts $posts)
     {
         $this->getEntityManager()->persist($posts);
