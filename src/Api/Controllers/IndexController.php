@@ -31,13 +31,15 @@ class IndexController
         $nextPage = 0;
 
         $posts = $app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']);
-        $count = count($posts) ?: 1;
-        $countPages = ceil($count / $limit);
+        $count = count($posts);
+        $countPages = (int)ceil(($count ? $count : 1 )/ $limit);
 
-        if ($page > 1) {
+        if ($page > 1 && $page <= $countPages) {
             for ($i = 0; $i < $page; $i++) {
-                $offset = $page * 2;
+                $offset = $page * 2 - 1;
             }
+        } elseif ($page >= $countPages) {
+            $page = $countPages;
         }
 
         $results = $app['posts.repository']->getAll($offset, $limit);
@@ -53,6 +55,8 @@ class IndexController
             'posts' => $results,
             'firstPage' => $firstPage,
             'nextPage' => $nextPage,
+            'limitPerPage' => $limit,
+            'records' => $count
         ]);
     }
 

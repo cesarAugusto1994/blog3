@@ -102,18 +102,13 @@ class PostController
      */
     public function postsByTags($tag, Application $app)
     {
-        $tags = $app['tags.repository']->findByName($tag);
-        $posts = [];
-
-        foreach ($tags as $tag) {
-            if($tag->getPost()->isAtivo()) {
-                $posts[] = $tag->getPost();
-            }
-        }
+        $posts = array_map(function ($tag) use($app) {
+            return $tag->getPost();
+        }, $app['tags.repository']->findByName($tag));
 
         return $app['twig']->render('index.html.twig', [
             'posts' => $posts,
-            'tag_message' => 'Posts relacionados com: '. $tag->getNome()
+            'tag_message' => 'Posts relacionados com: '. $tag
         ]);
     }
 
@@ -174,7 +169,7 @@ class PostController
 
         $app['posts.repository']->save($post);
 
-        return $app->redirect('post/'.$post->getId().'/'.str_replace('.', '+',substr($post->getTitulo(), 0, 30)));
+        return $app->redirect('post/'.$post->getId().'/'.str_replace(' ', '-',str_replace('.', '-',substr($post->getTitulo(), 0, 30))));
     }
     
     /**
@@ -218,7 +213,7 @@ class PostController
             }
         }
 
-        return $app->redirect('post/'.$post->getId().'/'.str_replace(' ', '+',str_replace('.', '+',substr($post->getTitulo(), 0, 30))));
+        return $app->redirect('post/'.$post->getId().'/'.str_replace(' ', '-',str_replace('.', '-',substr($post->getTitulo(), 0, 30))));
     }
     
     /**
