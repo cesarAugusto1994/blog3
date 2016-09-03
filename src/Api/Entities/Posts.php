@@ -46,6 +46,12 @@ class Posts
     private $conteudo;
 
     /**
+     * @ORM\OneToMany(targetEntity="Tags", mappedBy="post")
+     * @var Tags
+     */
+    private $tags;
+
+    /**
      * @ORM\Column(name="cadastro", type="datetime")
      * @var \DateTime
      */
@@ -126,6 +132,22 @@ class Posts
     public function setDescricao($descricao)
     {
         $this->descricao = $descricao;
+    }
+    
+    /**
+     * @return Tags
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+    
+    /**
+     * @param Tags $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
     }
     
     /**

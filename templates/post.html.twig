@@ -27,12 +27,48 @@
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <p class="lead"><a href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Tags:</a>
-                        {% for tag in tags %}
+                        {% for tag in post.tags %}
                             {% if tag|length > 0 %}
                                 <a class="btn btn-link" href="{{ path('tag', { id : tag.id, tag : tag.nome }) }}">{{ tag.nome }}</a>
                             {% endif %}
                         {% endfor %}
                     </p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    {% if posts_relacionados %}
+                    {% for post in posts_relacionados %}
+                        <div class="col-lg-4 col-md-4">
+                            <div class="card" style="height: 340px;">
+                                <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        {{ post.titulo }}
+                                    </p>
+                                </header>
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img style="cursor: default" src="{% if post.background is not null %}{{ asset('assets/blog/img/posts/' ~ post.background ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">
+                                    </figure>
+                                </div>
+                                </a>
+                                <div class="card-content">
+                                    <div class="content">
+                                        {{ post.conteudo|slice(0, 80)|trim|raw }}
+                                        <small>{{ post.tempoPostagem }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>

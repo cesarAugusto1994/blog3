@@ -31,7 +31,7 @@
 
                 {% for post in posts %}
                     <div class="post-preview">
-                        <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace({'.': '-', ' ' : '-' })|lower }) }}" >
+                        <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}" >
                             <h2 class="post-title">
                                 {{ post.titulo }}
                             </h2>
