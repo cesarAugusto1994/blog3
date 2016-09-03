@@ -8,6 +8,7 @@
 
 namespace Api\Entities;
 
+use App\Controllers\DataPostagem;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -253,5 +254,15 @@ class Posts
     public function setBackground($background)
     {
         $this->background = $background;
+    }
+    
+    /*
+     * @return string
+     */
+    public function getTempoPostagem()
+    {
+        $postagem = new DataPostagem($this->getCadastro());
+        
+        return $postagem->getTempoPostagem();
     }
 }

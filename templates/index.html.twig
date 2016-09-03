@@ -40,7 +40,7 @@
                             </h3>
                         </a>
                         <p class="post-meta">Posted by <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '-', ' ' : '-' })|lower }) }}">{{ post.usuario.nome }}</a>
-                            on {{ post.cadastro|date('F d, Y') }}</p>
+                            on {{ post.tempoPostagem }}</p>
                     </div>
                 {% else %}
                     <div class="post-preview">

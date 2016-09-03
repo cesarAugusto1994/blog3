@@ -9,6 +9,7 @@
 namespace Api\Controllers;
 
 use Api\Entities\Posts;
+use App\Controllers\DataPostagem;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 

@@ -10,6 +10,8 @@ namespace Api\Controllers;
 
 use Api\Entities\Posts;
 use Api\Entities\Tags;
+use App\Controllers\UploadImages;
+use App\Controllers\WorkWithStrings;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,6 +21,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PostController
 {
+    use WorkWithStrings;
+    use UploadImages;
+
     /**
      * @param int $id
      * @param Application $app
@@ -151,25 +156,18 @@ class PostController
          */
         $post = $app['posts.repository']->find($request->get('id'));
 
-        $post->setTitulo($request->get('titulo'));
+        $post->setTitulo($this->replaceSpecialStrings($request->get('titulo')));
         $post->setDescricao($request->get('descricao'));
         $post->setConteudo(strip_tags($request->get('descricao')));
         $post->setAtualizado(new \DateTime('now'));
 
         if (!empty($_FILES['background']['size'])) {
-            $dir = 'assets/blog/img/posts/';
-            $ext = strtolower(substr($_FILES['background']['name'], -4));
-            if($post->getBackground()){
-                unlink($dir.''.$post->getBackground());
-            }
-            $background = md5(microtime()).''.$ext;
-            $post->setBackground($background);
-            move_uploaded_file($_FILES['background']['tmp_name'], $dir . $background);
+            $post->setBackground($this->upload($_FILES['background'], 'post', $post->getBackground()));
         }
 
         $app['posts.repository']->save($post);
 
-        return $app->redirect('post/'.$post->getId().'/'.str_replace(' ', '-',str_replace('.', '-',substr($post->getTitulo(), 0, 30))));
+        return $app->redirect('post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
     }
     
     /**
@@ -183,7 +181,7 @@ class PostController
         $usuario = $app['usuarios.repository']->find(1);
         $dataCadastro = new \DateTime();
         
-        $post->setTitulo($request->get('titulo'));
+        $post->setTitulo($this->replaceSpecialStrings($request->get('titulo')));
         $post->setDescricao($request->get('descricao'));
         $post->setConteudo(strip_tags($request->get('descricao')));
         $post->setCadastro($dataCadastro);
@@ -193,11 +191,7 @@ class PostController
         $post->setAtivo(true);
 
         if (!empty($_FILES['background']['size'])) {
-            $ext = strtolower(substr($_FILES['background']['name'], -4));
-            $background = md5(mktime()).''.$ext;
-            $dir = 'assets/blog/img/posts/';
-            move_uploaded_file($_FILES['background']['tmp_name'], $dir . $background);
-            $post->setBackground($background);
+            $post->setBackground($this->upload($_FILES['background'], 'post', $post->getBackground()));
         }
 
         $app['posts.repository']->save($post);
@@ -208,12 +202,12 @@ class PostController
             if (!empty($tag)) {
                 $tags = new Tags();
                 $tags->setPost($post);
-                $tags->setNome($tag);
+                $tags->setNome($this->replaceSpecialStrings($tag));
                 $app['tags.repository']->save($tags);
             }
         }
 
-        return $app->redirect('post/'.$post->getId().'/'.str_replace(' ', '-',str_replace('.', '-',substr($post->getTitulo(), 0, 30))));
+        return $app->redirect('post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
     }
     
     /**
