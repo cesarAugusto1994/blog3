@@ -9,7 +9,7 @@
 
 {% block content %}
 
-    <header class="intro-header" style="background-image: url('{{ asset(app['background.default']) }}')">
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -25,9 +25,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <form method="post" class="form-horizontal" action="{{ app.url_generator.generate('newPost') }}"
+                    <form method="post" class="form-horizontal" action="{{ path('newPost') }}"
                           enctype="multipart/form-data">
-
 
                         <p class="control has-icon">
                             <input class="input" type="text" placeholder="Titulo" name="titulo" required>

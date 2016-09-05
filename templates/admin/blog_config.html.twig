@@ -1,13 +1,13 @@
 {% extends 'template.html.twig' %}
 
-{% block title %}Novo Post{% endblock %}
+{% block title %}Blog{% endblock %}
 
 {% block stylesheet %}
 {% endblock %}
 
 {% block content %}
 
-    <header class="intro-header" style="background-image: url('{{ asset(app['background.default']) }}')">
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -22,16 +22,12 @@
     <article>
         <div class="container">
             <div class="row">
-                <div class="blog-header">
-                    <h1 class="blog-title">Blog Settings</h1>
-                    <p class="lead blog-description"></p>
-                </div>
 
                 <!-- Navigation Buttons -->
                 <div class="col-md-3">
-                    <ul class="nav nav-pills nav-stacked" id="myTabs">
+                    <ul class="nav nav-pills" id="myTabs">
                         <li class="active"><a href="#home" data-toggle="pill">Nome</a></li>
-                        <li><a href="#profile" data-toggle="pill">Profile</a></li>
+                        <li><a href="#menu" data-toggle="pill">Menus</a></li>
                         <li><a href="#messages" data-toggle="pill">Widgets</a></li>
                     </ul>
                 </div>
@@ -42,28 +38,51 @@
                         <div class="tab-pane active" id="home">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Nome Blog</h3>
+                                    <h3 class="panel-title">Config Blog</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <form method="post" class="form-horizontal" action="{{ app.url_generator.generate('blog_settings_save') }}">
+                                    <form method="post" class="form-horizontal" action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="{{ app['config'].id }}">
-                                        <div class="form-group">
-                                            <label for="titulo" class="col-sm-2 control-label">Nome</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" value="{{ app['config'].nome }}" id="nome" name="nome" placeholder="Nome" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-2 col-sm-10">
-                                                <button type="submit" id="confirm" class="btn btn-yahoo">Save</button>
-                                            </div>
-                                        </div>
+                                        <p class="control">Nome Blog
+                                            <input class="input" type="text" placeholder="Nome" name="nome" value="{{ app['config'].nome }}" required>
+                                        </p>
+                                        <p class="control">Descri&ccedil;&atilde;o
+                                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="subtitulo" value="{{ app['config'].subtitulo }}" required>
+                                        </p>
+                                        <p class="control">Background
+                                            <input class="input" type="file" placeholder="Background" name="background">
+                                        </p>
+                                        <p class="control">
+                                            <button class="button is-success" type="submit">
+                                                Salvar
+                                            </button>
+                                        </p>
                                     </form>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="profile">Profile</div>
+                        <div class="tab-pane" id="menu">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Menu</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <table class="table">
+                                        <tbody>
+                                        {% for menu in app['menus'] %}
+                                            <tr class="openMenu" data-toggle="modal" data-target="#myModal" data-id="{{ menu.id }}" data-nome="{{ menu.nome }}">
+                                                <td><p class="lead">{{ menu.nome }}</p></td>
+                                                <td><input type="checkbox" class="switcher menus" name="status" {% if menu.ativo %} checked {% endif %}></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
 
                         <div class="tab-pane" id="messages">
                             <div class="panel panel-default">
@@ -76,7 +95,7 @@
                                         {% for widget in app['widgets'] %}
                                             <tr>
                                                 <td><p class="lead">{{ widget.nome }}</p></td>
-                                                <td><input type="checkbox" class="switcher" name="status" {% if widget.ativo == 1 %} checked {% endif %}></td>
+                                                <td><input type="checkbox" class="switcher" value="{{ widget.ativo }}" name="status" {% if widget.ativo == 1 %} checked {% endif %}></td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
@@ -90,8 +109,55 @@
         </div>
     </article>
 
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" method="POST" action="{{ path('save_edit_menu') }}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Editar Menu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="id">
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Nome" id="nome" name="nome" required>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <p class="control">
+                            <button class="button is-success" type="submit">
+                                Salvar
+                            </button>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascript %}
-
+    <script>
+        $(document).on('click', '.openMenu', function() {
+            var id = $(this).data('id');
+            var nome = $(this).data('nome');
+            $('.modal-body #id').val(id);
+            $('.modal-body #nome').val(nome);
+        })
+    </script>
+    <script>
+        function send(e) {
+            alert(123);
+            $.get('/alterar_suatus_menu'+serialize(), function(retorno) {
+                alert("Data: " + retorno + "\n Status: " + status);
+            }, 'json')
+        }
+        $('.menus').change(send);
+    </script>
+    <script>
+        $('.switcher').bootstrapSwitch();
+    </script>
 {% endblock %}

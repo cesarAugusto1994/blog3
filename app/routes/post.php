@@ -15,11 +15,9 @@ $app->get('/post/{postId}/{postTitulo}', function ($postId, $postTitulo) use ($a
 })->bind('post');
 
 $app->get('grid_posts/', function() use ($app) {
-
     return $app['twig']->render('posts_grid.html.twig', [
         'posts' => $app['posts.repository']->findBy([], ['cadastro' => 'DESC'])
     ]);
-
 })->bind('grid_posts');
 
 $app->get('postForm', function () use ($app) {
@@ -30,9 +28,9 @@ $app->get('edit_post/{id}/{name}', function($id, $name) use ($app) {
     return $app['post.controller']->editarPost($id, $app);
 })->bind('edit_post');
 
-$app->post('save_edit_post', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->put('save_edit_post', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->editar($request, $app);
-})->bind('save_edit_post');
+})->bind('save_edit_post')->method('PUT|POST');
 
 $app->get('status_post/{id}', function($id) use ($app) {
     return $app['post.controller']->alterarStatus((int)$id, $app);

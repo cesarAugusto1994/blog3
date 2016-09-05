@@ -8,4 +8,8 @@
 
 $app->get('/categorias', function() use ($app){
     return $app['categoria.controller']->index($app);
-});
+})->bind('categorias');
+
+$app->post('nova_categoria', function(\Symfony\Component\HttpFoundation\Request $request) use ($app){
+    return $app['categoria.controller']->novo($request, $app);
+})->bind('nova_categoria');

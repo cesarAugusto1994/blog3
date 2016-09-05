@@ -78,12 +78,15 @@ class MenuController
         $menu = $app['menu.repository']->find($request->get('id'));
 
         $menu->setNome($request->get('nome'));
-        $menu->setDescricao($request->get('descricao'));
-        $menu->setUrl($request->get('url'));
-        $menu->setIcon($request->get('icone'));
-
+        
+        if(!empty($request->get('descricao'))) {
+            $menu->setDescricao($request->get('descricao'));
+            $menu->setUrl($request->get('url'));
+            $menu->setIcon($request->get('icone'));
+        }
+        
         $app['menu.repository']->save($menu);
     
-       return $app->redirect('menu');
+       return $app->redirect('blog#menu');
     }
 }

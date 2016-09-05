@@ -33,6 +33,18 @@ class Config
     private $nome;
     
     /**
+     * @ORM\Column(name="subtitulo", type="string")
+     * @var string
+     */
+    private $subtitulo;
+    
+    /**
+     * @ORM\Column(name="background", type="string")
+     * @var string
+     */
+    private $background;
+    
+    /**
      * @return int
      */
     public function getId()
@@ -54,5 +66,37 @@ class Config
     public function setNome($nome)
     {
         $this->nome = $nome;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getSubtitulo()
+    {
+        return $this->subtitulo;
+    }
+    
+    /**
+     * @param string $subtitulo
+     */
+    public function setSubtitulo($subtitulo)
+    {
+        $this->subtitulo = $subtitulo;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getBackground()
+    {
+        return $this->background;
+    }
+    
+    /**
+     * @param string $background
+     */
+    public function setBackground($background)
+    {
+        $this->background = $background;
     }
 }

@@ -77,6 +77,8 @@ trait UploadImages
     {
         if ($this->origin == 'post') {
             return __DIR__.'/../../../web/assets/blog/img/posts/';
+        } elseif ($this->origin == 'config') {
+            return __DIR__.'/../../../web/assets/blog/img/config/';
         }
         throw new \Exception('Erro ao salvar imagem.');
     }

@@ -10,6 +10,14 @@ $app->get('/search', function (\Symfony\Component\HttpFoundation\Request $reques
     return $app['post.controller']->search($request->get('q'), $app);
 })->bind('search');
 
+$app->get('/blog', function () use ($app) {
+    return $app['twig']->render('admin/blog_config.html.twig');
+})->bind('blog');
+
+$app->post('/blog', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['config.controller']->editar($request, $app);
+})->bind('blog_settings_save');
+
 $app->get('menu', function() use ($app) {
     return $app['menu.controller']->index($app);
 })->bind('menu');
@@ -33,12 +41,3 @@ $app->post('save_edit_menu', function(\Symfony\Component\HttpFoundation\Request 
 $app->get('alterar_suatus_menu/{id}', function($id) use ($app) {
     return $app['menu.controller']->alterarStatus((int)$id, $app);
 })->bind('alterar_suatus_menu');
-
-$app->get('/blog/settings', function () use ($app) {
-    return $app['twig']->render('admin/blog_config.html.twig');
-})->bind('blog_settings');
-
-$app->post('/blog/settings', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    return $app['config.controller']->editar($request, $app);
-})->bind('blog_settings_save');
-

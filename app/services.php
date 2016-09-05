@@ -134,15 +134,20 @@ $app['colecao.repository'] = function () use ($app) {
 $app['categoria.repository'] = function () use ($app) {
   return $app['orm.em']->getRepository(\Api\Entities\Categoria::class);
 };
-/*
+
+/**
+ * @return mixed
+ */
 $app['widgets.repository'] = function () use ($app) {
   return $app['orm.em']->getRepository(\App\Entities\Widgets::class);
 };
 
+/**
+ * @return \App\Controllers\WidgetsController
+ */
 $app['widgets.controller'] = function () use($app) {
   return new \App\Controllers\WidgetsController();
 };
-*/
 
 /**
  * @return mixed

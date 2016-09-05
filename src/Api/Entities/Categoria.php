@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Categoria
  * @package Api\Entities
  * @ORM\Table(name="categoria")
- * @ORM\Entity(repositoryClass="")
+ * @ORM\Entity(repositoryClass="Api\Repositories\CategoriaRepository")
  */
 class Categoria
 {

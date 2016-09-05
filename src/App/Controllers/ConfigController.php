@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ConfigController
 {
+    use UploadImages;
     /**
      * @param Application $app
      * @return mixed
@@ -31,9 +32,14 @@ class ConfigController
     {
         $config = $app['config.repository']->find($request->get('id'));
         $config->setNome($request->get('nome'));
+        $config->setSubtitulo($request->get('subtitulo'));
 
+        if (!empty($_FILES['background']['size'])) {
+            $config->setBackground($this->upload($_FILES['background'], 'config', $config->getBackground()));
+        }
+        
         $app['config.repository']->save($config);
 
-        return $app->redirect('/blog/settings');
+        return $app->redirect('/blog');
     }
 }

@@ -16,4 +16,69 @@
         </div>
     </header>
 
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <button data-toggle="modal" data-target="#myModal" class="button is-danger">Nova Categoria</button>
+                    <hr>
+                </div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <table class="table is-narrow">
+                        <thead>
+                        <tr>
+                            <th>Nome:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for categoria in categorias %}
+                        <tr>
+                            <td>{{ categoria.nome }}</td>
+                            <td>{{ categoria.colecao.nome }}</td>
+                        <tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+    <br>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" method="POST" action="{{ path('nova_categoria') }}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Adicionar Anexos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Nome" name="nome" required>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <select name="colecao" required>
+                                <option value=""></option>
+                                {% for colecao in colecoes %}
+                                    <option value="{{ colecao.id }}">{{ colecao.nome }}</option>
+                                {% endfor %}
+                            </select>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <p class="control">
+                            <button class="button is-success" type="submit">
+                                Salvar
+                            </button>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

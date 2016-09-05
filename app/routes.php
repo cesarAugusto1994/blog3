@@ -11,10 +11,10 @@ $app->get('/about', 'index.controller:about')->bind('about');
 $app->get('/contact', 'index.controller:contact')->bind('contact');
 $app->get('/events')->bind('events');
 
+include __DIR__.'/routes/menu.php';
 include __DIR__.'/routes/post.php';
 include __DIR__.'/routes/categoria.php';
 include __DIR__.'/routes/colecao.php';
-include __DIR__.'/routes/menu.php';
 include __DIR__.'/routes/user.php';
 include __DIR__.'/routes/access.php';
 

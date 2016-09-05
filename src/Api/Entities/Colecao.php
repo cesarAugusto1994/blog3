@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Colecao
  * @package Api\Entities
  * @ORM\Table(name="colecao")
- * @ORM\Entity(repositoryClass="")
+ * @ORM\Entity(repositoryClass="Api\Repositories\ColecaoRepository")
  */
 class Colecao
 {
