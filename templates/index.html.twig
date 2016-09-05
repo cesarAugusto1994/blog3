@@ -4,23 +4,20 @@
 
 {% block content %}
 
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
     <header class="intro-header" style="background-image: url('{{ asset(app['background.default']) }}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="site-heading">
-                        <h1>Grupo</h1>
+                        <h1>/</h1>
                         <hr class="small">
-                        <span class="subheading">Blog do Grupo</span>
+                        <span class="subheading">/echo</span>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -36,7 +33,7 @@
                                 {{ post.titulo }}
                             </h2>
                             <h3 class="post-subtitle">
-                                {{ post.conteudo|slice(0, 201)|trim|raw }}
+                                {{ post.conteudo|slice(0, 501)|trim|raw }}
                             </h3>
                         </a>
                         <p class="post-meta">Posted by <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '-', ' ' : '-' })|lower }) }}">{{ post.usuario.nome }}</a>

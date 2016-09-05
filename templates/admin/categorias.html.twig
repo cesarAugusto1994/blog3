@@ -1,0 +1,44 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Categoria{% endblock %}
+
+{% block content %}
+
+    <header class="intro-header" style="background-image: url('{{ asset(app['background.default']) }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Categorias</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nome:</th>
+                                <th>Cole&ccedil;&atilde;o</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for categoria in categorias %}
+                                <tr>
+                                    <td>{{ categoria.nome }}</td>
+                                    <td>{{ categoria.colecao.nome }}</td>
+                                <tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+    <br>
+{% endblock %}

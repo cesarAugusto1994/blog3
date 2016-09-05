@@ -26,6 +26,14 @@ $app['config.controller'] = function () use($app) {
   return new \App\Controllers\ConfigController();
 };
 
+$app['categoria.controller'] = function () use($app) {
+  return new \Api\Controllers\CategoriaController();
+};
+
+$app['colecao.controller'] = function () use($app) {
+  return new \Api\Controllers\ColecaoController();
+};
+
 $app['menu.repository'] = function () use($app) {
   return $app['orm.em']->getRepository(\App\Entities\Menu::class);
 };
@@ -111,6 +119,20 @@ $app['posts.history'] = function () use ($app) {
  */
 $app['usuarios.repository'] = function () use ($app) {
   return $app['orm.em']->getRepository(\Api\Entities\Usuarios::class);
+};
+
+/**
+ * @return mixed
+ */
+$app['colecao.repository'] = function () use ($app) {
+  return $app['orm.em']->getRepository(\Api\Entities\Colecao::class);
+};
+
+/**
+ * @return mixed
+ */
+$app['categoria.repository'] = function () use ($app) {
+  return $app['orm.em']->getRepository(\Api\Entities\Categoria::class);
 };
 /*
 $app['widgets.repository'] = function () use ($app) {
