@@ -25,16 +25,26 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {{ post.descricao|raw }}
                 </div>
+            </div>
+        </div>
+        <br>
+    </article>
+
+    <article>
+        <div class="container">
+            <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p class="lead"><a href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Tags:</a>
+                    <h4>Tags:
                         {% for tag in post.tags %}
                             {% if tag|length > 0 %}
                                 <a href="{{ path('tag', { id : tag.id, tag : tag.nome }) }}"><span class="tag is-dark">{{ tag.nome }}</span></a>
                             {% endif %}
                         {% endfor %}
-                    </p>
+                        <a href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}"><span class="tag is-white">Editar Post</span></a>
+                    </h4>
                 </div>
             </div>
+            <br>
         </div>
     </article>
 
@@ -46,7 +56,7 @@
                         {% for post_r in posts_relacionados %}
                             {% if post_r.id != post.id %}
                             <div class="col-lg-4 col-md-4">
-                                <div class="card" style="height: 340px;">
+                                <div class="card" style="height: 400px;">
                                     <a href="{{ path('post', { postId : post_r.id, postTitulo : post_r.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}">
                                         <div class="card-image">
                                             <figure class="image is-4by3">

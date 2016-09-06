@@ -24,22 +24,16 @@
             <div class="row">
 
                 <!-- Navigation Buttons -->
-                <div class="col-md-3">
-                    <ul class="nav nav-pills" id="myTabs">
-                        <li class="active"><a href="#home" data-toggle="pill">Nome</a></li>
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" id="myTabs">
+                        <li class="active"><a href="#home" data-toggle="pill">Config</a></li>
                         <li><a href="#menu" data-toggle="pill">Menus</a></li>
                         <li><a href="#messages" data-toggle="pill">Widgets</a></li>
                     </ul>
-                </div>
 
-                <!-- Content -->
-                <div class="col-md-9">
                     <div class="tab-content">
                         <div class="tab-pane active" id="home">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Config Blog</h3>
-                                </div>
                                 <div class="panel-body">
                                     <form method="post" class="form-horizontal" action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="{{ app['config'].id }}">
@@ -63,11 +57,7 @@
                         </div>
 
                         <div class="tab-pane" id="menu">
-
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Menu</h3>
-                                </div>
                                 <div class="panel-body">
                                     <table class="table">
                                         <tbody>
@@ -81,14 +71,10 @@
                                     </table>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="tab-pane" id="messages">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Widgets</h3>
-                                </div>
                                 <div class="panel-body">
                                     <table class="table">
                                         <tbody>
