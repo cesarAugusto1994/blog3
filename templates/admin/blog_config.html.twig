@@ -22,14 +22,15 @@
     <article>
         <div class="container">
             <div class="row">
-
-                <!-- Navigation Buttons -->
                 <div class="col-md-12">
-                    <ul class="nav nav-tabs" id="myTabs">
-                        <li class="active"><a href="#home" data-toggle="pill">Config</a></li>
-                        <li><a href="#menu" data-toggle="pill">Menus</a></li>
-                        <li><a href="#messages" data-toggle="pill">Widgets</a></li>
-                    </ul>
+
+                    <div class="tabs is-medium" id="myTabs">
+                        <ul>
+                            <li class="active"><a href="#home" data-toggle="pill" style="text-decoration: none">Config</a></li>
+                            <li><a href="#menu" data-toggle="pill" style="text-decoration: none">Menus</a></li>
+                            <li><a href="#messages" data-toggle="pill" style="text-decoration: none">Widgets</a></li>
+                        </ul>
+                    </div>
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="home">
@@ -37,9 +38,9 @@
                                 <div class="panel-body">
                                     <form method="post" class="form-horizontal" action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="{{ app['config'].id }}">
-                                        <p class="control">Nome Blog
+                                        <p class="control"><label>Nome Blog
                                             <input class="input" type="text" placeholder="Nome" name="nome" value="{{ app['config'].nome }}" required>
-                                        </p>
+                                        </label></p>
                                         <p class="control">Descri&ccedil;&atilde;o
                                             <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="subtitulo" value="{{ app['config'].subtitulo }}" required>
                                         </p>
@@ -57,26 +58,76 @@
                         </div>
 
                         <div class="tab-pane" id="menu">
+
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <table class="table">
-                                        <tbody>
-                                        {% for menu in app['menus'] %}
-                                            <tr class="openMenu" data-toggle="modal" data-target="#myModal" data-id="{{ menu.id }}" data-nome="{{ menu.nome }}">
-                                                <td><p class="lead">{{ menu.nome }}</p></td>
-                                                <td><input type="checkbox" class="switcher menus" name="status" {% if menu.ativo %} checked {% endif %}></td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
+
+                            <div class="control is-grouped">
+                                <p class="control">
+                                    <a class="button is-success addMenu" data-toggle="modal"
+                                       data-target="#myModal" style="text-decoration: none">
+                                        Novo Menu
+                                    </a>
+                                </p>
+                            </div>
+
+                            <table class="table is-narrow">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descri&ccedil;&atilde;o</th>
+                                    <th>Url</th>
+                                    <th>Icone</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for menu in app['menus'] %}
+                                    <tr>
+                                        <td>{{ menu.nome }}</td>
+                                        <td>{{ menu.descricao }}</td>
+                                        <td>{{ menu.url }}</td>
+                                        <td>{{ menu.icon }}</td>
+                                        <td>
+                                            <p class="control has-addons">
+                                                <a class="button is-primary is-outlined openMenu" data-toggle="modal"
+                                                   data-target="#myModal" data-id="{{ menu.id }}" data-nome="{{ menu.nome }}"
+                                                   data-descricao="{{ menu.descricao }}" data-url="{{ menu.url }}" data-icone="{{ menu.icon }}"
+                                                   data-cadastro="{{ menu.cadastro|date('d/m/Y H:i:s') }}" style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-edit"></i>
+                                                    </span>
+                                                    <span>Editar</span>
+                                                </a>
+                                                {% if menu.ativo == 0 %}
+                                                <a class="button is-success is-outlined" href="{{ path('alterar_suatus_menu', { id : menu.id }) }}" style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-plus"></i>
+                                                    </span>
+                                                    <span>Ativar</span>
+                                                </a>
+                                                {% else %}
+                                                <a class="button is-danger is-outlined" href="{{ path('alterar_suatus_menu', { id : menu.id }) }}" style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-ban"></i>
+                                                    </span>
+                                                    <span>Inativar</span>
+                                                </a>
+                                                {% endif %}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                                 </div>
                             </div>
-                        </div>
 
                         <div class="tab-pane" id="messages">
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <table class="table">
+                                    <table class="tabs">
                                         <tbody>
                                         {% for widget in app['widgets'] %}
                                             <tr>
@@ -98,7 +149,7 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form class="form-horizontal" method="POST" action="{{ path('save_edit_menu') }}">
+                <form class="form-horizontal" method="POST" action="{{ path('save_menu') }}">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
@@ -109,6 +160,22 @@
                         <p class="control has-icon">
                             <input class="input" type="text" placeholder="Nome" id="nome" name="nome" required>
                             <i class="fa fa-edit"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" id="descricao" name="descricao" required>
+                            <i class="fa fa-file-text-o"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Url" id="url" name="url" required>
+                            <i class="fa fa-link"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Icone" id="icone" name="icone" required>
+                            <i class="fa fa-picture-o"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Cadastro" id="cadastro" name="cadastro" disabled required>
+                            <i class="fa fa-calendar"></i>
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -128,20 +195,23 @@
 {% block javascript %}
     <script>
         $(document).on('click', '.openMenu', function() {
-            var id = $(this).data('id');
-            var nome = $(this).data('nome');
-            $('.modal-body #id').val(id);
-            $('.modal-body #nome').val(nome);
+            $('.modal-body #id').val($(this).data('id'));
+            $('.modal-body #nome').val($(this).data('nome'));
+            $('.modal-body #descricao').val($(this).data('descricao'));
+            $('.modal-body #url').val($(this).data('url'));
+            $('.modal-body #icone').val($(this).data('icone'));
+            $('.modal-body #cadastro').val($(this).data('cadastro'));
         })
     </script>
     <script>
-        function send(e) {
-            alert(123);
-            $.get('/alterar_suatus_menu'+serialize(), function(retorno) {
-                alert("Data: " + retorno + "\n Status: " + status);
-            }, 'json')
-        }
-        $('.menus').change(send);
+        $(document).on('click', '.addMenu', function() {
+            $('.modal-body #id').val('');
+            $('.modal-body #nome').val('');
+            $('.modal-body #descricao').val('');
+            $('.modal-body #url').val('');
+            $('.modal-body #icone').val('');
+            $('.modal-body #cadastro').val('');
+        })
     </script>
     <script>
         $('.switcher').bootstrapSwitch();

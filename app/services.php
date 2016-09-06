@@ -34,6 +34,10 @@ $app['colecao.controller'] = function () use($app) {
   return new \Api\Controllers\ColecaoController();
 };
 
+$app['pager.Controller'] = function () {
+  return new \App\Controllers\PagerController();
+};
+
 $app['menu.repository'] = function () use($app) {
   return $app['orm.em']->getRepository(\App\Entities\Menu::class);
 };
@@ -43,7 +47,7 @@ $app['config.repository'] = function () use($app) {
 };
 
 $app['menus'] = function () use ($app) {
-  return $app['menu.repository']->findBy(['ativo' => true]);
+  return $app['menu.repository']->findAll();
 };
 
 $app['config'] = function () use ($app) {

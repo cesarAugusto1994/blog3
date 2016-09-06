@@ -10,6 +10,7 @@ namespace Api\Controllers;
 
 use Api\Entities\Posts;
 use App\Controllers\DataPostagem;
+use App\Controllers\PagerController;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,38 +27,15 @@ class IndexController
      */
     public function index($page = 1, Application $app)
     {
-        $offset = 0;
-        $limit = 3;
-        $firstPage = 1;
-        $nextPage = 0;
-
-        $posts = $app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']);
-        $count = count($posts);
-        $countPages = (int)ceil(($count ? $count : 1 )/ $limit);
-
-        if ($page > 1 && $page <= $countPages) {
-            for ($i = 0; $i < $page; $i++) {
-                $offset = $page * 2 - 1;
-            }
-        } elseif ($page >= $countPages) {
-            $page = $countPages;
-        }
-
-        $results = $app['posts.repository']->getAll($offset, $limit);
-
-        if ($page < $countPages) {
-            $firstPage = $page - 1;
-            $nextPage = $page + 1;
-        } elseif($page >= 1) {
-            $firstPage = $page - 1;
-        }
+        $pager = $app['pager.Controller'];
+        $pager->pager($app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']), $page);
 
         return $app['twig']->render('index.html.twig', [
-            'posts' => $results,
-            'firstPage' => $firstPage,
-            'nextPage' => $nextPage,
-            'limitPerPage' => $limit,
-            'records' => $count
+            'posts' => $app['posts.repository']->getAll($pager->getOffset(), $pager->getLimit()),
+            'firstPage' => $pager->getFirstPage(),
+            'nextPage' => $pager->getNextPage(),
+            'limitPerPage' => $pager->getLimit(),
+            'records' => $pager->getCountData()
         ]);
     }
 

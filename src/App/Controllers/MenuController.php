@@ -24,7 +24,7 @@ class MenuController
      */
     public function index(Application $app)
     {
-        return $app['twig']->render('admin/blog_menus.html.twig', ['menus' => $app['menu.repository']->findAll()]);
+        return $app->redirect('/blog');
     }
     
     /**
