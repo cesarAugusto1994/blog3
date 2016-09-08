@@ -37,6 +37,12 @@ class Usuarios
      * @var string
      */
     private $email;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Posts", mappedBy="Usuario")
+     * @var Posts
+     */
+    private $posts;
 
     /**
      * @ORM\Column(name="cadastro", type="datetime")
@@ -88,6 +94,14 @@ class Usuarios
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+    
+    /**
+     * @return Posts
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 
     /**

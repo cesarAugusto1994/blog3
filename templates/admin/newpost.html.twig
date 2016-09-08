@@ -3,6 +3,7 @@
 {% block title %}Novo Post{% endblock %}
 
 {% block stylesheet %}
+    {{ parent() }}
     <link rel="stylesheet"
           href="{{ asset('/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}">
 {% endblock %}
@@ -36,16 +37,14 @@
                             <input class="input" type="file" id="background" name="background" placeholder="Background" accept="image/*">
                             <i class="fa fa-image"></i>
                         </p>
-                        <p class="control has-icon">
-                            <input type="text" class="form-control" name="tags" data-role="tagsinput"
+                        <p class="control">
+                            <input type="text" class="form-control" id="tag" name="tags" data-role="tagsinput"
                                    placeholder="tags"/>
-                            <i class="fa fa-bookmark"></i>
                         </p>
-                        <p class="control has-icon">
+                        <p class="control">
                             <textarea class="textarea form-control" id="descricao" name="descricao"
                                       placeholder="Descricao" placeholder="Place some text here"
                                       style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                            <i class="fa fa-edit"></i>
                         </p>
                         <p class="control">
                             <button class="button is-success" type="submit">
@@ -61,18 +60,18 @@
 {% endblock %}
 
 {% block javascript %}
+    <script>
+        $('#tag').tagsinput({
+            confirmKeys: [13, 44],
+            tagClass: function(item) {
+                return (item.length > 10 ? 'big' : 'label label-success');
+            }
+        });
+    </script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init($('#descricao'));</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
     <script src="{{ asset('/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
-    <script src="{{ asset('/assets/plugins/ckeditor/ckeditor.js') }}"></script>
-    <script>
-        $(function () {
-            // Replace the <textarea id="editor1"> with a CKEditor
-            // instance, using default configuration.
-            CKEDITOR.replace('descricao');
-            //bootstrap WYSIHTML5 - text editor
-            //$(".textarea").wysihtml5();
-        });
-    </script>
 {% endblock %}

@@ -14,6 +14,10 @@ $app['post.controller'] = function() use ($app) {
   return new \Api\Controllers\PostController();
 };
 
+$app['tag.controller'] = function() use ($app) {
+  return new \Api\Controllers\TagsController();
+};
+
 $app['menu.controller'] = function () use($app) {
   return new \App\Controllers\MenuController();
 };
