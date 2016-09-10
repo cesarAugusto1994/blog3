@@ -287,4 +287,18 @@ class Posts
         
         return $postagem->getTempoPostagem();
     }
+    
+    /**
+     * @return string
+     */
+    public function getNomeTags()
+    {
+        $tags = [];
+
+        foreach ($this->getTags() as $tag) {
+            $tags[] = $tag->getNome();
+        }
+
+        return implode(',', $tags);
+    }
 }

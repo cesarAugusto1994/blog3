@@ -7,7 +7,8 @@
 
 {% block content %}
 
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+    <header class="intro-header"
+            style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -26,8 +27,10 @@
 
                     <div class="tabs is-medium" id="myTabs">
                         <ul>
-                            <li class="active"><a href="#home" data-toggle="pill" style="text-decoration: none">Config</a></li>
+                            <li class="active"><a href="#home" data-toggle="pill"
+                                                  style="text-decoration: none">Config</a></li>
                             <li><a href="#menu" data-toggle="pill" style="text-decoration: none">Menus</a></li>
+                            <li><a href="#posts" data-toggle="pill" style="text-decoration: none">Posts</a></li>
                             <li><a href="#messages" data-toggle="pill" style="text-decoration: none">Widgets</a></li>
                         </ul>
                     </div>
@@ -36,13 +39,16 @@
                         <div class="tab-pane active" id="home">
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <form method="post" class="form-horizontal" action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
+                                    <form method="post" class="form-horizontal"
+                                          action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="{{ app['config'].id }}">
                                         <p class="control"><label>Nome Blog
-                                            <input class="input" type="text" placeholder="Nome" name="nome" value="{{ app['config'].nome }}" required>
-                                        </label></p>
+                                                <input class="input" type="text" placeholder="Nome" name="nome"
+                                                       value="{{ app['config'].nome }}" required>
+                                            </label></p>
                                         <p class="control">Descri&ccedil;&atilde;o
-                                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="subtitulo" value="{{ app['config'].subtitulo }}" required>
+                                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
+                                                   name="subtitulo" value="{{ app['config'].subtitulo }}" required>
                                         </p>
                                         <p class="control">Background
                                             <input class="input" type="file" placeholder="Background" name="background">
@@ -62,67 +68,102 @@
                             <div class="panel panel-default">
                                 <div class="panel-body">
 
-                            <div class="control is-grouped">
-                                <p class="control">
-                                    <a class="button is-success addMenu" data-toggle="modal"
-                                       data-target="#myModal" style="text-decoration: none">
-                                        Novo Menu
-                                    </a>
-                                </p>
-                            </div>
+                                    <div class="control is-grouped">
+                                        <p class="control">
+                                            <a class="button is-success addMenu" data-toggle="modal"
+                                               data-target="#myModal" style="text-decoration: none">
+                                                Novo Menu
+                                            </a>
+                                        </p>
+                                    </div>
 
-                            <table class="table is-narrow">
-                                <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Descri&ccedil;&atilde;o</th>
-                                    <th>Url</th>
-                                    <th>Icone</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for menu in app['menus'] %}
-                                    <tr>
-                                        <td>{{ menu.nome }}</td>
-                                        <td>{{ menu.descricao }}</td>
-                                        <td>{{ menu.url }}</td>
-                                        <td>{{ menu.icon }}</td>
-                                        <td>
-                                            <p class="control has-addons">
-                                                <a class="button is-primary is-outlined openMenu" data-toggle="modal"
-                                                   data-target="#myModal" data-id="{{ menu.id }}" data-nome="{{ menu.nome }}"
-                                                   data-descricao="{{ menu.descricao }}" data-url="{{ menu.url }}" data-icone="{{ menu.icon }}"
-                                                   data-cadastro="{{ menu.cadastro|date('d/m/Y H:i:s') }}" style="text-decoration: none">
+                                    <table class="table is-narrow">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Descri&ccedil;&atilde;o</th>
+                                            <th>Url</th>
+                                            <th>Icone</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for menu in app['menus'] %}
+                                            <tr>
+                                                <td>{{ menu.nome }}</td>
+                                                <td>{{ menu.descricao }}</td>
+                                                <td>{{ menu.url }}</td>
+                                                <td>{{ menu.icon }}</td>
+                                                <td>
+                                                    <p class="control has-addons">
+                                                        <a class="button is-primary is-outlined openMenu"
+                                                           data-toggle="modal"
+                                                           data-target="#myModal" data-id="{{ menu.id }}"
+                                                           data-nome="{{ menu.nome }}"
+                                                           data-descricao="{{ menu.descricao }}"
+                                                           data-url="{{ menu.url }}" data-icone="{{ menu.icon }}"
+                                                           data-cadastro="{{ menu.cadastro|date('d/m/Y H:i:s') }}"
+                                                           style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-edit"></i>
                                                     </span>
-                                                    <span>Editar</span>
-                                                </a>
-                                                {% if menu.ativo == 0 %}
-                                                <a class="button is-success is-outlined" href="{{ path('alterar_suatus_menu', { id : menu.id }) }}" style="text-decoration: none">
+                                                            <span>Editar</span>
+                                                        </a>
+                                                        {% if menu.ativo == 0 %}
+                                                            <a class="button is-success is-outlined"
+                                                               href="{{ path('alterar_suatus_menu', { id : menu.id }) }}"
+                                                               style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-plus"></i>
                                                     </span>
-                                                    <span>Ativar</span>
-                                                </a>
-                                                {% else %}
-                                                <a class="button is-danger is-outlined" href="{{ path('alterar_suatus_menu', { id : menu.id }) }}" style="text-decoration: none">
+                                                                <span>Ativar</span>
+                                                            </a>
+                                                        {% else %}
+                                                            <a class="button is-danger is-outlined"
+                                                               href="{{ path('alterar_suatus_menu', { id : menu.id }) }}"
+                                                               style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-ban"></i>
                                                     </span>
-                                                    <span>Inativar</span>
-                                                </a>
-                                                {% endif %}
-                                            </p>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                                                                <span>Inativar</span>
+                                                            </a>
+                                                        {% endif %}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="tab-pane" id="posts">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <form method="post" class="form-horizontal"
+                                          action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" value="{{ app['config'].id }}">
+                                        <p class="control"><label>Posts por Pagina
+                                                <input class="input" type="text" placeholder="Nome" name="nome"
+                                                       value="{{ app['config'].nome }}" required>
+                                            </label></p>
+                                        <p class="control">Descri&ccedil;&atilde;o
+                                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
+                                                   name="subtitulo" value="{{ app['config'].subtitulo }}" required>
+                                        </p>
+                                        <p class="control">Background
+                                            <input class="input" type="file" placeholder="Background" name="background">
+                                        </p>
+                                        <p class="control">
+                                            <button class="button is-success" type="submit">
+                                                Salvar
+                                            </button>
+                                        </p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="tab-pane" id="messages">
                             <div class="panel panel-default">
@@ -132,7 +173,9 @@
                                         {% for widget in app['widgets'] %}
                                             <tr>
                                                 <td><p class="lead">{{ widget.nome }}</p></td>
-                                                <td><input type="checkbox" class="switcher" value="{{ widget.ativo }}" name="status" {% if widget.ativo == 1 %} checked {% endif %}></td>
+                                                <td><input type="checkbox" class="switcher" value="{{ widget.ativo }}"
+                                                           name="status" {% if widget.ativo == 1 %} checked {% endif %}>
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
@@ -162,7 +205,8 @@
                             <i class="fa fa-edit"></i>
                         </p>
                         <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" id="descricao" name="descricao" required>
+                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" id="descricao"
+                                   name="descricao" required>
                             <i class="fa fa-file-text-o"></i>
                         </p>
                         <p class="control has-icon">
@@ -174,7 +218,8 @@
                             <i class="fa fa-picture-o"></i>
                         </p>
                         <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Cadastro" id="cadastro" name="cadastro" disabled required>
+                            <input class="input" type="text" placeholder="Cadastro" id="cadastro" name="cadastro"
+                                   disabled required>
                             <i class="fa fa-calendar"></i>
                         </p>
                     </div>
@@ -194,7 +239,7 @@
 
 {% block javascript %}
     <script>
-        $(document).on('click', '.openMenu', function() {
+        $(document).on('click', '.openMenu', function () {
             $('.modal-body #id').val($(this).data('id'));
             $('.modal-body #nome').val($(this).data('nome'));
             $('.modal-body #descricao').val($(this).data('descricao'));
@@ -204,7 +249,7 @@
         })
     </script>
     <script>
-        $(document).on('click', '.addMenu', function() {
+        $(document).on('click', '.addMenu', function () {
             $('.modal-body #id').val('');
             $('.modal-body #nome').val('');
             $('.modal-body #descricao').val('');

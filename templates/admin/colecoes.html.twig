@@ -4,12 +4,12 @@
 
 {% block content %}
 
-    <header class="intro-header" style="background-image: url('{{ asset(app['background.default']) }}')">
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Cole&ccedil;&atilde;o</h1>
+                        <h1>Cole&ccedil;&otilde;es</h1>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <button data-toggle="modal" data-target="#myModal" class="button is-danger">Nova Categoria</button>
+                    <button data-toggle="modal" data-target="#myModal" class="button is-danger addColecao">Nova Cole&ccedil;&atilde;o</button>
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -28,13 +28,46 @@
                         <thead>
                         <tr>
                             <th>Nome:</th>
+                            <th>#</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for categoria in categorias %}
+                        {% for colecao in colecoes %}
                         <tr>
-                            <td>{{ categoria.nome }}</td>
-                            <td>{{ categoria.colecao.nome }}</td>
+                            <td>{{ colecao.nome }}</td>
+                            <td>
+                                <p class="control has-addons">
+                                    <a class="button is-primary is-outlined openMenu"
+                                       data-toggle="modal"
+                                       data-target="#myModal" data-id="{{ colecao.id }}"
+                                       data-nome="{{ colecao.nome }}"
+                                       style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-edit"></i>
+                                                    </span>
+                                        <span>Editar</span>
+                                    </a>
+                                    {% if colecao.ativo == 0 %}
+                                        <a class="button is-success is-outlined"
+                                           href="{{ path('alterar_suatus_menu', { id : colecao.id }) }}"
+                                           style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-plus"></i>
+                                                    </span>
+                                            <span>Ativar</span>
+                                        </a>
+                                    {% else %}
+                                        <a class="button is-danger is-outlined"
+                                           href="{{ path('alterar_suatus_menu', { id : colecao.id }) }}"
+                                           style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-ban"></i>
+                                                    </span>
+                                            <span>Inativar</span>
+                                        </a>
+                                    {% endif %}
+                                </p>
+                            </td>
                         <tr>
                             {% endfor %}
                         </tbody>
@@ -52,20 +85,12 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Adicionar Anexos</h4>
+                        <h4 class="modal-title" id="myModalLabel">Adicionar Cole&ccedil;&atilde;o</h4>
                     </div>
                     <div class="modal-body">
+                        <input type="hidden" name="id" id="id">
                         <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Nome" name="nome" required>
-                            <i class="fa fa-edit"></i>
-                        </p>
-                        <p class="control has-icon">
-                            <select name="colecao" required>
-                                <option value=""></option>
-                                {% for colecao in colecoes %}
-                                    <option value="{{ colecao.id }}">{{ colecao.nome }}</option>
-                                {% endfor %}
-                            </select>
+                            <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
                             <i class="fa fa-edit"></i>
                         </p>
                     </div>
@@ -81,4 +106,19 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).on('click', '.openMenu', function () {
+            $('.modal-body #id').val($(this).data('id'));
+            $('.modal-body #nome').val($(this).data('nome'));
+        })
+    </script>
+    <script>
+        $(document).on('click', '.addColecao', function () {
+            $('.modal-body #id').val('');
+            $('.modal-body #nome').val('');
+        })
+    </script>
 {% endblock %}

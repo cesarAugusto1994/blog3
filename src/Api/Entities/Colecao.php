@@ -33,6 +33,18 @@ class Colecao
     private $nome;
     
     /**
+     * @ORM\Column(name="descricao", type="string")
+     * @var string
+     */
+    private $descricao;
+    
+    /**
+     * @ORM\Column(name="imagem", type="text")
+     * @var string
+     */
+    private $imagem;
+    
+    /**
      * @ORM\Column(name="ativo", type="smallint")
      * @var int
      */
@@ -68,6 +80,38 @@ class Colecao
     public function setNome($nome)
     {
         $this->nome = $nome;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDescricao()
+    {
+        return $this->descricao;
+    }
+    
+    /**
+     * @param string $descricao
+     */
+    public function setDescricao($descricao)
+    {
+        $this->descricao = $descricao;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getImagem()
+    {
+        return $this->imagem;
+    }
+    
+    /**
+     * @param mixed $imagem
+     */
+    public function setImagem($imagem)
+    {
+        $this->imagem = $imagem;
     }
     
     /**

@@ -15,6 +15,11 @@ class ColecaoController
 {
     public function index(Application $app)
     {
-        return $app['twig']->render('admin/colecoes.html.twig');
+        return $app['twig']->render('colecoes.html.twig', ['colecoes' => $app['colecao.repository']->findAll()]);
+    }
+    
+    public function colecoesGrid(Application $app)
+    {
+        return $app['twig']->render('admin/colecoes.html.twig', ['colecoes' => $app['colecao.repository']->findAll()]);
     }
 }

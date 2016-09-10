@@ -30,6 +30,10 @@ $app['config.controller'] = function () use($app) {
   return new \App\Controllers\ConfigController();
 };
 
+$app['music.controller'] = function () use($app) {
+  return new \Api\Controllers\MusicController();
+};
+
 $app['categoria.controller'] = function () use($app) {
   return new \Api\Controllers\CategoriaController();
 };

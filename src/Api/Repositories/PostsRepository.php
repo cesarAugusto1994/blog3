@@ -9,13 +9,15 @@
 namespace Api\Repositories;
 
 use Api\Entities\Posts;
+use Api\Entities\Usuarios;
+use App\Controllers\PaginationInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**
  * Class PostsRepository
  * @package Api\Repositories
  */
-class PostsRepository extends EntityRepository
+class PostsRepository extends EntityRepository implements PaginationInterface
 {
     /**
      * @param int $offset
@@ -27,6 +29,26 @@ class PostsRepository extends EntityRepository
         return $this->createQueryBuilder('p')
             ->select('p')
             ->where('p.ativo = :ativo')
+            ->setParameter(':ativo', true)
+            ->orderBy('p.cadastro', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($max)
+            ->getQuery()->getResult();
+    }
+    
+    /**
+     * @param Usuarios $autor
+     * @param int $offset
+     * @param int $max
+     * @return array
+     */
+    public function findByAutor(Usuarios $autor, $offset = 0, $max = 5)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.usuario = :usuario')
+            ->setParameter('usuario', $autor)
+            ->andWhere('p.ativo = :ativo')
             ->setParameter(':ativo', true)
             ->orderBy('p.cadastro', 'DESC')
             ->setFirstResult($offset)

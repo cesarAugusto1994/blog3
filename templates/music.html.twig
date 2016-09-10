@@ -1,0 +1,55 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Contato{% endblock %}
+
+{% block content %}
+
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Musicas</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    {% for colecao in colecoes %}
+                    <div class="col-lg-4 col-md-4">
+                    <div class="card" style="height: 300px;">
+                        <a href="{{ path('categorias', { colecaoId : colecao.id }) }}">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="{% if colecao.imagem is not null %}{{ asset('assets/blog/img/posts/' ~ colecao.imagem ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-5">{{ colecao.nome }}</p>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                {{ colecao.descricao }}
+                            </div>
+                        </div>
+                            </a>
+                    </div>
+                        <br>
+                        </div>
+                    {% else %}
+                        Nada
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

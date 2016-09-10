@@ -1,0 +1,59 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Contato{% endblock %}
+
+{% block content %}
+
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Categorias</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                     <h3>Cole&ccedil;&atilde;o: {{ colecao.nome }}</h3> <br>
+
+                    {% for categoria in categorias %}
+                        <div class="col-lg-4 col-md-4">
+                            <div class="card" style="height: 300px;">
+                                <a href="#">
+                                    <div class="card-image">
+                                        <figure class="image is-4by3">
+                                            <img src="{% if categoria.imagem is not null %}{{ asset('assets/blog/img/posts/' ~ categoria.imagem ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">
+                                        </figure>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-content">
+                                                <p class="title is-5">{{ categoria.nome }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="content">
+                                            {{ categoria.nome }}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <br>
+                        </div>
+                    {% else %}
+                        Nada
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

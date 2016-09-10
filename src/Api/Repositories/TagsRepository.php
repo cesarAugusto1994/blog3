@@ -37,6 +37,15 @@ class TagsRepository extends EntityRepository
             ->setParameter(':nome', $nome)
             ->getQuery()->getResult();
     }
+    
+    /**
+     * @param Tags $tags
+     */
+    public function remove(Tags $tags)
+    {
+        $this->getEntityManager()->remove($tags);
+        $this->getEntityManager()->flush($tags);
+    }
 
     /**
      * @return array
