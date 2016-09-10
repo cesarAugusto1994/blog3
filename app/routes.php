@@ -13,7 +13,8 @@ $app->get('/events')->bind('events');
 
 include __DIR__.'/routes/menu.php';
 include __DIR__.'/routes/post.php';
-include __DIR__.'/routes/music.php';
+include __DIR__.'/routes/musica.php';
+include __DIR__.'/routes/musica_anexos.php';
 include __DIR__.'/routes/categoria.php';
 include __DIR__.'/routes/colecao.php';
 include __DIR__.'/routes/user.php';

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: cesar
- * Date: 05/09/16
- * Time: 09:15
+ * Date: 10/09/16
+ * Time: 11:46
  */
 
 namespace Api\Entities;
@@ -11,17 +11,17 @@ namespace Api\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Colecao
+ * Class MusicaAnexos
  * @package Api\Entities
- * @ORM\Table(name="colecao")
- * @ORM\Entity(repositoryClass="Api\Repositories\ColecaoRepository")
+ * @ORM\Entity(repositoryClass="Api\Repositories\MusicaAnexosRepository")
+ * @ORM\Table(name="musica_anexos")
  */
-class Colecao
+class MusicaAnexos
 {
     /**
-     * @ORM\Column(type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      * @var int
      */
     private $id;
@@ -33,20 +33,21 @@ class Colecao
     private $nome;
     
     /**
-     * @ORM\Column(name="descricao", type="string")
-     * @var string
+     * @ORM\ManyToOne(targetEntity="Musica", inversedBy="MusicaAnexos")
+     * @ORM\JoinColumn(name="musica_id", referencedColumnName="id")
+     * @var Musica
      */
-    private $descricao;
+    private $musica;
     
     /**
-     * @ORM\Column(name="imagem", type="text")
+     * @ORM\Column(name="link", type="text")
      * @var string
      */
-    private $imagem;
+    private $link;
     
     /**
-     * @ORM\Column(name="ativo", type="smallint")
-     * @var int
+     * @ORM\Column(name="ativo", type="boolean")
+     * @var boolean
      */
     private $ativo;
     
@@ -75,39 +76,39 @@ class Colecao
     }
     
     /**
+     * @return Musica
+     */
+    public function getMusica()
+    {
+        return $this->musica;
+    }
+    
+    /**
+     * @param Musica $musica
+     */
+    public function setMusica($musica)
+    {
+        $this->musica = $musica;
+    }
+    
+    /**
      * @return string
      */
-    public function getDescricao()
+    public function getLink()
     {
-        return $this->descricao;
+        return $this->link;
     }
     
     /**
-     * @param string $descricao
+     * @param string $link
      */
-    public function setDescricao($descricao)
+    public function setLink($link)
     {
-        $this->descricao = $descricao;
+        $this->link = $link;
     }
     
     /**
-     * @return mixed
-     */
-    public function getImagem()
-    {
-        return $this->imagem;
-    }
-    
-    /**
-     * @param mixed $imagem
-     */
-    public function setImagem($imagem)
-    {
-        $this->imagem = $imagem;
-    }
-    
-    /**
-     * @return int
+     * @return boolean
      */
     public function isAtivo()
     {
@@ -115,7 +116,7 @@ class Colecao
     }
     
     /**
-     * @param int $ativo
+     * @param boolean $ativo
      */
     public function setAtivo($ativo)
     {

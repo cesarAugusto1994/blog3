@@ -28,6 +28,7 @@
                         <thead>
                         <tr>
                             <th>Nome:</th>
+                            <th>Descri&ccedil;&atilde;o:</th>
                             <th>#</th>
                         </tr>
                         </thead>
@@ -35,12 +36,14 @@
                         {% for colecao in colecoes %}
                         <tr>
                             <td>{{ colecao.nome }}</td>
+                            <td>{{ colecao.descricao }}</td>
                             <td>
                                 <p class="control has-addons">
                                     <a class="button is-primary is-outlined openMenu"
                                        data-toggle="modal"
                                        data-target="#myModal" data-id="{{ colecao.id }}"
                                        data-nome="{{ colecao.nome }}"
+                                       data-descricao="{{ colecao.descricao }}"
                                        style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-edit"></i>
@@ -81,7 +84,7 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form class="form-horizontal" method="POST" action="{{ path('nova_categoria') }}">
+                <form class="form-horizontal" method="POST" action="{{ path('save_colecao') }}">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
@@ -91,6 +94,10 @@
                         <input type="hidden" name="id" id="id">
                         <p class="control has-icon">
                             <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="descricao" id="descricao" required>
                             <i class="fa fa-edit"></i>
                         </p>
                     </div>
@@ -113,12 +120,14 @@
         $(document).on('click', '.openMenu', function () {
             $('.modal-body #id').val($(this).data('id'));
             $('.modal-body #nome').val($(this).data('nome'));
+            $('.modal-body #descricao').val($(this).data('descricao'));
         })
     </script>
     <script>
         $(document).on('click', '.addColecao', function () {
             $('.modal-body #id').val('');
             $('.modal-body #nome').val('');
+            $('.modal-body #descricao').val('');
         })
     </script>
 {% endblock %}

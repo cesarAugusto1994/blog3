@@ -23,7 +23,7 @@
                     {% for colecao in colecoes %}
                     <div class="col-lg-4 col-md-4">
                     <div class="card" style="height: 300px;">
-                        <a href="{{ path('categorias', { colecaoId : colecao.id }) }}">
+                        <a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
                         <div class="card-image">
                             <figure class="image is-4by3">
                                 <img src="{% if colecao.imagem is not null %}{{ asset('assets/blog/img/posts/' ~ colecao.imagem ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">

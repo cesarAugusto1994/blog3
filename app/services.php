@@ -30,16 +30,20 @@ $app['config.controller'] = function () use($app) {
   return new \App\Controllers\ConfigController();
 };
 
-$app['music.controller'] = function () use($app) {
-  return new \Api\Controllers\MusicController();
-};
-
 $app['categoria.controller'] = function () use($app) {
   return new \Api\Controllers\CategoriaController();
 };
 
 $app['colecao.controller'] = function () use($app) {
   return new \Api\Controllers\ColecaoController();
+};
+
+$app['musica.controller'] = function () use($app) {
+  return new \Api\Controllers\MusicaController();
+};
+
+$app['musica.anexos.controller'] = function () use($app) {
+  return new \Api\Controllers\MusicaAnexosController();
 };
 
 $app['pager.Controller'] = function () {
@@ -114,6 +118,20 @@ $app['tags.repository'] = function () use ($app) {
  */
 $app['posts.links.repository'] = function () use ($app) {
   return $app['orm.em']->getRepository(\Api\Entities\LinksPosts::class);
+};
+
+/**
+ * @return mixed
+ */
+$app['musica.repository'] = function () use ($app) {
+  return $app['orm.em']->getRepository(\Api\Entities\Musica::class);
+};
+
+/**
+ * @return mixed
+ */
+$app['musica.anexos.repository'] = function () use ($app) {
+  return $app['orm.em']->getRepository(\Api\Entities\MusicaAnexos::class);
 };
 
 /**

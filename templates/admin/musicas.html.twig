@@ -1,0 +1,148 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Musicas{% endblock %}
+
+{% block content %}
+
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Musicas</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <button data-toggle="modal" data-target="#myModal" class="button is-danger addMusica">Nova Musica</button>
+                    <hr>
+                </div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <table class="table is-narrow">
+                        <thead>
+                            <tr>
+                                <th>Numero:</th>
+                                <th>Nome:</th>
+                                <th>Categoria</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for colecao in musicas %}
+                                <tr>
+                                    <td>{{ colecao.numero }}</td>
+                                    <td>{{ colecao.nome }}</td>
+                                    <td>{{ colecao.categoria.nome }}</td>
+                                    <td>
+                                        <p class="control has-addons">
+                                            <a class="button is-primary is-outlined openMenu"
+                                               data-toggle="modal"
+                                               data-target="#myModal" data-id="{{ colecao.id }}"
+                                               data-numero="{{ colecao.numero }}"
+                                               data-nome="{{ colecao.nome }}"
+                                               data-categoria="{{ colecao.categoria.id }}"
+                                               style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-edit"></i>
+                                                    </span>
+                                                <span>Editar</span>
+                                            </a>
+                                            {% if colecao.ativo == 0 %}
+                                                <a class="button is-success is-outlined"
+                                                   href="{{ path('alterar_suatus_menu', { id : colecao.id }) }}"
+                                                   style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-plus"></i>
+                                                    </span>
+                                                    <span>Ativar</span>
+                                                </a>
+                                            {% else %}
+                                                <a class="button is-danger is-outlined"
+                                                   href="{{ path('alterar_suatus_menu', { id : colecao.id }) }}"
+                                                   style="text-decoration: none">
+                                                    <span class="icon is-small">
+                                                      <i class="fa fa-ban"></i>
+                                                    </span>
+                                                    <span>Inativar</span>
+                                                </a>
+                                            {% endif %}
+                                        </p>
+                                    </td>
+                                <tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+    <br>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" method="POST" action="{{ path('save_musica') }}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Adicionar Musica</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="id">
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Numero" name="numero" id="numero" required>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <select class="input" name="categoria" id="categoria" required>
+                                <option value=""></option>
+                                {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}" >{{ categoria.nome }}</option>
+                                {% endfor %}
+                            </select>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <p class="control">
+                            <button class="button is-success" type="submit">
+                                Salvar
+                            </button>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).on('click', '.openMenu', function () {
+            $('.modal-body #id').val($(this).data('id'));
+            $('.modal-body #numero').val($(this).data('numero'));
+            $('.modal-body #nome').val($(this).data('nome'));
+            $('.modal-body #categoria').val($(this).data('categoria'));
+            $('.modal-body #categoria').attr('selected', selected);
+        })
+    </script>
+    <script>
+        $(document).on('click', '.addMusica', function () {
+            $('.modal-body #id').val('');
+            $('.modal-body #numero').val('');
+            $('.modal-body #nome').val('');
+            $('.modal-body #categoria').val('');
+        })
+    </script>
+{% endblock %}

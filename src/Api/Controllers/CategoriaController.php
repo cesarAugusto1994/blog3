@@ -78,7 +78,7 @@ class CategoriaController
 
         $app['categoria.repository']->save($categoria);
 
-        return $app->redirect('/colecoes_grid');
+        return $app->redirect('/categorias_grid');
     }
     
     public function alteraStatus()

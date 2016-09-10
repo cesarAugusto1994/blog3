@@ -8,9 +8,14 @@
 
 namespace Api\Repositories;
 
+use Api\Entities\Colecao;
 use Doctrine\ORM\EntityRepository;
 
 class ColecaoRepository extends EntityRepository
 {
-    
+    public function save(Colecao $colecao)
+    {
+        $this->getEntityManager()->persist($colecao);
+        $this->getEntityManager()->flush($colecao);
+    }
 }
