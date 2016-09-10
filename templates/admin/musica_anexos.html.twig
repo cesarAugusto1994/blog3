@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Musicas</h1>
+                        <h1>{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</h1>
                     </div>
                 </div>
             </div>
@@ -20,61 +20,62 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <button data-toggle="modal" data-target="#myModal" class="button is-danger addMusica">Nova Musica</button>
+                    <button data-toggle="modal" data-target="#myModal" class="button is-danger addAnexo">Novo Anexo</button>
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <table class="table is-narrow">
                         <thead>
-                            <tr>
-                                <th>Numero:</th>
-                                <th>Nome:</th>
-                                <th>Categoria</th>
-                                <th>#</th>
-                            </tr>
+                        <tr>
+                            <th>Nome:</th>
+                            <th>Tipo:</th>
+                            <th>Link:</th>
+                            <th>#</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {% for tipo in musicas %}
-                                <tr>
-                                    <td>{{ tipo.numero }}</td>
-                                    <td><a href="{{ path('musica_anexos_grid', { musicaId : tipo.id, nome : tipo.nome }) }}">{{ tipo.nome }}</a></td>
-                                    <td>{{ tipo.categoria.nome }}</td>
-                                    <td>
-                                        <p class="control has-addons">
-                                            <a class="button is-primary is-outlined openMenu"
-                                               data-toggle="modal"
-                                               data-target="#myModal" data-id="{{ tipo.id }}"
-                                               data-numero="{{ tipo.numero }}"
-                                               data-nome="{{ tipo.nome }}"
-                                               data-categoria="{{ tipo.categoria.id }}"
-                                               style="text-decoration: none">
+                        {% for anexo in anexos %}
+                        <tr>
+                            <td>{{ anexo.nome }}</td>
+                            <td>{{ anexo.tipo.nome }}</td>
+                            <td>{{ anexo.link }}</td>
+                            <td>
+                                <p class="control has-addons">
+                                    <a class="button is-primary is-outlined openMenu"
+                                       data-toggle="modal"
+                                       data-target="#myModal" data-id="{{ anexo.id }}"
+                                       data-nome="{{ anexo.nome }}"
+                                       data-tipo="{{ tipo.id }}"
+                                       data-tipo="{{ anexo.tipo.id }}"
+                                       data-link="{{ anexo.link }}"
+                                       style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-edit"></i>
                                                     </span>
-                                                <span>Editar</span>
-                                            </a>
-                                            {% if tipo.ativo == 0 %}
-                                                <a class="button is-success is-outlined"
-                                                   href="{{ path('alterar_suatus_menu', { id : tipo.id }) }}"
-                                                   style="text-decoration: none">
+                                        <span>Editar</span>
+                                    </a>
+                                    {% if anexo.ativo == 0 %}
+                                        <a class="button is-success is-outlined"
+                                           href="{{ path('alterar_suatus_menu', { id : anexo.id }) }}"
+                                           style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-plus"></i>
                                                     </span>
-                                                    <span>Ativar</span>
-                                                </a>
-                                            {% else %}
-                                                <a class="button is-danger is-outlined"
-                                                   href="{{ path('alterar_suatus_menu', { id : tipo.id }) }}"
-                                                   style="text-decoration: none">
+                                            <span>Ativar</span>
+                                        </a>
+                                    {% else %}
+                                        <a class="button is-danger is-outlined"
+                                           href="{{ path('alterar_suatus_menu', { id : anexo.id }) }}"
+                                           style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-ban"></i>
                                                     </span>
-                                                    <span>Inativar</span>
-                                                </a>
-                                            {% endif %}
-                                        </p>
-                                    </td>
-                                <tr>
+                                            <span>Inativar</span>
+                                        </a>
+                                    {% endif %}
+                                </p>
+                            </td>
+                        <tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -87,7 +88,7 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form class="form-horizontal" method="POST" action="{{ path('save_musica') }}">
+                <form class="form-horizontal" method="POST" action="{{ path('save_musica_anexos') }}">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
@@ -95,21 +96,22 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
-                        <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Numero" name="numero" id="numero">
-                            <i class="fa fa-edit"></i>
-                        </p>
+                        <input type="hidden" name="musica" id="musica" value="{{ musica.id }}">
                         <p class="control has-icon">
                             <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
                             <i class="fa fa-edit"></i>
                         </p>
                         <p class="control has-icon">
-                            <select class="input" name="categoria" id="categoria" required>
+                            <select class="input" name="tipo" id="tipo" required>
                                 <option value=""></option>
-                                {% for categoria in categorias %}
-                                    <option value="{{ categoria.id }}" >{{ categoria.nome }}</option>
+                                {% for tipo in tipos %}
+                                    <option value="{{ tipo.id }}" >{{ tipo.nome }}</option>
                                 {% endfor %}
                             </select>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Link" name="link" id="link" required>
                             <i class="fa fa-edit"></i>
                         </p>
                     </div>
@@ -131,18 +133,19 @@
     <script>
         $(document).on('click', '.openMenu', function () {
             $('.modal-body #id').val($(this).data('id'));
-            $('.modal-body #numero').val($(this).data('numero'));
             $('.modal-body #nome').val($(this).data('nome'));
-            $('.modal-body #categoria').val($(this).data('categoria'));
-            $('.modal-body #categoria').attr('selected', selected);
+            $('.modal-body #tipo').val($(this).data('tipo'));
+            $('.modal-body #tipo').val($(this).data('tipo'));
+            $('.modal-body #link').val($(this).data('link'));
+            $('.modal-body #tipo').attr('selected', selected);
         })
     </script>
     <script>
-        $(document).on('click', '.addMusica', function () {
+        $(document).on('click', '.addAnexo', function () {
             $('.modal-body #id').val('');
-            $('.modal-body #numero').val('');
             $('.modal-body #nome').val('');
-            $('.modal-body #categoria').val('');
+            $('.modal-body #tipo').val('');
+            $('.modal-body #link').val('');
         })
     </script>
 {% endblock %}

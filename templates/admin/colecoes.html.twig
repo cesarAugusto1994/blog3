@@ -35,7 +35,7 @@
                         <tbody>
                         {% for colecao in colecoes %}
                         <tr>
-                            <td>{{ colecao.nome }}</td>
+                            <td><a href="{{ path('colecao_categorias_grid', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a></td>
                             <td>{{ colecao.descricao }}</td>
                             <td>
                                 <p class="control has-addons">

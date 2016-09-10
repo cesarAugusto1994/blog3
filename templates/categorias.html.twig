@@ -23,11 +23,11 @@
                      <h3 class="lead">Cole&ccedil;&atilde;o: {{ colecao.nome }}</h3> <br>
                     {% for categoria in categorias %}
                         <div class="col-lg-4 col-md-4">
-                            <div class="card" style="height: 300px;">
+                            <div class="card">
                                 <a href="{{ path('musicas', { categoriaId : categoria.id }) }}">
                                     <div class="card-image">
                                         <figure class="image is-4by3">
-                                            <img src="{% if categoria.imagem is not null %}{{ asset('assets/blog/img/posts/' ~ categoria.imagem ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">
+                                            <img src="{% if categoria.imagem is not null %}{{ asset('assets/blog/img/posts/' ~ categoria.imagem ) }}{% else %}{{ asset('assets/blog/img/background/' ~ random(app['background'])) }}{% endif %}" alt="">
                                         </figure>
                                     </div>
                                     <div class="card-content">
@@ -36,16 +36,13 @@
                                                 <p class="title is-5">{{ categoria.nome }}</p>
                                             </div>
                                         </div>
-                                        <div class="content">
-                                            {{ categoria.nome }}
-                                        </div>
                                     </div>
                                 </a>
                             </div>
                             <br>
                         </div>
                     {% else %}
-                        Nada
+                        <p class="lead">Nenhum registro encontrado.</p>
                     {% endfor %}
                 </div>
             </div>

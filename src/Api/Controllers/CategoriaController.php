@@ -46,6 +46,19 @@ class CategoriaController
     }
     
     /**
+     * @param Application $app
+     * @return mixed
+     */
+    public function getCategoriasByColecao($colecaoId, Application $app)
+    {
+        $colecao = $app['colecao.repository']->find($colecaoId);
+        $colecoes = $app['colecao.repository']->findBy(['ativo' => true]);
+        $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao]);
+        
+        return $app['twig']->render('admin/categorias.html.twig', ['categorias' => $categorias, 'colecoes' => $colecoes, 'colecao' => $colecao]);
+    }
+    
+    /**
      * @param Request $request
      * @param Application $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -62,7 +75,7 @@ class CategoriaController
 
         $app['categoria.repository']->save($categoria);
 
-        return $app->redirect('/categorias_grid');
+        return $app->redirect('categorias_grid');
     }
     
     /**
@@ -78,7 +91,7 @@ class CategoriaController
 
         $app['categoria.repository']->save($categoria);
 
-        return $app->redirect('/categorias_grid');
+        return $app->redirect('categorias_grid');
     }
     
     public function alteraStatus()

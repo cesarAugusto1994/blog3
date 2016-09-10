@@ -46,6 +46,10 @@ $app['musica.anexos.controller'] = function () use($app) {
   return new \Api\Controllers\MusicaAnexosController();
 };
 
+$app['tipo.anexo.controller'] = function () use($app) {
+  return new \Api\Controllers\MusicaAnexosController();
+};
+
 $app['pager.Controller'] = function () {
   return new \App\Controllers\PagerController();
 };
@@ -80,6 +84,17 @@ $app['label.sorted'] = function () {
 
 $app['background.default'] = 'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = 'assets/blog/img/wallpaper.jpg';
+
+$app['background'] = function() {
+  return [
+    'Background-4.jpg',
+    'Background-5.jpg',
+    'background-1247931_960_720.jpg',
+    'html-color-codes-color-tutorials-hero-00e10b1f.jpg',
+    'prism.jpg',
+    'White-Background-BD1.png',
+  ];
+};
 
 /**
  * @return \Symfony\Component\HttpFoundation\Response|static
@@ -132,6 +147,13 @@ $app['musica.repository'] = function () use ($app) {
  */
 $app['musica.anexos.repository'] = function () use ($app) {
   return $app['orm.em']->getRepository(\Api\Entities\MusicaAnexos::class);
+};
+
+/**
+ * @return mixed
+ */
+$app['tipo.anexo.repository'] = function () use ($app) {
+  return $app['orm.em']->getRepository(\Api\Entities\Tipo::class);
 };
 
 /**

@@ -40,6 +40,13 @@ class MusicaAnexos
     private $musica;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Tipo", inversedBy="MusicaAnexos")
+     * @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
+     * @var Tipo
+     */
+    private $tipo;
+    
+    /**
      * @ORM\Column(name="link", type="text")
      * @var string
      */
@@ -89,6 +96,22 @@ class MusicaAnexos
     public function setMusica($musica)
     {
         $this->musica = $musica;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+    
+    /**
+     * @param mixed $tipo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
     }
     
     /**

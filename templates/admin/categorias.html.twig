@@ -35,7 +35,7 @@
                         <tbody>
                             {% for categoria in categorias %}
                                 <tr>
-                                    <td>{{ categoria.nome }}</td>
+                                    <td><a href="{{ path('categoria_musicas_grid', { categoriaId : categoria.id, nome : categoria.nome|replace('^', '') }) }}">{{ categoria.nome }}</a></td>
                                     <td>{{ categoria.colecao.nome }}</td>
                                     <td>
                                         <p class="control has-addons">

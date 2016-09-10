@@ -6,7 +6,7 @@
  * Time: 09:28
  */
 
-$app->post('newPost', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('admin/newPost', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->criar($request, $app);
 })->bind('newPost');
 
@@ -14,29 +14,29 @@ $app->get('/post/{postId}/{postTitulo}', function ($postId, $postTitulo) use ($a
     return $app['post.controller']->post($postId, $app);
 })->bind('post');
 
-$app->get('grid_posts/', function() use ($app) {
-    return $app['twig']->render('posts_grid.html.twig', [
+$app->get('admin/grid_posts/', function() use ($app) {
+    return $app['twig']->render('admin/grid_posts.html.twig', [
         'posts' => $app['posts.repository']->findBy([], ['cadastro' => 'DESC'])
     ]);
 })->bind('grid_posts');
 
-$app->get('postForm', function () use ($app) {
+$app->get('admin/postForm', function () use ($app) {
     return $app['twig']->render('admin/newpost.html.twig');
 })->bind('postForm');
 
-$app->get('edit_post/{id}/{name}', function($id, $name) use ($app) {
+$app->get('admin/edit_post/{id}/{name}', function($id, $name) use ($app) {
     return $app['post.controller']->editarPost($id, $app);
 })->bind('edit_post');
 
-$app->put('save_edit_post', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->put('admin/save_edit_post', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->editar($request, $app);
 })->bind('save_edit_post')->method('PUT|POST');
 
-$app->get('status_post/{id}', function($id) use ($app) {
+$app->get('admin/status_post/{id}', function($id) use ($app) {
     return $app['post.controller']->alterarStatus((int)$id, $app);
 })->bind('status_post');
 
-$app->get('tag/{id}/{tag}', function($id, $tag) use ($app) {
+$app->get('admin/tag/{id}/{tag}', function($id, $tag) use ($app) {
     return $app['post.controller']->postsByTags($tag, $app);
 })->bind('tag');
 

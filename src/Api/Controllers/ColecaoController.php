@@ -36,7 +36,7 @@ class ColecaoController
         
         $app['colecao.repository']->save($colecao);
     
-        return $app->redirect('/colecoes_grid');
+        return $app->redirect('colecoes_grid');
     }
     
     public function editar(Request $request, Application $app)
@@ -49,6 +49,6 @@ class ColecaoController
         
         $app['colecao.repository']->save($colecao);
         
-        return $app->redirect('/colecoes_grid');
+        return $app->redirect('colecoes_grid');
     }
 }

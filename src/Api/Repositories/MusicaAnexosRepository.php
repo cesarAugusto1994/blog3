@@ -8,9 +8,21 @@
 
 namespace Api\Repositories;
 
+use Api\Entities\MusicaAnexos;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class MusicaAnexosRepository
+ * @package Api\Repositories
+ */
 class MusicaAnexosRepository extends EntityRepository
 {
-    
+    /**
+     * @param MusicaAnexos $musicaAnexos
+     */
+    public function save(MusicaAnexos $musicaAnexos)
+    {
+        $this->getEntityManager()->persist($musicaAnexos);
+        $this->getEntityManager()->flush($musicaAnexos);
+    }
 }
