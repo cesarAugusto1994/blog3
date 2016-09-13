@@ -49,7 +49,7 @@ class MusicaController
     public function categoriaMusicasGrid($categoriaId, Application $app)
     {
         $categoria = $app['categoria.repository']->find($categoriaId);
-        $categorias = $app['categoria.repository']->findAll();
+        $categorias = $app['categoria.repository']->findBy([], ['nome' => 'ASC']);
         $musicas = $app['musica.repository']->findBy(['categoria' => $categoria, 'ativo' => true]);
         
         return $app['twig']->render('admin/musicas.html.twig', ['musicas' => $musicas, 'categorias' => $categorias]);

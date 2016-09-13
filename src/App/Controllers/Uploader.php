@@ -22,7 +22,7 @@ class Uploader {
         'maxSize' => null,
         'extensions' => null,
         'required' => false,
-        'uploadDir' => __DIR__.'/../../../web/assets/blog/songs/',
+        'uploadDir' => __DIR__.'/../../../web/assets/blog/musicas/',
         'title' => array('auto', 10),
         'removeFiles' => true,
         'perms' => null,

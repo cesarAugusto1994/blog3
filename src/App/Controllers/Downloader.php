@@ -14,7 +14,7 @@ trait Downloader
     {
         //set_time_limit(0);
 
-        $path = '/assets/blog/songs/';
+        $path = '/assets/blog/musicas/';
 
         $filePath = $path . $file;
 
@@ -31,6 +31,6 @@ trait Downloader
         header('Pragma: public');
         header('Expires: 0');
 
-        //return readfile($file);
+        return readfile($file);
     }
 }

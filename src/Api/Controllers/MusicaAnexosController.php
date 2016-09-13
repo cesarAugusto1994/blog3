@@ -144,7 +144,7 @@ class MusicaAnexosController
     {
         $anexo = $app['musica.anexos.repository']->find($id);
 
-        $directory = __DIR__.'/../../../web/assets/blog/songs/';
+        $directory = __DIR__.'/../../../web/assets/blog/musicas/';
     
         unlink($directory.$anexo->getNome());
         
