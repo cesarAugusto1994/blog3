@@ -135,7 +135,7 @@ class Uploader {
             if(!$ini[0]) $errors[] = $this->error_messages['file_uploads'];
             if($options['required'] && $field['length'] == 0) $errors[] = $this->error_messages['required_and_no_file'];
             if(($options['limit'] && $field['length'] > $options['limit']) || ($field['length']) > $ini[3]) $errors[] = $this->error_messages['max_number_of_files'];
-            if(!file_exists($options['uploadDir']) && !is_dir($options['uploadDir']) && mkdir($options['uploadDir'], 755, true)){
+            /*if(!file_exists($options['uploadDir']) && !is_dir($options['uploadDir']) && mkdir($options['uploadDir'], 755, true)){
                 $this->data['hasWarnings'] = true;
                 $this->data['warnings'] = "A new directory was created in " . realpath($options['uploadDir']);
             }
@@ -145,7 +145,7 @@ class Uploader {
                 if($options['maxSize'] && $total_size > $options['maxSize']) $errors[] = $this->error_messages['max_file_size'];
                 if($ini[1] != 0 && $total_size > $ini[1]) $errors[] = $this->error_messages[1];
                 if($ini[2] != 0 && $total_size > $ini[2]) $errors[] = $this->error_messages['post_max_size'];
-            }
+            }*/
         }else{
             if(@$field['error'][$file['index']] > 0 && array_key_exists($field['error'][$file['index']], $this->error_messages)) $errors[] = $this->error_messages[$field['error'][$file['index']]];
             if($options['extensions'] && !in_array($file['extension'], $options['extensions'])) $errors[] = $this->error_messages['accept_file_types'];
