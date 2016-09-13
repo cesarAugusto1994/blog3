@@ -22,13 +22,13 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for colecao in colecoes %}
                     <div class="col-lg-4 col-md-4">
-                    <div class="card" style="height: 300px;">
+                    <div class="card">
                         <a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
+                        <!--<div class="card-image">
+                            <figure class="image is-3by2">
                                 <img src="{% if colecao.imagem is not null %}{{ asset('assets/blog/img/posts/' ~ colecao.imagem ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">
                             </figure>
-                        </div>
+                        </div>-->
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">

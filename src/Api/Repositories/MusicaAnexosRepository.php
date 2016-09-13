@@ -25,4 +25,13 @@ class MusicaAnexosRepository extends EntityRepository
         $this->getEntityManager()->persist($musicaAnexos);
         $this->getEntityManager()->flush($musicaAnexos);
     }
+    
+    /**
+     * @param MusicaAnexos $musicaAnexos
+     */
+    public function remove(MusicaAnexos $musicaAnexos)
+    {
+        $this->getEntityManager()->remove($musicaAnexos);
+        $this->getEntityManager()->flush($musicaAnexos);
+    }
 }

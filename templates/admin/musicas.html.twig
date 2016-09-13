@@ -84,8 +84,8 @@
     </article>
     <br>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="myModal" data-strict-close="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <form class="form-horizontal" method="POST" action="{{ path('save_musica') }}">
                     <div class="modal-header">
@@ -103,15 +103,14 @@
                             <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
                             <i class="fa fa-edit"></i>
                         </p>
-                        <p class="control has-icon">
-                            <select class="input" name="categoria" id="categoria" required>
-                                <option value=""></option>
+                        <p class="control">
+                            <select data-header="Selecione a Categoria" id="categoria" class="selectpicker show-tick dropup form-control" data-size="5" name="categoria" data-live-search="true"  required>
                                 {% for categoria in categorias %}
-                                    <option value="{{ categoria.id }}" >{{ categoria.nome }}</option>
+                                    <option data-subtext="{{ categoria.colecao.nome }}" value="{{ categoria.id }}" >{{ categoria.nome }}</option>
                                 {% endfor %}
                             </select>
-                            <i class="fa fa-edit"></i>
                         </p>
+                        <div style="height: 180px;"></div>
                     </div>
                     <div class="modal-footer">
                         <p class="control">

@@ -52,8 +52,19 @@
                                                    name="subtitulo" value="{{ app['config'].subtitulo }}" required>
                                         </p>
                                         <p class="control">Background
-                                            <input class="input" type="file" placeholder="Background" name="background">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                <img style="height: 100%" src="{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
+                                                     data-src="{{ asset('holder.js/100%x100%') }}" alt="...">
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                            <div>
+                                                <span class="button is-primary btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
+                                                <a href="#" class="button is-danger fileinput-exists" data-dismiss="fileinput">Remover</a>
+                                            </div>
+                                        </div>
                                         </p>
+                                        <hr class="small">
                                         <p class="control">
                                             <button class="button is-success" type="submit">
                                                 Salvar

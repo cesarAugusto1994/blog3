@@ -2,6 +2,11 @@
 
 {% block title %}Musicas{% endblock %}
 
+{% block stylesheet %}
+    <link href="{{ asset('assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
 
     <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
@@ -21,6 +26,15 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <button data-toggle="modal" data-target="#myModal" class="button is-danger addAnexo">Novo Anexo</button>
+
+                    <hr class="small">
+
+                    <form action="{{ path('musica_anexos_upload', { musicaId : musica.id }) }}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="musica" value="{{ musica.id }}">
+                        <input type="file" name="files[]" id="filer_input" multiple="multiple">
+                        <input type="submit" class="button is-primary is-outlined" value="Submit">
+                    </form>
+
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -53,25 +67,14 @@
                                                     </span>
                                         <span>Editar</span>
                                     </a>
-                                    {% if anexo.ativo == 0 %}
-                                        <a class="button is-success is-outlined"
-                                           href="{{ path('alterar_suatus_menu', { id : anexo.id }) }}"
-                                           style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-plus"></i>
-                                                    </span>
-                                            <span>Ativar</span>
-                                        </a>
-                                    {% else %}
-                                        <a class="button is-danger is-outlined"
-                                           href="{{ path('alterar_suatus_menu', { id : anexo.id }) }}"
-                                           style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-ban"></i>
-                                                    </span>
-                                            <span>Inativar</span>
-                                        </a>
-                                    {% endif %}
+                                    <a class="button is-danger is-outlined"
+                                       href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
+                                       style="text-decoration: none">
+                                                <span class="icon is-small">
+                                                  <i class="fa fa-minus"></i>
+                                                </span>
+                                        <span>Remover</span>
+                                    </a>
                                 </p>
                             </td>
                         <tr>
@@ -129,6 +132,10 @@
 {% endblock %}
 
 {% block javascript %}
+    <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="{{ asset('assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
+    <script src="{{ asset('assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
+
     <script>
         $(document).on('click', '.openMenu', function () {
             $('.modal-body #id').val($(this).data('id'));

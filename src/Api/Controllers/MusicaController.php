@@ -72,7 +72,7 @@ class MusicaController
 
         $app['musica.repository']->save($musica);
 
-        return $app->redirect('musicas_grid');
+        return $app->redirect('musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
     
     /**
