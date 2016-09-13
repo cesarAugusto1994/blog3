@@ -17,12 +17,12 @@ class ColecaoController
 {
     public function index(Application $app)
     {
-        return $app['twig']->render('colecoes.html.twig', ['colecoes' => $app['colecao.repository']->findAll()]);
+        return $app['twig']->render('colecoes.html.twig', ['colecoes' => $app['colecao.repository']->findBy([], ['nome' => 'ASC'])]);
     }
     
     public function colecoesGrid(Application $app)
     {
-        return $app['twig']->render('admin/colecoes.html.twig', ['colecoes' => $app['colecao.repository']->findAll()]);
+        return $app['twig']->render('admin/colecoes.html.twig', ['colecoes' => $app['colecao.repository']->findBy([], ['nome' => 'ASC'])]);
     }
     
     public function novo(Request $request, Application $app)

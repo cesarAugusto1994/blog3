@@ -28,7 +28,7 @@ class CategoriaController
     
         return $app['twig']->render(
             'categorias.html.twig',
-            ['categorias' => $app['categoria.repository']->findBy(['colecao' => $colecao, 'ativo' => true]),
+            ['categorias' => $app['categoria.repository']->findBy(['colecao' => $colecao, 'ativo' => true], ['nome' => 'ASC']),
             'colecao' => $colecao]
         );
     }
@@ -94,8 +94,23 @@ class CategoriaController
         return $app->redirect('categorias_grid');
     }
     
-    public function alteraStatus()
+    /**
+     * @param int $id
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function alteraStatus($id, Application $app)
     {
+        $categoria = $app['categoria.repository']->find($id);
+
+        if ($categoria->isAtivo()) {
+            $categoria->setAtivo(false);
+        } else {
+            $categoria->setAtivo(true);
+        }
         
+        $app['categoria.repository']->save($categoria);
+    
+        return $app->redirect('/admin/categorias_grid');
     }
 }

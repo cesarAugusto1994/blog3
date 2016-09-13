@@ -52,7 +52,7 @@
                                             </a>
                                             {% if categoria.ativo == 0 %}
                                                 <a class="button is-success is-outlined"
-                                                   href="{{ path('alterar_suatus_menu', { id : categoria.id }) }}"
+                                                   href="{{ path('categoria_status', { id : categoria.id }) }}"
                                                    style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-plus"></i>
@@ -61,7 +61,7 @@
                                                 </a>
                                             {% else %}
                                                 <a class="button is-danger is-outlined"
-                                                   href="{{ path('alterar_suatus_menu', { id : categoria.id }) }}"
+                                                   href="{{ path('categoria_status', { id : categoria.id }) }}"
                                                    style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-ban"></i>

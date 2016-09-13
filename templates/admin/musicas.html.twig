@@ -103,14 +103,14 @@
                             <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
                             <i class="fa fa-edit"></i>
                         </p>
-                        <p class="control">
-                            <select data-header="Selecione a Categoria" id="categoria" class="selectpicker show-tick dropup form-control" data-size="5" name="categoria" data-live-search="true"  required>
+                        <p class="control has-icon">
+                            <select id="categoria" class="input" name="categoria" placeholder="Categoria" required>
                                 {% for categoria in categorias %}
-                                    <option data-subtext="{{ categoria.colecao.nome }}" value="{{ categoria.id }}" >{{ categoria.nome }}</option>
+                                    <option value="{{ categoria.id }}" >{{ categoria.nome }}</option>
                                 {% endfor %}
                             </select>
+                            <i class="fa fa-edit"></i>
                         </p>
-                        <div style="height: 180px;"></div>
                     </div>
                     <div class="modal-footer">
                         <p class="control">

@@ -31,3 +31,7 @@ $app->post('admin/save_categoria', function (\Symfony\Component\HttpFoundation\R
     return $app['categoria.controller']->novo($request, $app);
     
 })->bind('save_categoria');
+
+$app->get('admin/categoria/status/{id}', function($id) use ($app) {
+    return $app['categoria.controller']->alteraStatus($id, $app);
+})->bind('categoria_status');
