@@ -59,7 +59,7 @@ class MusicaAnexosController
      * @param Application $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function novo(Request $request, Application $app, $musicaId)
+    public function upload(Request $request, Application $app, $musicaId)
     {
         $musica = $app['musica.repository']->find($musicaId);
 
@@ -87,18 +87,44 @@ class MusicaAnexosController
                continue;
             }
 
-            $tipo = $app['tipo.anexo.repository']->find($this->getFormatTipo($_FILES['files']['name'][$key]));
+            $tipo = $app['tipo.anexo.repository']->find($this->getFormatTipo($_FILES['files']['type'][$key]));
 
             $musicaAnexo = new MusicaAnexos();
             $musicaAnexo->setNome($request->get('nome') ? $request->get('nome') : $name);
             $musicaAnexo->setMusica($musica);
             $musicaAnexo->setTipo($tipo);
+            $musicaAnexo->setLinkExterno(false);
             $musicaAnexo->setLink($request->get('link') ? $request->get('link') : $name);
             $musicaAnexo->setAtivo(true);
 
             $app['musica.anexos.repository']->save($musicaAnexo);
         }
 
+        return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
+    }
+
+    /**
+     * @param $musicaId
+     * @param Request $request
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function novo($musicaId, Request $request, Application $app)
+    {
+        $musica = $app['musica.repository']->find($musicaId);
+    
+        $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
+    
+        $musicaAnexo = new MusicaAnexos();
+        $musicaAnexo->setNome($request->get('nome'));
+        $musicaAnexo->setMusica($musica);
+        $musicaAnexo->setTipo($tipo);
+        $musicaAnexo->setLinkExterno(true);
+        $musicaAnexo->setLink($request->get('link'));
+        $musicaAnexo->setAtivo(true);
+    
+        $app['musica.anexos.repository']->save($musicaAnexo);
+    
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
 
@@ -144,9 +170,11 @@ class MusicaAnexosController
     {
         $anexo = $app['musica.anexos.repository']->find($id);
 
-        $directory = __DIR__.'/../../../web/assets/blog/musicas/';
-    
-        unlink($directory.$anexo->getNome());
+        $directory = __DIR__.'/../../../web/assets/blog/musicas/'.$anexo->getLink();
+
+        if(file_exists($directory)) {
+            unlink($directory);
+        }
         
         $app['musica.anexos.repository']->remove($anexo);
 

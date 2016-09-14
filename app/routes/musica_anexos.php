@@ -15,16 +15,14 @@ $app->get('admin/musicas/anexos/grid/{musicaId}/{nome}', function($musicaId, $no
 })->bind('musica_anexos_grid');
 
 $app->post('admin/musica/anexos/upload/{musicaId}', function(\Symfony\Component\HttpFoundation\Request $request, $musicaId) use ($app) {
-    return $app['musica.anexos.controller']->novo($request, $app, $musicaId);
+    return $app['musica.anexos.controller']->upload($request, $app, $musicaId);
 })->bind('musica_anexos_upload');
 
-$app->post('admin/save_musica_anexos', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    
+$app->post('admin/save_musica_anexos/{musicaId}', function(\Symfony\Component\HttpFoundation\Request $request, $musicaId) use ($app) {
     if ($request->get('id')) {
         return $app['musica.anexos.controller']->editar($request, $app);
     }
-    return $app['musica.anexos.controller']->novo($request, $app);
-    
+    return $app['musica.anexos.controller']->novo($musicaId, $request, $app);
 })->bind('save_musica_anexos');
 
 $app->get('musica/anexos/download/{id}', function($id) use ($app) {

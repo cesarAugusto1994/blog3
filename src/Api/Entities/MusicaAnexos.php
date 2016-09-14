@@ -47,6 +47,12 @@ class MusicaAnexos
     private $tipo;
     
     /**
+     * @ORM\Column(name="link_externo", type="smallint")
+     * @var int
+     */
+    private $linkExterno;
+    
+    /**
      * @ORM\Column(name="link", type="text")
      * @var string
      */
@@ -112,6 +118,22 @@ class MusicaAnexos
     public function setTipo($tipo)
     {
         $this->tipo = $tipo;
+    }
+    
+    /**
+     * @return int
+     */
+    public function isExterno()
+    {
+        return $this->linkExterno;
+    }
+    
+    /**
+     * @param int $linkExterno
+     */
+    public function setLinkExterno($linkExterno)
+    {
+        $this->linkExterno = $linkExterno;
     }
     
     /**

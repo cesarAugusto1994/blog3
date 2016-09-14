@@ -26,8 +26,6 @@ trait MediaFormat
      */
     public function getFormatTipo($media)
     {
-        var_dump($media);
-
         switch ($media) {
             case 'application/pdf':
             case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
