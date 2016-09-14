@@ -34,28 +34,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for tipo in musicas %}
+                            {% for musica in musicas %}
                                 <tr>
-                                    <td>{{ tipo.numero }}</td>
-                                    <td><a href="{{ path('musica_anexos_grid', { musicaId : tipo.id, nome : tipo.nome }) }}">{{ tipo.nome }}</a></td>
-                                    <td>{{ tipo.categoria.nome }}</td>
+                                    <td>{{ musica.numero }}</td>
+                                    <td><a href="{{ path('musica_anexos_grid', { musicaId : musica.id, nome : musica.nome }) }}">{{ musica.nome }}</a></td>
+                                    <td>{{ musica.categoria.nome }}</td>
                                     <td>
                                         <p class="control has-addons">
                                             <a class="button is-primary is-outlined openMenu"
                                                data-toggle="modal"
-                                               data-target="#myModal" data-id="{{ tipo.id }}"
-                                               data-numero="{{ tipo.numero }}"
-                                               data-nome="{{ tipo.nome }}"
-                                               data-categoria="{{ tipo.categoria.id }}"
+                                               data-target="#myModal" data-id="{{ musica.id }}"
+                                               data-numero="{{ musica.numero }}"
+                                               data-nome="{{ musica.nome }}"
+                                               data-categoria="{{ musica.categoria.id }}"
                                                style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-edit"></i>
                                                     </span>
                                                 <span>Editar</span>
                                             </a>
-                                            {% if tipo.ativo == 0 %}
+                                            {% if musica.ativo == 0 %}
                                                 <a class="button is-success is-outlined"
-                                                   href="{{ path('alterar_suatus_menu', { id : tipo.id }) }}"
+                                                   href="{{ path('musicas_status', { id  : musica.id }) }}"
                                                    style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-plus"></i>
@@ -64,7 +64,7 @@
                                                 </a>
                                             {% else %}
                                                 <a class="button is-danger is-outlined"
-                                                   href="{{ path('alterar_suatus_menu', { id : tipo.id }) }}"
+                                                   href="{{ path('musicas_status', { id : musica.id }) }}"
                                                    style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-ban"></i>

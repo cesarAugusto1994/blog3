@@ -36,7 +36,7 @@ class MusicaController
     public function musicasGrid(Application $app)
     {
         $categoria = $app['categoria.repository']->findAll();
-        $musicas = $app['musica.repository']->findBy(['categoria' => $categoria, 'ativo' => true]);
+        $musicas = $app['musica.repository']->findBy(['categoria' => $categoria], ['nome' => 'ASC']);
         
         return $app['twig']->render('admin/musicas.html.twig', ['musicas' => $musicas, 'categorias' => $categoria]);
     }
@@ -83,15 +83,35 @@ class MusicaController
     public function editar(Request $request, Application $app)
     {
         $musica = $app['musica.repository']->find($request->get('id'));
-        $categoria = $app['categoria.repository']->find($request->get('id'));
+        $categoria = $app['categoria.repository']->find($request->get('categoria'));
         
-        $musica->setNumero($request->get('numero'));
+        $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
         $musica->setNome($request->get('nome'));
         $musica->setCategoria($categoria);
 
         $app['musica.repository']->save($musica);
 
         return $app->redirect('musicas_grid');
+    }
+
+    /**
+     * @param $id
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function alteraStatus($id, Application $app)
+    {
+        $musica = $app['musica.repository']->find($id);
+
+        if ($musica->isAtivo()) {
+            $musica->setAtivo(false);
+        } else {
+            $musica->setAtivo(true);
+        }
+
+        $app['musica.repository']->save($musica);
+
+        return $app->redirect('/admin/musicas_grid');
     }
     
     

@@ -26,3 +26,7 @@ $app->post('admin/save_musica', function(\Symfony\Component\HttpFoundation\Reque
     return $app['musica.controller']->novo($request, $app);
     
 })->bind('save_musica');
+
+$app->get('admin/musicas/status/{id}', function($id) use ($app){
+    return $app['musica.controller']->alteraStatus($id, $app);
+})->bind('musicas_status');
