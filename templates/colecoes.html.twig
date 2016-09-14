@@ -21,9 +21,9 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for colecao in colecoes %}
-                    <div class="col-lg-4 col-md-4">
-                    <div class="card">
-                        <a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="card" style="width: 100%">
+                        <a style="text-decoration: none" href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
                         <!--<div class="card-image">
                             <figure class="image is-3by2">
                                 <img src="{% if colecao.imagem is not null %}{{ asset('assets/blog/img/posts/' ~ colecao.imagem ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">
@@ -35,10 +35,9 @@
                                     <p class="title is-5">{{ colecao.nome }}</p>
                                 </div>
                             </div>
-
-                            <div class="content">
+                            <!--<div class="content">
                                 {{ colecao.descricao }}
-                            </div>
+                            </div>-->
                         </div>
                             </a>
                     </div>

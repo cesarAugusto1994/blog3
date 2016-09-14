@@ -95,7 +95,7 @@ class MusicaController
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param Application $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */

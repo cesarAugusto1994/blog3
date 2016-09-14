@@ -10,11 +10,11 @@ $app->get('/search', function (\Symfony\Component\HttpFoundation\Request $reques
     return $app['post.controller']->search($request->get('q'), $app);
 })->bind('search');
 
-$app->get('/blog', function () use ($app) {
+$app->get('admin/blog', function () use ($app) {
     return $app['twig']->render('admin/blog_config.html.twig');
 })->bind('blog');
 
-$app->post('/blog', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('admin/blog', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['config.controller']->editar($request, $app);
 })->bind('blog_settings_save');
 
@@ -22,15 +22,15 @@ $app->get('menu', function() use ($app) {
     return $app['menu.controller']->index($app);
 })->bind('menu');
 
-$app->post('novo_menu', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('admin/novo_menu', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['menu.controller']->criar($request, $app);
 })->bind('novo_menu');
 
-$app->post('edit_menu', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('admin/edit_menu', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['menu.controller']->editar($request, $app);
 })->bind('novo_menu');
 
-$app->get('edit_menu/{id}', function($id) use ($app) {
+$app->get('admin/edit_menu/{id}', function($id) use ($app) {
     return $app['twig']->render('admin/edit_blog_menu.html.twig', ['menu' => $app['menu.repository']->find($id)]);
 })->bind('edit_menu');
 
@@ -43,6 +43,6 @@ $app->post('save_menu', function(\Symfony\Component\HttpFoundation\Request $requ
     
 })->bind('save_menu');
 
-$app->get('alterar_suatus_menu/{id}', function($id) use ($app) {
+$app->get('admin/alterar_suatus_menu/{id}', function($id) use ($app) {
     return $app['menu.controller']->alterarStatus((int)$id, $app);
 })->bind('alterar_suatus_menu');

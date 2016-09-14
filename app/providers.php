@@ -5,7 +5,7 @@
  * Date: 30/07/16
  * Time: 09:28
  */
-/*
+
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     'dbs.options' => array(
         'default' => array(
@@ -17,7 +17,7 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
         )
     ),
 ));
-*/
+/*
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     'dbs.options' => array(
         'default' => array(
@@ -29,7 +29,7 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
         )
     ),
 ));
-
+*/
 $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), array(
     'orm.proxies_dir' => __DIR__.'/../var/cache/doctrine/',
     'orm.em.options' => array(

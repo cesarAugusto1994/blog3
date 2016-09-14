@@ -27,7 +27,7 @@
                             {% if item.nome == 'Pesquisar' %}
                                 <a href="#search"><i class="fa fa-{{ item.icon }}"></i></a>
                             {% else %}
-                                <a href="{{ path(item.url) }}"><i class="fa fa-{{ item.icon }}"></i></a>
+                                <a href="{{ path(item.url) }}">{{ item.nome }}</a>
                             {% endif %}
                         </li>
                         {% endif %}

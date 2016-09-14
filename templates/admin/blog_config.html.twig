@@ -23,18 +23,15 @@
     <article>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                    <div class="collapse navbar-collapse" id="collapsed-navigation">
 
-                    <div class="tabs is-medium" id="myTabs">
-                        <ul>
-                            <li class="active"><a href="#home" data-toggle="pill"
-                                                  style="text-decoration: none">Config</a></li>
-                            <li><a href="#menu" data-toggle="pill" style="text-decoration: none">Menus</a></li>
-                            <li><a href="#posts" data-toggle="pill" style="text-decoration: none">Posts</a></li>
-                            <li><a href="#messages" data-toggle="pill" style="text-decoration: none">Widgets</a></li>
-                            <li><a href="#outros" data-toggle="pill" style="text-decoration: none">Outros</a></li>
-                        </ul>
-                    </div>
+                    <ul class="nav nav-tabs nav-stacked" id="myTabs">
+                        <li role="presentation" class="active"><a href="#home" data-toggle="pill" style="text-decoration: none">Config</a></li>
+                        <li role="presentation"><a href="#menu" data-toggle="pill" style="text-decoration: none">Menus</a></li>
+                        <li role="presentation"><a href="#posts" data-toggle="pill" style="text-decoration: none">Posts</a></li>
+                        <li role="presentation"><a href="#messages" data-toggle="pill" style="text-decoration: none">Widgets</a></li>
+                        <li role="presentation"><a href="#outros" data-toggle="pill" style="text-decoration: none">Outros</a></li>
+                    </ul>
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="home">
@@ -197,20 +194,20 @@
                         </div>
 
                         <div class="tab-pane" id="outros">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
 
-                                    <p class="lead"><a href="{{ path('colecoes_grid') }}">Colecoes</a></p>
-                                    <p class="lead"><a href="{{ path('categorias_grid') }}">Categorias</a></p>
-                                    <p class="lead"><a href="{{ path('musicas_grid') }}">Musicas</a></p>
-                                    <p class="lead"><a href="#">Musicas - Anexos</a></p>
+                                <p class="lead"><a href="{{ path('colecoes_grid') }}">Colecoes</a></p>
+                                <p class="lead"><a href="{{ path('categorias_grid') }}">Categorias</a></p>
+                                <p class="lead"><a href="{{ path('musicas_grid') }}">Musicas</a></p>
+                                <p class="lead"><a href="#">Musicas - Anexos</a></p>
 
-                                </div>
                             </div>
                         </div>
+                    </div>
+                    </div>
 
                     </div>
-                </div>
             </div>
         </div>
     </article>

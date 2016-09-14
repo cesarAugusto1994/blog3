@@ -24,7 +24,7 @@ class MenuController
      */
     public function index(Application $app)
     {
-        return $app->redirect('/blog');
+        return $app->redirect('/admin/blog');
     }
     
     /**
@@ -45,7 +45,7 @@ class MenuController
         
         $app['menu.repository']->save($menu);
         
-        return $app->redirect('menu');
+        return $app->redirect('/admin/menu');
     }
     
     /**
@@ -65,7 +65,7 @@ class MenuController
 
         $app['menu.repository']->save($menu);
     
-        return $app->redirect('/menu');
+        return $app->redirect('/admin/menu');
     }
     
     /**
@@ -87,6 +87,6 @@ class MenuController
         
         $app['menu.repository']->save($menu);
     
-       return $app->redirect('blog#menu');
+       return $app->redirect('/admin/blog#menu');
     }
 }
