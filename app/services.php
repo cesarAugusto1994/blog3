@@ -54,6 +54,10 @@ $app['pager.Controller'] = function () {
   return new \App\Controllers\PagerController();
 };
 
+/**
+ * Repository
+ */
+
 $app['menu.repository'] = function () use($app) {
   return $app['orm.em']->getRepository(\App\Entities\Menu::class);
 };
@@ -81,6 +85,15 @@ $app['label.sorted'] = function () {
     return $colors[$key];
   }
 };
+
+$app['default.card'] = function() use ($app) {
+  $default = $app['config.repository']->find(1);
+  if (!empty($default->getBackground())) {
+    return 'assets/blog/img/config/'.$default->getBackground();
+  }
+  return 'assets/blog/img/wallpaper.jpg';
+};
+
 
 $app['background.default'] = 'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = 'assets/blog/img/wallpaper.jpg';

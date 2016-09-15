@@ -20,6 +20,10 @@ include __DIR__.'/routes/colecao.php';
 include __DIR__.'/routes/user.php';
 include __DIR__.'/routes/access.php';
 
+$app->get('go', function() use ($app) {
+    return $app['twig']->render('test.html.twig');
+});
+
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
 
     switch ($code) {

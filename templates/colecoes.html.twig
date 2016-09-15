@@ -21,14 +21,14 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for colecao in colecoes %}
-                        <div class="col-lg-6 col-md-6">
+                        <div class="col-lg-4 col-md-4 col-xs-6">
                             <div class="card" style="width: 100%">
                         <a style="text-decoration: none" href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
-                        <!--<div class="card-image">
+                        <div class="card-image">
                             <figure class="image is-3by2">
-                                <img src="{% if colecao.imagem is not null %}{{ asset('assets/blog/img/posts/' ~ colecao.imagem ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">
+                                <img src="{{ asset(app['default.card']) }}" alt="">
                             </figure>
-                        </div>-->
+                        </div>
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
