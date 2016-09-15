@@ -10,15 +10,15 @@ $app->get('musicas/{categoriaId}', function($categoriaId) use ($app) {
     return $app['musica.controller']->index($categoriaId, $app);
 })->bind('musicas');
 
-$app->get('admin/musicas_grid', function() use ($app){
+$app->get('admin/musicas/grid', function() use ($app){
     return $app['musica.controller']->musicasGrid($app);
 })->bind('musicas_grid');
 
-$app->get('admin/musicas_grid/{categoriaId}/{nome}', function($categoriaId, $nome) use ($app){
+$app->get('admin/musicas/grid/{categoriaId}/{nome}', function($categoriaId, $nome) use ($app){
     return $app['musica.controller']->categoriaMusicasGrid($categoriaId, $app);
 })->bind('categoria_musicas_grid');
 
-$app->post('admin/save_musica', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('admin/musica/save', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     
     if ($request->get('id')) {
         return $app['musica.controller']->editar($request, $app);

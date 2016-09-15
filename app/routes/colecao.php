@@ -10,11 +10,11 @@ $app->get('/colecoes', function() use ($app){
     return $app['colecao.controller']->index($app);
 })->bind('colecoes');
 
-$app->get('admin/colecoes_grid', function() use ($app){
+$app->get('admin/colecoes/grid', function() use ($app){
     return $app['colecao.controller']->colecoesGrid($app);
 })->bind('colecoes_grid');
 
-$app->post('admin/save_colecao', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('admin/colecao/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     
     if ($request->get('id')) {
         return $app['colecao.controller']->editar($request, $app);

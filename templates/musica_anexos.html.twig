@@ -24,15 +24,15 @@
                     {% for anexo in anexos %}
                         <div class="col-lg-6 col-md-6">
                             <div class="card" style="width: 100%">
-                                    <div class="card-content">
-                                        <div class="media">
-                                            <div class="media-content">
-                                                <p class="title is-5">{{ anexo.nome }}</p>
-                                            </div>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            <p class="title is-5">{{ anexo.nome }}</p>
                                         </div>
-                                        <a href="/assets/blog/musicas/{{ anexo.link }}" target="_blank"><button class="button is-success is-outlined">Visualizar</button></a>
-                                        <a href="/assets/blog/musicas/{{ anexo.nome }}" download><button class="button is-primary is-outlined">Baixar</button></a>
                                     </div>
+                                    <a href="/assets/blog/musicas/{{ anexo.link }}" target="_blank"><button class="button is-success is-outlined">Visualizar</button></a>
+                                    <a href="/assets/blog/musicas/{{ anexo.nome }}" download><button class="button is-primary is-outlined">Baixar</button></a>
+                                </div>
                             </div>
                             <br>
                         </div>

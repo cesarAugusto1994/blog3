@@ -57,9 +57,9 @@ class PostController
 
         $links = $app['posts.links.repository']->findBy(['post' => $id]);
 
-        if (empty(current($post))) {
+       /* if (empty(current($post))) {
             return $app->redirect('/');
-        }
+        } */
 
         return $app['twig']->render('post.html.twig', [
             'post' => current($post),
@@ -239,6 +239,6 @@ class PostController
     
         $app['posts.repository']->save($post);
     
-        return $app->redirect('/grid_posts');
+        return $app->redirect('/admin/grid_posts');
     }
 }

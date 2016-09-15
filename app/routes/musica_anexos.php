@@ -18,7 +18,7 @@ $app->post('admin/musica/anexos/upload/{musicaId}', function(\Symfony\Component\
     return $app['musica.anexos.controller']->upload($request, $app, $musicaId);
 })->bind('musica_anexos_upload');
 
-$app->post('admin/save_musica_anexos/{musicaId}', function(\Symfony\Component\HttpFoundation\Request $request, $musicaId) use ($app) {
+$app->post('admin/musica/anexos/save/{musicaId}', function(\Symfony\Component\HttpFoundation\Request $request, $musicaId) use ($app) {
     if ($request->get('id')) {
         return $app['musica.anexos.controller']->editar($request, $app);
     }

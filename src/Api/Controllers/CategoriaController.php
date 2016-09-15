@@ -40,7 +40,7 @@ class CategoriaController
     public function categoriasGrid(Application $app)
     {
         $colecoes = $app['colecao.repository']->findBy(['ativo' => true]);
-        $categorias = $app['categoria.repository']->findAll();
+        $categorias = $app['categoria.repository']->findBy([], ['nome' => 'ASC']);
 
         return $app['twig']->render('admin/categorias.html.twig', ['categorias' => $categorias, 'colecoes' => $colecoes]);
     }
@@ -53,7 +53,7 @@ class CategoriaController
     {
         $colecao = $app['colecao.repository']->find($colecaoId);
         $colecoes = $app['colecao.repository']->findBy(['ativo' => true]);
-        $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao]);
+        $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao], ['nome' => 'ASC']);
         
         return $app['twig']->render('admin/categorias.html.twig', ['categorias' => $categorias, 'colecoes' => $colecoes, 'colecao' => $colecao]);
     }

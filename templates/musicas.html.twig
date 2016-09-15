@@ -20,10 +20,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    {% for colecao in musicas %}
+                    {% for musica in musicas %}
                         <div class="col-lg-6 col-md-6">
                             <div class="card" style="width: 100%">
-                                <a style="text-decoration: none" href="{{ path('musica_anexos', { musicaId : colecao.id }) }}">
+                                <a style="text-decoration: none" href="{{ path('musica_anexos', { musicaId : musica.id }) }}">
                                     <!--<div class="card-image">
                                         <figure class="image is-4by3">
                                             <img src="{{ asset(app['background.post.default']) }}" alt="">
@@ -32,7 +32,7 @@
                                     <div class="card-content">
                                         <div class="media">
                                             <div class="media-content">
-                                                <p class="title is-5">{{ colecao.numero }} - {{ colecao.nome }}</p>
+                                                <p class="title is-5">{{ musica.numero }} - {{ musica.nome }}</p>
                                             </div>
                                         </div>
                                     </div>
