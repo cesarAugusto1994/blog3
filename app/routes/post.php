@@ -46,7 +46,7 @@ $app->get('/archives/{year}', function($year) use ($app){
 
 $app->get('/author/{author}', function($author) use ($app){
     return $app['post.controller']->postsByAuthor($author, $app);
-})->bind('author');
+})->bind('author')->value('author', 1);
 
 $app->get('/archives/{year}/{month}', function($year, $month) use ($app){
     return $app['post.controller']->postsByYearAndMonth($year, $month, $app);

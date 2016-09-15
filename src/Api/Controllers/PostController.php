@@ -31,8 +31,8 @@ class PostController
      */
     public function post($id, Application $app)
     {
-        $post = $app['posts.repository']->findBy(['id' => $id, 'ativo' => true]);
-
+        $post = $app['posts.repository']->find($id);
+        /*
         $postsRelacionados = [];
         $tagsRelacionadas = [];
 
@@ -53,7 +53,7 @@ class PostController
                     }
                 }
             }
-        }
+        }*/
 
         $links = $app['posts.links.repository']->findBy(['post' => $id]);
 
@@ -62,9 +62,9 @@ class PostController
         } */
 
         return $app['twig']->render('post.html.twig', [
-            'post' => current($post),
+            'post' => $post,
             'links' => $links,
-            'posts_relacionados' => $postsRelacionados
+            'posts_relacionados' => []
         ]);
     }
 
