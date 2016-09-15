@@ -23,3 +23,7 @@ $app->post('admin/save_colecao', function (\Symfony\Component\HttpFoundation\Req
     return $app['colecao.controller']->novo($request, $app);
     
 })->bind('save_colecao');
+
+$app->get('admin/colecao/status/{id}', function($id) use ($app) {
+    return $app['colecao.controller']->alteraStatus($id, $app);
+})->bind('colecao_status');

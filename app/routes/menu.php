@@ -18,7 +18,7 @@ $app->post('admin/blog', function (\Symfony\Component\HttpFoundation\Request $re
     return $app['config.controller']->editar($request, $app);
 })->bind('blog_settings_save');
 
-$app->get('menu', function() use ($app) {
+$app->get('admin/menu', function() use ($app) {
     return $app['menu.controller']->index($app);
 })->bind('menu');
 

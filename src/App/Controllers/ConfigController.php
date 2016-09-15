@@ -40,6 +40,6 @@ class ConfigController
         
         $app['config.repository']->save($config);
 
-        return $app->redirect('/blog');
+        return $app->redirect('/admin/blog');
     }
 }
