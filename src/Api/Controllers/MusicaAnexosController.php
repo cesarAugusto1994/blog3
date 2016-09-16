@@ -9,6 +9,8 @@
 namespace Api\Controllers;
 
 use Api\Entities\MusicaAnexos;
+use Api\Entities\MusicaTags;
+use Api\Entities\Tag;
 use App\Controllers\Downloader;
 use App\Controllers\MediaFormat;
 use App\Controllers\Uploader;
@@ -112,6 +114,29 @@ class MusicaAnexosController
     public function novo($musicaId, Request $request, Application $app)
     {
         $musica = $app['musica.repository']->find($musicaId);
+
+        $accept = ['vozes', 'tenor', 'soprano'];
+        $tags = explode(' ', $request->get('nome'));
+
+        foreach ($tags as $tag) {
+
+            if (in_array($tag, $accept)) {
+
+                $tagC = new Tag();
+                $tagC->setNome($tag);
+                $tagC->setAtivo(true);
+
+                $app['tag.repository']->save($tagC);
+
+                $musicaTag = new MusicaTags();
+                $musicaTag->setMusica($musica);
+                $musicaTag->setTag($tagC);
+    
+                $app['musica.tags.repository']->save($musicaTag);
+            }
+        }
+
+        exit;
     
         $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
     

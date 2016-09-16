@@ -39,6 +39,18 @@ class Musica
     private $nome;
     
     /**
+     * @ORM\Column(name="tom", type="string")
+     * @var string
+     */
+    private $tom;
+    
+    /**
+     * @ORM\Column(name="letra", type="text")
+     * @var string
+     */
+    private $letra;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="Musica")
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      * @var Categoria
@@ -89,6 +101,38 @@ class Musica
     public function setNome($nome)
     {
         $this->nome = $nome;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getTom()
+    {
+        return $this->tom;
+    }
+    
+    /**
+     * @param string $tom
+     */
+    public function setTom($tom)
+    {
+        $this->tom = $tom;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getLetra()
+    {
+        return $this->letra;
+    }
+    
+    /**
+     * @param string $letra
+     */
+    public function setLetra($letra)
+    {
+        $this->letra = $letra;
     }
     
     /**

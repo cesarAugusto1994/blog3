@@ -2,6 +2,10 @@
 
 {% block title %}{{ musica.nome }} - Anexos{% endblock %}
 
+{% block stylesheet%}
+    <link href="{{ asset('assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 
     <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
@@ -20,9 +24,34 @@
     <article>
         <div class="container">
             <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
+                    <div class="card" style="width: 100%; min-width: 600px">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-5">Letra</p>
+                                    <div id="fontlinks">
+                                        <a id="incfont" style="text-decoration: none" class="button is-white buttonfont">A+</a>
+                                        <a id="decfont" style="text-decoration: none" class="button is-white buttonfont">A-</a>
+                                    </div>
+                                    <br>
+                                    <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra|convert_encoding('UTF-8', 'iso-8859-1') }}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article>
+        <div class="container">
+            <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for anexo in anexos %}
-                        <div class="col-lg-6 col-md-6">
+                        <div class="col-lg-4 col-md-4">
                             <div class="card" style="width: 100%">
                                 <div class="card-content">
                                     <div class="media">
@@ -44,4 +73,26 @@
         </div>
     </article>
 
+{% endblock %}
+{% block javascript %}
+    <script src="{{ asset('assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("pre").transpose();
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#incfont').click(function(){
+                curSize= parseInt($('#content').css('font-size')) + 2;
+                if(curSize<=32)
+                    $('#content').css('font-size', curSize);
+            });
+            $('#decfont').click(function(){
+                curSize= parseInt($('#content').css('font-size')) - 2;
+                if(curSize>=5)
+                    $('#content').css('font-size', curSize);
+            });
+        });
+    </script>
 {% endblock %}

@@ -33,12 +33,37 @@ class MusicaController
      * @param Application $app
      * @return mixed
      */
+    public function novaMusica(Application $app)
+    {
+        $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+        
+        return $app['twig']->render('/admin/musica_add.html.twig', ['categorias' => $categorias]);
+    }
+    
+    /**
+     * @param $id
+     * @param Application $app
+     * @return mixed
+     */
+    public function editarMusica($id, Application $app)
+    {
+        $musica = $app['musica.repository']->find($id);
+        
+        $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+        
+        return $app['twig']->render('/admin/musica_editar.html.twig', ['musica' => $musica, 'categorias' => $categorias]);
+    }
+
+    /**
+     * @param Application $app
+     * @return mixed
+     */
     public function musicasGrid(Application $app)
     {
         $categoria = $app['categoria.repository']->findAll();
         $musicas = $app['musica.repository']->findBy(['categoria' => $categoria], ['nome' => 'ASC']);
         
-        return $app['twig']->render('admin/musicas.html.twig', ['musicas' => $musicas, 'categorias' => $categoria]);
+        return $app['twig']->render('/admin/musicas.html.twig', ['musicas' => $musicas, 'categorias' => $categoria]);
     }
     
     /**
@@ -52,7 +77,7 @@ class MusicaController
         $categorias = $app['categoria.repository']->findBy([], ['nome' => 'ASC']);
         $musicas = $app['musica.repository']->findBy(['categoria' => $categoria, 'ativo' => true]);
         
-        return $app['twig']->render('admin/musicas.html.twig', ['musicas' => $musicas, 'categorias' => $categorias]);
+        return $app['twig']->render('/admin/musicas.html.twig', ['musicas' => $musicas, 'categorias' => $categorias]);
     }
     
     /**
@@ -65,8 +90,10 @@ class MusicaController
         $musica = new Musica();
         $categoria = $app['categoria.repository']->find($request->get('categoria'));
 
-        $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
         $musica->setNome($request->get('nome'));
+        $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
+        $musica->setTom($request->get('tonalidade'));
+        $musica->setLetra($request->get('letra'));
         $musica->setCategoria($categoria);
         $musica->setAtivo(true);
 
@@ -85,13 +112,15 @@ class MusicaController
         $musica = $app['musica.repository']->find($request->get('id'));
         $categoria = $app['categoria.repository']->find($request->get('categoria'));
         
-        $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
         $musica->setNome($request->get('nome'));
+        $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
+        $musica->setTom($request->get('tonalidade'));
+        $musica->setLetra($request->get('letra'));
         $musica->setCategoria($categoria);
 
         $app['musica.repository']->save($musica);
 
-        return $app->redirect('musicas_grid');
+        return $app->redirect('/admin/musicas/grid');
     }
 
     /**

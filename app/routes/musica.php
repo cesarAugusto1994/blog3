@@ -10,6 +10,14 @@ $app->get('musicas/{categoriaId}', function($categoriaId) use ($app) {
     return $app['musica.controller']->index($categoriaId, $app);
 })->bind('musicas');
 
+$app->get('admin/musicas/add', function() use ($app){
+    return $app['musica.controller']->novaMusica($app);
+})->bind('musicas_add');
+
+$app->get('admin/musicas/edit/{id}', function($id) use ($app){
+    return $app['musica.controller']->editarMusica($id, $app);
+})->bind('musicas_edit');
+
 $app->get('admin/musicas/grid', function() use ($app){
     return $app['musica.controller']->musicasGrid($app);
 })->bind('musicas_grid');

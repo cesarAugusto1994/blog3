@@ -78,6 +78,10 @@ $app['about'] = function () {
   return 'Aenean placerat. In vulputate urna eu arcu. Aliquam erat volutpat. Suspendisse potenti. Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl.';
 };
 
+$app['tonalidades'] = function () {
+  return ['A', 'Am'];
+};
+
 $app['label.sorted'] = function () {
   $colors = ['danger', 'primary', 'default', 'warning', 'success'];
   shuffle($colors);
@@ -160,6 +164,14 @@ $app['musica.repository'] = function () use ($app) {
  */
 $app['musica.anexos.repository'] = function () use ($app) {
   return $app['orm.em']->getRepository(\Api\Entities\MusicaAnexos::class);
+};
+
+$app['musica.tags.repository'] = function () use ($app) {
+  return $app['orm.em']->getRepository(\Api\Entities\MusicaTags::class);
+};
+
+$app['tag.repository'] = function () use ($app) {
+  return $app['orm.em']->getRepository(\Api\Entities\Tag::class);
 };
 
 /**
