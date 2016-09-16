@@ -58,6 +58,12 @@ class Musica
     private $categoria;
     
     /**
+     * @ORM\OneToMany(targetEntity="MusicaTags", mappedBy="musica")
+     * @var MusicaTags
+     */
+    private $musicaTags;
+    
+    /**
      * @ORM\Column(name="ativo", type="boolean")
      * @var boolean
      */
@@ -149,6 +155,22 @@ class Musica
     public function setCategoria($categoria)
     {
         $this->categoria = $categoria;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMusicaTag()
+    {
+        return $this->musicaTags;
+    }
+
+    /**
+     * @param mixed $musicaTags
+     */
+    public function setMusicaTag($musicaTags)
+    {
+        $this->musicaTags = $musicaTags;
     }
     
     /**

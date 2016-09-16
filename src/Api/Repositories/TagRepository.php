@@ -19,4 +19,6 @@ class TagRepository extends EntityRepository
         $this->getEntityManager()->persist($tag);
         $this->getEntityManager()->flush($tag);
     }
+    
+    
 }

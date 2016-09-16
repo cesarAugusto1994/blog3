@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: cesar
  * Date: 16/09/16
- * Time: 11:26
+ * Time: 14:58
  */
 
 namespace Api\Entities;
@@ -11,12 +11,12 @@ namespace Api\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class MusicaTags
+ * Class AnexoTags
  * @package Api\Entities
- * @ORM\Entity(repositoryClass="Api\Repositories\MusicaTagsRepository")
- * @ORM\Table(name="musica_tags")
+ * @ORM\Entity(repositoryClass="Api\Repositories\AnexoTagsRepository")
+ * @ORM\Table(name="anexo_tags")
  */
-class MusicaTags
+class AnexoTags
 {
     /**
      * @ORM\Id()
@@ -27,11 +27,11 @@ class MusicaTags
     private $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Musica")
-     * @ORM\JoinColumn(name="musica_id", referencedColumnName="id")
-     * @var Musica
+     * @ORM\ManyToOne(targetEntity="MusicaAnexos")
+     * @ORM\JoinColumn(name="anexo_id", referencedColumnName="id")
+     * @var MusicaAnexos
      */
-    private $musica;
+    private $anexo;
     
     /**
      * @ORM\ManyToOne(targetEntity="Tag")
@@ -49,19 +49,19 @@ class MusicaTags
     }
     
     /**
-     * @return Posts
+     * @return MusicaAnexos
      */
-    public function getMusica()
+    public function getAnexo()
     {
-        return $this->musica;
+        return $this->anexo;
     }
     
     /**
-     * @param Posts $musica
+     * @param MusicaAnexos $anexo
      */
-    public function setMusica($musica)
+    public function setAnexo($anexo)
     {
-        $this->musica = $musica;
+        $this->anexo = $anexo;
     }
     
     /**

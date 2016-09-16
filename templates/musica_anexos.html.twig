@@ -51,19 +51,20 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for anexo in anexos %}
-                        <div class="col-lg-4 col-md-4">
-                            <div class="card" style="width: 100%">
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-content">
-                                            <p class="title is-5">{{ anexo.nome }}</p>
-                                        </div>
-                                    </div>
-                                    <a href="/web/assets/blog/musicas/{{ anexo.link }}" target="_blank"><button class="button is-success is-outlined">Visualizar</button></a>
-                                    <a href="/web/assets/blog/musicas/{{ anexo.nome }}" download><button class="button is-primary is-outlined">Baixar</button></a>
-                                </div>
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <a href="#">
+                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
+                                </a>
                             </div>
-                            <br>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{ anexo.nome }}</h4>
+                                <a href="/web/assets/blog/musicas/{{ anexo.link }}" target="_blank"><button class="button is-small is-success is-outlined">Visualizar</button></a>
+                                <a href="/web/assets/blog/musicas/{{ anexo.nome }}" download><button class="button is-small is-primary is-outlined">Baixar</button></a>
+                                {% for tag in anexo.anexoTags.tag %}
+                                    <button class="button is-info is-outlined">{{ tag.nome }}</button>
+                                {% endfor %}
+                            </div>
                         </div>
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>

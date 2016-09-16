@@ -8,6 +8,7 @@
 
 namespace Api\Controllers;
 
+use Api\Entities\AnexoTags;
 use Api\Entities\MusicaAnexos;
 use Api\Entities\MusicaTags;
 use Api\Entities\Tag;
@@ -42,6 +43,11 @@ class MusicaAnexosController
             ]);
     }
     
+    /**
+     * @param $musicaId
+     * @param Application $app
+     * @return mixed
+     */
     public function musicasAnexosGrid($musicaId, Application $app)
     {
         $musica = $app['musica.repository']->find($musicaId);
@@ -115,31 +121,8 @@ class MusicaAnexosController
     {
         $musica = $app['musica.repository']->find($musicaId);
 
-        $accept = ['vozes', 'tenor', 'soprano'];
-        $tags = explode(' ', $request->get('nome'));
-
-        foreach ($tags as $tag) {
-
-            if (in_array($tag, $accept)) {
-
-                $tagC = new Tag();
-                $tagC->setNome($tag);
-                $tagC->setAtivo(true);
-
-                $app['tag.repository']->save($tagC);
-
-                $musicaTag = new MusicaTags();
-                $musicaTag->setMusica($musica);
-                $musicaTag->setTag($tagC);
-    
-                $app['musica.tags.repository']->save($musicaTag);
-            }
-        }
-
-        exit;
-    
         $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
-    
+
         $musicaAnexo = new MusicaAnexos();
         $musicaAnexo->setNome($request->get('nome'));
         $musicaAnexo->setMusica($musica);
@@ -147,9 +130,38 @@ class MusicaAnexosController
         $musicaAnexo->setLinkExterno(true);
         $musicaAnexo->setLink($request->get('link'));
         $musicaAnexo->setAtivo(true);
-    
+
         $app['musica.anexos.repository']->save($musicaAnexo);
-    
+
+        $accept = ['vozes', 'tenor', 'soprano', 'contralto'];
+        $tags = explode(' ', $request->get('nome'));
+
+        foreach ($tags as $tag) {
+
+            if (in_array(strtolower($tag), $accept)) {
+
+                $existeTag = $app['tag.repository']->findBy(['nome' => strtolower($tag)]);
+
+                if(!$existeTag) {
+                    $tagC = new Tag();
+                    $tagC->setNome(strtolower($tag));
+                    $tagC->setAtivo(true);
+                    $app['tag.repository']->save($tagC);
+                } else {
+                    $tagC = $existeTag[0];
+                }
+
+                $existeAnexoTag = $app['musica.anexo.tags.repository']->findBy(['anexo' => $musicaAnexo, 'tag' => $tagC]);
+
+                if (!$existeAnexoTag ) {
+                    $anexoTags = new AnexoTags();
+                    $anexoTags->setAnexo($musicaAnexo);
+                    $anexoTags->setTag($tagC);
+                    $app['musica.anexo.tags.repository']->save($anexoTags);
+                }
+            }
+        }
+
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
 

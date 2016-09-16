@@ -170,6 +170,10 @@ $app['musica.tags.repository'] = function () use ($app) {
   return $app['orm.em']->getRepository(\Api\Entities\MusicaTags::class);
 };
 
+$app['musica.anexo.tags.repository'] = function () use ($app) {
+  return $app['orm.em']->getRepository(\Api\Entities\AnexoTags::class);
+};
+
 $app['tag.repository'] = function () use ($app) {
   return $app['orm.em']->getRepository(\Api\Entities\Tag::class);
 };
