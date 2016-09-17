@@ -111,7 +111,7 @@ $app['security.firewalls'] = array(
             'invalidate_session' => true,
         ),
         'users' => function () use ($app) {
-            return new Security\UserProvider($app['db']);
+            return new Security\UserProvider($app['db'], $app);
         },
     ),
 );
