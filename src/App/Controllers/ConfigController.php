@@ -8,6 +8,7 @@
 
 namespace App\Controllers;
 
+use App\Entities\Config;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,9 +21,30 @@ class ConfigController
      */
     public function index(Application $app)
     {
-        return $app['config.repository']->find(1);
+        return end($app['config.repository']->findAll());
     }
-
+    
+    /**
+     * @param Request $request
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function novo(Request $request, Application $app) 
+    {
+        $config = new Config();
+        
+        $config->setNome($request->get('nome'));
+        $config->setSubtitulo($request->get('subtitulo'));
+        
+        if (!empty($_FILES['background']['size'])) {
+            $config->setBackground($this->upload($_FILES['background'], 'config', $config->getBackground()));
+        }
+    
+        $app['config.repository']->save($config);
+    
+        return $app->redirect('/admin/blog');
+    }
+    
     /**
      * @param Request $request
      * @param Application $app

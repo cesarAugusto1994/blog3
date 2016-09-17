@@ -15,7 +15,13 @@ $app->get('admin/blog', function () use ($app) {
 })->bind('blog');
 
 $app->post('admin/blog', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    return $app['config.controller']->editar($request, $app);
+    
+    if ($request->get('id')) {
+        return $app['config.controller']->editar($request, $app);
+    }
+    
+    return $app['config.controller']->novo($request, $app);
+    
 })->bind('blog_settings_save');
 
 $app->get('admin/menu', function() use ($app) {
