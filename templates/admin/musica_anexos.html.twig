@@ -24,38 +24,22 @@
     <article>
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <button data-toggle="modal" data-target="#myModal" class="button is-danger addAnexo">Novo Anexo</button>
-
-                    <hr class="small">
-
-                    <form action="{{ path('musica_anexos_upload', { musicaId : musica.id }) }}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="musica" value="{{ musica.id }}">
-                        <input type="file" name="files[]" id="filer_input" multiple="multiple">
-                        <input type="submit" class="button is-primary is-outlined" value="Submit">
-                    </form>
-
+                    <button data-toggle="modal" data-target="#upload" class="button is-info addAnexo">Upload de Arquivos</button>
                     <hr>
-                </div>
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <table class="table is-narrow">
-                        <thead>
-                        <tr>
-                            <th>Nome:</th>
-                            <th>Tipo:</th>
-                            <th>Link:</th>
-                            <th>#</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for anexo in anexos %}
-                        <tr>
-                            <td>{{ anexo.nome }}</td>
-                            <td>{{ anexo.tipo.nome }}</td>
-                            <td>{{ anexo.link }}</td>
-                            <td>
+                    {% for anexo in anexos %}
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <a href="#">
+                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{ anexo.nome }}<small> {{ anexo.tipo.nome }}</small></h4>
                                 <p class="control has-addons">
-                                    <a class="button is-primary is-outlined openMenu"
+                                    <a class="button is-primary is-small is-outlined openMenu"
                                        data-toggle="modal"
                                        data-target="#myModal" data-id="{{ anexo.id }}"
                                        data-nome="{{ anexo.nome }}"
@@ -67,7 +51,7 @@
                                                     </span>
                                         <span>Editar</span>
                                     </a>
-                                    <a class="button is-danger is-outlined"
+                                    <a class="button is-danger is-small is-outlined"
                                        href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
                                        style="text-decoration: none">
                                                 <span class="icon is-small">
@@ -76,11 +60,11 @@
                                         <span>Remover</span>
                                     </a>
                                 </p>
-                            </td>
-                        <tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="lead">Nenhum registro encontrado.</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -116,6 +100,31 @@
                             <input class="input" type="text" placeholder="Link" name="link" id="link" required>
                             <i class="fa fa-edit"></i>
                         </p>
+                    </div>
+                    <div class="modal-footer">
+                        <p class="control">
+                            <button class="button is-success" type="submit">
+                                Salvar
+                            </button>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ path('musica_anexos_upload', { musicaId : musica.id }) }}" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Upload de Arquivos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="musica" value="{{ musica.id }}">
+                        <input class="input" type="file" name="files[]" id="filer_input" multiple="multiple">
                     </div>
                     <div class="modal-footer">
                         <p class="control">

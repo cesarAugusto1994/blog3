@@ -609,7 +609,6 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     {
         $form = $this->factory->createNamed('name', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', '&a', array(
             'choices' => array('Choice&A' => '&a', 'Choice&B' => '&b'),
-            'choices_as_values' => true,
             'multiple' => false,
             'expanded' => false,
             'attr' => array('class' => 'bar&baz'),
@@ -633,7 +632,6 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     {
         $form = $this->factory->createNamed('name', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', '&a', array(
             'choices' => array('Choice&A' => '&a', 'Choice&B' => '&b'),
-            'choices_as_values' => true,
             'multiple' => false,
             'expanded' => true,
             'attr' => array('class' => 'bar&baz'),

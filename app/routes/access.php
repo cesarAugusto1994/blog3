@@ -19,9 +19,15 @@ $app->get('/admin/logout', function() use($app){
 })->bind('logout');
 
 $app->get('/admin/', function() use ($app) {
+    /*
     if(isset($app['user'])) {
         $app['session']->set('user', $app['user']);
         $app['session']->save();
     }
     return $app->redirect('/');
+    */
 })->bind('admin');
+
+$app->match('/register', function (\Symfony\Component\HttpFoundation\Request $request) use ($app){
+    return $app['usuarios.controller']->novo($request, $app);
+})->bind('register');

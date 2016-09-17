@@ -2755,7 +2755,7 @@ a.box:active {
   width: 48px;
 }
 
-.hamburger, .nav-toggle {
+.hamburger, .nav2-toggle {
   cursor: pointer;
   display: block;
   height: 50px;
@@ -2763,7 +2763,7 @@ a.box:active {
   width: 50px;
 }
 
-.hamburger span, .nav-toggle span {
+.hamburger span, .nav2-toggle span {
   background-color: #69707a;
   display: block;
   height: 1px;
@@ -2780,27 +2780,27 @@ a.box:active {
   width: 15px;
 }
 
-.hamburger span:nth-child(1), .nav-toggle span:nth-child(1) {
+.hamburger span:nth-child(1), .nav2-toggle span:nth-child(1) {
   margin-top: -6px;
 }
 
-.hamburger span:nth-child(2), .nav-toggle span:nth-child(2) {
+.hamburger span:nth-child(2), .nav2-toggle span:nth-child(2) {
   margin-top: -1px;
 }
 
-.hamburger span:nth-child(3), .nav-toggle span:nth-child(3) {
+.hamburger span:nth-child(3), .nav2-toggle span:nth-child(3) {
   margin-top: 4px;
 }
 
-.hamburger:hover, .nav-toggle:hover {
+.hamburger:hover, .nav2-toggle:hover {
   background-color: #f5f7fa;
 }
 
-.hamburger.is-active span, .is-active.nav-toggle span {
+.hamburger.is-active span, .is-active.nav2-toggle span {
   background-color: #1fc8db;
 }
 
-.hamburger.is-active span:nth-child(1), .is-active.nav-toggle span:nth-child(1) {
+.hamburger.is-active span:nth-child(1), .is-active.nav2-toggle span:nth-child(1) {
   margin-left: -5px;
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
@@ -2808,11 +2808,11 @@ a.box:active {
           transform-origin: left top;
 }
 
-.hamburger.is-active span:nth-child(2), .is-active.nav-toggle span:nth-child(2) {
+.hamburger.is-active span:nth-child(2), .is-active.nav2-toggle span:nth-child(2) {
   opacity: 0;
 }
 
-.hamburger.is-active span:nth-child(3), .is-active.nav-toggle span:nth-child(3) {
+.hamburger.is-active span:nth-child(3), .is-active.nav2-toggle span:nth-child(3) {
   margin-left: -5px;
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
@@ -5075,12 +5075,12 @@ a.box:active {
 }
 
 @media screen and (min-width: 769px) {
-  .nav-toggle {
+  .nav2-toggle {
     display: none;
   }
 }
 
-.nav-item {
+.nav2-item {
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
@@ -5096,31 +5096,31 @@ a.box:active {
   padding: 10px;
 }
 
-.nav-item a {
+.nav2-item a {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
 }
 
-.nav-item img {
+.nav2-item img {
   max-height: 24px;
 }
 
-.nav-item .button + .button {
+.nav2-item .button + .button {
   margin-left: 10px;
 }
 
-.nav-item .tag:first-child {
+.nav2-item .tag:first-child {
   margin-right: 5px;
 }
 
-.nav-item .tag:last-child {
+.nav2-item .tag:last-child {
   margin-left: 5px;
 }
 
 @media screen and (max-width: 768px) {
-  .nav-item {
+  .nav2-item {
     -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
         -ms-flex-pack: start;
@@ -5128,44 +5128,44 @@ a.box:active {
   }
 }
 
-.nav-item a,
-a.nav-item {
+.nav2-item a,
+a.nav2-item {
   color: #69707a;
 }
 
-.nav-item a:hover,
-a.nav-item:hover {
+.nav2-item a:hover,
+a.nav2-item:hover {
   color: #222324;
 }
 
-.nav-item a.is-active,
-a.nav-item.is-active {
+.nav2-item a.is-active,
+a.nav2-item.is-active {
   color: #222324;
 }
 
-.nav-item a.is-tab,
-a.nav-item.is-tab {
+.nav2-item a.is-tab,
+a.nav2-item.is-tab {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
   padding-left: 12px;
   padding-right: 12px;
 }
 
-.nav-item a.is-tab:hover,
-a.nav-item.is-tab:hover {
+.nav2-item a.is-tab:hover,
+a.nav2-item.is-tab:hover {
   border-bottom: 1px solid #1fc8db;
   border-top: 1px solid transparent;
 }
 
-.nav-item a.is-tab.is-active,
-a.nav-item.is-tab.is-active {
+.nav2-item a.is-tab.is-active,
+a.nav2-item.is-tab.is-active {
   border-bottom: 3px solid #1fc8db;
   border-top: 3px solid transparent;
   color: #1fc8db;
 }
 
 @media screen and (max-width: 768px) {
-  .nav-menu {
+  .nav2-menu {
     background-color: #fff;
     box-shadow: 0 4px 7px rgba(17, 17, 17, 0.1);
     left: 0;
@@ -5174,22 +5174,22 @@ a.nav-item.is-tab.is-active {
     top: 100%;
     position: absolute;
   }
-  .nav-menu .nav-item {
+  .nav2-menu .nav2-item {
     border-top: 1px solid rgba(211, 214, 219, 0.5);
     padding: 10px;
   }
-  .nav-menu.is-active {
+  .nav2-menu.is-active {
     display: block;
   }
 }
 
 @media screen and (min-width: 769px) and (max-width: 979px) {
-  .nav-menu {
+  .nav2-menu {
     padding-right: 20px;
   }
 }
 
-.nav-left {
+.nav2-left {
   -webkit-box-align: stretch;
   -webkit-align-items: stretch;
       -ms-flex-align: stretch;
@@ -5214,7 +5214,7 @@ a.nav-item.is-tab.is-active {
   white-space: nowrap;
 }
 
-.nav-center {
+.nav2-center {
   -webkit-box-align: stretch;
   -webkit-align-items: stretch;
       -ms-flex-align: stretch;
@@ -5232,7 +5232,7 @@ a.nav-item.is-tab.is-active {
 }
 
 @media screen and (min-width: 769px) {
-  .nav-right {
+  .nav2-right {
     -webkit-box-align: stretch;
     -webkit-align-items: stretch;
         -ms-flex-align: stretch;
@@ -5255,7 +5255,7 @@ a.nav-item.is-tab.is-active {
   }
 }
 
-.nav {
+.nav2 {
   -webkit-box-align: stretch;
   -webkit-align-items: stretch;
       -ms-flex-align: stretch;
@@ -5271,7 +5271,7 @@ a.nav-item.is-tab.is-active {
   z-index: 2;
 }
 
-.nav > .container {
+.nav2 > .container {
   -webkit-box-align: stretch;
   -webkit-align-items: stretch;
       -ms-flex-align: stretch;
@@ -5284,29 +5284,29 @@ a.nav-item.is-tab.is-active {
   width: 100%;
 }
 
-.nav > .container > .nav-left > .nav-item:first-child:not(.is-tab) {
+.nav2 > .container > .nav2-left > .nav2-item:first-child:not(.is-tab) {
   padding-left: 0;
 }
 
-.nav > .container > .nav-right > .nav-item:last-child:not(.is-tab) {
+.nav2 > .container > .nav2-right > .nav2-item:last-child:not(.is-tab) {
   padding-right: 0;
 }
 
-.container > .nav > .nav-left > .nav-item:first-child:not(.is-tab) {
+.container > .nav2 > .nav2-left > .nav2-item:first-child:not(.is-tab) {
   padding-left: 0;
 }
 
-.container > .nav > .nav-right > .nav-item:last-child:not(.is-tab) {
+.container > .nav2 > .nav2-right > .nav2-item:last-child:not(.is-tab) {
   padding-right: 0;
 }
 
-.nav.has-shadow {
+.nav2.has-shadow {
   box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1);
 }
 
 @media screen and (max-width: 979px) {
-  .nav > .container > .nav-left > .nav-item.is-brand:first-child,
-  .container > .nav > .nav-left > .nav-item.is-brand:first-child {
+  .nav2 > .container > .nav2-left > .nav2-item.is-brand:first-child,
+  .container > .nav2 > .nav2-left > .nav2-item.is-brand:first-child {
     padding-left: 20px;
   }
 }
@@ -5807,7 +5807,7 @@ a.panel-block:hover {
           justify-content: space-between;
 }
 
-.hero .nav {
+.hero .nav2 {
   background: none;
   box-shadow: 0 1px 0 rgba(211, 214, 219, 0.3);
 }
@@ -5839,24 +5839,24 @@ a.panel-block:hover {
   color: #111;
 }
 
-.hero.is-white .nav {
+.hero.is-white .nav2 {
   box-shadow: 0 1px 0 rgba(17, 17, 17, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-white .nav-menu {
+  .hero.is-white .nav2-menu {
     background-color: #fff;
   }
 }
 
-.hero.is-white a.nav-item,
-.hero.is-white .nav-item a:not(.button) {
+.hero.is-white a.nav2-item,
+.hero.is-white .nav2-item a:not(.button) {
   color: rgba(17, 17, 17, 0.5);
 }
 
-.hero.is-white a.nav-item:hover, .hero.is-white a.nav-item.is-active,
-.hero.is-white .nav-item a:not(.button):hover,
-.hero.is-white .nav-item a:not(.button).is-active {
+.hero.is-white a.nav2-item:hover, .hero.is-white a.nav2-item.is-active,
+.hero.is-white .nav2-item a:not(.button):hover,
+.hero.is-white .nav2-item a:not(.button).is-active {
   color: #111;
 }
 
@@ -5893,16 +5893,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-white .nav-toggle span {
+  .hero.is-white .nav2-toggle span {
     background-color: #111;
   }
-  .hero.is-white .nav-toggle:hover {
+  .hero.is-white .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-white .nav-toggle.is-active span {
+  .hero.is-white .nav2-toggle.is-active span {
     background-color: #111;
   }
-  .hero.is-white .nav-menu .nav-item {
+  .hero.is-white .nav2-menu .nav2-item {
     border-top-color: rgba(17, 17, 17, 0.2);
   }
 }
@@ -5930,24 +5930,24 @@ a.panel-block:hover {
   color: #fff;
 }
 
-.hero.is-black .nav {
+.hero.is-black .nav2 {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-black .nav-menu {
+  .hero.is-black .nav2-menu {
     background-color: #111;
   }
 }
 
-.hero.is-black a.nav-item,
-.hero.is-black .nav-item a:not(.button) {
+.hero.is-black a.nav2-item,
+.hero.is-black .nav2-item a:not(.button) {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.hero.is-black a.nav-item:hover, .hero.is-black a.nav-item.is-active,
-.hero.is-black .nav-item a:not(.button):hover,
-.hero.is-black .nav-item a:not(.button).is-active {
+.hero.is-black a.nav2-item:hover, .hero.is-black a.nav2-item.is-active,
+.hero.is-black .nav2-item a:not(.button):hover,
+.hero.is-black .nav2-item a:not(.button).is-active {
   color: #fff;
 }
 
@@ -5984,16 +5984,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-black .nav-toggle span {
+  .hero.is-black .nav2-toggle span {
     background-color: #fff;
   }
-  .hero.is-black .nav-toggle:hover {
+  .hero.is-black .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-black .nav-toggle.is-active span {
+  .hero.is-black .nav2-toggle.is-active span {
     background-color: #fff;
   }
-  .hero.is-black .nav-menu .nav-item {
+  .hero.is-black .nav2-menu .nav2-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -6021,24 +6021,24 @@ a.panel-block:hover {
   color: #69707a;
 }
 
-.hero.is-light .nav {
+.hero.is-light .nav2 {
   box-shadow: 0 1px 0 rgba(105, 112, 122, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-light .nav-menu {
+  .hero.is-light .nav2-menu {
     background-color: #f5f7fa;
   }
 }
 
-.hero.is-light a.nav-item,
-.hero.is-light .nav-item a:not(.button) {
+.hero.is-light a.nav2-item,
+.hero.is-light .nav2-item a:not(.button) {
   color: rgba(105, 112, 122, 0.5);
 }
 
-.hero.is-light a.nav-item:hover, .hero.is-light a.nav-item.is-active,
-.hero.is-light .nav-item a:not(.button):hover,
-.hero.is-light .nav-item a:not(.button).is-active {
+.hero.is-light a.nav2-item:hover, .hero.is-light a.nav2-item.is-active,
+.hero.is-light .nav2-item a:not(.button):hover,
+.hero.is-light .nav2-item a:not(.button).is-active {
   color: #69707a;
 }
 
@@ -6075,16 +6075,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-light .nav-toggle span {
+  .hero.is-light .nav2-toggle span {
     background-color: #69707a;
   }
-  .hero.is-light .nav-toggle:hover {
+  .hero.is-light .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-light .nav-toggle.is-active span {
+  .hero.is-light .nav2-toggle.is-active span {
     background-color: #69707a;
   }
-  .hero.is-light .nav-menu .nav-item {
+  .hero.is-light .nav2-menu .nav2-item {
     border-top-color: rgba(105, 112, 122, 0.2);
   }
 }
@@ -6112,24 +6112,24 @@ a.panel-block:hover {
   color: #f5f7fa;
 }
 
-.hero.is-dark .nav {
+.hero.is-dark .nav2 {
   box-shadow: 0 1px 0 rgba(245, 247, 250, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-dark .nav-menu {
+  .hero.is-dark .nav2-menu {
     background-color: #69707a;
   }
 }
 
-.hero.is-dark a.nav-item,
-.hero.is-dark .nav-item a:not(.button) {
+.hero.is-dark a.nav2-item,
+.hero.is-dark .nav2-item a:not(.button) {
   color: rgba(245, 247, 250, 0.5);
 }
 
-.hero.is-dark a.nav-item:hover, .hero.is-dark a.nav-item.is-active,
-.hero.is-dark .nav-item a:not(.button):hover,
-.hero.is-dark .nav-item a:not(.button).is-active {
+.hero.is-dark a.nav2-item:hover, .hero.is-dark a.nav2-item.is-active,
+.hero.is-dark .nav2-item a:not(.button):hover,
+.hero.is-dark .nav2-item a:not(.button).is-active {
   color: #f5f7fa;
 }
 
@@ -6166,16 +6166,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-dark .nav-toggle span {
+  .hero.is-dark .nav2-toggle span {
     background-color: #f5f7fa;
   }
-  .hero.is-dark .nav-toggle:hover {
+  .hero.is-dark .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-dark .nav-toggle.is-active span {
+  .hero.is-dark .nav2-toggle.is-active span {
     background-color: #f5f7fa;
   }
-  .hero.is-dark .nav-menu .nav-item {
+  .hero.is-dark .nav2-menu .nav2-item {
     border-top-color: rgba(245, 247, 250, 0.2);
   }
 }
@@ -6203,24 +6203,24 @@ a.panel-block:hover {
   color: white;
 }
 
-.hero.is-primary .nav {
+.hero.is-primary .nav2 {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-primary .nav-menu {
+  .hero.is-primary .nav2-menu {
     background-color: #1fc8db;
   }
 }
 
-.hero.is-primary a.nav-item,
-.hero.is-primary .nav-item a:not(.button) {
+.hero.is-primary a.nav2-item,
+.hero.is-primary .nav2-item a:not(.button) {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.hero.is-primary a.nav-item:hover, .hero.is-primary a.nav-item.is-active,
-.hero.is-primary .nav-item a:not(.button):hover,
-.hero.is-primary .nav-item a:not(.button).is-active {
+.hero.is-primary a.nav2-item:hover, .hero.is-primary a.nav2-item.is-active,
+.hero.is-primary .nav2-item a:not(.button):hover,
+.hero.is-primary .nav2-item a:not(.button).is-active {
   color: white;
 }
 
@@ -6257,16 +6257,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-primary .nav-toggle span {
+  .hero.is-primary .nav2-toggle span {
     background-color: white;
   }
-  .hero.is-primary .nav-toggle:hover {
+  .hero.is-primary .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-primary .nav-toggle.is-active span {
+  .hero.is-primary .nav2-toggle.is-active span {
     background-color: white;
   }
-  .hero.is-primary .nav-menu .nav-item {
+  .hero.is-primary .nav2-menu .nav2-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -6294,24 +6294,24 @@ a.panel-block:hover {
   color: white;
 }
 
-.hero.is-info .nav {
+.hero.is-info .nav2 {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-info .nav-menu {
+  .hero.is-info .nav2-menu {
     background-color: #42afe3;
   }
 }
 
-.hero.is-info a.nav-item,
-.hero.is-info .nav-item a:not(.button) {
+.hero.is-info a.nav2-item,
+.hero.is-info .nav2-item a:not(.button) {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.hero.is-info a.nav-item:hover, .hero.is-info a.nav-item.is-active,
-.hero.is-info .nav-item a:not(.button):hover,
-.hero.is-info .nav-item a:not(.button).is-active {
+.hero.is-info a.nav2-item:hover, .hero.is-info a.nav2-item.is-active,
+.hero.is-info .nav2-item a:not(.button):hover,
+.hero.is-info .nav2-item a:not(.button).is-active {
   color: white;
 }
 
@@ -6348,16 +6348,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-info .nav-toggle span {
+  .hero.is-info .nav2-toggle span {
     background-color: white;
   }
-  .hero.is-info .nav-toggle:hover {
+  .hero.is-info .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-info .nav-toggle.is-active span {
+  .hero.is-info .nav2-toggle.is-active span {
     background-color: white;
   }
-  .hero.is-info .nav-menu .nav-item {
+  .hero.is-info .nav2-menu .nav2-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -6385,24 +6385,24 @@ a.panel-block:hover {
   color: white;
 }
 
-.hero.is-success .nav {
+.hero.is-success .nav2 {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-success .nav-menu {
+  .hero.is-success .nav2-menu {
     background-color: #97cd76;
   }
 }
 
-.hero.is-success a.nav-item,
-.hero.is-success .nav-item a:not(.button) {
+.hero.is-success a.nav2-item,
+.hero.is-success .nav2-item a:not(.button) {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.hero.is-success a.nav-item:hover, .hero.is-success a.nav-item.is-active,
-.hero.is-success .nav-item a:not(.button):hover,
-.hero.is-success .nav-item a:not(.button).is-active {
+.hero.is-success a.nav2-item:hover, .hero.is-success a.nav2-item.is-active,
+.hero.is-success .nav2-item a:not(.button):hover,
+.hero.is-success .nav2-item a:not(.button).is-active {
   color: white;
 }
 
@@ -6439,16 +6439,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-success .nav-toggle span {
+  .hero.is-success .nav2-toggle span {
     background-color: white;
   }
-  .hero.is-success .nav-toggle:hover {
+  .hero.is-success .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-success .nav-toggle.is-active span {
+  .hero.is-success .nav2-toggle.is-active span {
     background-color: white;
   }
-  .hero.is-success .nav-menu .nav-item {
+  .hero.is-success .nav2-menu .nav2-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -6476,24 +6476,24 @@ a.panel-block:hover {
   color: rgba(17, 17, 17, 0.5);
 }
 
-.hero.is-warning .nav {
+.hero.is-warning .nav2 {
   box-shadow: 0 1px 0 rgba(17, 17, 17, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-warning .nav-menu {
+  .hero.is-warning .nav2-menu {
     background-color: #fce473;
   }
 }
 
-.hero.is-warning a.nav-item,
-.hero.is-warning .nav-item a:not(.button) {
+.hero.is-warning a.nav2-item,
+.hero.is-warning .nav2-item a:not(.button) {
   color: rgba(17, 17, 17, 0.5);
 }
 
-.hero.is-warning a.nav-item:hover, .hero.is-warning a.nav-item.is-active,
-.hero.is-warning .nav-item a:not(.button):hover,
-.hero.is-warning .nav-item a:not(.button).is-active {
+.hero.is-warning a.nav2-item:hover, .hero.is-warning a.nav2-item.is-active,
+.hero.is-warning .nav2-item a:not(.button):hover,
+.hero.is-warning .nav2-item a:not(.button).is-active {
   color: rgba(17, 17, 17, 0.5);
 }
 
@@ -6530,16 +6530,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-warning .nav-toggle span {
+  .hero.is-warning .nav2-toggle span {
     background-color: rgba(17, 17, 17, 0.5);
   }
-  .hero.is-warning .nav-toggle:hover {
+  .hero.is-warning .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-warning .nav-toggle.is-active span {
+  .hero.is-warning .nav2-toggle.is-active span {
     background-color: rgba(17, 17, 17, 0.5);
   }
-  .hero.is-warning .nav-menu .nav-item {
+  .hero.is-warning .nav2-menu .nav2-item {
     border-top-color: rgba(17, 17, 17, 0.2);
   }
 }
@@ -6567,24 +6567,24 @@ a.panel-block:hover {
   color: white;
 }
 
-.hero.is-danger .nav {
+.hero.is-danger .nav2 {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-danger .nav-menu {
+  .hero.is-danger .nav2-menu {
     background-color: #ed6c63;
   }
 }
 
-.hero.is-danger a.nav-item,
-.hero.is-danger .nav-item a:not(.button) {
+.hero.is-danger a.nav2-item,
+.hero.is-danger .nav2-item a:not(.button) {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.hero.is-danger a.nav-item:hover, .hero.is-danger a.nav-item.is-active,
-.hero.is-danger .nav-item a:not(.button):hover,
-.hero.is-danger .nav-item a:not(.button).is-active {
+.hero.is-danger a.nav2-item:hover, .hero.is-danger a.nav2-item.is-active,
+.hero.is-danger .nav2-item a:not(.button):hover,
+.hero.is-danger .nav2-item a:not(.button).is-active {
   color: white;
 }
 
@@ -6621,16 +6621,16 @@ a.panel-block:hover {
 }
 
 @media screen and (max-width: 768px) {
-  .hero.is-danger .nav-toggle span {
+  .hero.is-danger .nav2-toggle span {
     background-color: white;
   }
-  .hero.is-danger .nav-toggle:hover {
+  .hero.is-danger .nav2-toggle:hover {
     background-color: rgba(17, 17, 17, 0.1);
   }
-  .hero.is-danger .nav-toggle.is-active span {
+  .hero.is-danger .nav2-toggle.is-active span {
     background-color: white;
   }
-  .hero.is-danger .nav-menu .nav-item {
+  .hero.is-danger .nav2-menu .nav2-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }

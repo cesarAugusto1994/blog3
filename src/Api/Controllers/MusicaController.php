@@ -93,13 +93,13 @@ class MusicaController
         $musica->setNome($request->get('nome'));
         $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
         $musica->setTom($request->get('tonalidade'));
-        $musica->setLetra($request->get('letra'));
+        $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setCategoria($categoria);
         $musica->setAtivo(true);
 
         $app['musica.repository']->save($musica);
 
-        return $app->redirect('musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
+        return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
     
     /**
@@ -115,7 +115,7 @@ class MusicaController
         $musica->setNome($request->get('nome'));
         $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
         $musica->setTom($request->get('tonalidade'));
-        $musica->setLetra($request->get('letra'));
+        $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setCategoria($categoria);
 
         $app['musica.repository']->save($musica);
@@ -140,7 +140,7 @@ class MusicaController
 
         $app['musica.repository']->save($musica);
 
-        return $app->redirect('/admin/musicas_grid');
+        return $app->redirect('/admin/musicas/grid');
     }
     
     

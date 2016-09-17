@@ -24,22 +24,21 @@
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <table class="table is-narrow">
-                        <thead>
-                        <tr>
-                            <th>Nome:</th>
-                            <th>Descri&ccedil;&atilde;o:</th>
-                            <th>#</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for colecao in colecoes %}
-                        <tr>
-                            <td><a href="{{ path('colecao_categorias_grid', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a></td>
-                            <td>{{ colecao.descricao }}</td>
-                            <td>
+
+                    {% for colecao in colecoes %}
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <a href="#">
+                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a
+                                            href="{{ path('colecao_categorias_grid', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
+                                    <small> {{ colecao.descricao }}</small>
+                                </h4>
                                 <p class="control has-addons">
-                                    <a class="button is-primary is-outlined openMenu"
+                                    <a class="button is-primary is-outlined is-small openMenu"
                                        data-toggle="modal"
                                        data-target="#myModal" data-id="{{ colecao.id }}"
                                        data-nome="{{ colecao.nome }}"
@@ -50,31 +49,20 @@
                                                     </span>
                                         <span>Editar</span>
                                     </a>
-                                    {% if colecao.ativo == 0 %}
-                                        <a class="button is-success is-outlined"
-                                           href="{{ path('colecao_status', { id : colecao.id }) }}"
-                                           style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-plus"></i>
-                                                    </span>
-                                            <span>Ativar</span>
-                                        </a>
-                                    {% else %}
-                                        <a class="button is-danger is-outlined"
-                                           href="{{ path('colecao_status', { id : colecao.id }) }}"
-                                           style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-ban"></i>
-                                                    </span>
-                                            <span>Inativar</span>
-                                        </a>
-                                    {% endif %}
+                                    <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-outlined is-small"
+                                       href="{{ path('colecao_status', { id : colecao.id }) }}"
+                                       style="text-decoration: none">
+                                                <span class="icon is-small">
+                                                  <i class="fa fa-plus"></i>
+                                                </span>
+                                        <span>{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}</span>
+                                    </a>
                                 </p>
-                            </td>
-                        <tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="lead">Nenhum registro encontrado.</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>

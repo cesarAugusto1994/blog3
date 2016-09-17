@@ -11,6 +11,15 @@ namespace Api\Controllers;
 
 use Api\Entities\Usuarios;
 use Silex\Application;
+use Silex\Provider\FormServiceProvider;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class UsuariosController
@@ -31,6 +40,64 @@ class UsuariosController
     }
     
     /**
+     * @param Request $request
+     * @param Application $app
+     * @return mixed
+     */
+    public function novo(Request $request, Application $app)
+    {
+        $form = $app['form.factory']->createBuilder(FormType::class)
+            ->add('nome', TextType::class, [
+                'required' => true,
+                'constraints' => [new Assert\NotBlank(), new Assert\Length([
+                    'min' => 5, 'minMessage' => 'Seu Nome deve possuir mais de {{ limit }} caracteres.',
+                    'max' => 30, 'maxMessage' => 'Seu Nome deve possuir menos de {{ limit }} caracteres.'])],
+                'attr' => array('class' => 'input', 'placeholder' => 'Nome')
+            ])->add('email', EmailType::class, [
+                'required' => true,
+                'constraints' => [new Assert\Email(), new Assert\Length(['min' => 6])],
+                'attr' => array('class' => 'input', 'placeholder' => 'E-mail')
+            ])->add('password', PasswordType::class, [
+                'required' => true,
+                'constraints' => [new Assert\NotBlank(), new Assert\Length([
+                    'min' => 6, 'minMessage' => 'Sua Senha deve possuir mais de {{ limit }} caracteres.',])],
+                'attr' => array('class' => 'input', 'placeholder' => 'Senha')
+            ])->add('salvar', SubmitType::class, [
+                    'attr' => ['class' => 'button is-success', 'value' => 1]
+                ]
+            )->getForm();
+
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+        
+            $email = $app['usuarios.repository']->findBy(['email' => $request->get('form')['email']]);
+    
+            if ($email) {
+                return $app['twig']->render(
+                    'register.html.twig',
+                    ['error' => 'O E-mail ja esta cadastrado.', 'form' => $form->createView()]
+                );
+            }
+    
+            $encoder = $app['security.encoder.digest'];
+            $password = $encoder->encodePassword($request->get('form')['password'], '');
+    
+            $usuario = new Usuarios();
+            $usuario->setNome($request->get('form')['nome']);
+            $usuario->setEmail($request->get('form')['email']);
+            $usuario->setPassword($password);
+            $usuario->setCadastro(new \DateTime('now'));
+            $usuario->setAtivo(true);
+            $app['usuarios.repository']->save($usuario);
+        
+            return $app['twig']->render('login.html.twig', ['sucesso' => 'Cadastro Efetivado.']);
+        }
+    
+        return $app['twig']->render('register.html.twig', ['form' => $form->createView()]);
+    }
+    
+    /**
      * @param int $id
      * @param Application $app
      * @return mixed
@@ -43,6 +110,5 @@ class UsuariosController
             'posts' => $user->getPosts(),
             'author_message' => 'Posts criados por: '.$user->getNome()
         ]);
-
     }
 }

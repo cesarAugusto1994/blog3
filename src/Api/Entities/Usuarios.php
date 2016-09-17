@@ -39,6 +39,12 @@ class Usuarios
     private $email;
     
     /**
+     * @ORM\Column(name="password", type="string")
+     * @var string
+     */
+    private $password;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Posts", mappedBy="Usuario")
      * @var Posts
      */
@@ -94,6 +100,22 @@ class Usuarios
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
     
     /**

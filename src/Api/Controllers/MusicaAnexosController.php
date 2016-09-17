@@ -183,7 +183,7 @@ class MusicaAnexosController
 
         $app['musica.anexos.repository']->save($musicaAnexo);
 
-        return $app->redirect('musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
+        return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
     
     /**

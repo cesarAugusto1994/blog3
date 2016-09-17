@@ -74,12 +74,40 @@ $app['config'] = function () use ($app) {
   return $app['config.controller']->index($app);
 };
 
+$app['nome.blog'] = function() use ($app){
+  
+  $blog = $app['config.repository']->find(1);
+  
+  if ($blog) {
+    return $blog->getNome();
+  }
+  return 'Blog';
+};
+
 $app['about'] = function () {
   return 'Aenean placerat. In vulputate urna eu arcu. Aliquam erat volutpat. Suspendisse potenti. Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl.';
 };
 
 $app['tonalidades'] = function () {
-  return ['A', 'Am'];
+  return [
+      'C',
+      'C#',
+      'Db',
+      'D',
+      'D#',
+      'Eb',
+      'E',
+      'F',
+      'F#',
+      'Gb',
+      'G',
+      'G#',
+      'Ab',
+      'A',
+      'A#',
+      'Bb',
+      'B',
+  ];
 };
 
 $app['label.sorted'] = function () {

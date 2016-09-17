@@ -24,57 +24,41 @@
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <table class="table is-narrow">
-                        <thead>
-                            <tr>
-                                <th>Nome:</th>
-                                <th>Cole&ccedil;&atilde;o</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for categoria in categorias %}
-                                <tr>
-                                    <td><a href="{{ path('categoria_musicas_grid', { categoriaId : categoria.id, nome : categoria.nome|replace('^', '') }) }}">{{ categoria.nome }}</a></td>
-                                    <td>{{ categoria.colecao.nome }}</td>
-                                    <td>
-                                        <p class="control has-addons">
-                                            <a class="button is-primary is-outlined openMenu"
-                                               data-toggle="modal"
-                                               data-target="#myModal" data-id="{{ categoria.id }}"
-                                               data-nome="{{ categoria.nome }}"
-                                               data-colecao="{{ categoria.colecao.id }}"
-                                               style="text-decoration: none">
+                    {% for categoria in categorias %}
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <a href="#">
+                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="{{ path('categoria_musicas_grid', { categoriaId : categoria.id, nome : categoria.nome|replace('^', '') }) }}">{{ categoria.nome }}</a><small> {{ categoria.colecao.nome }}</small></h4>
+                                <p class="control has-addons">
+                                    <a class="button is-primary is-outlined is-small openMenu"
+                                       data-toggle="modal"
+                                       data-target="#myModal" data-id="{{ categoria.id }}"
+                                       data-nome="{{ categoria.nome }}"
+                                       data-colecao="{{ categoria.colecao.id }}"
+                                       style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-edit"></i>
                                                     </span>
-                                                <span>Editar</span>
-                                            </a>
-                                            {% if categoria.ativo == 0 %}
-                                                <a class="button is-success is-outlined"
-                                                   href="{{ path('categoria_status', { id : categoria.id }) }}"
-                                                   style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-plus"></i>
-                                                    </span>
-                                                    <span>Ativar</span>
-                                                </a>
-                                            {% else %}
-                                                <a class="button is-danger is-outlined"
-                                                   href="{{ path('categoria_status', { id : categoria.id }) }}"
-                                                   style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-ban"></i>
-                                                    </span>
-                                                    <span>Inativar</span>
-                                                </a>
-                                            {% endif %}
-                                        </p>
-                                    </td>
-                                <tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                        <span>Editar</span>
+                                    </a>
+                                    <a class="button {% if categoria.ativo %} is-danger {% else %} is-success {% endif %} is-outlined is-small"
+                                       href="{{ path('categoria_status', { id : categoria.id }) }}"
+                                       style="text-decoration: none">
+                                                <span class="icon is-small">
+                                                  <i class="fa fa-plus"></i>
+                                                </span>
+                                        <span>{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="lead">Nenhum registro encontrado.</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>

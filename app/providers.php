@@ -81,7 +81,7 @@ $app['session']->start();
 $app->register(new \Silex\Provider\HttpCacheServiceProvider(), array(
     'http.cache.cache_dir' => __DIR__.'/../var/cache/http/'
 ));
-/*
+
 $app->register(new Silex\Provider\SecurityServiceProvider());
 $app['security.default_encoder'] = function ($app) {
     return $app['security.encoder.digest'];
@@ -104,9 +104,8 @@ $app['security.firewalls'] = array(
             'login_path' => '/login',
             'check_path' => '/admin/login_check',
             'always_use_default_target_path' => true,
-            'default_target_path' => '/admin/',
+            'default_target_path' => '/',
         ),
-        'http' => true,
         'logout' => array(
             'logout_path' => '/admin/logout',
             'invalidate_session' => true,
@@ -123,4 +122,4 @@ $app['security.access_rules'] = array(
 );
 $app['security.role_hierarchy'] = array(
     'ROLE_ADMIN' => array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
-);*/
+);

@@ -58,7 +58,7 @@ class ColecaoController
         
         $app['colecao.repository']->save($colecao);
 
-        return $app->redirect('/admin/colecoes_grid');
+        return $app->redirect('/admin/colecoes/grid');
     }
 
     /**
@@ -76,7 +76,7 @@ class ColecaoController
         
         $app['colecao.repository']->save($colecao);
         
-        return $app->redirect('/admin/colecoes_grid');
+        return $app->redirect('/admin/colecoes/grid');
     }
     
     /**
@@ -96,6 +96,6 @@ class ColecaoController
         
         $app['colecao.repository']->save($colecao);
         
-        return $app->redirect('/admin/colecoes_grid');
+        return $app->redirect('/admin/colecoes/grid');
     }
 }

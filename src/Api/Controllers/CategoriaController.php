@@ -75,7 +75,7 @@ class CategoriaController
 
         $app['categoria.repository']->save($categoria);
 
-        return $app->redirect('categorias_grid');
+        return $app->redirect('/admin/categorias/grid');
     }
     
     /**
@@ -91,7 +91,7 @@ class CategoriaController
 
         $app['categoria.repository']->save($categoria);
 
-        return $app->redirect('categorias_grid');
+        return $app->redirect('/admin/categorias/grid');
     }
     
     /**
@@ -111,6 +111,6 @@ class CategoriaController
         
         $app['categoria.repository']->save($categoria);
     
-        return $app->redirect('/admin/categorias_grid');
+        return $app->redirect('/admin/categorias/grid');
     }
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Cesar{% endblock %} - My Webpage</title>
+    {% block head %}
+        <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{ asset('assets/blog/css/signin.css') }}"/>
+        <link href="{{ asset('assets/blog/css/main.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/blog/css/bulma.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/blog/css/login.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+<div id="content">
+    <div class="container">
+        {% block content %}{% endblock %}</div>
+</div>
+<div id="footer">
+    {% block footer %}{% endblock %}
+</div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script>
+        $('.fliper-btn').click(function(){
+            $('.flip').find('.card').toggleClass('flipped');
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'base-access.twig' %}
+    {% block title %}Login{% endblock %}
+    {% block head %}{{ parent() }}{% endblock %}
+{% block content %}
+    <form action="{{ path('login_check') }}" method="post" class="form-signin">
+        <h1 class="title is-3">{{ app['nome.blog'] }}</h1>
+        <hr class="small">
+        <h4 class="form-signin-heading">Login</h4>
+        <p class="control has-icon">
+            <input class="input" type="email" placeholder="E-mail" name="_username" value="{{ last_username }}" id="_username" required>
+            <i class="fa fa-edit"></i>
+        </p>
+        <p class="control has-icon">
+            <input class="input" type="password" placeholder="Senha" name="_password" id="_password" required>
+            <i class="fa fa-edit"></i>
+        </p>
+        {% if error  %}
+            <div class="notification is-danger">
+                <button class="delete"></button>
+                {{ error }}
+            </div>
+        {% endif %}
+        <p class="control">
+            <button class="button is-success is-square" type="submit">Login</button>
+            <a class="button is-white is-square" href="{{ path('register') }}">N&atilde;o possuo conta.</a>
+        </p>
+    </form>
+{% endblock %}
