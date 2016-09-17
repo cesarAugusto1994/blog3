@@ -21,7 +21,9 @@ class ConfigController
      */
     public function index(Application $app)
     {
-        return end($app['config.repository']->findAll());
+        $configs = $app['config.repository']->findAll();
+        
+        return end($configs);
     }
     
     /**

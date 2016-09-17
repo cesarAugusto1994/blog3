@@ -261,6 +261,31 @@
             var contentId = tab.attr("href");
         });
     </script>
+    <script type="text/javascript">
+        $().ready(function () {
+            // store the currently selected tab in the hash value
+            $("ul.nav-tabs > li > a").click(function (e) {
+                $(this).tab('show');
+                history.pushState(null, null, $(e.target).attr("href"));
+            });
+
+            // on load of the page: switch to the currently selected tab
+            $('ul.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
+        });
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            var hash = window.location.hash;
+            hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+            $('.nav-tabs a').click(function (e) {
+                $(this).tab('show');
+                var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                window.location.hash = this.hash;
+                $('html,body').scrollTop(scrollmem);
+            });
+        });
+    </script>
     <script>
         $(document).on('click', '.openMenu', function () {
             $('.modal-body #id').val($(this).data('id'));

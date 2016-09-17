@@ -45,7 +45,7 @@ class MenuController
         
         $app['menu.repository']->save($menu);
         
-        return $app->redirect('/admin/menu');
+        return $app->redirect('/admin/menu#menu');
     }
     
     /**
@@ -65,7 +65,7 @@ class MenuController
 
         $app['menu.repository']->save($menu);
     
-        return $app->redirect('/admin/menu');
+        return $app->redirect('/admin/menu#menu');
     }
     
     /**
