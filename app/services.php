@@ -150,6 +150,21 @@ $app['default.card'] = function() use ($app) {
   return 'assets/blog/img/wallpaper.jpg';
 };
 
+$app['user.info'] =  function () use ($app) {
+
+  if (!isset($app['security.token_storage'])) {
+    return;
+  }
+
+  $token = $app['security.token_storage']->getToken();
+
+  if (null !== $token) {
+    return $token->getUser();
+  }
+
+  return;
+};
+
 
 $app['background.default'] = 'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = 'assets/blog/img/wallpaper.jpg';
