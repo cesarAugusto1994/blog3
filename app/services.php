@@ -74,6 +74,28 @@ $app['config'] = function () use ($app) {
   return $app['config.controller']->index($app);
 };
 
+$app['database.blog'] = function () {
+
+  if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+    return [
+        'dbname' => 'blog',
+        'user' => 'root',
+        'password' => 'mestre',
+        'host' => 'localhost',
+        'driver' => 'pdo_mysql',
+    ];
+  }
+  return [
+      'dbname' => 'bloggrupopolo',
+      'user' => 'cezzaar',
+      'password' => 'elpro1973',
+      'host' => 'mysql796.umbler.com',
+      'driver' => 'pdo_mysql',
+  ];
+  
+};
+
+
 $app['nome.blog'] = function() use ($app){
   
   $blog = $app['config.repository']->find(1);

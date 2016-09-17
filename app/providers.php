@@ -21,11 +21,11 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     'dbs.options' => array(
         'default' => array(
-            'dbname' => 'blog',
-            'user' => 'root',
-            'password' => 'mestre',
-            'host' => 'localhost',
-            'driver' => 'pdo_mysql',
+            'dbname' => $app['database.blog']['dbname'],
+            'user' => $app['database.blog']['user'],
+            'password' => $app['database.blog']['password'],
+            'host' => $app['database.blog']['host'],
+            'driver' => $app['database.blog']['driver'],
         )
     ),
 ));
