@@ -141,9 +141,11 @@ $app['label.sorted'] = function () {
 };
 
 $app['default.card'] = function() use ($app) {
-  $default = $app['config.repository']->find(1);
-  if (!empty($default->getBackground())) {
-    return 'assets/blog/img/config/'.$default->getBackground();
+
+  $default = $app['config.repository']->findAll();
+
+  if (!empty($default[0]->getBackground())) {
+    return 'assets/blog/img/config/'. $default[0]->getBackground();
   }
   return 'assets/blog/img/wallpaper.jpg';
 };
