@@ -31,7 +31,11 @@ class ConfigController
     public function editar(Request $request, Application $app)
     {
         $config = $app['config.repository']->find($request->get('id'));
-        $config->setNome($request->get('nome'));
+
+        if  (!empty($request->get('nome'))) {
+            $config->setNome($request->get('nome'));
+        }
+
         $config->setSubtitulo($request->get('subtitulo'));
 
         if (!empty($_FILES['background']['size'])) {
