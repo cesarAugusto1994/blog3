@@ -24,10 +24,7 @@
             </div>
         {% endif %}
 
-
         <form action="{{ path('register') }}" method="post" class="form-signin">
-            <h1 class="title is-3">{{ app['nome.blog'] }}</h1>
-            <hr class="small">
             <h4 class="form-signin-heading">Register</h4>
             {% form_theme form 'bootstrap_3_layout.html.twig' %}
             {{ form_start(form) }}
