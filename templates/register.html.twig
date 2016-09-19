@@ -6,13 +6,13 @@
 
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ path('home') }}"><b>S</b>ilex</a>
+            <a href="{{ path('home') }}">{{ app['nome.blog'] }}</a>
         </div>
 
         {% if sucesso is defined %}
             <div class="alert alert-success" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                            aria-hidden="true">x</span></button>
                 <strong>Sucesso!</strong> {{ sucesso }}
             </div>
         {% endif %}
