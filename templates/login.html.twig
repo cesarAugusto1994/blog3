@@ -2,29 +2,55 @@
     {% block title %}Login{% endblock %}
     {% block head %}{{ parent() }}{% endblock %}
 {% block content %}
-    <form action="{{ path('login_check') }}" method="post" class="form-signin">
-        <h1 class="title is-3">{{ app['nome.blog'] }}</h1>
-        <hr class="small">
-        <h4 class="form-signin-heading">Login</h4>
-        <p class="control has-icon">
-            <input class="input" type="email" placeholder="E-mail" name="_username" value="{{ last_username }}" id="_username" required>
-            <i class="fa fa-edit"></i>
-        </p>
-        <p class="control has-icon">
-            <input class="input" type="password" placeholder="Senha" name="_password" id="_password" required>
-            <i class="fa fa-edit"></i>
-        </p>
-        {% if error %}
-            <div class="error">{{ error.message|trans({},'messages') }}</div>
-        {% endif %}
-        {% if error %}
-            <div class="notification is-danger">
-                {{ error }}
+
+
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ path('home') }}"><b>S</b>ilex</a>
+        </div>
+
+        {% if sucesso is defined %}
+            <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                <strong>Sucesso!</strong> {{ sucesso }}
             </div>
         {% endif %}
-        <p class="control">
-            <button class="button is-success is-square" type="submit">Login</button>
-            <a class="button is-white is-square" href="{{ path('register') }}">N&atilde;o possuo conta.</a>
-        </p>
-    </form>
+        {% if error is defined and error|length > 0 %}
+            <div class="alert alert-danger alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">x</span></button>
+                <strong>Erro!</strong> {{ error }}
+            </div>
+        {% endif %}
+
+
+            <form action="{{ path('login_check') }}" method="post" class="form-signin">
+                <h1 class="title is-3">{{ app['nome.blog'] }}</h1>
+                <hr class="small">
+                <h4 class="form-signin-heading">Login</h4>
+                <p class="control has-icon">
+                    <input class="input" type="email" placeholder="E-mail" name="_username" value="{{ last_username }}" id="_username" required>
+                    <i class="fa fa-edit"></i>
+                </p>
+                <p class="control has-icon">
+                    <input class="input" type="password" placeholder="Senha" name="_password" id="_password" required>
+                    <i class="fa fa-edit"></i>
+                </p>
+                {% if error %}
+                    <div class="error">{{ error.message|trans({},'messages') }}</div>
+                {% endif %}
+                {% if error %}
+                    <div class="notification is-danger">
+                        {{ error }}
+                    </div>
+                {% endif %}
+                <p class="control">
+                    <button class="button is-success is-square" type="submit">Login</button>
+                    <a class="button is-white is-square" href="{{ path('register') }}">N&atilde;o possuo conta.</a>
+                </p>
+            </form>
+    </div>
+
+
 {% endblock %}

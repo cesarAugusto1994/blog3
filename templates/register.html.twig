@@ -2,33 +2,60 @@
     {% block title %}Register{% endblock %}
     {% block head %}{{ parent() }}{% endblock %}
 {% block content %}
-    <form action="{{ path('register') }}" method="post" class="form-signin">
-        <h1 class="title is-3">{{ app['nome.blog'] }}</h1>
-        <hr class="small">
-        <h4 class="form-signin-heading">Register</h4>
-        {% form_theme form 'bootstrap_3_layout.html.twig' %}
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
-        <p class="control">
-            {{ form_widget(form.nome) }}
-            {{ form_errors(form.nome) }}
-        </p>
-        <p class="control">
-            {{ form_widget(form.email) }}
-            {{ form_errors(form.email) }}
-        </p>
-        <p class="control">
-            {{ form_widget(form.password) }}
-            {{ form_errors(form.password) }}
-        </p>
-        {% if error is defined %}
-            <div class="notification is-danger">
-                <button class="delete"></button>
-                {{ error }}
+
+
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ path('home') }}"><b>S</b>ilex</a>
+        </div>
+
+        {% if sucesso is defined %}
+            <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                <strong>Sucesso!</strong> {{ sucesso }}
             </div>
         {% endif %}
-        {{ form_widget(form.salvar) }}
-        <a class="button is-white is-square" href="{{ path('login') }}">J&aacute; possuo conta.</a>
-        {{ form_end(form) }}
-    </form>
+        {% if error is defined and error|length > 0 %}
+            <div class="alert alert-danger alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">x</span></button>
+                <strong>Erro!</strong> {{ error }}
+            </div>
+        {% endif %}
+
+
+        <form action="{{ path('register') }}" method="post" class="form-signin">
+            <h1 class="title is-3">{{ app['nome.blog'] }}</h1>
+            <hr class="small">
+            <h4 class="form-signin-heading">Register</h4>
+            {% form_theme form 'bootstrap_3_layout.html.twig' %}
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            <p class="control">
+                {{ form_widget(form.nome) }}
+                {{ form_errors(form.nome) }}
+            </p>
+            <p class="control">
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
+            </p>
+            <p class="control">
+                {{ form_widget(form.password) }}
+                {{ form_errors(form.password) }}
+            </p>
+            {% if error is defined %}
+                <div class="notification is-danger">
+                    <button class="delete"></button>
+                    {{ error }}
+                </div>
+            {% endif %}
+            {{ form_widget(form.salvar) }}
+            <a class="button is-white is-square" href="{{ path('login') }}">J&aacute; possuo conta.</a>
+            {{ form_end(form) }}
+        </form>
+
+    </div>
+
+
 {% endblock %}

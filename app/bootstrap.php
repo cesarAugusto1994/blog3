@@ -31,20 +31,20 @@ $dbParams = array(
     'port' => 3306
 );
 $config = Setup::createConfiguration($isDevMode);
-//$config->setResultCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
-//$config->setMetadataCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
+$config->setResultCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
+$config->setMetadataCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
 //leitor das annotations das entidades
 $driver = new AnnotationDriver(new AnnotationReader(), $paths);
 $config->setMetadataDriverImpl($driver);
 //registra as annotations do Doctrine
 AnnotationRegistry::registerFile(__DIR__ . '/../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
-/*
+
 $cache = new \Doctrine\Common\Cache\MemcacheCache();
 $cacheRegionConfiguration = new \Doctrine\ORM\Cache\RegionsConfiguration();
 $factory = new \Doctrine\ORM\Cache\DefaultCacheFactory($cacheRegionConfiguration, $cache);
 $config->setSecondLevelCacheEnabled();
 $config->getSecondLevelCacheConfiguration()->setCacheFactory($factory);
-*/
+
 //cria o entityManager
 $entityManager = EntityManager::create($dbParams, $config);
 /*
