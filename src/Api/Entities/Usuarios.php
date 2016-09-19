@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package Api\Entities
  * @ORM\Table(name="usuarios")
  * @ORM\Entity(repositoryClass="Api\Repositories\UsuariosRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class Usuarios
 {

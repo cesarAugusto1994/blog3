@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package Api\Entities
  * @ORM\Table(name="posts")
  * @ORM\Entity(repositoryClass="Api\Repositories\PostsRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class Posts
 {

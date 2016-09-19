@@ -14,9 +14,11 @@
             <input class="input" type="password" placeholder="Senha" name="_password" id="_password" required>
             <i class="fa fa-edit"></i>
         </p>
-        {% if error  %}
+        {% if error %}
+            <div class="error">{{ error.message|trans({},'messages') }}</div>
+        {% endif %}
+        {% if error %}
             <div class="notification is-danger">
-                <button class="delete"></button>
                 {{ error }}
             </div>
         {% endif %}

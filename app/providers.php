@@ -5,19 +5,7 @@
  * Date: 30/07/16
  * Time: 09:28
  */
-/*
-$app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
-    'dbs.options' => array(
-        'default' => array(
-            'dbname' => 'bloggrupopolo',
-            'user' => 'cezzaar',
-            'password' => 'elpro1973',
-            'host' => 'mysql796.umbler.com',
-            'driver' => 'pdo_mysql',
-        )
-    ),
-));
-*/
+
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     'dbs.options' => array(
         'default' => array(

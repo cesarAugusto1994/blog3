@@ -33,7 +33,9 @@ class PostsRepository extends EntityRepository implements PaginationInterface
             ->orderBy('p.cadastro', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($max)
-            ->getQuery()->getResult();
+            ->getQuery()
+            ->useResultCache(true)
+            ->setResultCacheLifetime(10000);
     }
     
     /**
