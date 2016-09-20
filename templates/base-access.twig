@@ -4,20 +4,17 @@
     <title>{% block title %}Cesar{% endblock %} - My Webpage</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     {% block head %}
-        <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"
+              type="text/css">
         <link href="{{ asset('assets/blog/css/signin.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/blog/css/main.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/blog/css/bulma.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/blog/css/login.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
     {% endblock %}
 </head>
-<body>
+<body class="hold-transition login-page">
 {% block content %}{% endblock %}
-<div id="footer">
-    {% block footer %}{% endblock %}
-</div>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 </body>
 </html>

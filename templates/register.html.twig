@@ -1,8 +1,11 @@
 {% extends 'base-access.twig' %}
     {% block title %}Register{% endblock %}
-    {% block head %}{{ parent() }}{% endblock %}
+    {% block head %}
+        <link href="{{ asset('assets/blog/css/bulma.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
+    {% endblock %}
 {% block content %}
-
 
     <div class="login-box">
         <div class="login-logo">
@@ -23,36 +26,41 @@
                 <strong>Erro!</strong> {{ error }}
             </div>
         {% endif %}
-
-        <form action="{{ path('register') }}" method="post" class="form-signin">
-            <h4 class="form-signin-heading">Register</h4>
-            {% form_theme form 'bootstrap_3_layout.html.twig' %}
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
-            <p class="control">
-                {{ form_widget(form.nome) }}
-                {{ form_errors(form.nome) }}
-            </p>
-            <p class="control">
-                {{ form_widget(form.email) }}
-                {{ form_errors(form.email) }}
-            </p>
-            <p class="control">
-                {{ form_widget(form.password) }}
-                {{ form_errors(form.password) }}
-            </p>
-            {% if error is defined %}
-                <div class="notification is-danger">
-                    <button class="delete"></button>
-                    {{ error }}
+        <div class="register-box-body">
+            <p class="login-box-msg">Register a new membership</p>
+            <form action="{{ path('register') }}" method="post">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.nome) }}
+                    {{ form_errors(form.nome) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
-            {% endif %}
-            {{ form_widget(form.salvar) }}
-            <a class="button is-white is-square" href="{{ path('login') }}">J&aacute; possuo conta.</a>
-            {{ form_end(form) }}
-        </form>
-
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.email) }}
+                    {{ form_errors(form.email) }}
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.password) }}
+                    {{ form_errors(form.password) }}
+                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox"> I agree to the <a href="#">terms</a>
+                            </label>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-xs-4">
+                        {{ form_widget(form.salvar) }}
+                        {{ form_end(form) }}
+                    </div><!-- /.col -->
+                </div>
+                <a href="{{ app.url_generator.generate('login') }}" class="text-left">Go back</a>
+            </form>
+        </div>
     </div>
-
-
 {% endblock %}

@@ -1,9 +1,11 @@
 {% extends 'base-access.twig' %}
     {% block title %}Login{% endblock %}
-    {% block head %}{{ parent() }}{% endblock %}
+    {% block head %}
+        <link href="{{ asset('assets/blog/css/bulma.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
+    {% endblock %}
 {% block content %}
-
-
     <div class="login-box">
         <div class="login-logo">
             <a href="{{ path('home') }}">{{ app['nome.blog'] }}</a>
@@ -24,30 +26,32 @@
             </div>
         {% endif %}
 
-
-            <form action="{{ path('login_check') }}" method="post" class="form-signin">
-                <h4 class="form-signin-heading">Login</h4>
-                <p class="control has-icon">
-                    <input class="input" type="email" placeholder="E-mail" name="_username" value="{{ last_username }}" id="_username" required>
-                    <i class="fa fa-edit"></i>
-                </p>
-                <p class="control has-icon">
-                    <input class="input" type="password" placeholder="Senha" name="_password" id="_password" required>
-                    <i class="fa fa-edit"></i>
-                </p>
-                {% if error %}
-                    <div class="error">{{ error.message|trans({},'messages') }}</div>
-                {% endif %}
-                {% if error %}
-                    <div class="notification is-danger">
-                        {{ error }}
-                    </div>
-                {% endif %}
-                <p class="control">
-                    <button class="button is-success is-square" type="submit">Login</button>
-                    <a class="button is-white is-square" href="{{ path('register') }}">N&atilde;o possuo conta.</a>
-                </p>
+        <div class="login-box-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+            <form method="post" action="{{ path('login_check') }}">
+                <div class="form-group has-feedback">
+                    <input type="email" name="_username" value="{{ last_username }}" class="form-control" placeholder="Email">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" name="_password" class="form-control" placeholder="Password" required="required" title="Informe a Senha">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox"> Remember Me
+                            </label>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    </div><!-- /.col -->
+                </div>
+                <a href="{{ path('register') }}" class="text-left">Go back</a>
             </form>
+        </div>
     </div>
 
 
