@@ -66,6 +66,19 @@ $app['tonalidades'] = function () { return ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E
 $app['background.default'] = 'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = 'assets/blog/img/wallpaper.jpg';
 
+$app['dir.base'] = function () {
+
+  if($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+    return '';
+  }
+
+  return '/web/';
+};
+
+$app['dir.img'] = function () use ($app){
+  return $app['dir.base'].'assets/blog/img/config/';
+};
+
 
 $app['database.blog'] = function () {
 
