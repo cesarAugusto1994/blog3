@@ -39,7 +39,7 @@ class MenuController
         $menu->setNome($request->get('nome'));
         $menu->setDescricao($request->get('descricao'));
         $menu->setUrl($request->get('url'));
-        $menu->setIcon($request->get('icon'));
+        $menu->setIcon($request->get('icone'));
         $menu->setCadastro(new \DateTime('now'));
         $menu->setAtivo(true);
         

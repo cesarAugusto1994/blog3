@@ -72,9 +72,8 @@ $app['dir.base'] = function () {
   return '/web/';
 };
 
-$app['dir.img'] = function () use ($app){
-  return $app['dir.base'].'assets/blog/img/config/';
-};
+$app['dir.img'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/config/';};
+$app['dir.post'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/posts/';};
 
 $app['background.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';

@@ -9,7 +9,7 @@
 {% block content %}
 
     <header class="intro-header"
-            style="background-image: url('{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+            style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -54,7 +54,7 @@
                                             <p class="control">Background
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                    <img style="height: 100%" src="{% if app['config'].background is not null %}{{ asset('assets/blog/img/config/' ~ app['config'].background ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
+                                                    <img style="height: 100%" src="{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
                                                          data-src="{{ asset('holder.js/100%x100%') }}" alt="...">
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>

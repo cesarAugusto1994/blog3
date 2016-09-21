@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <header class="intro-header" style="background-image: url('{% if post.background is not null %}{{ asset('assets/blog/img/posts/' ~ post.background ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}')">
+    <header class="intro-header" style="background-image: url('{% if post.background is not null %}{{ asset(app['dir.post'] ~ post.background ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">

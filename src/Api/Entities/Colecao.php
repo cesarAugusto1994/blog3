@@ -39,7 +39,7 @@ class Colecao
     private $descricao;
     
     /**
-     * @ORM\Column(name="imagem", type="text")
+     * @ORM\Column(name="imagem", type="text", nullable=true)
      * @var string
      */
     private $imagem;

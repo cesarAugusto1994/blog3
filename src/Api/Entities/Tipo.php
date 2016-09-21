@@ -33,7 +33,7 @@ class Tipo
     private $nome;
     
     /**
-     * @ORM\Column(name="imagem", type="string")
+     * @ORM\Column(name="imagem", type="string", nullable=true)
      * @var string
      */
     private $imagem;

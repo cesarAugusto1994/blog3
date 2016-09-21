@@ -1,9 +1,9 @@
 {% extends 'base-access.twig' %}
     {% block title %}Register{% endblock %}
     {% block head %}
-        <link href="{{ asset('assets/blog/css/bulma.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
+        <link href="{{ asset(app['dir.img'] ~ 'assets/blog/css/bulma.css') }}" rel="stylesheet">
+        <link href="{{ asset(app['dir.img'] ~ 'assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset(app['dir.img'] ~ 'assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
     {% endblock %}
 {% block content %}
 
