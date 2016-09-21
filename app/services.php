@@ -63,9 +63,6 @@ $app['nome.blog'] = function() use ($app){ $blog = $app['config.repository']->fi
 
 $app['tonalidades'] = function () { return ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B',];};
 
-$app['background.default'] = 'assets/blog/img/wallpaper.jpg';
-$app['background.post.default'] = 'assets/blog/img/wallpaper.jpg';
-
 $app['dir.base'] = function () {
 
   if($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
@@ -79,6 +76,8 @@ $app['dir.img'] = function () use ($app){
   return $app['dir.base'].'assets/blog/img/config/';
 };
 
+$app['background.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
+$app['background.post.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
 
 $app['database.blog'] = function () {
 
