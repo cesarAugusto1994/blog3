@@ -28,22 +28,28 @@ class Usuarios
     private $id;
 
     /**
-     * @ORM\Column(name="nome", type="string")
+     * @ORM\Column(name="nome", type="string", length=60, nullable=false)
      * @var string
      */
     private $nome;
 
     /**
-     * @ORM\Column(name="email", type="string")
+     * @ORM\Column(name="email", type="string", unique=true, length=90, nullable=false)
      * @var string
      */
     private $email;
     
     /**
-     * @ORM\Column(name="password", type="string")
+     * @ORM\Column(name="password", type="string", length=50, nullable=false)
      * @var string
      */
     private $password;
+
+    /**
+     * @ORM\Column(name="roles", type="string", length=60, nullable=false)
+     * @var string
+     */
+    private $roles;
     
     /**
      * @ORM\OneToMany(targetEntity="Posts", mappedBy="Usuario")
@@ -58,7 +64,7 @@ class Usuarios
     private $cadastro;
 
     /**
-     * @ORM\Column(name="ativo", type="smallint")
+     * @ORM\Column(name="ativo", type="smallint", options={"default":0})
      * @var integer
      */
     private $ativo;
@@ -125,6 +131,22 @@ class Usuarios
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param string $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
     }
 
     /**

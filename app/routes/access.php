@@ -15,18 +15,20 @@ $app->post('/admin/login_check', function(\Symfony\Component\HttpFoundation\Requ
 })->bind('login_check');
 
 $app->get('/admin/logout', function() use($app){
-    $app['session']->remove('user');
-})->bind('logout');
+
+})->bind('logout')->after(function () use ($app){
+    $app['session']->clear();
+    return $app->redirect('/login');
+});
 
 $app->get('/admin/', function() use ($app) {
-    /*
+    return $app->redirect('/');
+})->bind('admin')->before(function () use ($app) {
     if(isset($app['user'])) {
-        $app['session']->set('user', $app['user']);
+        $app['session']->set('User', $app['user']);
         $app['session']->save();
     }
-    return $app->redirect('/');
-    */
-})->bind('admin');
+});
 
 $app->match('/register', function (\Symfony\Component\HttpFoundation\Request $request) use ($app){
     return $app['usuarios.controller']->novo($request, $app);

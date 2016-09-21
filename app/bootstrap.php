@@ -9,7 +9,7 @@
 //AutoLoader do Composer
 $loader = require __DIR__.'/../vendor/autoload.php';
 //vamos adicionar nossas classes ao AutoLoader
-$loader->add('DoctrineNaPratica', __DIR__.'/src');
+$loader->add('blog', __DIR__.'/src');
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;

@@ -88,6 +88,7 @@ class UsuariosController
             $usuario->setEmail($request->get('form')['email']);
             $usuario->setPassword($password);
             $usuario->setCadastro(new \DateTime('now'));
+            $usuario->setRoles('ROLE_USER');
             $usuario->setAtivo(true);
             $app['usuarios.repository']->save($usuario);
         

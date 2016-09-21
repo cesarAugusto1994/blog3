@@ -29,7 +29,7 @@ class Posts
     private $id;
 
     /**
-     * @ORM\Column(name="titulo", type="string")
+     * @ORM\Column(name="titulo", type="string", nullable=false)
      * @var string
      */
     private $titulo;
@@ -47,8 +47,11 @@ class Posts
     private $conteudo;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tags", mappedBy="post")
-     * @var Tags
+     * @ORM\ManyToMany(targetEntity="Tags", inversedBy="Posts")
+     * @ORM\JoinTable(name="post_tags",
+     *     joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     * )
      */
     private $tags;
 
@@ -71,7 +74,7 @@ class Posts
     private $month;
 
     /**
-     * @ORM\Column(name="atualizado", type="datetime")
+     * @ORM\Column(name="atualizado", type="datetime", nullable=true)
      * @var \DateTime
      */
     private $atualizado;
@@ -84,13 +87,13 @@ class Posts
     private $usuario;
 
     /**
-     * @ORM\Column(name="ativo", type="smallint")
+     * @ORM\Column(name="ativo", type="smallint", options={"default":1})
      * @var integer
      */
     private $ativo;
     
     /**
-     * @ORM\Column(name="background", type="text")
+     * @ORM\Column(name="background", type="text", nullable=true)
      * @var string
      */
     private $background;

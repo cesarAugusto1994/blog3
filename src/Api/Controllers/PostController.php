@@ -215,7 +215,7 @@ class PostController
             }
         }
 
-        return $app->redirect('post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
+        return $app->redirect('/post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
     }
     
     /**

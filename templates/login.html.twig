@@ -18,7 +18,7 @@
                 <strong>Sucesso!</strong> {{ sucesso }}
             </div>
         {% endif %}
-        {% if error is defined and error|length > 0 %}
+        {% if error %}
             <div class="alert alert-danger alert-dismissable" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                             aria-hidden="true">x</span></button>

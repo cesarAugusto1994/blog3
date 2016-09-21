@@ -18,6 +18,8 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     ),
 ));
 
+include __DIR__ . '/bootstrap.php';
+
 $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), array(
     'orm.proxies_dir' => __DIR__.'/../var/cache/doctrine/',
     'orm.em.options' => array(
@@ -43,9 +45,7 @@ $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), a
         ),
     ),
 ));
-
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
-
 $app->register(new \Silex\Provider\TwigServiceProvider(),
     array(
         'twig.path' => __DIR__ . '/../src/Api/Resources/Views/',
@@ -55,15 +55,29 @@ $app->register(new \Silex\Provider\TwigServiceProvider(),
         ),
     )
 );
-
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'locale_fallbacks' => array('en'),
 ));
 
-$app->register(new \Silex\Provider\SessionServiceProvider(), array(
-    'session.storage.save_path' => dirname(__DIR__) . '/../var/cache/sessions/'
-));
+$app->register(new \Silex\Provider\SessionServiceProvider());
+$app['session.storage.save_path'] = __DIR__ . '/../var/cache/sessions/';
+$app['session.storage.options'] = ['cookie_lifetime' => 3600];
+/*
+$app['session.db_options'] = array(
+    'db_table' => 'session',
+    'db_id_col' => 'session_id',
+    'db_lifetime_col' => 'session_lifetime',
+    'db_data_col' => 'session_value',
+    'db_time_col' => 'session_time',
+);
+$app['session.storage.handler'] = function () use ($app) {
+    return new \Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler(
+        $app['db']->getWrappedConnection(),
+        $app['session.db_options'],
+        $app['session.storage.options']
+    );
+};*/
 $app['session']->start();
 
 $app->register(new \Silex\Provider\HttpCacheServiceProvider(), array(
@@ -92,7 +106,7 @@ $app['security.firewalls'] = array(
             'login_path' => '/login',
             'check_path' => '/admin/login_check',
             'always_use_default_target_path' => true,
-            'default_target_path' => '/',
+            'default_target_path' => '/admin/',
         ),
         'logout' => array(
             'logout_path' => '/admin/logout',
