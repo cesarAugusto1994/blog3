@@ -18,7 +18,7 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     ),
 ));
 
-include __DIR__ . '/bootstrap.php';
+//include __DIR__ . '/bootstrap.php';
 
 $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), array(
     'orm.proxies_dir' => __DIR__.'/../var/cache/doctrine/',
