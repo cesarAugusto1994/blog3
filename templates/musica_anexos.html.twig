@@ -3,7 +3,7 @@
 {% block title %}{{ musica.nome }} - Anexos{% endblock %}
 
 {% block stylesheet%}
-    <link href="{{ asset('assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -76,7 +76,7 @@
 
 {% endblock %}
 {% block javascript %}
-    <script src="{{ asset('assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
     <script type="text/javascript">
         $(function() {
             $("pre").transpose();
