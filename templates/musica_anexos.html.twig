@@ -38,13 +38,12 @@
                                 <div class="card-content">
                                     <div class="media">
                                         <div class="media-content">
-                                            <p class="title is-5">Letra</p>
                                             <div id="fontlinks">
                                                 <a id="incfont" style="text-decoration: none" class="button is-white buttonfont">A+</a>
                                                 <a id="decfont" style="text-decoration: none" class="button is-white buttonfont">A-</a>
                                             </div>
                                             <br>
-                                            <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra|convert_encoding('UTF-8', 'iso-8859-1') }}</pre>
+                                            <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra|convert_encoding('UTF-8', 'iso-8859-1')|striptags }}</pre>
                                         </div>
                                     </div>
                                 </div>
