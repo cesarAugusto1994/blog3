@@ -63,7 +63,7 @@ class UsuariosController
                     'min' => 6, 'minMessage' => 'Sua Senha deve possuir mais de {{ limit }} caracteres.',])],
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Senha')
             ])->add('salvar', SubmitType::class, [
-                    'attr' => ['class' => 'button is-success', 'value' => 1]
+                    'attr' => ['class' => 'btn btn-primary btn-block btn-flat', 'value' => 1]
                 ]
             )->getForm();
 
