@@ -52,16 +52,16 @@ class UsuariosController
                 'constraints' => [new Assert\NotBlank(), new Assert\Length([
                     'min' => 5, 'minMessage' => 'Seu Nome deve possuir mais de {{ limit }} caracteres.',
                     'max' => 30, 'maxMessage' => 'Seu Nome deve possuir menos de {{ limit }} caracteres.'])],
-                'attr' => array('class' => 'input', 'placeholder' => 'Nome')
+                'attr' => array('class' => 'form-control', 'placeholder' => 'Nome')
             ])->add('email', EmailType::class, [
                 'required' => true,
                 'constraints' => [new Assert\Email(), new Assert\Length(['min' => 6])],
-                'attr' => array('class' => 'input', 'placeholder' => 'E-mail')
+                'attr' => array('class' => 'form-control', 'placeholder' => 'E-mail')
             ])->add('password', PasswordType::class, [
                 'required' => true,
                 'constraints' => [new Assert\NotBlank(), new Assert\Length([
                     'min' => 6, 'minMessage' => 'Sua Senha deve possuir mais de {{ limit }} caracteres.',])],
-                'attr' => array('class' => 'input', 'placeholder' => 'Senha')
+                'attr' => array('class' => 'form-control', 'placeholder' => 'Senha')
             ])->add('salvar', SubmitType::class, [
                     'attr' => ['class' => 'button is-success', 'value' => 1]
                 ]
