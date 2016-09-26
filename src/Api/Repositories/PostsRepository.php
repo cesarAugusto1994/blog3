@@ -35,7 +35,8 @@ class PostsRepository extends EntityRepository implements PaginationInterface
             ->setMaxResults($max)
             ->getQuery()
             ->useResultCache(true)
-            ->setResultCacheLifetime(10000);
+            ->setResultCacheLifetime(1000)
+            ->getResult();
     }
     
     /**
