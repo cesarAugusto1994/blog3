@@ -86,13 +86,19 @@
         $(document).ready(function() {
             $('#incfont').click(function(){
                 curSize= parseInt($('#content').css('font-size')) + 2;
+                curSize2= parseInt($('.c').css('font-size')) + 2;
                 if(curSize<=32)
                     $('#content').css('font-size', curSize);
+                if(curSize2<=32)
+                    $('.c').css('font-size', curSize2);
             });
             $('#decfont').click(function(){
                 curSize= parseInt($('#content').css('font-size')) - 2;
+                curSize2= parseInt($('.c').css('font-size')) - 2;
                 if(curSize>=5)
                     $('#content').css('font-size', curSize);
+                if(curSize2>=5)
+                    $('.c').css('font-size', curSize2);
             });
         });
     </script>
