@@ -74,6 +74,15 @@ $app['dir.base'] = function () {
   return '/web/';
 };
 
+$app['dir.base2'] = function () {
+  
+  if($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+    return '';
+  }
+  
+  return '/web';
+};
+
 $app['dir.img'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/config/';};
 $app['dir.post'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/posts/';};
 
@@ -120,9 +129,9 @@ $app['about'] = function () {
 $app['default.card'] = function() use ($app) {
   $default = $app['config.repository']->findAll();
   if (!empty($default[0]->getBackground())) {
-    return 'assets/blog/img/config/'. $default[0]->getBackground();
+    return $app['dir.base'] . 'assets/blog/img/config/'. $default[0]->getBackground();
   }
-  return 'assets/blog/img/wallpaper.jpg';
+  return $app['dir.base'] . 'assets/blog/img/wallpaper.jpg';
 };
 
 /**

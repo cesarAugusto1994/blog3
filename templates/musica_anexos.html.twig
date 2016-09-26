@@ -59,8 +59,8 @@
                             </div>
                             <div class="media-body">
                                 <h4 class="media-heading">{{ anexo.nome }}</h4>
-                                <a href="/web/assets/blog/musicas/{{ anexo.link }}" target="_blank"><button class="button is-small is-success is-outlined">Visualizar</button></a>
-                                <a href="/web/assets/blog/musicas/{{ anexo.nome }}" download><button class="button is-small is-primary is-outlined">Baixar</button></a>
+                                <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}" target="_blank"><button class="button is-small is-success is-outlined">Visualizar</button></a>
+                                <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}" download><button class="button is-small is-primary is-outlined">Baixar</button></a>
                                 {% for tag in anexo.anexoTags.tag %}
                                     <button class="button is-info is-outlined">{{ tag.nome }}</button>
                                 {% endfor %}
