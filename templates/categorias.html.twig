@@ -22,7 +22,6 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                      <h3 class="lead">Cole&ccedil;&atilde;o: {{ colecao.nome }}</h3> <br>
                     {% for categoria in categorias %}
-
                         <div class="media">
                             <div class="media-left media-middle">
                                 <a href="#">
@@ -33,7 +32,6 @@
                                 <h4 class="media-heading"><a href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a><small> {{ categoria.colecao.nome }}</small></h4>
                             </div>
                         </div>
-
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>
                     {% endfor %}
