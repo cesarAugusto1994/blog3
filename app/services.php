@@ -146,7 +146,7 @@ $app['uuid.service'] = function(){
  */
 $app['usuario.email.service'] = function() use ($app){
   
-  $assunto = 'Bem Vindo Ao site';
+  $assunto = 'Bem Vindo Ao site.';
   $from = 'cezzaar@gmail.com';
   $body = $app['twig']->render('email_confirmation.twig', ['body' => 'Bem Vindo', 'uuid' => $app['uuid.service']]);
   
