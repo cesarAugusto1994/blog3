@@ -40,6 +40,7 @@ class EmailConfirmacaoController
     /**
      * @param string $uuid
      * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @throws \Exception
      */
     public function confirmarEmail($uuid, Application $app)
@@ -56,6 +57,6 @@ class EmailConfirmacaoController
 
         $app['email.confirmation.repository']->save($emailConfirmacao);
 
-        return $app->redirect('/', 201);
+        return $app->redirect('/login');
     }
 }
