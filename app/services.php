@@ -25,6 +25,7 @@ $app['musica.anexos.controller'] = function () use($app) { return new \Api\Contr
 $app['tipo.anexo.controller'] = function () use($app) { return new \Api\Controllers\MusicaAnexosController();};
 $app['pager.Controller'] = function () { return new \App\Controllers\PagerController();};
 $app['widgets.controller'] = function () use($app) { return new \App\Controllers\WidgetsController();};
+$app['email.confirmacao.controller'] = function () { return new \Api\Controllers\EmailConfirmacaoController();};
 
 #################################################################################################
 #################################################################################################
@@ -47,6 +48,7 @@ $app['usuarios.repository'] = function () use ($app) { return $app['orm.em']->ge
 $app['colecao.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Colecao::class);};
 $app['categoria.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Categoria::class);};
 $app['widgets.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\App\Entities\Widgets::class);};
+$app['email.confirmation.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\EmailConfirmacao::class);};
 
 #################################################################################################
 #################################################################################################
@@ -98,14 +100,46 @@ $app['database.blog'] = function () {
   ];
 };
 
+$app['default.url'] = function () {
+  if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+    return 'localhost:8085';
+  }
+  return 'bloggrupopolo-com.umbler.net';
+};
+
+/**
+ * @return string
+ */
 $app['about'] = function () {
   return 'Aenean placerat. In vulputate urna eu arcu. Aliquam erat volutpat. Suspendisse potenti. Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl.';
 };
 
+/**
+ * @return string
+ */
 $app['default.card'] = function() use ($app) {
   $default = $app['config.repository']->findAll();
   if (!empty($default[0]->getBackground())) {
     return 'assets/blog/img/config/'. $default[0]->getBackground();
   }
   return 'assets/blog/img/wallpaper.jpg';
+};
+
+/**
+ * @return \Ramsey\Uuid\UuidInterface
+ */
+$app['uuid.service'] = function(){
+  return Ramsey\Uuid\Uuid::uuid4();
+};
+
+/**
+ * @return \Api\Services\Email
+ */
+$app['usuario.email.service'] = function() use ($app){
+  
+  $assunto = 'Bem Vindo Ao site';
+  $from = 'cezzaar@gmail.com';
+  $body = $app['twig']->render('email_confirmation.twig', ['body' => 'Bem Vindo', 'uuid' => $app['uuid.service']]);
+  
+  return new \Api\Services\Email($assunto, $from, $body);
 };

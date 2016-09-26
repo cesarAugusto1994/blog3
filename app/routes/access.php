@@ -33,3 +33,8 @@ $app->get('/admin/', function() use ($app) {
 $app->match('/register', function (\Symfony\Component\HttpFoundation\Request $request) use ($app){
     return $app['usuarios.controller']->novo($request, $app);
 })->bind('register');
+
+
+$app->get('confirmar_email/{uuid}', function ($uuid) use ($app) {
+    return $app['email.confirmacao.controller']->confirmarEmail($uuid, $app);
+})->bind('confirmar_email');

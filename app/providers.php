@@ -42,6 +42,12 @@ $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), a
                 'path' => __DIR__ . '/../src',
                 'use_simple_annotation_reader' => false
             ),
+            array(
+                'type' => 'annotation',
+                'namespace' => 'App\Services',
+                'path' => __DIR__ . '/../src',
+                'use_simple_annotation_reader' => false
+            ),
         ),
     ),
 ));
@@ -59,6 +65,18 @@ $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'locale_fallbacks' => array('en'),
 ));
+
+$app->register(new Silex\Provider\SwiftmailerServiceProvider());
+$app['swiftmailer.options'] = array(
+    'driver' => 'smtp',
+    'host' => 'smtp.gmail.com',
+    'port' => 465,
+    'username' => 'cezzaar@gmail.com',
+    'password' => 'Cesar1507',
+    'encryption' => 'ssl',
+    'auth_mode' => null,
+    'pretend' =>false
+);
 
 $app->register(new \Silex\Provider\SessionServiceProvider());
 $app['session.storage.save_path'] = __DIR__ . '/../var/cache/sessions/';

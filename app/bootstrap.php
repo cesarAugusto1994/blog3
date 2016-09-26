@@ -31,8 +31,8 @@ $dbParams = array(
     'port' => 3306
 );
 $config = Setup::createConfiguration($isDevMode);
-$config->setResultCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
-$config->setMetadataCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
+//$config->setResultCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
+//$config->setMetadataCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
 //leitor das annotations das entidades
 $driver = new AnnotationDriver(new AnnotationReader(), $paths);
 $config->setMetadataDriverImpl($driver);
