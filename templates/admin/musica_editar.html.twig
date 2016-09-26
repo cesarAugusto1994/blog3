@@ -31,7 +31,7 @@
                         <p class="control">Tonalidade:
                             <select id="tonalidade" class="input" name="tonalidade" placeholder="Tonalidade" required>
                                 {% for tom in app['tonalidades'] %}
-                                    <option value="{{ tom }}" >{{ tom }}</option>
+                                    <option value="{{ tom }}" {% if musica.tom == tom %} selected="selected" {% endif %}>{{ tom }}</option>
                                 {% endfor %}
                             </select>
                         </p>
