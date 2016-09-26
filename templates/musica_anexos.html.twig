@@ -25,54 +25,74 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
-                    <div class="card" style="width: 100%; min-width: 600px">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    <p class="title is-5">Letra</p>
-                                    <div id="fontlinks">
-                                        <a id="incfont" style="text-decoration: none" class="button is-white buttonfont">A+</a>
-                                        <a id="decfont" style="text-decoration: none" class="button is-white buttonfont">A-</a>
+
+                    <ul class="nav nav-pills" id="myTabs">
+                        <li role="presentation" class="active"><a href="#home" data-toggle="tab" style="text-decoration: none">Letra</a></li>
+                        <li role="presentation"><a href="#menu" data-toggle="tab" style="text-decoration: none">Anexos</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane active" id="home">
+                            <div class="card" style="width: 100%; min-width: 600px">
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            <p class="title is-5">Letra</p>
+                                            <div id="fontlinks">
+                                                <a id="incfont" style="text-decoration: none" class="button is-white buttonfont">A+</a>
+                                                <a id="decfont" style="text-decoration: none" class="button is-white buttonfont">A-</a>
+                                            </div>
+                                            <br>
+                                            <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra|convert_encoding('UTF-8', 'iso-8859-1') }}</pre>
+                                        </div>
                                     </div>
-                                    <br>
-                                    <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra|convert_encoding('UTF-8', 'iso-8859-1') }}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="menu">
+                            <div class="card" style="width: 100%; min-width: 600px">
+                                <div class="card-content">
+                                    {% for anexo in anexos %}
+                                        <div class="media">
+                                            <div class="media-left media-middle">
+                                                <a href="#">
+                                                    <img class="media-object"
+                                                         src="{{ asset(app['default.card']) }}" alt="...">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{{ anexo.nome }}</h4>
+                                                <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                                   target="_blank">
+                                                    <button class="button is-small is-success is-outlined">
+                                                        Visualizar
+                                                    </button>
+                                                </a>
+                                                <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                                   download>
+                                                    <button class="button is-small is-primary is-outlined">
+                                                        Baixar
+                                                    </button>
+                                                </a>
+                                                {% for tag in anexo.anexoTags.tag %}
+                                                    <button class="button is-info is-outlined">{{ tag.nome }}</button>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <p class="lead">Nenhum registro encontrado.</p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <br>
                 </div>
             </div>
         </div>
     </article>
 
-    <article>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    {% for anexo in anexos %}
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <a href="#">
-                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">{{ anexo.nome }}</h4>
-                                <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}" target="_blank"><button class="button is-small is-success is-outlined">Visualizar</button></a>
-                                <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}" download><button class="button is-small is-primary is-outlined">Baixar</button></a>
-                                {% for tag in anexo.anexoTags.tag %}
-                                    <button class="button is-info is-outlined">{{ tag.nome }}</button>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% else %}
-                        <p class="lead">Nenhum registro encontrado.</p>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </article>
 
 {% endblock %}
 {% block javascript %}
