@@ -34,8 +34,10 @@
                                 {{ post.conteudo|slice(0, 300)|trim|raw }} {% if post.conteudo|length > 300 %}[...]{% endif %}
                             </h3>
                         </a>
+                        {% if post.usuario.id is defined %}
                         <p class="post-meta">Posted by <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '-', ' ' : '-' })|lower }) }}">{{ post.usuario.nome }}</a>
                             &agrave; {{ post.tempoPostagem }}</p>
+                        {%  endif %}
                     </div>
                 {% else %}
                     <div class="post-preview">
