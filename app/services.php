@@ -152,3 +152,19 @@ $app['usuario.email.service'] = function() use ($app){
   
   return new \Api\Services\Email($assunto, $from, $body);
 };
+
+/**
+ * 
+ */
+$app['usuario.sessao'] = function () use ($app) {
+    
+  $user = $app['session']->get('user');
+  
+  if(empty($user)) {
+    return [];
+  }
+  
+  return [
+    'nome' => $user->getUsername()
+  ];
+};

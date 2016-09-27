@@ -50,6 +50,12 @@ $app['security.access_rules'] = array(
 $app['security.role_hierarchy'] = array(
     'ROLE_ADMIN' => array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
 );
+
+$app->register(new \Silex\Provider\SessionServiceProvider());
+$app['session.storage.save_path'] = __DIR__ . '/../var/cache/sessions/';
+$app['session.storage.options'] = ['cookie_lifetime' => 3600];
+$app['session']->start();
+
 $app->register(new \Silex\Provider\TwigServiceProvider(),
     array(
         'twig.path' => __DIR__ . '/../src/Api/Resources/Views/',

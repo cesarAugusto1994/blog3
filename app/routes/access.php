@@ -25,7 +25,7 @@ $app->get('/admin/', function() use ($app) {
     return $app->redirect('/user/');
 })->bind('admin')->before(function () use ($app) {
     if(isset($app['user'])) {
-        $app['session']->set('User', $app['user']);
+        $app['session']->set('user', $app['user']);
         $app['session']->save();
     }
 });
