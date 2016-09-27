@@ -22,21 +22,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% for item in app['menus'] %}
                         {% if is_granted('ROLE_USER') %}
-                            <li>
-                                <a href="{{ path(item.url) }}">{{ item.nome }}</a>
-                            </li>
+                            <li><a href="{{ path(item.url) }}">{{ item.nome }}</a></li>
                         {% endif %}
                     {% endfor %}
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li>
-                            <a href="{{ path('postForm') }}">Novo Post</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('grid_posts') }}">Lista Post</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('blog') }}">Configura&ccedil;&otilde;es</a>
-                        </li>
+                        <li><a href="{{ path('postForm') }}">Novo Post</a></li>
+                        <li><a href="{{ path('grid_posts') }}">Lista Post</a></li>
+                        <li><a href="{{ path('blog') }}">Configura&ccedil;&otilde;es</a></li>
                     {% endif %}
                     <li>
                         {% if is_granted('ROLE_USER') %}
