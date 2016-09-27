@@ -2,22 +2,71 @@
 
 use Silex\Application;
 use Silex\Provider\AssetServiceProvider;
-use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\HttpFragmentServiceProvider;
 
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new AssetServiceProvider());
-$app->register(new TwigServiceProvider());
+
+$app->register(new Silex\Provider\SecurityServiceProvider());
+$app['security.default_encoder'] = function ($app) {
+    return $app['security.encoder.digest'];
+};
+$app['security.encoder.digest'] = function () {
+    return new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder('sha1', false, 1);
+};
+$app['security.encoder_factory'] = function ($app) {
+    return new \Symfony\Component\Security\Core\Encoder\EncoderFactory(
+        array(
+            'Symfony\Component\Security\Core\User\UserInterface' => $app['security.encoder.digest'],
+            'Entity\User' => $app['security.encoder.digest'],
+        )
+    );
+};
+$app['security.firewalls'] = array(
+    'secured' => array(
+        'pattern' => '^/admin/|^/user/',
+        'form' => array(
+            'login_path' => '/login',
+            'check_path' => '/admin/login_check',
+            'always_use_default_target_path' => true,
+            'default_target_path' => '/admin/',
+        ),
+        'logout' => array(
+            'logout_path' => '/admin/logout',
+            'invalidate_session' => true,
+        ),
+        'users' => function () use ($app) {
+            return new Security\UserProvider($app['db'], $app);
+        },
+    ),
+);
+$app['security.access_rules'] = array(
+    array('^/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
+    array('^/admin/$', 'ROLE_USER'),
+    array('^/users/$', 'ROLE_USER')
+);
+$app['security.role_hierarchy'] = array(
+    'ROLE_ADMIN' => array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
+);
+$app->register(new \Silex\Provider\TwigServiceProvider(),
+    array(
+        'twig.path' => __DIR__ . '/../src/Api/Resources/Views/',
+        'twig.options' => array(
+            'cache' => __DIR__ . '/../var/cache/twig',
+            'strict_variables' => true,
+        ),
+    )
+);
+$app['twig'] = $app->extend('twig', function ($twig, $app) {
+    // add custom globals, filters, tags, ...
+    
+    return $twig;
+});
 $app->register(new \Silex\Provider\FormServiceProvider());
 $app->register(new HttpFragmentServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
-$app['twig'] = $app->extend('twig', function ($twig, $app) {
-    // add custom globals, filters, tags, ...
-
-    return $twig;
-});
 
 include_once __DIR__ . '/../app/services.php';
 include_once __DIR__ . '/../app/providers.php';

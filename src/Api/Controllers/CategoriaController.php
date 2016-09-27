@@ -27,7 +27,7 @@ class CategoriaController
         $colecao = $app['colecao.repository']->find($colecaoId);
     
         return $app['twig']->render(
-            'categorias.html.twig',
+            '/user/categorias.html.twig',
             ['categorias' => $app['categoria.repository']->findBy(['colecao' => $colecao, 'ativo' => true], ['nome' => 'ASC']),
             'colecao' => $colecao]
         );

@@ -6,7 +6,7 @@
  * Time: 09:31
  */
 
-$app->get('/categorias/{colecaoId}/{nome}', function($colecaoId, $nome) use ($app){
+$app->get('/user/categorias/{colecaoId}/{nome}', function($colecaoId, $nome) use ($app){
     return $app['categoria.controller']->index($colecaoId, $app);
 })->bind('categorias');
 

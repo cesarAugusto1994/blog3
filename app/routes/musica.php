@@ -6,7 +6,7 @@
  * Time: 08:41
  */
 
-$app->get('musicas/{categoriaId}', function($categoriaId) use ($app) {
+$app->get('/user/musicas/{categoriaId}', function($categoriaId) use ($app) {
     return $app['musica.controller']->index($categoriaId, $app);
 })->bind('musicas');
 

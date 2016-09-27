@@ -7,8 +7,9 @@
  */
 
 $app->get('/', 'index.controller:index')->bind('home');
-$app->get('/about', 'index.controller:about')->bind('about');
-$app->get('/contact', 'index.controller:contact')->bind('contact');
+$app->get('/user/about', 'index.controller:about')->bind('about');
+$app->get('/user/contact', 'index.controller:contact')->bind('contact');
+$app->get('/user/', 'index.controller:userIndex')->bind('user_index');
 $app->get('/events')->bind('events');
 
 include __DIR__.'/routes/menu.php';

@@ -36,7 +36,7 @@ class MusicaAnexosController
     {
         $musica = $app['musica.repository']->find($musicaId);
         
-        return $app['twig']->render('musica_anexos.html.twig', 
+        return $app['twig']->render('/user/musica_anexos.html.twig', 
             [
                 'anexos' => $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true]),
                 'musica' => $musica

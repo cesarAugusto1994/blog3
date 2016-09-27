@@ -6,7 +6,7 @@
  * Time: 09:31
  */
 
-$app->get('/colecoes', function() use ($app){
+$app->get('user/colecoes', function() use ($app){
     return $app['colecao.controller']->index($app);
 })->bind('colecoes');
 

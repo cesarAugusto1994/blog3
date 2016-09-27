@@ -6,7 +6,7 @@
  * Time: 08:41
  */
 
-$app->get('musica/anexos/{musicaId}', function($musicaId) use ($app) {
+$app->get('/user/musica/anexos/{musicaId}', function($musicaId) use ($app) {
     return $app['musica.anexos.controller']->index($musicaId, $app);
 })->bind('musica_anexos');
 

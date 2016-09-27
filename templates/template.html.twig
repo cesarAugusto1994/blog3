@@ -21,25 +21,30 @@
                     <li><a href="#search">Pesquisar</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    {% for item in app['menus'] %}
-                        {% if item.ativo == 1 %}
-                        <li>
-                            {% if item.nome == 'Pesquisar' %}
-                                <a href="#search"><i class="fa fa-{{ item.icon }}"></i></a>
-                            {% else %}
-                                <a href="{{ path(item.url) }}">{{ item.nome }}</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% for item in app['menus'] %}
+                            {% if item.ativo == 1 %}
+                                <li>
+                                    {% if item.nome == 'Pesquisar' %}
+                                        <a href="#search"><i class="fa fa-{{ item.icon }}"></i></a>
+                                    {% else %}
+                                        <a href="{{ path(item.url) }}">{{ item.nome }}</a>
+                                    {% endif %}
+                                </li>
                             {% endif %}
+                        {% endfor %}
+                        <li>
+                            <a href="{{ path('postForm') }}">Novo Post</a>
                         </li>
-                        {% endif %}
-                    {% endfor %}
+                        <li>
+                            <a href="{{ path('grid_posts') }}">Lista Post</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('blog') }}">Configura&ccedil;&otilde;es</a>
+                        </li>
+                    {% endif %}
                     <li>
-                        <a href="{{ path('postForm') }}">Novo Post</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('grid_posts') }}">Lista Post</a>
-                    </li>
-                    <li>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if is_granted('ROLE_USER') %}
                             <a href="{{ path('logout') }}">Logout</a>
                         {% else %}
                             <a href="{{ path('login') }}">Login</a>

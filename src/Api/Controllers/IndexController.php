@@ -58,7 +58,7 @@ class IndexController
      */
     public function about(Application $app)
     {
-        return $app['twig']->render('about.html.twig', []);
+        return $app['twig']->render('/user/about.html.twig', []);
     }
 
     /**
@@ -67,6 +67,15 @@ class IndexController
      */
     public function contact(Application $app)
     {
-        return $app['twig']->render('contact.html.twig', []);
+        return $app['twig']->render('/user/contact.html.twig', []);
+    }
+    
+    /**
+     * @param Application $app
+     * @return mixed
+     */
+    public function userIndex(Application $app)
+    {
+        return $app['twig']->render('/user/index.html.twig', []);
     }
 }

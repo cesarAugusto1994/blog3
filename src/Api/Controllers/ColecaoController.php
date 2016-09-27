@@ -25,7 +25,7 @@ class ColecaoController
     public function index(Application $app)
     {
         return $app['twig']->render(
-            'colecoes.html.twig',
+            '/user/colecoes.html.twig',
             ['colecoes' => $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC'])]
         );
     }
