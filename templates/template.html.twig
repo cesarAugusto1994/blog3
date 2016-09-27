@@ -21,18 +21,18 @@
                     <li><a href="#search">Pesquisar</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    {% for item in app['menus'] %}
+                        {% if item.ativo == 1 %}
+                            <li>
+                                {% if item.nome == 'Pesquisar' %}
+                                    <a href="#search"><i class="fa fa-{{ item.icon }}"></i></a>
+                                {% else %}
+                                    <a href="{{ path(item.url) }}">{{ item.nome }}</a>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
                     {% if is_granted('ROLE_ADMIN') %}
-                        {% for item in app['menus'] %}
-                            {% if item.ativo == 1 %}
-                                <li>
-                                    {% if item.nome == 'Pesquisar' %}
-                                        <a href="#search"><i class="fa fa-{{ item.icon }}"></i></a>
-                                    {% else %}
-                                        <a href="{{ path(item.url) }}">{{ item.nome }}</a>
-                                    {% endif %}
-                                </li>
-                            {% endif %}
-                        {% endfor %}
                         <li>
                             <a href="{{ path('postForm') }}">Novo Post</a>
                         </li>
