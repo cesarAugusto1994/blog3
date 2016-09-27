@@ -6,6 +6,10 @@
  * Time: 09:28
  */
 
+$app->get('user/posts', function ($page = 1) use ($app) {
+    return $app['post.controller']->posts($page, $app);
+})->bind('posts');
+
 $app->post('admin/post/new', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->criar($request, $app);
 })->bind('newPost');
@@ -52,6 +56,9 @@ $app->get('/archives/{year}/{month}', function($year, $month) use ($app){
     return $app['post.controller']->postsByYearAndMonth($year, $month, $app);
 })->bind('archives_by_year_month')->value('year', 2016);
 
-$app->get('page/{page}', function($page) use($app) {
+$app->get('page/{page}', function($page, $userPage = false) use($app) {
+    if($userPage){
+        return $app['post.controller']->posts($page, $app);
+    }
     return $app['index.controller']->index($page, $app);
 })->bind('page');

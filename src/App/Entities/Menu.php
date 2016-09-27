@@ -51,6 +51,12 @@ class Menu
     private $icon;
 
     /**
+     * @ORM\Column(name="requer_previlegio", type="boolean")
+     * @var boolean
+     */
+    private $previlegioRequerido;
+
+    /**
      * @ORM\Column(name="cadastro", type="datetime")
      * @var \DateTime
      */
@@ -164,5 +170,21 @@ class Menu
     public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPrevilegioRequerido()
+    {
+        return $this->previlegioRequerido;
+    }
+
+    /**
+     * @param boolean $previlegioRequerido
+     */
+    public function setPrevilegioRequerido($previlegioRequerido)
+    {
+        $this->previlegioRequerido = $previlegioRequerido;
     }
 }

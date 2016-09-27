@@ -14,6 +14,7 @@ use App\Controllers\UploadImages;
 use App\Controllers\WorkWithStrings;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use App\Controllers\PagerController;
 
 /**
  * Class PostController
@@ -23,7 +24,26 @@ class PostController
 {
     use WorkWithStrings;
     use UploadImages;
-
+    
+    /**
+     * @param int $page
+     * @param Application $app
+     * @return mixed
+     */
+    public function posts($page = 1, Application $app)
+    {
+        $pager = $app['pager.Controller'];
+        $pager->pager($app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']), $page);
+    
+        return $app['twig']->render('user/posts.html.twig', [
+            'posts' => $app['posts.repository']->getAll($pager->getOffset(), $pager->getLimit()),
+            'firstPage' => $pager->getFirstPage(),
+            'nextPage' => $pager->getNextPage(),
+            'limitPerPage' => $pager->getLimit(),
+            'records' => $pager->getCountData()
+        ]);
+    }
+    
     /**
      * @param int $id
      * @param Application $app
