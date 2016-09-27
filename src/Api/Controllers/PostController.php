@@ -52,34 +52,7 @@ class PostController
     public function post($id, Application $app)
     {
         $post = $app['posts.repository']->find($id);
-        /*
-        $postsRelacionados = [];
-        $tagsRelacionadas = [];
-
-        foreach ($post as $singlePost) {
-
-            foreach ($singlePost->getTags() as $tag) {
-
-                if (!empty($tag)) {
-
-                    $tagsRelacionadas = $app['tags.repository']->findByName($tag->getNome());
-
-                    foreach ($tagsRelacionadas as $tags) {
-
-                        if(in_array($tags->getPost(), $postsRelacionados)) {
-                            continue;
-                        }
-                        $postsRelacionados[] = $tags->getPost();
-                    }
-                }
-            }
-        }*/
-
         $links = $app['posts.links.repository']->findBy(['post' => $id]);
-
-       /* if (empty(current($post))) {
-            return $app->redirect('/');
-        } */
 
         return $app['twig']->render('post.html.twig', [
             'post' => $post,

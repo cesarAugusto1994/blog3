@@ -22,14 +22,12 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% for item in app['menus'] %}
-                        {% if item.ativo == 1 %}
-                            <li>
-                                {% if item.nome == 'Pesquisar' %}
-                                    <a href="#search"><i class="fa fa-{{ item.icon }}"></i></a>
-                                {% else %}
+                        {% if is_granted('ROLE_USER') %}
+                            {% if item.ativo == 1 %}
+                                <li>
                                     <a href="{{ path(item.url) }}">{{ item.nome }}</a>
-                                {% endif %}
-                            </li>
+                                </li>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                     {% if is_granted('ROLE_ADMIN') %}
@@ -58,7 +56,6 @@
     {% block content %}{% endblock %}
 
     <div id="search">
-        <button type="button" class="close">x</button>
         <form action="{{ path('search') }}" method="get">
             <input type="search" name="q" placeholder="Pesquisar" autocomplete="off"/>
             <button type="submit" class="btn btn-primary">Pesquisar</button>
