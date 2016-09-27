@@ -57,7 +57,7 @@ $app['email.confirmation.repository'] = function () use ($app) { return $app['or
 #################################################################################################
 
 $app['categories'] = function() use ($app) {return $app['tags.repository']->findAll();};
-$app['menus'] = function () use ($app) { return $app['menu.repository']->findAll();};
+$app['menus'] = function () use ($app) { return $app['menu.repository']->findBy(['ativo' => true]);};
 $app['config'] = function () use ($app) { return $app['config.controller']->index($app);};
 $app['widgets'] = function () use($app) { return $app['widgets.controller']->getAll($app); };
 

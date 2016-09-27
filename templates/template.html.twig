@@ -22,11 +22,9 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% for item in app['menus'] %}
                         {% if is_granted('ROLE_USER') %}
-                            {% if item.ativo == 1 %}
-                                <li>
-                                    <a href="{{ path(item.url) }}">{{ item.nome }}</a>
-                                </li>
-                            {% endif %}
+                            <li>
+                                <a href="{{ path(item.url) }}">{{ item.nome }}</a>
+                            </li>
                         {% endif %}
                     {% endfor %}
                     {% if is_granted('ROLE_ADMIN') %}
