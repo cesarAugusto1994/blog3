@@ -9,18 +9,15 @@
 $app->get('/login', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['index.controller']->login($request, $app);
 })->bind('login');
-
 $app->post('/admin/login_check', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
     
 })->bind('login_check');
-
 $app->get('/admin/logout', function() use($app){
 
 })->bind('logout')->after(function () use ($app){
     $app['session']->clear();
     return $app->redirect('/login');
 });
-
 $app->get('/admin/', function() use ($app) {
     return $app->redirect('/user/');
 })->bind('admin')->before(function () use ($app) {
@@ -29,12 +26,9 @@ $app->get('/admin/', function() use ($app) {
         $app['session']->save();
     }
 });
-
 $app->match('/register', function (\Symfony\Component\HttpFoundation\Request $request) use ($app){
     return $app['usuarios.controller']->novo($request, $app);
 })->bind('register');
-
-
 $app->get('confirmar_email/{uuid}', function ($uuid) use ($app) {
     return $app['email.confirmacao.controller']->confirmarEmail($uuid, $app);
 })->bind('confirmar_email');
