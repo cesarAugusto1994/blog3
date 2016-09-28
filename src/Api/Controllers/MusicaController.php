@@ -89,12 +89,16 @@ class MusicaController
     {
         $musica = new Musica();
         $categoria = $app['categoria.repository']->find($request->get('categoria'));
-
+        $user = $app['session']->get('user');
+        $usuario = $app['usuarios.repository']->find($user->getId());
+        
         $musica->setNome($request->get('nome'));
         $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
         $musica->setTom($request->get('tonalidade'));
         $musica->setLetra(($request->get('letra')));
         $musica->setCategoria($categoria);
+        $musica->setUsuario($usuario);
+        $musica->setCadastro(new \DateTime('now'));
         $musica->setAtivo(true);
 
         $app['musica.repository']->save($musica);

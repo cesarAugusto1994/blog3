@@ -33,16 +33,22 @@ class Config
     private $nome;
     
     /**
-     * @ORM\Column(name="subtitulo", type="string")
+     * @ORM\Column(name="subtitulo", type="string", nullable=true)
      * @var string
      */
     private $subtitulo;
     
     /**
-     * @ORM\Column(name="background", type="string")
+     * @ORM\Column(name="background", type="string", nullable=true)
      * @var string
      */
     private $background;
+    
+    /**
+     * @ORM\Column(name="envia_email", type="boolean", options={"default" : 0})
+     * @var boolean
+     */
+    private $enviaEmail;
     
     /**
      * @return int
@@ -98,5 +104,21 @@ class Config
     public function setBackground($background)
     {
         $this->background = $background;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isEnviaEmail()
+    {
+        return $this->enviaEmail;
+    }
+    
+    /**
+     * @param boolean $enviaEmail
+     */
+    public function setEnviaEmail($enviaEmail)
+    {
+        $this->enviaEmail = $enviaEmail;
     }
 }

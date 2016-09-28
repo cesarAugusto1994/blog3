@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Categoria
  * @package Api\Entities
- * @ORM\Table(name="categoria")
+ * @ORM\Table(name="categoria", options={"collate":"utf8_general_ci", "charset":"utf8"})
  * @ORM\Entity(repositoryClass="Api\Repositories\CategoriaRepository")
  */
 class Categoria

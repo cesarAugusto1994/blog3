@@ -14,6 +14,10 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
             'password' => $app['database.blog']['password'],
             'host' => $app['database.blog']['host'],
             'driver' => $app['database.blog']['driver'],
+            'charset'  => 'utf8',
+            'driverOptions' => array(
+                1002 => 'SET NAMES utf8'
+            )
         )
     ),
 ));

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20160927153058 extends AbstractMigration
+class Version20160928105100 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,7 +18,7 @@ class Version20160927153058 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE menu ADD requer_previlegio TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE config CHANGE subtitulo subtitulo VARCHAR(255) DEFAULT NULL, CHANGE background background VARCHAR(255) DEFAULT NULL');
     }
 
     /**
@@ -29,6 +29,6 @@ class Version20160927153058 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE menu DROP requer_previlegio');
+        $this->addSql('ALTER TABLE config CHANGE subtitulo subtitulo VARCHAR(255) NOT NULL COLLATE utf8_unicode_ci, CHANGE background background VARCHAR(255) NOT NULL COLLATE utf8_unicode_ci');
     }
 }

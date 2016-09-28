@@ -41,7 +41,8 @@ class ConfigController
         if (!empty($_FILES['background']['size'])) {
             $config->setBackground($this->upload($_FILES['background'], 'config', $config->getBackground()));
         }
-    
+
+        $config->setEnviaEmail(false);
         $app['config.repository']->save($config);
     
         return $app->redirect('/admin/blog');

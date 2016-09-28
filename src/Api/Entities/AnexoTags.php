@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class AnexoTags
  * @package Api\Entities
  * @ORM\Entity(repositoryClass="Api\Repositories\AnexoTagsRepository")
- * @ORM\Table(name="anexo_tags")
+ * @ORM\Table(name="anexo_tags", options={"collate":"utf8_general_ci", "charset":"utf8"})
  */
 class AnexoTags
 {

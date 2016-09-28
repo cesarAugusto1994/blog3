@@ -63,6 +63,19 @@ class MusicaAnexos
      * @var string
      */
     private $link;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * @var Usuarios
+     */
+    private $usuario;
+
+    /**
+     * @ORM\Column(name="cadastro", type="datetime")
+     * @var \DateTime
+     */
+    private $cadastro;
     
     /**
      * @ORM\Column(name="ativo", type="boolean")
@@ -172,6 +185,38 @@ class MusicaAnexos
     public function setLink($link)
     {
         $this->link = $link;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+    
+    /**
+     * @param mixed $usuario
+     */
+    public function setUsuario($usuario)
+    {
+        $this->usuario = $usuario;
+    }
+    
+    /**
+     * @return \DateTime
+     */
+    public function getCadastro()
+    {
+        return $this->cadastro;
+    }
+    
+    /**
+     * @param \DateTime $cadastro
+     */
+    public function setCadastro($cadastro)
+    {
+        $this->cadastro = $cadastro;
     }
     
     /**

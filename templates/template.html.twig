@@ -13,7 +13,7 @@
                         data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span><i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="{% if app['usuario.sessao'].nome %}{{ path('user_index') }}{% else %}{{ path('home') }}{% endif %}">{{ app['config'].nome }} {% if app['usuario.sessao'].nome %} - <small>{{ app['usuario.sessao'].nome }}</small>{% endif %}</a>
+                <a class="navbar-brand" href="{% if app['usuario.sessao'].nome %}{{ path('user_index') }}{% else %}{{ path('home') }}{% endif %}">{{ app['config'].nome }}</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
@@ -30,6 +30,7 @@
                         <li><a href="{{ path('grid_posts') }}">Lista Post</a></li>
                         <li><a href="{{ path('blog') }}">Configura&ccedil;&otilde;es</a></li>
                     {% endif %}
+                    <li><a href="#">Perfil<small>Em breve</small></a></li>
                     <li>
                         {% if is_granted('ROLE_USER') %}
                             <a href="{{ path('logout') }}">Logout</a>

@@ -168,3 +168,7 @@ $app['usuario.sessao'] = function () use ($app) {
     'nome' => $user->getUsername()
   ];
 };
+
+$app['envia.email'] =  function () use ($app) {
+  $config = $app['config.repository']->findAll(); return $config[0] ? $config[0]->isEnviaEmail() : 0;
+};
