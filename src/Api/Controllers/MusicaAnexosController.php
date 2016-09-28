@@ -70,6 +70,8 @@ class MusicaAnexosController
     public function upload($musicaId, Request $request, Application $app)
     {
         $musica = $app['musica.repository']->find($musicaId);
+        $user = $app['session']->get('user');
+        $usuario = $app['usuarios.repository']->find($user->getId());
 
         $uploader = new Uploader();
         $data = $uploader->upload($_FILES['files'], array(
@@ -103,6 +105,8 @@ class MusicaAnexosController
             $musicaAnexo->setTipo($tipo);
             $musicaAnexo->setLinkExterno(false);
             $musicaAnexo->setLink($request->get('link') ? $request->get('link') : $name);
+            $musicaAnexo->setUsuario($usuario);
+            $musicaAnexo->setCadastro(new \DateTime('now'));
             $musicaAnexo->setAtivo(true);
 
             $app['musica.anexos.repository']->save($musicaAnexo);
@@ -120,6 +124,8 @@ class MusicaAnexosController
     public function novo($musicaId, Request $request, Application $app)
     {
         $musica = $app['musica.repository']->find($musicaId);
+        $user = $app['session']->get('user');
+        $usuario = $app['usuarios.repository']->find($user->getId());
 
         $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
 
@@ -129,6 +135,8 @@ class MusicaAnexosController
         $musicaAnexo->setTipo($tipo);
         $musicaAnexo->setLinkExterno(true);
         $musicaAnexo->setLink($request->get('link'));
+        $musicaAnexo->setUsuario($usuario);
+        $musicaAnexo->setCadastro(new \DateTime('now'));
         $musicaAnexo->setAtivo(true);
 
         $app['musica.anexos.repository']->save($musicaAnexo);
