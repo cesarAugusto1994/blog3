@@ -165,7 +165,9 @@ $app['usuario.sessao'] = function () use ($app) {
   }
   
   return [
-    'nome' => $user->getUsername()
+    'id' => $user->getId(),
+    'nome' => $user->getNome(),
+    'email' => $user->getUsername()
   ];
 };
 

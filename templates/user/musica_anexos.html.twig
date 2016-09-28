@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
 
-                    <ul class="nav nav-pills" id="myTabs">
+                    <ul class="nav nav-tabs" id="myTabs">
                         <li role="presentation" class="active"><a href="#home" data-toggle="tab" style="text-decoration: none">Letra</a></li>
                         <li role="presentation"><a href="#menu" data-toggle="tab" style="text-decoration: none">Anexos</a></li>
                     </ul>
@@ -41,7 +41,9 @@
                                             <div id="fontlinks">
                                                 <a id="incfont" style="text-decoration: none" class="button is-white buttonfont">A+</a>
                                                 <a id="decfont" style="text-decoration: none" class="button is-white buttonfont">A-</a>
-                                                <button data-toggle="modal" data-target="#myModal" class="button is-info addAnexo">Editar</button>
+                                                {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
+                                                    <button data-toggle="modal" data-target="#myModal" class="button is-danger addAnexo">Editar</button>
+                                                {% endif %}
                                             </div>
                                             <br>
                                             <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
@@ -52,8 +54,19 @@
                         </div>
 
                         <div class="tab-pane" id="menu">
+
                             <div class="card" style="width: 100%">
                                 <div class="card-content">
+
+                                    <div class="media">
+                                        <div class="media-content">
+                                            {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
+                                                <button data-toggle="modal" data-target="#myModal" class="button is-danger addAnexo">Upload Arquivo</button>
+                                            {% endif %}
+                                            <br>
+                                        </div>
+                                    </div>
+
                                     {% for anexo in anexos %}
                                         <div class="media">
                                             <div class="media-left media-middle">
