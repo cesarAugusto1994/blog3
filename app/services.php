@@ -101,7 +101,7 @@ $app['database.blog'] = function () {
     ];
   }
   return [
-      'dbname' => 'bloggrupopolo',
+      'dbname' => 'blogcesar',
       'user' => 'cezzaar',
       'password' => 'elpro1973',
       'host' => 'mysql796.umbler.com',
