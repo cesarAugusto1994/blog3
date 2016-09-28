@@ -25,8 +25,11 @@ class MusicaController
     public function index($categoriaId, Application $app)
     {
         $categoria = $app['categoria.repository']->find($categoriaId);
-        
-        return $app['twig']->render('/user/musicas.html.twig', ['musicas' => $app['musica.repository']->findBy(['categoria' => $categoria, 'ativo' => true], ['numero' => 'ASC'])]);
+
+        return $app['twig']->render('/user/musicas.html.twig',
+            ['musicas' => $app['musica.repository']->findBy(['categoria' => $categoria, 'ativo' => true], ['numero' => 'ASC']),
+             'categoria' => $categoria
+            ]);
     }
 
     /**
