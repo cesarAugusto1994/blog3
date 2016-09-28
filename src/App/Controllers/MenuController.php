@@ -41,6 +41,7 @@ class MenuController
         $menu->setUrl($request->get('url'));
         $menu->setIcon($request->get('icone'));
         $menu->setCadastro(new \DateTime('now'));
+        $menu->setPrevilegioRequerido(false);
         $menu->setAtivo(true);
         
         $app['menu.repository']->save($menu);
