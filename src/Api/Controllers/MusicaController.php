@@ -95,7 +95,7 @@ class MusicaController
         $musica->setNome($request->get('nome'));
         $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
         $musica->setTom($request->get('tonalidade'));
-        $musica->setLetra(($request->get('letra')));
+        $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setCategoria($categoria);
         $musica->setUsuario($usuario);
         $musica->setCadastro(new \DateTime('now'));
@@ -119,7 +119,7 @@ class MusicaController
         $musica->setNome($request->get('nome'));
         $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
         $musica->setTom($request->get('tonalidade'));
-        $musica->setLetra(($request->get('letra')));
+        $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setCategoria($categoria);
 
         $app['musica.repository']->save($musica);
