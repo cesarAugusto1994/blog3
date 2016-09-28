@@ -92,10 +92,10 @@ class UsuariosController
             $usuario->setAtivo(true);
             $app['usuarios.repository']->save($usuario);
 
-            $app['email.confirmacao.controller']->criar($usuario, $app);
+            //$app['email.confirmacao.controller']->criar($usuario, $app);
 
             if ($app['envia.email']) {
-                $app['usuario.email.service']->send($usuario->getEmail(), $app);
+                //$app['usuario.email.service']->send($usuario->getEmail(), $app);
             }
         
             return $app['twig']->render('login.html.twig', ['sucesso' => 'Cadastro Efetivado.']);
