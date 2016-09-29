@@ -8,4 +8,4 @@
 
 $app->get('/user/perfil/{user}', function($user) use($app) {
     return $app['usuarios.controller']->getUser($user, $app);
-})->bind('profile')->value('user', 1);
+})->bind('perfil')->value('user', 1);
