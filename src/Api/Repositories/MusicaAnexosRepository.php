@@ -34,4 +34,19 @@ class MusicaAnexosRepository extends EntityRepository
         $this->getEntityManager()->remove($musicaAnexos);
         $this->getEntityManager()->flush($musicaAnexos);
     }
+    
+    /**
+     * @param string $search
+     * @return array
+     */
+    public function search($search)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m')
+            ->where('m.nome LIKE :search')
+            ->andWhere('m.ativo = :ativo')
+            ->setParameter(':search', '%'.$search.'%')
+            ->setParameter(':ativo', true)
+            ->getQuery()->getResult();
+    }
 }

@@ -48,7 +48,35 @@
                         {% endfor %}
                     {% endif %}
 
-                    {% if musicas|length > 0 %}
+                    {% if musica_anexos|length > 0 %}
+                        <h4>Arquivos</h4>
+                        {% for anexo in musica_anexos %}
+                            <div class="media">
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{ anexo.nome }}</h4>
+                                    <a href="{{ path('musica_anexos', { musicaId : anexo.musica.id }) }}">
+                                        <button class="button is-small is-primary is-outlined">
+                                            Ir para musica
+                                        </button>
+                                    </a>
+                                    <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                       target="_blank">
+                                        <button class="button is-small is-success is-outlined">
+                                            Visualizar
+                                        </button>
+                                    </a>
+                                    <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                       download>
+                                        <button class="button is-small is-primary is-outlined">
+                                            Baixar
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if posts|length > 0 %}
                         <h4>Posts</h4>
                         {% for post in posts %}
                             <div class="media">
