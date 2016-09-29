@@ -30,7 +30,9 @@
                         <li><a href="{{ path('grid_posts') }}">Lista Post</a></li>
                         <li><a href="{{ path('blog') }}">Configura&ccedil;&otilde;es</a></li>
                     {% endif %}
-                    <li><a href="{{ path('perfil', { id : app['usuario.sessao'].id }) }}">Perfil <small> {{ app['usuario.sessao'].nome }}</small></a></li>
+                    {% if is_granted('ROLE_USER') %}
+                        <li><a href="{{ path('perfil', { id : app['usuario.sessao'].id }) }}">Perfil <small> {{ app['usuario.sessao'].nome }}</small></a></li>
+                    {% endif %}
                     <li>
                         {% if is_granted('ROLE_USER') %}
                             <a href="{{ path('logout') }}">Logout</a>
