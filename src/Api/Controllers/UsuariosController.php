@@ -36,7 +36,7 @@ class UsuariosController
     {
         $user = $app['usuarios.repository']->find($id);
 
-        return $app['twig']->render('admin/profile.html.twig', ['user' => $user]);
+        return $app['twig']->render('/user/perfil.html.twig', ['user' => $user]);
     }
     
     /**

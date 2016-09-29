@@ -6,6 +6,6 @@
  * Time: 09:32
  */
 
-$app->get('profile/{user}', function($user) use($app) {
-    return $app['usuarios.controller']->getUser(1, $app);
+$app->get('/user/perfil/{user}', function($user) use($app) {
+    return $app['usuarios.controller']->getUser($user, $app);
 })->bind('profile')->value('user', 1);
