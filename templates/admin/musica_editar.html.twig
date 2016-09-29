@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Adicionar Musica</h1>
+                        <h1>Editar Musica</h1>
                     </div>
                 </div>
             </div>
@@ -29,14 +29,14 @@
                             <input class="input" type="text" value="{{ musica.numero }}" placeholder="Numero" name="numero" id="numero">
                         </p>
                         <p class="control">Tonalidade:
-                            <select id="tonalidade" class="input" name="tonalidade" placeholder="Tonalidade" required>
+                            <select id="tonalidade" class="input" name="tonalidade" required>
                                 {% for tom in app['tonalidades'] %}
                                     <option value="{{ tom }}" {% if musica.tom == tom %} selected="selected" {% endif %}>{{ tom }}</option>
                                 {% endfor %}
                             </select>
                         </p>
                         <p class="control">Categoria:
-                            <select id="categoria" class="input" name="categoria" placeholder="Categoria" required>
+                            <select id="categoria" class="input" name="categoria" required>
                                 {% for categoria in categorias %}
                                     <option value="{{ categoria.id }}" >{{ categoria.nome }}</option>
                                 {% endfor %}
@@ -44,8 +44,7 @@
                         </p>
                         <p class="control">Letra:
                         <textarea class="textarea form-control" id="letra" name="letra"
-                                  placeholder="Place some text here"
-                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ musica.letra }}</textarea>
+                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ musica.letraOriginal|raw }}</textarea>
                         </p>
                         <p class="control">
                             <button class="button is-success" type="submit">
@@ -62,7 +61,8 @@
 
 {% endblock %}
 
-{% block javascript %}{{ parent() }}
+{% block javascript %}
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script>tinymce.init($('#letra'));</script>
+    {{ parent() }}
 {% endblock %}

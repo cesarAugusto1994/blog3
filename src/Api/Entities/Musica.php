@@ -51,6 +51,12 @@ class Musica
     private $letra;
     
     /**
+     * @ORM\Column(name="letra_original", type="text", nullable=true)
+     * @var string
+     */
+    private $letraOriginal;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="Musica")
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      * @var Categoria
@@ -152,6 +158,22 @@ class Musica
     public function setLetra($letra)
     {
         $this->letra = $letra;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getLetraOriginal()
+    {
+        return $this->letraOriginal;
+    }
+    
+    /**
+     * @param string $letraOriginal
+     */
+    public function setLetraOriginal($letraOriginal)
+    {
+        $this->letraOriginal = $letraOriginal;
     }
     
     /**
