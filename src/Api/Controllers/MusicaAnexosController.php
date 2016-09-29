@@ -112,6 +112,10 @@ class MusicaAnexosController
             $app['musica.anexos.repository']->save($musicaAnexo);
         }
 
+        if ($request->get('user_anexos')) {
+           return $app->redirect('/user/musica/anexos/'.$musica->getId().'#menu'); 
+        }
+        
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
 

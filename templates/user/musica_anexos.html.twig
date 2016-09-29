@@ -4,6 +4,8 @@
 
 {% block stylesheet%}
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}
@@ -117,6 +119,7 @@
                         <h4 class="modal-title" id="myModalLabel">Upload de Arquivos</h4>
                     </div>
                     <div class="modal-body">
+                        <input type="hidden" name="user_anexos" value="1">
                         <input type="hidden" name="musica" value="{{ musica.id }}">
                         <input class="input" type="file" name="files[]" id="filer_input" multiple="multiple">
                     </div>
@@ -136,6 +139,8 @@
 {% endblock %}
 {% block javascript %}
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $(function() {
             $("pre").transpose();
@@ -158,6 +163,37 @@
                     $('#content').css('font-size', curSize);
                 if(curSize2>=5)
                     $('.c').css('font-size', curSize2);
+            });
+        });
+    </script>
+    <script>
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+            var tab = $(e.target);
+            var contentId = tab.attr("href");
+        });
+    </script>
+    <script type="text/javascript">
+        $().ready(function () {
+            // store the currently selected tab in the hash value
+            $("ul.nav-tabs > li > a").click(function (e) {
+                $(this).tab('show');
+                history.pushState(null, null, $(e.target).attr("href"));
+            });
+
+            // on load of the page: switch to the currently selected tab
+            $('ul.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
+        });
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            var hash = window.location.hash;
+            hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+            $('.nav-tabs a').click(function (e) {
+                $(this).tab('show');
+                var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                window.location.hash = this.hash;
+                $('html,body').scrollTop(scrollmem);
             });
         });
     </script>
