@@ -59,6 +59,7 @@ $app['security.firewalls'] = array(
             return new Security\UserProvider($app['db'], $app);
         },
     ),
+    /*
     'default' => array(
         'pattern' => '^/',
         'anonymous' => true,
@@ -76,7 +77,7 @@ $app['security.firewalls'] = array(
         // OAuthInMemoryUserProvider returns a StubUser and is intended only for testing.
         // Replace this with your own UserProvider and User class.
         'users' => new Gigablah\Silex\OAuth\Security\User\Provider\OAuthInMemoryUserProvider()
-    )
+    )*/
 );
 $app['security.access_rules'] = array(
     array('^/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'),

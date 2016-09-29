@@ -6,10 +6,10 @@
  * Time: 09:33
  */
 
-$app->get('/login2', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->get('/login', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['index.controller']->login($request, $app);
-})->bind('login2');
-
+})->bind('login');
+/*
 $app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
     if (isset($app['security.token_storage'])) {
         $token = $app['security.token_storage']->getToken();
@@ -47,7 +47,7 @@ $app->get('/auth/google/check', function(\Symfony\Component\HttpFoundation\Reque
 $app->get('/auth/google/callback', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
 
 })->bind('check');
-
+*/
 
 $app->post('/admin/login_check', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
     

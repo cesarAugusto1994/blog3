@@ -57,7 +57,7 @@ $app['email.confirmation.repository'] = function () use ($app) { return $app['or
 #################################################################################################
 #################################################################################################
 
-$app['auth.service'] = function () use ($app) { return new \Api\Services\Auth();};
+//$app['auth.service'] = function () use ($app) { return new \Api\Services\Auth();};
 
 
 $app['categories'] = function() use ($app) {return $app['tags.repository']->findAll();};
