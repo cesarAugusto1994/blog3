@@ -10,6 +10,10 @@ $app->get('search', function (\Symfony\Component\HttpFoundation\Request $request
     return $app['post.controller']->search($request->get('q'), $app);
 })->bind('search');
 
+$app->get('/user/pesquisar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['search.controller']->search($request->get('q'), $app);
+})->bind('pesquisar');
+
 $app->get('admin/blog', function () use ($app) {
     return $app['twig']->render('admin/blog_config.html.twig');
 })->bind('blog');

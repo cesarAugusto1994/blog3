@@ -1,0 +1,71 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Pesquisar</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <form method="get" class="form-horizontal" action="{{ path('pesquisar') }}"
+                          enctype="multipart/form-data">
+
+                        <input type="hidden" name="search_form" value="1">
+
+                        <p class="control has-icon">
+                            <input class="input is-large" type="text" placeholder="Pesquisar" name="q" value="{{ user.nome }}" required>
+                            <i class="fa fa-search"></i>
+                        </p>
+
+                        <p class="control">
+                            <button class="button is-primary" type="submit">
+                                Ir
+                            </button>
+                        </p>
+                    </form>
+
+                    {% if musicas|length > 0 %}
+                        <h4>Musicas</h4>
+                        {% for musica in musicas %}
+                            <div class="media">
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.numero }} - {{ musica.nome }}</a><small> {{ musica.categoria.nome }}</small></h4>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if musicas|length > 0 %}
+                        <h4>Posts</h4>
+                        {% for post in posts %}
+                            <div class="media">
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace(' ', '-')|lower }) }}">{{ post.titulo }}</a></h4>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}

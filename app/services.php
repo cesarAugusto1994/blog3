@@ -26,6 +26,7 @@ $app['tipo.anexo.controller'] = function () use($app) { return new \Api\Controll
 $app['pager.Controller'] = function () { return new \App\Controllers\PagerController();};
 $app['widgets.controller'] = function () use($app) { return new \App\Controllers\WidgetsController();};
 $app['email.confirmacao.controller'] = function () { return new \Api\Controllers\EmailConfirmacaoController();};
+$app['search.controller'] = function () { return new \Api\Controllers\SearchController();};
 
 #################################################################################################
 #################################################################################################
