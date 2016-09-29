@@ -23,11 +23,11 @@
                     {% for musica in musicas %}
 
                         <div class="media">
-                            <div class="media-left media-middle">
+                            <!--<div class="media-left media-middle">
                                 <a href="#">
                                     <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
                                 </a>
-                            </div>
+                            </div>-->
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.numero }} - {{ musica.nome }}</a><small> {{ musica.categoria.nome }}</small></h4>
                             </div>

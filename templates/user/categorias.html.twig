@@ -22,11 +22,12 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for categoria in categorias %}
                         <div class="media">
+                            <!--
                             <div class="media-left media-middle">
                                 <a href="#">
                                     <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
                                 </a>
-                            </div>
+                            </div>-->
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a><small> {{ categoria.colecao.nome }}</small></h4>
                             </div>
