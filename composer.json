@@ -30,7 +30,8 @@
         "doctrine/migrations": "1.0.*@dev",
         "symfony/yaml": "^3.1",
         "ramsey/uuid": "^3.4",
-        "swiftmailer/swiftmailer": "^5.4"
+        "swiftmailer/swiftmailer": "^5.4",
+        "gigablah/silex-oauth": "~2.0@dev"
     },
     "autoload": {
         "psr-0": { "": "src/" }

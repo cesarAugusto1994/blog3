@@ -6,12 +6,53 @@
  * Time: 09:33
  */
 
-$app->get('/login', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->get('/login2', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['index.controller']->login($request, $app);
+})->bind('login2');
+
+$app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    if (isset($app['security.token_storage'])) {
+        $token = $app['security.token_storage']->getToken();
+    } else {
+        $token = $app['security']->getToken();
+    }
+
+    $app['user'] = null;
+
+    if ($token && !$app['security.trust_resolver']->isAnonymous($token)) {
+        $app['user'] = $token->getUser();
+    }
+});
+
+$app->get('/login', function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    $services = array_keys($app['oauth.services']);
+
+    return $app['twig']->render('login.html.twig', array(
+        'login_paths' => $app['oauth.login_paths'],
+        'logout_path' => $app['url_generator']->generate('logout', array(
+            '_csrf_token' => $app['oauth.csrf_token']('logout')
+        )),
+        'error' => $app['security.last_error']($request)
+    ));
 })->bind('login');
+
+$app->get('/auth/', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
+    
+})->bind('auth');
+
+$app->get('/auth/google/check', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
+
+})->bind('check');
+
+$app->get('/auth/google/callback', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
+
+})->bind('check');
+
+
 $app->post('/admin/login_check', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
     
 })->bind('login_check');
+
 $app->get('/admin/logout', function() use($app){
 
 })->bind('logout')->after(function () use ($app){

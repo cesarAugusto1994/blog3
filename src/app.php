@@ -5,6 +5,15 @@ use Silex\Provider\AssetServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\HttpFragmentServiceProvider;
 
+define('FACEBOOK_API_KEY',    '');
+define('FACEBOOK_API_SECRET', '');
+define('TWITTER_API_KEY',     '');
+define('TWITTER_API_SECRET',  '');
+define('GOOGLE_API_KEY',      '580049489359-vo5entgjvhmt9oamkbctic0ul5ris81l.apps.googleusercontent.com');
+define('GOOGLE_API_SECRET',   'vqCx5mIL6uxLP6X4sNlZIank');
+define('GITHUB_API_KEY',      '');
+define('GITHUB_API_SECRET',   '');
+
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new AssetServiceProvider());
@@ -50,11 +59,30 @@ $app['security.firewalls'] = array(
             return new Security\UserProvider($app['db'], $app);
         },
     ),
+    'default' => array(
+        'pattern' => '^/',
+        'anonymous' => true,
+        'oauth' => array(
+            'login_path' => '/auth/',
+            'callback_path' => '/auth/Google/callback',
+            'check_path' => '/auth/Google/check',
+            'failure_path' => '/',
+            'with_csrf' => true
+        ),
+        'logout' => array(
+            'logout_path' => '/logout',
+            'with_csrf' => true
+        ),
+        // OAuthInMemoryUserProvider returns a StubUser and is intended only for testing.
+        // Replace this with your own UserProvider and User class.
+        'users' => new Gigablah\Silex\OAuth\Security\User\Provider\OAuthInMemoryUserProvider()
+    )
 );
 $app['security.access_rules'] = array(
     array('^/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
     array('^/admin/$', 'ROLE_USER'),
-    array('^/users/$', 'ROLE_USER')
+    array('^/users/$', 'ROLE_USER'),
+    array('^/auth', 'ROLE_USER')
 );
 $app['security.role_hierarchy'] = array(
     'ROLE_ADMIN' => array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),

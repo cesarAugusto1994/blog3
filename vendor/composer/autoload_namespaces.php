@@ -9,6 +9,8 @@ return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Silex\\Provider\\' => array($vendorDir . '/silex/web-profiler'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
+    'OAuth\\Unit' => array($vendorDir . '/lusitanian/oauth/tests'),
+    'OAuth' => array($vendorDir . '/lusitanian/oauth/src'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/lib'),
     'Doctrine\\DBAL\\Migrations' => array($vendorDir . '/doctrine/migrations/lib'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
