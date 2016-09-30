@@ -26,15 +26,15 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for categoria in categorias %}
                         <div class="media">
-                            <div class="media-left media-middle">
+                            <!--<div class="media-left media-middle">
                                 <a href="#">
                                     <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
                                 </a>
-                            </div>
+                            </div>-->
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('categoria_musicas_grid', { categoriaId : categoria.id, nome : categoria.nome|replace('^', '') }) }}">{{ categoria.nome }}</a><small> {{ categoria.colecao.nome }}</small></h4>
-                                <p class="control has-addons">
-                                    <a class="button is-primary is-outlined is-small openMenu"
+                                <h4 class="media-heading">
+                                    <a href="{{ path('categoria_musicas_grid', { categoriaId : categoria.id, nome : categoria.nome|replace('^', '') }) }}">{{ categoria.nome }}</a>
+                                    &nbsp;&nbsp;<a class="button is-primary is-outlined is-small openMenu"
                                        data-toggle="modal"
                                        data-target="#myModal" data-id="{{ categoria.id }}"
                                        data-nome="{{ categoria.nome }}"
@@ -53,7 +53,8 @@
                                                 </span>
                                         <span>{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}</span>
                                     </a>
-                                </p>
+                                </h4>
+
                             </div>
                         </div>
                     {% else %}

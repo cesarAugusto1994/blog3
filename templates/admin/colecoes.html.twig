@@ -27,37 +27,34 @@
 
                     {% for colecao in colecoes %}
                         <div class="media">
-                            <div class="media-left media-middle">
+                            <!--<div class="media-left media-middle">
                                 <a href="#">
                                     <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
                                 </a>
-                            </div>
+                            </div>-->
                             <div class="media-body">
-                                <h4 class="media-heading"><a
-                                            href="{{ path('colecao_categorias_grid', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
-                                    <small> {{ colecao.descricao }}</small>
-                                </h4>
-                                <p class="control has-addons">
-                                    <a class="button is-primary is-outlined is-small openMenu"
+                                <h4 class="media-heading">
+                                    <a href="{{ path('colecao_categorias_grid', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
+                                    &nbsp;&nbsp;<a class="button is-primary is-outlined is-small openMenu"
                                        data-toggle="modal"
                                        data-target="#myModal" data-id="{{ colecao.id }}"
                                        data-nome="{{ colecao.nome }}"
                                        data-descricao="{{ colecao.descricao }}"
                                        style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-edit"></i>
-                                                    </span>
+                                                <span class="icon is-small">
+                                                  <i class="fa fa-edit"></i>
+                                                </span>
                                         <span>Editar</span>
                                     </a>
                                     <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-outlined is-small"
                                        href="{{ path('colecao_status', { id : colecao.id }) }}"
                                        style="text-decoration: none">
-                                                <span class="icon is-small">
-                                                  <i class="fa fa-plus"></i>
-                                                </span>
+                                            <span class="icon is-small">
+                                              <i class="fa fa-plus"></i>
+                                            </span>
                                         <span>{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}</span>
                                     </a>
-                                </p>
+                                </h4>
                             </div>
                         </div>
                     {% else %}

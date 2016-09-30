@@ -9,7 +9,7 @@
 $app->get('/login', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['index.controller']->login($request, $app);
 })->bind('login');
-/*
+
 $app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
     if (isset($app['security.token_storage'])) {
         $token = $app['security.token_storage']->getToken();
@@ -22,8 +22,13 @@ $app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($
     if ($token && !$app['security.trust_resolver']->isAnonymous($token)) {
         $app['user'] = $token->getUser();
     }
-});
 
+    $user = $app['session']->get('user');
+    if(empty($user)) {
+        $app->redirect('logout');
+    }
+});
+/*
 $app->get('/login', function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
     $services = array_keys($app['oauth.services']);
 

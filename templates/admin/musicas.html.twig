@@ -20,21 +20,21 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <a style="text-decoration: none" href="{{ path('musicas_add') }}"><button class="button is-success is-outlined addMusica">Nova Musica</button></a>
+                    <a style="text-decoration: none" href="{{ path('musicas_add') }}"><button class="button is-danger addMusica">Nova Musica</button></a>
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for musica in musicas %}
                         <div class="media">
-                            <div class="media-left media-middle">
+                            <!--<div class="media-left media-middle">
                                 <a href="#">
                                     <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
                                 </a>
-                            </div>
+                            </div>-->
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('musica_anexos_grid', { musicaId : musica.id, nome : musica.nome }) }}">{{ musica.numero }} - {{ musica.nome }}</a><small> {{ musica.categoria.nome }}</small></h4>
-                                <p class="control has-addons">
-                                    <a href="{{ path('musicas_edit', { id : musica.id }) }}" class="button is-primary is-small is-outlined"
+                                <h4 class="media-heading">
+                                    <a href="{{ path('musica_anexos_grid', { musicaId : musica.id, nome : musica.nome }) }}">{{ musica.numero }} - {{ musica.nome }}</a>
+                                    &nbsp;&nbsp;<a href="{{ path('musicas_edit', { id : musica.id }) }}" class="button is-primary is-small is-outlined"
                                        style="text-decoration: none">
                                                     <span class="icon is-small">
                                                       <i class="fa fa-edit"></i>
@@ -49,7 +49,7 @@
                                                 </span>
                                         <span>{% if musica.ativo %} Inativar {% else %} Ativar {% endif %}</span>
                                     </a>
-                                </p>
+                                </h4>
                             </div>
                         </div>
                     {% else %}
