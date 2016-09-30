@@ -27,8 +27,8 @@ class Musica
     private $id;
     
     /**
-     * @ORM\Column(name="numero", type="integer", nullable=true)
-     * @var integer
+     * @ORM\Column(name="numero", type="string", nullable=true)
+     * @var string
      */
     private $numero;
     
