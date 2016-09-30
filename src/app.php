@@ -81,7 +81,8 @@ $app['security.firewalls'] = array(
 );
 $app['security.access_rules'] = array(
     array('^/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-    array('^/admin/$', 'ROLE_USER'),
+    array('^/admin/$', 'ROLE_ADMIN'),
+    array('^/users/$', 'ROLE_ADMIN'),
     array('^/users/$', 'ROLE_USER'),
     array('^/auth', 'ROLE_USER')
 );

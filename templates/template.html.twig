@@ -17,9 +17,6 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ path('pesquisar') }}">Pesquisar</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
                     {% for item in app['menus'] %}
                         {% if is_granted('ROLE_USER') %}
                             <li><a href="{{ path(item.url) }}">{{ item.nome }}</a></li>
@@ -32,6 +29,7 @@
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
                         <li><a href="{{ path('perfil', { user : app['usuario.sessao'].id }) }}">Perfil <small> {{ app['usuario.sessao'].nome }}</small></a></li>
+                        <li><a href="{{ path('pesquisar') }}">Pesquisar</a></li>
                     {% endif %}
                     <li>
                         {% if is_granted('ROLE_USER') %}
