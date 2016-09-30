@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>{{ musica.numero }} - {{ musica.nome }}</h1>
+                        <h1>{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</h1>
                         <p>{{ musica.categoria.colecao.nome }} / {{ musica.categoria.nome }}</p>
                     </div>
                 </div>
