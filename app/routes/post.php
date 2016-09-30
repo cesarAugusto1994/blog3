@@ -14,7 +14,7 @@ $app->post('admin/post/new', function (\Symfony\Component\HttpFoundation\Request
     return $app['post.controller']->criar($request, $app);
 })->bind('newPost');
 
-$app->get('/post/{postId}/{postTitulo}', function ($postId, $postTitulo) use ($app){
+$app->get('user/post/{postId}/{postTitulo}', function ($postId, $postTitulo) use ($app){
     return $app['post.controller']->post($postId, $app);
 })->bind('post');
 
