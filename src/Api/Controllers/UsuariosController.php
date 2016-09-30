@@ -38,6 +38,26 @@ class UsuariosController
 
         return $app['twig']->render('/user/perfil.html.twig', ['user' => $user]);
     }
+
+    public function editar(Request $request, Application $app)
+    {
+        if (empty($request->get('id'))) {
+            throw new \Exception('Usuario nã informado.');
+        }
+
+        $usuario = $app['usuarios.repository']->find($request->get('id'));
+
+        $usuario->setNome($request->get('nome'));
+        $usuario->setEmail($request->get('email'));
+
+        var_dump($request->get('id'));
+
+        exit;
+
+        $app['usuarios.repository']->save($usuario);
+
+        $app->redirect('perfil');
+    }
     
     /**
      * @param Request $request

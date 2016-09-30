@@ -10,6 +10,20 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
                         <h1>Pesquisar</h1>
+                        <form method="get" class="form-horizontal" action="{{ path('pesquisar') }}"
+                              enctype="multipart/form-data">
+
+                            <input type="hidden" name="search_form" value="1">
+
+                            <p class="control has-icon">
+                                <input class="input is-large" type="text" placeholder="..." name="q" value="{{ user.nome }}" required>
+                                <i class="fa fa-search"></i>
+                            </p>
+
+                            <p class="control is-fullwidth">
+                                <button class="button is-danger is-large is-half" type="submit">Pesquisar</button>
+                            </p>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -20,22 +34,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <form method="get" class="form-horizontal" action="{{ path('pesquisar') }}"
-                          enctype="multipart/form-data">
-
-                        <input type="hidden" name="search_form" value="1">
-
-                        <p class="control has-icon">
-                            <input class="input is-large" type="text" placeholder="Pesquisar" name="q" value="{{ user.nome }}" required>
-                            <i class="fa fa-search"></i>
-                        </p>
-
-                        <p class="control">
-                            <button class="button is-primary" type="submit">
-                                Ir
-                            </button>
-                        </p>
-                    </form>
 
                     {% if musicas|length > 0 %}
                         <h4>Musicas</h4>
