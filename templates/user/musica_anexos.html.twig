@@ -71,13 +71,15 @@
 
                                     {% for anexo in anexos %}
                                         <div class="media">
-                                            <!--
                                             <div class="media-left media-middle">
-                                                <a href="#">
-                                                    <img class="media-object"
-                                                         src="{{ asset(app['default.card']) }}" alt="...">
-                                                </a>
-                                            </div>-->
+                                                {% if anexo.tipo.id == 1 %}
+                                                    <i class="fa fa-music"></i>
+                                                {% elseif anexo.tipo.id == 2 %}
+                                                    <i class="fa fa-picture-o"></i>
+                                                {% elseif anexo.tipo.id == 3 %}
+                                                    <i class="fa fa-file-pdf-o"></i>
+                                                {% endif %}
+                                            </div>
                                             <div class="media-body">
                                                 <h4 class="media-heading">{{ anexo.nome }}</h4>
                                                 {% if anexo.isExterno %}

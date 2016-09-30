@@ -14,7 +14,7 @@ $app->get('admin/musicas/anexos/grid/{musicaId}/{nome}', function($musicaId, $no
     return $app['musica.anexos.controller']->musicasAnexosGrid($musicaId, $app);
 })->bind('musica_anexos_grid');
 
-$app->post('admin/musica/anexos/upload/{musicaId}', function($musicaId, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('/user/musica/anexos/upload/{musicaId}', function($musicaId, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['musica.anexos.controller']->upload($musicaId, $request, $app);
 })->bind('musica_anexos_upload');
 

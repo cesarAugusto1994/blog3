@@ -18,12 +18,15 @@ $app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($
     }
 
     $app['user'] = null;
+    $user = null;
 
     if ($token && !$app['security.trust_resolver']->isAnonymous($token)) {
         $app['user'] = $token->getUser();
+        $app['session']->set('user', $app['user']);
+        $app['session']->save();
+        $user = $app['session']->get('user');
     }
 
-    $user = $app['session']->get('user');
     if(empty($user)) {
         $app->redirect('logout');
     }
@@ -64,6 +67,16 @@ $app->get('/admin/logout', function() use($app){
     $app['session']->clear();
     return $app->redirect('/login');
 });
+
+$app->get('/redirect', function() use ($app) {
+    return $app->redirect('/user/');
+})->bind('redirect')->before(function () use ($app) {
+    if(isset($app['user'])) {
+        $app['session']->set('user', $app['user']);
+        $app['session']->save();
+    }
+});
+
 $app->get('/admin/', function() use ($app) {
     return $app->redirect('/user/');
 })->bind('admin')->before(function () use ($app) {

@@ -40,7 +40,7 @@ $app['security.firewalls'] = array(
             'login_path' => '/login',
             'check_path' => '/admin/login_check',
             'always_use_default_target_path' => true,
-            'default_target_path' => '/admin/',
+            'default_target_path' => '/redirect',
         ),
         'logout' => array(
             'logout_path' => '/admin/logout',

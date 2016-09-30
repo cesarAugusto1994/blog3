@@ -29,15 +29,17 @@ trait MediaFormat
         switch ($media) {
             case 'application/pdf':
             case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-                return 1;
+                return 3;
                 break;
             case 'audio/mpeg':
-                return 2;
+            case 'audio/mp3':
+                return 1;
                 break;
             case 'image/jpeg':
+            case 'image/jpg':
             case 'image/gif' :
             case 'image/png' :
-                return 3;
+                return 2;
                 break;
             default:
                 return 1;
