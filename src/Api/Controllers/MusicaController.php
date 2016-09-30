@@ -96,7 +96,7 @@ class MusicaController
         $usuario = $app['usuarios.repository']->find($user->getId());
         
         $musica->setNome($request->get('nome'));
-        $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
+        $musica->setNumero($request->get('numero'));
         $musica->setTom($request->get('tonalidade'));
         $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setLetraOriginal($request->get('letra'));
@@ -121,7 +121,7 @@ class MusicaController
         $categoria = $app['categoria.repository']->find($request->get('categoria'));
         
         $musica->setNome($request->get('nome'));
-        $musica->setNumero($request->get('numero') ? $request->get('numero') : 0);
+        $musica->setNumero($request->get('numero'));
         $musica->setTom($request->get('tonalidade'));
         $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setLetraOriginal($request->get('letra'));
