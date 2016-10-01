@@ -16,7 +16,7 @@
                             <input type="hidden" name="search_form" value="1">
 
                             <p class="control has-icon">
-                                <input class="input is-large" type="text" placeholder="..." name="q" value="{{ user.nome }}" required>
+                                <input class="input is-large" type="text" autofocus placeholder="..." name="q" value="{{ user.nome }}" required>
                                 <i class="fa fa-search"></i>
                             </p>
 
@@ -35,7 +35,11 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
+                {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
+
                     {% if musicas|length > 0 %}
+                    <div class="card" style="width: 100%">
+                        <div class="card-content">
                         <h4>Musicas</h4>
                         {% for musica in musicas %}
                             <div class="media">
@@ -44,9 +48,14 @@
                                 </div>
                             </div>
                         {% endfor %}
+                            </div>
+                            </div>
+                        <br>
                     {% endif %}
 
                     {% if musica_anexos|length > 0 %}
+                    <div class="card" style="width: 100%">
+                        <div class="card-content">
                         <h4>Arquivos</h4>
                         {% for anexo in musica_anexos %}
                             <div class="media">
@@ -72,18 +81,18 @@
                                 </div>
                             </div>
                         {% endfor %}
+                            </div>
+                            </div>
+                        <br>
                     {% endif %}
 
-                    {% if posts|length > 0 %}
-                        <h4>Posts</h4>
-                        {% for post in posts %}
-                            <div class="media">
-                                <div class="media-body">
-                                    <h4 class="media-heading"><a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace(' ', '-')|lower }) }}">{{ post.titulo }}</a></h4>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+
+
+                 {% else %}
+
+                     Nenhum registro Encontrado.
+
+                 {% endif %}
 
                 </div>
             </div>

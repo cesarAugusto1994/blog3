@@ -103,11 +103,13 @@
                                                         </button>
                                                     </a>
                                                     {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                        <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
-                                                           download>
-                                                            <button class="button is-small is-danger is-outlined">
-                                                                Remover
-                                                            </button>
+                                                        <a class="button is-danger is-small is-outlined"
+                                                           href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
+                                                           style="text-decoration: none">
+                                                            <span class="icon is-small">
+                                                              <i class="fa fa-minus"></i>
+                                                            </span>
+                                                            <span>Remover</span>
                                                         </a>
                                                     {% endif %}
                                                 {% endif %}
