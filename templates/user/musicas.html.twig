@@ -21,6 +21,10 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a style="text-decoration: none" href="{{ path('musicas_add') }}"><button data-toggle="modal" data-target="#myModal" class="button is-light is-small addMusica">Nova Musica</button></a>
+                        <hr class="small">
+                    {% endif %}
                     <!--<div class="media">
                         <div class="media-content">
                             {% if is_granted('ROLE_USER') %}
@@ -29,9 +33,7 @@
                             <hr>
                         </div>
                     </div>-->
-
                     {% for musica in musicas %}
-
                         <div class="media">
                             <!--<div class="media-left media-middle">
                                 <a href="#">
@@ -42,7 +44,6 @@
                                 <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a></h4>
                             </div>
                         </div>
-
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>
                     {% endfor %}

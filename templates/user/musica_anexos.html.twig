@@ -48,7 +48,11 @@
                                                 {% endif %}
                                             </div>
                                             <br>
-                                            <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
+                                            {% if musica.letra %}
+                                                <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
+                                            {% else %}
+                                                <p class="lead">Letra não disponível.</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -134,9 +138,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
-                    <h2>Comentários: </h2>
                     <div class="card" style="width: 100%">
+
                         <div class="card-content">
+
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-3">Comentários</p>
+                                </div>
+                            </div>
+
                             <div id="disqus_thread"></div>
                         </div>
                     </div>
