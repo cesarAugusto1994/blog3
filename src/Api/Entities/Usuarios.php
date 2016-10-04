@@ -46,6 +46,12 @@ class Usuarios
     private $password;
 
     /**
+     * @ORM\Column(name="avatar", type="string", nullable=true)
+     * @var string
+     */
+    private $avatar;
+
+    /**
      * @ORM\Column(name="roles", type="string", length=60, nullable=false)
      * @var string
      */
@@ -123,6 +129,22 @@ class Usuarios
     public function setPassword($password)
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param string $avatar
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
     }
     
     /**

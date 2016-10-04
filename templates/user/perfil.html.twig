@@ -22,22 +22,32 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <form method="post" class="form-horizontal" action="{{ path('usuario_editar') }}"
                           enctype="multipart/form-data">
-
-                        <p class="control has-icon">
+                        <p class="control">Avatar</p>
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                <img style="height: 100%" src="{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
+                                     data-src="{{ asset('holder.js/100%x100%') }}" alt="...">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                            <div>
+                                <span class="button is-light is-small btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
+                                <a href="#" class="button is-link fileinput-exists" data-dismiss="fileinput">Remover</a>
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" value="{{ user.id }}">
+                        <p class="control">Nome
                             <input class="input" type="text" placeholder="Nome" name="nome" value="{{ user.nome }}" required>
-                            <i class="fa fa-edit"></i>
                         </p>
-                        <p class="control has-icon">
+                        <p class="control">E-mail
                             <input class="input" type="text" placeholder="email" name="email" value="{{ user.email }}" required>
-                            <i class="fa fa-link"></i>
                         </p>
 
                         <p class="control">
-                            <button class="button is-success" type="submit">
+                            <button class="button is-success is-small" type="submit">
                                 Salvar
                             </button>
-                            <a href="#" style="text-decoration: none" class="button is-danger">Inativar Conta</a>
-                            <a href="#" style="text-decoration: none" class="button is-primary">Alterar Senha</a>
+                            <a href="#" style="text-decoration: none" class="button is-danger is-small">Inativar Conta</a>
+                            <a href="#" style="text-decoration: none" class="button is-primary is-small">Alterar Senha</a>
                         </p>
                     </form>
                 </div>

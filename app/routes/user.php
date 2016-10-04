@@ -15,5 +15,5 @@ $app->get('/admin/usuarios/list', function () use ($app) {
 })->bind('usuarios');
 
 $app->post('/user/perfil/editar', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    return $app['usuarios.controller']->editar($request);
+    return $app['usuarios.controller']->editar($request, $app);
 })->bind('usuario_editar')->method('POST');

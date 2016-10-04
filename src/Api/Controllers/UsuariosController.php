@@ -10,6 +10,7 @@ namespace Api\Controllers;
 
 
 use Api\Entities\Usuarios;
+use App\Controllers\UploadImages;
 use Silex\Application;
 use Silex\Provider\FormServiceProvider;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -27,6 +28,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class UsuariosController
 {
+    use UploadImages;
     /**
      * @param int $id
      * @param Application $app
@@ -50,18 +52,30 @@ class UsuariosController
         return $app['twig']->render('/admin/usuarios.html.twig', ['usuarios' => $usuarios]);
     }
 
+    /**
+     * @param Request $request
+     * @param Application $app
+     * @throws \Exception
+     */
     public function editar(Request $request, Application $app)
     {
         if (empty($request->get('id'))) {
             throw new \Exception('Usuario n� informado.');
         }
 
+        var_dump($_FILES);
+
+        /**
+         * @var Usuarios $usuario
+         */
         $usuario = $app['usuarios.repository']->find($request->get('id'));
 
         $usuario->setNome($request->get('nome'));
         $usuario->setEmail($request->get('email'));
 
-        var_dump($request->get('id'));
+        if (!empty($_FILES['background']['size'])) {
+            $usuario->setAvatar($this->upload($_FILES['background'], 'avatar', $usuario->getAvatar()));
+        }
 
         exit;
 
