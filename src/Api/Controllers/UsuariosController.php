@@ -38,11 +38,22 @@ class UsuariosController
 
         return $app['twig']->render('/user/perfil.html.twig', ['user' => $user]);
     }
+    
+    /**
+     * @param Application $app
+     * @return mixed
+     */
+    public function getUsuarios(Application $app)
+    {
+        $usuarios = $app['usuarios.repository']->findAll();
+    
+        return $app['twig']->render('/admin/usuarios.html.twig', ['usuarios' => $usuarios]);
+    }
 
     public function editar(Request $request, Application $app)
     {
         if (empty($request->get('id'))) {
-            throw new \Exception('Usuario nã informado.');
+            throw new \Exception('Usuario nï¿½ informado.');
         }
 
         $usuario = $app['usuarios.repository']->find($request->get('id'));
