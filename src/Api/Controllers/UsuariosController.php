@@ -60,10 +60,8 @@ class UsuariosController
     public function editar(Request $request, Application $app)
     {
         if (empty($request->get('id'))) {
-            throw new \Exception('Usuario n� informado.');
+            throw new \Exception('Usuario não informado.');
         }
-
-        var_dump($_FILES);
 
         /**
          * @var Usuarios $usuario
@@ -77,11 +75,9 @@ class UsuariosController
             $usuario->setAvatar($this->upload($_FILES['background'], 'avatar', $usuario->getAvatar()));
         }
 
-        exit;
-
         $app['usuarios.repository']->save($usuario);
 
-        $app->redirect('perfil');
+        return $app->redirect('/user/perfil/'.$usuario->getId());
     }
     
     /**

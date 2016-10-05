@@ -24,14 +24,14 @@
                           enctype="multipart/form-data">
                         <p class="control">Avatar</p>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                <img style="height: 100%" src="{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
+                            <div class="fileinput-new thumbnail" style="border: none; width: 200px; height: 150px;">
+                                <img style="height: 100%" src="{% if user.avatar is not null %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
                                      data-src="{{ asset('holder.js/100%x100%') }}" alt="...">
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                             <div>
-                                <span class="button is-light is-small btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
-                                <a href="#" class="button is-link fileinput-exists" data-dismiss="fileinput">Remover</a>
+                                <span class="button is-light is-small is-fullwidth btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
+                                <a href="#" class="button is-danger is-inverted is-small is-fullwidth fileinput-exists" data-dismiss="fileinput">Remover</a>
                             </div>
                         </div>
                         <input type="hidden" name="id" value="{{ user.id }}">
@@ -46,8 +46,8 @@
                             <button class="button is-success is-small" type="submit">
                                 Salvar
                             </button>
-                            <a href="#" style="text-decoration: none" class="button is-danger is-small">Inativar Conta</a>
-                            <a href="#" style="text-decoration: none" class="button is-primary is-small">Alterar Senha</a>
+                            <a href="#" style="text-decoration: none" class="button is-danger is-inverted is-small">Inativar Conta</a>
+                            <a href="#" style="text-decoration: none" class="button is-light is-small">Alterar Senha</a>
                         </p>
                     </form>
                 </div>
