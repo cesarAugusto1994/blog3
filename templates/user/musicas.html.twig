@@ -25,23 +25,15 @@
                         <a style="text-decoration: none" href="{{ path('musicas_add') }}"><button data-toggle="modal" data-target="#myModal" class="button is-light is-small addMusica">Nova Musica</button></a>
                         <hr class="small">
                     {% endif %}
-                    <!--<div class="media">
-                        <div class="media-content">
-                            {% if is_granted('ROLE_USER') %}
-                                <button data-toggle="modal" data-target="#upload" class="button is-success">Nova Musica</button>
-                            {% endif %}
-                            <hr>
-                        </div>
-                    </div>-->
                     {% for musica in musicas %}
                         <div class="media">
-                            <!--<div class="media-left media-middle">
-                                <a href="#">
-                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
-                                </a>
-                            </div>-->
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a></h4>
+                                <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
+                                    <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-white is-small is-pulled-right"
+                                       style="text-decoration: none">
+                                        <span>Editar</span>
+                                    </a>
+                                </h4>
                             </div>
                         </div>
                     {% else %}

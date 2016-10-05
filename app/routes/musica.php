@@ -18,6 +18,14 @@ $app->get('admin/musicas/edit/{id}', function($id) use ($app){
     return $app['musica.controller']->editarMusica($id, $app);
 })->bind('musicas_edit');
 
+$app->get('user/musicas/{id}/editar', function($id) use ($app){
+    return $app['musica.controller']->editarMusica($id, $app, true);
+})->bind('musicas_editar');
+
+$app->get('user/musicas/{id}/letra/editar', function($id) use ($app){
+    return $app['musica.controller']->editarMusica($id, $app, false, true);
+})->bind('musicas_letra_editar');
+
 $app->get('admin/musicas/grid', function() use ($app){
     return $app['musica.controller']->musicasGrid($app);
 })->bind('musicas_grid');

@@ -44,7 +44,7 @@
                                                 <button id="incfont" class="button is-dark is-outlined is-small buttonfont">A+</button>
                                                 <button id="decfont" class="button is-dark is-outlined is-small buttonfont">A-</button>
                                                 {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                    <a href="{{ path('musicas_edit', { id : musica.id }) }}" class="button is-light is-small" style="text-decoration: none">Editar Letra</a>
+                                                    <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-light is-small" style="text-decoration: none">Editar Letra</a>
                                                 {% endif %}
                                             </div>
                                             <br>

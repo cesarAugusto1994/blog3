@@ -8,6 +8,7 @@
 
 namespace Api\Controllers;
 
+use Api\Entities\Categoria;
 use Api\Entities\Musica;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,11 +49,18 @@ class MusicaController
      * @param Application $app
      * @return mixed
      */
-    public function editarMusica($id, Application $app)
+    public function editarMusica($id, Application $app, $edicaoUsuario = false, $editarLetra = false)
     {
         $musica = $app['musica.repository']->find($id);
-        
         $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+        
+        if ($edicaoUsuario) {
+            return $app['twig']->render('/user/musica_editar.html.twig', ['musica' => $musica, 'categorias' => $categorias]);
+        }
+    
+        if ($editarLetra) {
+            return $app['twig']->render('/user/musica_editar_letra.html.twig', ['musica' => $musica, 'categorias' => $categorias]);
+        }
         
         return $app['twig']->render('/admin/musica_editar.html.twig', ['musica' => $musica, 'categorias' => $categorias]);
     }
@@ -117,18 +125,40 @@ class MusicaController
      */
     public function editar(Request $request, Application $app)
     {
+        /**
+         * @var Musica $musica
+         */
         $musica = $app['musica.repository']->find($request->get('id'));
-        $categoria = $app['categoria.repository']->find($request->get('categoria'));
         
-        $musica->setNome($request->get('nome'));
-        $musica->setNumero($request->get('numero'));
-        $musica->setTom($request->get('tonalidade'));
-        $musica->setLetra(strip_tags($request->get('letra')));
-        $musica->setLetraOriginal($request->get('letra'));
-        $musica->setCategoria($categoria);
+        if ($request->get('nome')) {
+            $musica->setNome($request->get('nome'));
+            $musica->setNumero($request->get('numero'));
+            $musica->setTom($request->get('tonalidade'));
+        }
+        
+        if ($request->get('letra')) {
+            $musica->setLetra(strip_tags($request->get('letra')));
+            $musica->setLetraOriginal($request->get('letra'));
+        }
+    
+        if ($request->get('categoria')) {
+            /**
+             * @var Categoria $categoria
+             */
+            $categoria = $app['categoria.repository']->find($request->get('categoria'));
+            $musica->setCategoria($categoria);
+        }
 
         $app['musica.repository']->save($musica);
-
+        
+        if ($request->get('rota') == 'edicao_usuario') {
+            return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId());
+        }
+    
+        if ($request->get('rota') == 'edicao_letra') {
+            return $app->redirect('/user/musica/anexos/' . $musica->getId());
+        }
+        
         return $app->redirect('/admin/musicas/grid');
     }
 

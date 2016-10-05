@@ -1023,17 +1023,17 @@
             }
         },
         captions: {
-            button: "Choose Files",
-            feedback: "Choose files To Upload",
-            feedback2: "files were chosen",
+            button: "Selecionar Arquivos",
+            feedback: "Selecionar Arquivos para Upload",
+            feedback2: "Arquivos foram selecionados",
             drop: "Drop file here to Upload",
-            removeConfirmation: "Are you sure you want to remove this file?",
+            removeConfirmation: "Deseja remover esta arquivo?",
             errors: {
                 filesLimit: "Only {{fi-limit}} files are allowed to be uploaded.",
-                filesType: "Only Images are allowed to be uploaded.",
+                filesType: "Apenas Imagens são permitidas para uploaded.",
                 filesSize: "{{fi-name}} is too large! Please upload file up to {{fi-fileMaxSize}} MB.",
                 filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB.",
-                folderUpload: "You are not allowed to upload folders."
+                folderUpload: "Você não tem permissão para fazer upload."
             }
         }
     }

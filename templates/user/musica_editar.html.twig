@@ -1,0 +1,56 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Musicas{% endblock %}
+
+{% block content %}
+
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ musica.nome }} - Editar</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <form class="form-horizontal" method="POST" action="{{ path('save_musica') }}">
+                        <input type="hidden" name="id" id="id" value="{{ musica.id }}">
+                        <input type="hidden" name="rota" id="rota" value="edicao_usuario">
+                        <p class="control">Titulo:
+                            <input class="input" autofocus type="text" value="{{ musica.nome }}" placeholder="Titulo" name="nome" id="nome" required>
+                        </p>
+                        <p class="control">N&uacute;mero:
+                            <input class="input" type="text" value="{{ musica.numero }}" placeholder="Numero" name="numero" id="numero">
+                        </p>
+                        <p class="control">Tonalidade:
+                            <select id="tonalidade" class="input" name="tonalidade" required>
+                                {% for tom in app['tonalidades'] %}
+                                    <option value="{{ tom }}" {% if musica.tom == tom %} selected="selected" {% endif %}>{{ tom }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p class="control">
+                            <button class="button is-success is-small" type="submit">Salvar</button>
+                        </p>
+                    </form>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </article>
+    <br>
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init($('#letra'));</script>
+    {{ parent() }}
+{% endblock %}
