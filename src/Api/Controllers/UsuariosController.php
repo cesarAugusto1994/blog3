@@ -71,10 +71,13 @@ class UsuariosController
         $usuario = $app['usuarios.repository']->find($request->get('id'));
 
         $usuario->setNome($request->get('nome'));
+        $app['log.controller']->criar('alterou o nome de usuario no perfil de '.$usuario->getNome());
         $usuario->setEmail($request->get('email'));
+        $app['log.controller']->criar('alterou o e-mail no perfil de '.$usuario->getNome());
 
         if (!empty($_FILES['background']['size'])) {
             $usuario->setAvatar($this->upload($_FILES['background'], 'avatar', $usuario->getAvatar()));
+            $app['log.controller']->criar('alterou foto do perfil de '.$usuario->getNome());
         }
 
         $app['usuarios.repository']->save($usuario);
