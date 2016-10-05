@@ -10,6 +10,7 @@ namespace Api\Controllers;
 
 use Api\Entities\Categoria;
 use Api\Entities\Musica;
+use Api\Entities\Usuarios;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,14 +33,20 @@ class MusicaController
              'categoria' => $categoria
             ]);
     }
-
+    
     /**
+     * @param int $categoria
      * @param Application $app
+     * @param bool $roleUser
      * @return mixed
      */
-    public function novaMusica(Application $app)
+    public function novaMusica($categoria, Application $app, $roleUser = false)
     {
         $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+        
+        if ($roleUser) {
+            return $app['twig']->render('/user/musica_nova.html.twig', ['categoriatela' => $categoria,'categorias' => $categorias]);
+        }
         
         return $app['twig']->render('/admin/musica_add.html.twig', ['categorias' => $categorias]);
     }
@@ -99,21 +106,34 @@ class MusicaController
     public function novo(Request $request, Application $app)
     {
         $musica = new Musica();
+        /**
+         * @var Categoria $categoria
+         */
         $categoria = $app['categoria.repository']->find($request->get('categoria'));
         $user = $app['session']->get('user');
+        /**
+         * @var Usuarios $usuario
+         */
         $usuario = $app['usuarios.repository']->find($user->getId());
         
         $musica->setNome($request->get('nome'));
-        $musica->setNumero($request->get('numero'));
+        $musica->setNumero($request->get('numero') ?: null);
         $musica->setTom($request->get('tonalidade'));
-        $musica->setLetra(strip_tags($request->get('letra')));
-        $musica->setLetraOriginal($request->get('letra'));
+
+        if ($request->get('letra')) {
+            $musica->setLetra(strip_tags($request->get('letra')));
+            $musica->setLetraOriginal($request->get('letra'));
+        }
         $musica->setCategoria($categoria);
         $musica->setUsuario($usuario);
         $musica->setCadastro(new \DateTime('now'));
         $musica->setAtivo(true);
 
         $app['musica.repository']->save($musica);
+
+        if ($request->get('role') == 'user') {
+            return $app->redirect('/user/musicas/'.$categoria->getId());
+        }
 
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }

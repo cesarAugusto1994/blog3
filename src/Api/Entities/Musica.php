@@ -27,7 +27,7 @@ class Musica
     private $id;
     
     /**
-     * @ORM\Column(name="numero", type="integer", nullable=true)
+     * @ORM\Column(name="numero", type="integer", nullable=true, options={"default:0"})
      * @var string
      */
     private $numero;
@@ -45,7 +45,7 @@ class Musica
     private $tom;
     
     /**
-     * @ORM\Column(name="letra", type="text")
+     * @ORM\Column(name="letra", type="text", nullable=true)
      * @var string
      */
     private $letra;

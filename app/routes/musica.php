@@ -14,6 +14,10 @@ $app->get('admin/musicas/add', function() use ($app){
     return $app['musica.controller']->novaMusica($app);
 })->bind('musicas_add');
 
+$app->get('user/musicas/nova/{categoria}', function($categoria) use ($app){
+    return $app['musica.controller']->novaMusica($categoria, $app, true);
+})->bind('nova_musica');
+
 $app->get('admin/musicas/edit/{id}', function($id) use ($app){
     return $app['musica.controller']->editarMusica($id, $app);
 })->bind('musicas_edit');

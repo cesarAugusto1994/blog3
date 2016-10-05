@@ -22,7 +22,7 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a style="text-decoration: none" href="{{ path('musicas_add') }}"><button data-toggle="modal" data-target="#myModal" class="button is-light is-small addMusica">Nova Musica</button></a>
+                        <a style="text-decoration: none" class="button is-light is-small" href="{{ path('nova_musica', { categoria : categoria.id }) }}">Nova Musica</a>
                         <hr class="small">
                     {% endif %}
                     {% for musica in musicas %}
