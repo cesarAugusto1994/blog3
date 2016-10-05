@@ -28,8 +28,8 @@
                     {% for usuario in usuarios %}
                         <div class="media">
                             <div class="media-left media-middle is-4by3">
-                                <a href="#">
-                                    <img class="media-object" style="min-width: 48px;" src="{% if usuario.avatar is not null %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" alt="...">
+                                <a href="{{ path('perfil', { user : usuario.id }) }}">
+                                    <img class="media-object img-circle" style="min-height:48px; max-height: 48px; min-width: 48px; max-width: 48px;" src="{% if usuario.avatar is not null %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" alt="...">
                                 </a>
                             </div>
                             <div class="media-body">
