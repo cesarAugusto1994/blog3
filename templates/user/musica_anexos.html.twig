@@ -30,7 +30,7 @@
 
                     <ul class="nav nav-tabs" id="myTabs">
                         <li role="presentation" class="active"><a href="#home" data-toggle="tab" style="text-decoration: none">Letra</a></li>
-                        <li role="presentation"><a href="#menu" data-toggle="tab" style="text-decoration: none">Anexos</a></li>
+                        <li role="presentation"><a href="#menu" data-toggle="tab" style="text-decoration: none">Arquivos</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -44,7 +44,7 @@
                                                 <button id="incfont" class="button is-dark is-outlined is-small buttonfont">A+</button>
                                                 <button id="decfont" class="button is-dark is-outlined is-small buttonfont">A-</button>
                                                 {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                    <a href="{{ path('musicas_edit', { id : musica.id }) }}" class="button is-white is-small" style="text-decoration: none">Editar Letra</a>
+                                                    <a href="{{ path('musicas_edit', { id : musica.id }) }}" class="button is-light is-small" style="text-decoration: none">Editar Letra</a>
                                                 {% endif %}
                                             </div>
                                             <br>
@@ -96,23 +96,20 @@
                                                 {% else %}
                                                     <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
                                                        target="_blank">
-                                                        <button class="button is-small is-success is-outlined">
+                                                        <button class="button is-small is-light">
                                                             Visualizar
                                                         </button>
                                                     </a>
                                                     <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
                                                        download>
-                                                        <button class="button is-small is-primary is-outlined">
+                                                        <button class="button is-small is-white">
                                                             Baixar
                                                         </button>
                                                     </a>
                                                     {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                        <a class="button is-danger is-small is-outlined"
+                                                        <a class="button is-danger is-small is-inverted"
                                                            href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
                                                            style="text-decoration: none">
-                                                            <span class="icon is-small">
-                                                              <i class="fa fa-minus"></i>
-                                                            </span>
                                                             <span>Remover</span>
                                                         </a>
                                                     {% endif %}

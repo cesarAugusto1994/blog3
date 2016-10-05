@@ -20,39 +20,27 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <button data-toggle="modal" data-target="#myModal" class="button is-danger is-small addColecao">Nova Usu&aacute;rios</button>
+                    <button data-toggle="modal" data-target="#myModal" class="button is-danger is-small addColecao">Novo Usu&aacute;rio</button>
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
                     {% for usuario in usuarios %}
                         <div class="media">
-                            <div class="media-left media-middle">
+                            <div class="media-left media-middle is-4by3">
                                 <a href="#">
-                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
+                                    <img class="media-object" style="min-width: 48px;" src="{% if usuario.avatar is not null %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" alt="...">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a></h4>
-                                    <a class="button is-primary is-outlined is-small openMenu"
-                                                   data-toggle="modal"
-                                                   data-target="#myModal" data-id="{{ colecao.id }}"
-                                                   data-nome="{{ colecao.nome }}"
-                                                   data-descricao="{{ colecao.descricao }}"
-                                                   style="text-decoration: none">
-                                                <span class="icon is-small">
-                                                  <i class="fa fa-edit"></i>
-                                                </span>
-                                        <span>Editar</span>
-                                    </a>
-                                    <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-outlined is-small"
-                                       href="{{ path('colecao_status', { id : usuario.id }) }}"
+                                <h4 class="media-heading"><a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
+                                    <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
+                                       href="{{ path('usuario_status', { id : usuario.id }) }}"
                                        style="text-decoration: none">
                                             <span class="icon is-small">
-                                              <i class="fa fa-plus"></i>
                                             </span>
                                         <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
-                                    </a>
+                                    </a></h4>
                             </div>
                         </div>
                     {% else %}

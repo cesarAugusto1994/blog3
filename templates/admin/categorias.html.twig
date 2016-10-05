@@ -20,7 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <button data-toggle="modal" data-target="#myModal" class="button is-danger addCategoria">Nova Categoria</button>
+                    <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addCategoria">Nova Categoria</button>
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -34,24 +34,18 @@
                             <div class="media-body">
                                 <h4 class="media-heading">
                                     <a href="{{ path('categoria_musicas_grid', { categoriaId : categoria.id, nome : categoria.nome|replace('^', '') }) }}">{{ categoria.nome }}</a>
-                                    &nbsp;&nbsp;<a class="button is-primary is-outlined is-small openMenu"
+                                    <a class="button {% if categoria.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
+                                       href="{{ path('categoria_status', { id : categoria.id }) }}"
+                                       style="text-decoration: none">
+                                        <span>{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}</span>
+                                    </a>
+                                    <a class="button is-white is-pulled-right is-small openMenu"
                                        data-toggle="modal"
                                        data-target="#myModal" data-id="{{ categoria.id }}"
                                        data-nome="{{ categoria.nome }}"
                                        data-colecao="{{ categoria.colecao.id }}"
                                        style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-edit"></i>
-                                                    </span>
                                         <span>Editar</span>
-                                    </a>
-                                    <a class="button {% if categoria.ativo %} is-danger {% else %} is-success {% endif %} is-outlined is-small"
-                                       href="{{ path('categoria_status', { id : categoria.id }) }}"
-                                       style="text-decoration: none">
-                                                <span class="icon is-small">
-                                                  <i class="fa fa-plus"></i>
-                                                </span>
-                                        <span>{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}</span>
                                     </a>
                                 </h4>
 

@@ -26,40 +26,33 @@
             <div class="row">
 
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <button data-toggle="modal" data-target="#myModal" class="button is-danger addAnexo">Novo Anexo</button>
-                    <button data-toggle="modal" data-target="#upload" class="button is-info addAnexo">Upload de Arquivos</button>
+                    <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addAnexo">Novo Anexo</button>
+                    <button data-toggle="modal" data-target="#upload" class="button is-danger is-small is-inverted addAnexo">Upload de Arquivos</button>
                     <hr>
                     {% for anexo in anexos %}
                         <div class="media">
+                            <!--
                             <div class="media-left media-middle">
                                 <a href="#">
                                     <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
                                 </a>
-                            </div>
+                            </div>-->
                             <div class="media-body">
-                                <h4 class="media-heading">{{ anexo.nome }}<small> {{ anexo.tipo.nome }}</small></h4>
-                                <p class="control has-addons">
-                                    <a class="button is-primary is-small is-outlined openMenu"
+                                <h4 class="media-heading">{{ anexo.nome }}<small> {{ anexo.tipo.nome }}</small>
+                                    <a class="button is-danger is-small is-inverted is-pulled-right"
+                                       href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
+                                       style="text-decoration: none">
+                                        <span>Remover</span>
+                                    </a>
+                                    <a class="button is-white is-small is-pulled-right openMenu"
                                        data-toggle="modal"
                                        data-target="#myModal" data-id="{{ anexo.id }}"
                                        data-nome="{{ anexo.nome }}"
                                        data-tipo="{{ anexo.tipo.id }}"
                                        data-link="{{ anexo.link }}"
                                        style="text-decoration: none">
-                                                    <span class="icon is-small">
-                                                      <i class="fa fa-edit"></i>
-                                                    </span>
                                         <span>Editar</span>
-                                    </a>
-                                    <a class="button is-danger is-small is-outlined"
-                                       href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
-                                       style="text-decoration: none">
-                                                <span class="icon is-small">
-                                                  <i class="fa fa-minus"></i>
-                                                </span>
-                                        <span>Remover</span>
-                                    </a>
-                                </p>
+                                    </a></h4>
                             </div>
                         </div>
                     {% else %}

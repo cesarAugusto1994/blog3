@@ -34,9 +34,9 @@
                     {% endif %}
                     <li>
                         {% if is_granted('ROLE_USER') %}
-                            <a href="{{ path('logout') }}">Logout</a>
+                            <a href="{{ path('logout') }}">Sair</a>
                         {% else %}
-                            <a href="{{ path('login') }}">Login</a>
+                            <a href="{{ path('login') }}">Entrar</a>
                         {% endif %}
                     </li>
                 </ul>

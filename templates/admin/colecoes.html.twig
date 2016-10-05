@@ -20,7 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <button data-toggle="modal" data-target="#myModal" class="button is-danger addColecao">Nova Cole&ccedil;&atilde;o</button>
+                    <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addColecao">Nova Cole&ccedil;&atilde;o</button>
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -35,24 +35,18 @@
                             <div class="media-body">
                                 <h4 class="media-heading">
                                     <a href="{{ path('colecao_categorias_grid', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
-                                    &nbsp;&nbsp;<a class="button is-primary is-outlined is-small openMenu"
+                                    <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
+                                       href="{{ path('colecao_status', { id : colecao.id }) }}"
+                                       style="text-decoration: none">
+                                        <span>{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}</span>
+                                    </a>
+                                    <a class="button is-white is-pulled-right is-small openMenu"
                                        data-toggle="modal"
                                        data-target="#myModal" data-id="{{ colecao.id }}"
                                        data-nome="{{ colecao.nome }}"
                                        data-descricao="{{ colecao.descricao }}"
                                        style="text-decoration: none">
-                                                <span class="icon is-small">
-                                                  <i class="fa fa-edit"></i>
-                                                </span>
                                         <span>Editar</span>
-                                    </a>
-                                    <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-outlined is-small"
-                                       href="{{ path('colecao_status', { id : colecao.id }) }}"
-                                       style="text-decoration: none">
-                                            <span class="icon is-small">
-                                              <i class="fa fa-plus"></i>
-                                            </span>
-                                        <span>{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}</span>
                                     </a>
                                 </h4>
                             </div>
