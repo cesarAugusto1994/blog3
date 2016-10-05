@@ -110,6 +110,8 @@ class MusicaAnexosController
             $musicaAnexo->setAtivo(true);
 
             $app['musica.anexos.repository']->save($musicaAnexo);
+    
+            $app['log.controller']->criar('adicionou o arquivo '.$musicaAnexo->getNome());
         }
 
         if ($request->get('user_anexos')) {
@@ -144,6 +146,8 @@ class MusicaAnexosController
         $musicaAnexo->setAtivo(true);
 
         $app['musica.anexos.repository']->save($musicaAnexo);
+    
+        $app['log.controller']->criar('adicionou o arquivo '.$musicaAnexo->getNome());
 
         $accept = ['vozes', 'tenor', 'soprano', 'contralto'];
         $tags = explode(' ', $request->get('nome'));
@@ -184,6 +188,9 @@ class MusicaAnexosController
      */
     public function editar(Request $request, Application $app)
     {
+        /**
+         * @var MusicaAnexos $musicaAnexo
+         */
         $musicaAnexo = $app['musica.anexos.repository']->find($request->get('id'));
         $musica = $app['musica.repository']->find($request->get('musica'));
         $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
@@ -194,6 +201,8 @@ class MusicaAnexosController
         $musicaAnexo->setLink($request->get('link'));
 
         $app['musica.anexos.repository']->save($musicaAnexo);
+    
+        $app['log.controller']->criar('editou o arquivo '.$musicaAnexo->getNome());
 
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
@@ -212,11 +221,14 @@ class MusicaAnexosController
     
     /**
      * @param $id
-     * @param $app
-     * @return bool
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function remover($id, Application $app)
     {
+        /**
+         * @var MusicaAnexos $anexo
+         */
         $anexo = $app['musica.anexos.repository']->find($id);
 
         $directory = __DIR__.'/../../../web/assets/blog/musicas/'.$anexo->getLink();
@@ -226,6 +238,12 @@ class MusicaAnexosController
         }
         
         $app['musica.anexos.repository']->remove($anexo);
+    
+        $app['log.controller']->criar('removeu o arquivo '.$anexo->getNome());
+    
+        if ($app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
+            return $app->redirect('/user/musica/anexos/'.$anexo->getMusica()->getId().'#menu');
+        }
 
         return $app->redirect('/admin/musicas/anexos/grid/'.$anexo->getMusica()->getId().'/'.$anexo->getMusica()->getNome());
     }

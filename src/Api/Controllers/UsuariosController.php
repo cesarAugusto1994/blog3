@@ -11,6 +11,7 @@ namespace Api\Controllers;
 
 use Api\Entities\Usuarios;
 use App\Controllers\UploadImages;
+use Security\UserProvider;
 use Silex\Application;
 use Silex\Provider\FormServiceProvider;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -51,10 +52,11 @@ class UsuariosController
     
         return $app['twig']->render('/admin/usuarios.html.twig', ['usuarios' => $usuarios]);
     }
-
+    
     /**
      * @param Request $request
      * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @throws \Exception
      */
     public function editar(Request $request, Application $app)
@@ -139,7 +141,7 @@ class UsuariosController
                 //$app['usuario.email.service']->send($usuario->getEmail(), $app);
             }
         
-            return $app['twig']->render('login.html.twig', ['sucesso' => 'Cadastro Efetivado.']);
+            return $app->redirect('login');
         }
     
         return $app['twig']->render('register.html.twig', ['form' => $form->createView()]);

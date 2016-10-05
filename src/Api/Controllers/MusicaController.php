@@ -130,6 +130,8 @@ class MusicaController
         $musica->setAtivo(true);
 
         $app['musica.repository']->save($musica);
+    
+        $app['log.controller']->criar('adicionou nova musica '.$musica->getNome());
 
         if ($request->get('role') == 'user') {
             return $app->redirect('/user/musicas/'.$categoria->getId());
@@ -170,6 +172,8 @@ class MusicaController
         }
 
         $app['musica.repository']->save($musica);
+
+        $app['log.controller']->criar('editou musica '.$musica->getNome());
         
         if ($request->get('rota') == 'edicao_usuario') {
             return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId());
@@ -196,6 +200,8 @@ class MusicaController
         } else {
             $musica->setAtivo(true);
         }
+
+        $app['log.controller']->criar('alterou o status da musica '.$musica->getNome());
 
         $app['musica.repository']->save($musica);
 

@@ -22,7 +22,7 @@
         {% endif %}
 
         <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg">Entre para iniciar a sess&atilde;o</p>
             <form method="post" action="{{ path('login_check') }}">
                 <div class="form-group has-feedback">
                     <input type="email" name="_username" value="{{ last_username }}" class="form-control" placeholder="Email">
@@ -34,15 +34,16 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox" id="remember_me" name="_remember_me"> Remember Me
+                        <p class="control">
+                            <label class="checkbox">
+                                <input type="checkbox" id="remember_me" name="_remember_me">
+                                Lembrar-me
                             </label>
-                        </div>
-                    </div><!-- /.col -->
+                        </p>
+                    </div>
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                    </div><!-- /.col -->
+                        <button type="submit" class="btn btn-google btn-block btn-flat">Entrar</button>
+                    </div>
                 </div>
                 <a href="{{ path('register') }}" class="text-left">N&atilde;o possou registro.</a>
             </form>
