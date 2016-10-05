@@ -179,4 +179,18 @@ class UsuariosController
 
         return $app->redirect('/admin/usuarios/list');
     }
+    
+    /**
+     * @param int $user
+     * @param Application $app
+     * @return mixed
+     */
+    public function getAtividadesUsuario($user, Application $app)
+    {
+        $musicas = $app['musica.repository']->findBy(['usuario' => $user]);
+        $musicaAnexos = $app['musica.anexos.repository']->findBy(['usuario' => $user]);
+        $posts = $app['posts.repository']->findBy(['usuario' => $user]);
+    
+        return $app['twig']->render('/user/atividade.html.twig', ['musicas' => $musicas, 'musica_anexos' => $musicaAnexos, 'posts' => $posts]);
+    }
 }

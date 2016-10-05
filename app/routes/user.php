@@ -10,6 +10,10 @@ $app->get('/user/perfil/{user}', function($user) use($app) {
     return $app['usuarios.controller']->getUser($user, $app);
 })->bind('perfil')->value('user', 1);
 
+$app->get('/user/{user}/atividades', function($user) use($app) {
+    return $app['usuarios.controller']->getAtividadesUsuario($user, $app);
+})->bind('usuario_atividades')->value('user', 1);
+
 $app->get('/admin/usuarios/list', function () use ($app) {
     return $app['usuarios.controller']->getUsuarios($app);
 })->bind('usuarios');
