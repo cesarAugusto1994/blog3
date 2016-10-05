@@ -21,7 +21,25 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
+                {% if logs|length > 0 or musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
+
+                    {% if logs|length > 0 %}
+                        <div class="card" style="width: 100%">
+                            <div class="card-content">
+                                <h3>Suas Atividades</h3>
+                                {% for log in logs %}
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h6 class="is-6 is-small">{{ log.mensagem }}
+                                                <a class="button is-light is-small is-pulled-right">{{ log.cadastro|date('j, F, y H:i:s') }}</a>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <br>
+                    {% endif %}
 
                     {% if musicas|length > 0 %}
                     <div class="card" style="width: 100%">

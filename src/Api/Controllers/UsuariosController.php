@@ -189,10 +189,11 @@ class UsuariosController
      */
     public function getAtividadesUsuario($user, Application $app)
     {
+        $logs = $app['log.repository']->findBy(['usuario' => $user], ['cadastro' => 'DESC']);
         $musicas = $app['musica.repository']->findBy(['usuario' => $user], ['cadastro' => 'DESC']);
         $musicaAnexos = $app['musica.anexos.repository']->findBy(['usuario' => $user], ['cadastro' => 'DESC']);
         $posts = $app['posts.repository']->findBy(['usuario' => $user], ['cadastro' => 'DESC']);
     
-        return $app['twig']->render('/user/atividade.html.twig', ['musicas' => $musicas, 'musica_anexos' => $musicaAnexos, 'posts' => $posts]);
+        return $app['twig']->render('/user/atividade.html.twig', ['logs' => $logs, 'musicas' => $musicas, 'musica_anexos' => $musicaAnexos, 'posts' => $posts]);
     }
 }
