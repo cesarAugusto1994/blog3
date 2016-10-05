@@ -72,6 +72,22 @@
                         <br>
                     {% endif %}
 
+                    {% if posts|length > 0 %}
+                        <div class="card" style="width: 100%">
+                            <div class="card-content">
+                                <h3>Posts adicionados por voc&ecirc;</h3>
+                                {% for post in posts %}
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace(' ', '-')|lower }) }}">{{ post.titulo }}</a></h4>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <br>
+                    {% endif %}
+
                  {% else %}
 
                      Nenhum registro Encontrado.

@@ -20,8 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_USER') %}
                         <a style="text-decoration: none" class="button is-light is-small" href="{{ path('nova_musica', { categoria : categoria.id }) }}">Nova Musica</a>
                         <hr class="small">
                     {% endif %}
@@ -29,10 +28,12 @@
                         <div class="media">
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
+                                    {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
                                     <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-white is-small is-pulled-right"
                                        style="text-decoration: none">
                                         <span>Editar</span>
                                     </a>
+                                {% endif %}
                                 </h4>
                             </div>
                         </div>
