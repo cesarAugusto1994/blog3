@@ -133,6 +133,8 @@ class MusicaController
     
         $app['log.controller']->criar('adicionou nova musica '.$musica->getNome());
 
+        $app['session']->getFlashBag()->add('mensagem', 'Musica adicionada com sucesso.');
+
         if ($request->get('role') == 'user') {
             return $app->redirect('/user/musicas/'.$categoria->getId());
         }
@@ -174,6 +176,8 @@ class MusicaController
         $app['musica.repository']->save($musica);
 
         $app['log.controller']->criar('editou musica '.$musica->getNome());
+
+        $app['session']->getFlashBag()->add('mensagem', 'Musica editada com sucesso.');
         
         if ($request->get('rota') == 'edicao_usuario') {
             return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId());
@@ -193,6 +197,9 @@ class MusicaController
      */
     public function alteraStatus($id, Application $app)
     {
+        /**
+         * @var Musica $musica
+         */
         $musica = $app['musica.repository']->find($id);
 
         if ($musica->isAtivo()) {
@@ -201,9 +208,11 @@ class MusicaController
             $musica->setAtivo(true);
         }
 
+        $app['musica.repository']->save($musica);
+
         $app['log.controller']->criar('alterou o status da musica '.$musica->getNome());
 
-        $app['musica.repository']->save($musica);
+        $app['session']->getFlashBag()->add('mensagem', 'Musica '.($musica->isAtivo() ? 'ativada' : 'desativada').' com sucesso.');
 
         return $app->redirect('/admin/musicas/grid');
     }

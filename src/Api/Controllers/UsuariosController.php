@@ -70,17 +70,24 @@ class UsuariosController
          */
         $usuario = $app['usuarios.repository']->find($request->get('id'));
 
-        $usuario->setNome($request->get('nome'));
-        $app['log.controller']->criar('alterou o nome de usuario no perfil de '.$usuario->getNome());
-        $usuario->setEmail($request->get('email'));
-        $app['log.controller']->criar('alterou o e-mail no perfil de '.$usuario->getNome());
+        if ($request->get('nome') != $usuario->getNome()) {
+            $app['log.controller']->criar('alterou o nome de usuario no perfil de ' . $usuario->getNome() . ' para ' . $request->get('nome'));
+            $usuario->setNome($request->get('nome'));
+        }
+
+        if ($request->get('email') != $usuario->getEmail()) {
+            $usuario->setEmail($request->get('email'));
+            $app['log.controller']->criar('alterou o e-mail no perfil de ' . $usuario->getNome());
+        }
 
         if (!empty($_FILES['background']['size'])) {
             $usuario->setAvatar($this->upload($_FILES['background'], 'avatar', $usuario->getAvatar()));
-            $app['log.controller']->criar('alterou foto do perfil de '.$usuario->getNome());
+            $app['log.controller']->criar('alterou a foto do perfil de '.$usuario->getNome());
         }
 
         $app['usuarios.repository']->save($usuario);
+
+        $app['session']->getFlashBag()->add('mensagem', 'Informações do usuário alteradas com sucesso.');
 
         return $app->redirect('/user/perfil/'.$usuario->getId());
     }
@@ -172,6 +179,9 @@ class UsuariosController
      */
     public function alteraStatus($id, Application $app)
     {
+        /**
+         * @var Usuarios $usuario
+         */
         $usuario = $app['usuarios.repository']->find($id);
 
         if ($usuario->isAtivo()) {
@@ -181,6 +191,10 @@ class UsuariosController
         }
 
         $app['usuarios.repository']->save($usuario);
+
+        $app['log.controller']->criar($usuario->isAtivo() ? 'ativou' : 'inativou' . ' o usuário ' . $usuario->getNome());
+
+        $app['session']->getFlashBag()->add('mensagem', 'Usuário '.($usuario->isAtivo() ? 'ativado' : 'inativado').' com sucesso.');
 
         return $app->redirect('/admin/usuarios/list');
     }

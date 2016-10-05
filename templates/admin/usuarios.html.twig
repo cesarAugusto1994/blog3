@@ -25,6 +25,10 @@
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
+                    {% for alert in app.session.flashbag.get('mensagem') %}
+                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                    {% endfor %}
+
                     {% for usuario in usuarios %}
                         <div class="media">
                             <div class="media-left media-middle is-4by3">
@@ -34,13 +38,16 @@
                             </div>
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
-                                    <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
-                                       href="{{ path('usuario_status', { id : usuario.id }) }}"
-                                       style="text-decoration: none">
-                                            <span class="icon is-small">
-                                            </span>
-                                        <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
-                                    </a></h4>
+                                    {% if usuario.id != app['usuario.sessao'].id %}
+                                        <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
+                                           href="{{ path('usuario_status', { id : usuario.id }) }}"
+                                           style="text-decoration: none">
+                                            <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
+                                        </a>
+                                    {% else %}
+                                        <button class="button is-light is-small is-pulled-right">Voc&ecirc;</button>
+                                    {% endif %}
+                                </h4>
                             </div>
                         </div>
                     {% else %}
