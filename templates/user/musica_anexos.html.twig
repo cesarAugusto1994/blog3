@@ -49,7 +49,7 @@
                                             </div>
                                             <br>
                                             {% if musica.letra %}
-                                                <pre id="content" style="font-size: 9px; background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
+                                                <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
                                             {% else %}
                                                 <p class="lead">Letra não disponível.</p>
                                             {% endif %}
@@ -192,6 +192,10 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $(function() {
+                $('.c').css('font-size', 8);
+                $('#content').css('font-size', 8)
+            });
             $('#incfont').click(function(){
                 curSize= parseInt($('#content').css('font-size')) + 2;
                 curSize2= parseInt($('.c').css('font-size')) + 2;
