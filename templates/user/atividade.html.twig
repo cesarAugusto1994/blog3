@@ -30,7 +30,9 @@
                         {% for musica in musicas %}
                             <div class="media">
                                 <div class="media-body">
-                                    <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.numero }} - {{ musica.nome }}</a><small> {{ musica.categoria.nome }}</small></h4>
+                                    <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.numero }} - {{ musica.nome }}</a>
+                                        <a class="button is-light is-small is-pulled-right">{{ musica.cadastro|date('j, F, y H:i:s') }}</a>
+                                    </h4>
                                 </div>
                             </div>
                         {% endfor %}
@@ -46,7 +48,7 @@
                         {% for anexo in musica_anexos %}
                             <div class="media">
                                 <div class="media-body">
-                                    <h4 class="media-heading">{{ anexo.nome }}</h4>
+                                    <h4 class="media-heading">{{ anexo.nome }}<a class="button is-light is-small is-pulled-right">{{ anexo.cadastro|date('j, F, y H:i:s') }}</a></h4>
                                     <a href="{{ path('musica_anexos', { musicaId : anexo.musica.id }) }}">
                                         <button class="button is-small is-white">
                                             Ir para musica
@@ -79,7 +81,9 @@
                                 {% for post in posts %}
                                     <div class="media">
                                         <div class="media-body">
-                                            <h4 class="media-heading"><a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace(' ', '-')|lower }) }}">{{ post.titulo }}</a></h4>
+                                            <h4 class="media-heading"><a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace(' ', '-')|lower }) }}">{{ post.titulo }}</a>
+                                                <a class="button is-light is-small is-pulled-right">{{ post.cadastro|date('j, F, y H:i:s') }}</a>
+                                            </h4>
                                         </div>
                                     </div>
                                 {% endfor %}
