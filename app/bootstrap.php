@@ -21,18 +21,10 @@ $isDevMode = false;
 //caminho das entidades
 $paths = array(__DIR__ . '/../src/Api/Entities',
     __DIR__ . '/../src/App/Entities');
-// configurações do banco de dados
-$dbParams = array(
-    'driver' => 'pdo_mysql',
-    'dbname' => 'blog',
-    'user' => 'root',
-    'password' => 'mestre',
-    'host' => '127.0.0.1',
-    'port' => 3306
-);
+
 $config = Setup::createConfiguration($isDevMode);
-//$config->setResultCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
-//$config->setMetadataCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
+$config->setResultCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
+$config->setMetadataCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());
 //leitor das annotations das entidades
 $driver = new AnnotationDriver(new AnnotationReader(), $paths);
 $config->setMetadataDriverImpl($driver);
@@ -46,7 +38,6 @@ $config->setSecondLevelCacheEnabled();
 $config->getSecondLevelCacheConfiguration()->setCacheFactory($factory);
 
 //cria o entityManager
-$entityManager = EntityManager::create($dbParams, $config);
 /*
 $evm = $entityManager->getEventManager();
 $entitySubscriber = new DoctrineNaPratica\Model\Subscriber\EntitySubscriber;

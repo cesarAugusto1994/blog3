@@ -45,6 +45,7 @@ $app->register(new Gigablah\Silex\OAuth\OAuthServiceProvider(), array(
     )
 ));
 */
+
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     'dbs.options' => array(
         'default' => array(
