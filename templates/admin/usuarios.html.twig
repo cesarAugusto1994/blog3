@@ -19,10 +19,11 @@
     <article>
         <div class="container">
             <div class="row">
+                <!--
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <button data-toggle="modal" data-target="#myModal" class="button is-danger is-small addColecao">Novo Usu&aacute;rio</button>
                     <hr>
-                </div>
+                </div>-->
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
                     {% for alert in app.session.flashbag.get('mensagem') %}
@@ -35,7 +36,7 @@
                                 <a href="{{ path('perfil', { user : usuario.id }) }}">
                                     <img class="media-object img-circle" style="min-height:48px; max-height: 48px; min-width: 48px; max-width: 48px;" src="{% if usuario.avatar is not null %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" alt="...">
                                 </a>
-                            </div>
+                            </div><br>
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a></h4>
                                     {% if usuario.id != app['usuario.sessao'].id %}

@@ -60,8 +60,10 @@
 <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/clean-blog.min.js') }}"></script>
 <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/snackbarjs/dist/snackbar.min.js') }}"></script>
 <script type="text/javascript">
-    $(window).load(function(){
-        $("#snackbarid").snackbar("show");
+    $(window).load(function() {
+        if($("#snackbarid").length > 0) {
+            $("#snackbarid").snackbar("show");
+        }
     });
 </script>
 <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/main.js') }}"></script>
