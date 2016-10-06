@@ -37,7 +37,7 @@
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
+                                <h4 class="media-heading"><a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a></h4>
                                     {% if usuario.id != app['usuario.sessao'].id %}
                                         <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
                                            href="{{ path('usuario_status', { id : usuario.id }) }}"
@@ -48,7 +48,6 @@
                                         <button class="button is-light is-small is-pulled-right">Voc&ecirc;</button>
                                     {% endif %}
                                     <a class="button is-white is-small is-pulled-right" href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
-                                </h4>
                             </div>
                         </div>
                     {% else %}
