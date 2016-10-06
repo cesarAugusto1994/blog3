@@ -192,7 +192,7 @@ class UsuariosController
 
         $app['usuarios.repository']->save($usuario);
 
-        $app['log.controller']->criar($usuario->isAtivo() ? 'ativou' : 'inativou' . ' o usuário ' . $usuario->getNome());
+        $app['log.controller']->criar(($usuario->isAtivo() ? 'ativou' : 'inativou') . ' o usuário ' . $usuario->getNome());
 
         $app['session']->getFlashBag()->add('mensagem', 'Usuário '.($usuario->isAtivo() ? 'ativado' : 'inativado').' com sucesso.');
 

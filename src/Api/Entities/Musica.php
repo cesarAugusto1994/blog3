@@ -75,6 +75,12 @@ class Musica
      * @var Usuarios
      */
     private $usuario;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comentarios", mappedBy="Musica")
+     * @var Comentarios
+     */
+    private $comentarios;
     
     /**
      * @ORM\Column(name="cadastro", type="datetime")
