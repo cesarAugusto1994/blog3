@@ -14,9 +14,6 @@ define('GOOGLE_API_SECRET',   'vqCx5mIL6uxLP6X4sNlZIank');
 define('GITHUB_API_KEY',      '');
 define('GITHUB_API_SECRET',   '');
 
-include __DIR__ . '/../app/bootstrap.php';
-include __DIR__ . '/../app/cli-config.php';
-
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new AssetServiceProvider());
