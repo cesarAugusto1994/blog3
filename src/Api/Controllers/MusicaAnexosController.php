@@ -112,6 +112,8 @@ class MusicaAnexosController
             $app['musica.anexos.repository']->save($musicaAnexo);
     
             $app['log.controller']->criar('adicionou o arquivo '.$musicaAnexo->getNome());
+
+            $app['session']->getFlashBag()->add('mensagem', 'Upload de arquivo realizado com sucesso.');
         }
 
         if ($request->get('user_anexos')) {
@@ -148,6 +150,8 @@ class MusicaAnexosController
         $app['musica.anexos.repository']->save($musicaAnexo);
     
         $app['log.controller']->criar('adicionou o arquivo '.$musicaAnexo->getNome());
+
+        $app['session']->getFlashBag()->add('mensagem', 'Novo link adicionado com sucesso.');
 
         $accept = ['vozes', 'tenor', 'soprano', 'contralto'];
         $tags = explode(' ', $request->get('nome'));
@@ -204,6 +208,8 @@ class MusicaAnexosController
     
         $app['log.controller']->criar('editou o arquivo '.$musicaAnexo->getNome());
 
+        $app['session']->getFlashBag()->add('mensagem', 'Arquivo editado com sucesso.');
+
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
     
@@ -245,6 +251,24 @@ class MusicaAnexosController
             return $app->redirect('/user/musica/anexos/'.$anexo->getMusica()->getId().'#menu');
         }
 
+        $app['session']->getFlashBag()->add('mensagem', 'Arquivo removido com sucesso.');
+
         return $app->redirect('/admin/musicas/anexos/grid/'.$anexo->getMusica()->getId().'/'.$anexo->getMusica()->getNome());
     }
+
+    /**
+     * @param $tipo
+     * @param Application $app
+     * @return mixed
+     */
+    public function getByTipo($tipo, Application $app)
+    {
+        $tipo = $app['tipo.anexo.repository']->find($tipo);
+
+        $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo]);
+
+        return $app['twig']->render('user/videos.html.twig', ['videos' => $videos]);
+
+    }
+
 }
