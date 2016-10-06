@@ -74,6 +74,10 @@ class UsuariosController
             $app['log.controller']->criar('alterou o nome de usuario no perfil de ' . $usuario->getNome() . ' para ' . $request->get('nome'));
             $usuario->setNome($request->get('nome'));
         }
+        
+        if ($request->get('nickname') != $usuario->getNickname()) {
+            $usuario->setNickname(strtolower($request->get('nickname')));
+        }
 
         if ($request->get('email') != $usuario->getEmail()) {
             $usuario->setEmail($request->get('email'));
@@ -106,6 +110,12 @@ class UsuariosController
                     'min' => 5, 'minMessage' => 'Seu Nome deve possuir mais de {{ limit }} caracteres.',
                     'max' => 30, 'maxMessage' => 'Seu Nome deve possuir menos de {{ limit }} caracteres.'])],
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Nome')
+            ])->add('nickname', TextType::class, [
+                'required' => true,
+                'constraints' => [new Assert\NotBlank(), new Assert\Length([
+                    'min' => 5, 'minMessage' => 'Seu Nickname deve possuir mais de {{ limit }} caracteres.',
+                    'max' => 30, 'maxMessage' => 'Seu Nickname deve possuir menos de {{ limit }} caracteres.'])],
+                'attr' => array('class' => 'form-control', 'placeholder' => 'Nickname(Login)')
             ])->add('email', EmailType::class, [
                 'required' => true,
                 'constraints' => [new Assert\Email(), new Assert\Length(['min' => 6])],
@@ -138,6 +148,7 @@ class UsuariosController
     
             $usuario = new Usuarios();
             $usuario->setNome($request->get('form')['nome']);
+            $usuario->setNickname(strtolower($request->get('form')['nickname']));
             $usuario->setEmail($request->get('form')['email']);
             $usuario->setPassword($password);
             $usuario->setCadastro(new \DateTime('now'));

@@ -32,6 +32,12 @@ class Usuarios
      * @var string
      */
     private $nome;
+    
+    /**
+     * @ORM\Column(name="nickname", type="string")
+     * @var string
+     */
+    private $nickname;
 
     /**
      * @ORM\Column(name="email", type="string", unique=true, length=90, nullable=false)
@@ -97,6 +103,22 @@ class Usuarios
     public function setNome($nome)
     {
         $this->nome = $nome;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getNickname()
+    {
+        return $this->nickname;
+    }
+    
+    /**
+     * @param string $nickname
+     */
+    public function setNickname($nickname)
+    {
+        $this->nickname = $nickname;
     }
 
     /**
