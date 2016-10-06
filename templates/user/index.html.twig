@@ -26,7 +26,7 @@
                         <div class="card" style="height: 270px;">
                             <div class="card-image">
                                 <figure class="image is-16by9">
-                                    <img src="{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" alt="">
+                                    <img src="{% if menu.icon is not null %}{{ asset(app['dir.menu'] ~ menu.icon ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" alt="">
                                 </figure>
                             </div>
                             <div class="card-content">
