@@ -21,6 +21,11 @@
                 <strong>Erro!</strong> {{ error }}
             </div>
         {% endif %}
+
+        {% for alert in app.session.flashbag.get('mensagem') %}
+            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+        {% endfor %}
+
         <div class="register-box-body">
             <p class="login-box-msg">Registrar novo usu&aacute;rio</p>
             <form action="{{ path('register') }}" method="post">

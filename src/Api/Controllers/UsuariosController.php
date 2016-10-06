@@ -145,6 +145,8 @@ class UsuariosController
             $usuario->setAtivo(true);
             $app['usuarios.repository']->save($usuario);
 
+            $app['session']->getFlashBag()->add('mensagem', 'Você se cadastrou com sucesso.');
+
             //$app['email.confirmacao.controller']->criar($usuario, $app);
 
             if ($app['envia.email']) {
