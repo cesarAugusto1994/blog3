@@ -98,6 +98,11 @@
                                                         </button>
                                                     </a>
                                                 {% else %}
+                                                    {% if anexo.tipo.id == 1 %}
+                                                        <div class="column">
+                                                            <audio src="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}" controls preload></audio>
+                                                        </div>
+                                                    {% endif %}
                                                     <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
                                                        target="_blank">
                                                         <button class="button is-small is-light">
