@@ -36,8 +36,8 @@
                             <div class="media-left media-middle is-4by3">
                                 <a href="{{ path('perfil', { user : usuario.id }) }}">
                                     <img class="media-object img-circle" style="min-height:48px; max-height: 48px; min-width: 48px; max-width: 48px;" src="{% if usuario.avatar is not null %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" alt="...">
-                                </a>-->
-                            </div><br>
+                                </a>
+                            </div><br>-->
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
                                     <a class="button is-light is-small is-pulled-right" href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
