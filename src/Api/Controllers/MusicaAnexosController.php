@@ -255,4 +255,20 @@ class MusicaAnexosController
 
         return $app->redirect('/admin/musicas/anexos/grid/'.$anexo->getMusica()->getId().'/'.$anexo->getMusica()->getNome());
     }
+
+    /**
+     * @param $tipo
+     * @param Application $app
+     * @return mixed
+     */
+    public function getByTipo($tipo, Application $app)
+    {
+        $tipo = $app['tipo.anexo.repository']->find($tipo);
+
+        $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo]);
+
+        return $app['twig']->render('user/videos.html.twig', ['videos' => $videos]);
+
+    }
+
 }

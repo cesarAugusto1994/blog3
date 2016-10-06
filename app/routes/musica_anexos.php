@@ -32,3 +32,7 @@ $app->get('musica/anexos/download/{id}', function($id) use ($app) {
 $app->get('admin/musica/anexos/remover/{id}', function($id) use ($app) {
     return $app['musica.anexos.controller']->remover($id, $app);
 })->bind('musica_anexos_remover');
+
+$app->get('admin/musica/anexos/videos', function () use ($app) {
+    return $app['musica.anexos.controller']->getByTipo(3, $app);
+})->bind('videos');
