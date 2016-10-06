@@ -33,6 +33,7 @@ trait MediaFormat
                 break;
             case 'audio/mpeg':
             case 'audio/mp3':
+            case 'application/octet-stream' :
                 return 1;
                 break;
             case 'image/jpeg':

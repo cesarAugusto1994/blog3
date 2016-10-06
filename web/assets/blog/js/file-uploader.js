@@ -8,7 +8,7 @@ $(document).ready(function(){
         addMore: true,
         limit: 40,
         maxSize: 25,
-        extensions: ["jpg", "png", "mp3", "pdf", "doc", "docx", "gif"],
+        extensions: ["jpg", "png", "mp3", "pdf", "doc", "docx", "gif", "enc"],
     });
 
 });
