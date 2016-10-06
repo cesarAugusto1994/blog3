@@ -33,8 +33,32 @@ class Widgets
     private $nome;
     
     /**
-     * @ORM\Column(name="ativo", type="smallint")
-     * @var integer
+     * @ORM\Column(name="decricao", type="string", nullable=true)
+     * @var string
+     */
+    private $decricao;
+    
+    /**
+     * @ORM\Column(name="url", type="string", nullable=true)
+     * @var string
+     */
+    private $url;
+    
+    /**
+     * @ORM\Column(name="imagem", type="string")
+     * @var string
+     */
+    private $imagem;
+    
+    /**
+     * @ORM\Column(name="role", type="string")
+     * @var string
+     */
+    private $role;
+    
+    /**
+     * @ORM\Column(name="ativo", type="boolean")
+     * @var boolean
      */
     private $ativo;
     
@@ -60,6 +84,70 @@ class Widgets
     public function setNome($nome)
     {
         $this->nome = $nome;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDecricao()
+    {
+        return $this->decricao;
+    }
+    
+    /**
+     * @param string $decricao
+     */
+    public function setDecricao($decricao)
+    {
+        $this->decricao = $decricao;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+    
+    /**
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getImagem()
+    {
+        return $this->imagem;
+    }
+    
+    /**
+     * @param string $imagem
+     */
+    public function setImagem($imagem)
+    {
+        $this->imagem = $imagem;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+    
+    /**
+     * @param string $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
     
     /**

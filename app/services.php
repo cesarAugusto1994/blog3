@@ -74,7 +74,7 @@ $app['tonalidades'] = function () { return ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E
 $app['dir.base'] = function () {
 
   if($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
-    return '';
+    return '/';
   }
 
   return '/web/';
@@ -92,6 +92,8 @@ $app['dir.base2'] = function () {
 $app['dir.img'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/config/';};
 $app['dir.post'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/posts/';};
 $app['dir.avatar'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/avatar/';};
+$app['dir.widgets'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/widgets/';};
+$app['dir.menu'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/menu/';};
 
 $app['background.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
