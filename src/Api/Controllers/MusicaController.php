@@ -45,7 +45,7 @@ class MusicaController
         $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
         
         if ($roleUser) {
-            return $app['twig']->render('/user/musica_nova.html.twig', ['categoriatela' => $categoria,'categorias' => $categorias]);
+            return $app['twig']->render('/user/musica_nova.html.twig', ['categoriaTela' => $categoria,'categorias' => $categorias]);
         }
         
         return $app['twig']->render('/admin/musica_add.html.twig', ['categorias' => $categorias]);
