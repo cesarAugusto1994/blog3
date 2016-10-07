@@ -32,15 +32,7 @@
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
 
-                    <ul class="nav nav-tabs" id="myTabs">
-                        <li role="presentation" class="active"><a href="#home" data-toggle="tab" style="text-decoration: none">Letra</a></li>
-                        <li role="presentation"><a href="#menu" data-toggle="tab" style="text-decoration: none">Arquivos</a></li>
-                    </ul>
-
-                    <div class="tab-content">
-
-                        <div class="tab-pane active" id="home">
-                            <div class="card" style="width: 100%">
+                    <div class="card" style="width: 100%">
                                 <div class="card-content">
                                     <div class="media">
                                         <div class="media-content">
@@ -60,12 +52,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div><br>
 
-                        <div class="tab-pane" id="menu">
-
-                            <div class="card" style="width: 100%">
+                    <div class="card" style="width: 100%">
                                 <div class="card-content">
 
                                     <div class="media">
@@ -81,11 +70,11 @@
                                         <div class="media">
                                             <div class="media-left media-middle">
                                                 {% if anexo.tipo.id == 1 %}
-                                                    <i class="fa fa-music"></i>
-                                                {% elseif anexo.tipo.id == 2 %}
-                                                    <i class="fa fa-picture-o"></i>
-                                                {% elseif anexo.tipo.id == 3 %}
-                                                    <i class="fa fa-file-pdf-o"></i>
+                                                <i class="fa fa-music"></i>
+                                            {% elseif anexo.tipo.id == 2 %}
+                                                <i class="fa fa-picture-o"></i>
+                                            {% elseif anexo.tipo.id == 3 %}
+                                                <i class="fa fa-file-pdf-o"></i>
                                                 {% endif %}&nbsp;&nbsp;&nbsp;
                                             </div>
                                             <div class="media-body">
@@ -127,11 +116,10 @@
                                         <p class="lead">Nenhum registro encontrado.</p>
                                     {% endfor %}
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </div><br>
+
                 </div>
-            </div><br>
+            </div>
         </div>
     </article>
 
