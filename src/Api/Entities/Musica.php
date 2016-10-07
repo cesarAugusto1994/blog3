@@ -87,6 +87,12 @@ class Musica
      * @var \DateTime
      */
     private $cadastro;
+
+    /**
+     * @ORM\Column(name="novo", type="boolean")
+     * @var boolean
+     */
+    private $novo;
     
     /**
      * @ORM\Column(name="ativo", type="boolean")
@@ -244,6 +250,22 @@ class Musica
     public function setCadastro($cadastro)
     {
         $this->cadastro = $cadastro;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isNovo()
+    {
+        return $this->novo;
+    }
+
+    /**
+     * @param boolean $novo
+     */
+    public function setNovo($novo)
+    {
+        $this->novo = $novo;
     }
     
     /**

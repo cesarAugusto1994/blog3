@@ -33,6 +33,12 @@ class Log
     private $mensagem;
     
     /**
+     * @ORM\Column(name="rota", type="string", nullable=true)
+     * @var string
+     */
+    private $rota;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Usuarios")
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
      * @var Usuarios
@@ -67,6 +73,22 @@ class Log
     public function setMensagem($mensagem)
     {
         $this->mensagem = $mensagem;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getRota()
+    {
+        return $this->rota;
+    }
+    
+    /**
+     * @param string $rota
+     */
+    public function setRota($rota)
+    {
+        $this->rota = $rota;
     }
     
     /**

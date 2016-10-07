@@ -30,11 +30,12 @@ class LogController
     {
         $this->app = $app;
     }
-
+    
     /**
      * @param $mensagem
+     * @param null $rota
      */
-    public function criar($mensagem)
+    public function criar($mensagem, $rota = null)
     {
         $user = $this->app['session']->get('user');
         
@@ -43,6 +44,9 @@ class LogController
         $log = new Log();
         $log->setMensagem($mensagem);
         $log->setUsuario($usuario);
+        if ($rota) {
+            $log->setRota($rota);
+        }
         $log->setCadastro(new \DateTime('now'));
         
         $this->app['log.repository']->save($log);

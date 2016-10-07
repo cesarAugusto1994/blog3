@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20161006084230 extends AbstractMigration
+class Version20161007162028 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,8 +18,8 @@ class Version20161006084230 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE log ADD rota VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE musica CHANGE numero numero INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE widgets ADD decricao VARCHAR(255) DEFAULT NULL, ADD url VARCHAR(255) DEFAULT NULL, ADD imagem VARCHAR(255) NOT NULL, ADD role VARCHAR(255) NOT NULL, CHANGE ativo ativo TINYINT(1) NOT NULL');
     }
 
     /**
@@ -30,7 +30,7 @@ class Version20161006084230 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE log DROP rota');
         $this->addSql('ALTER TABLE musica CHANGE numero numero INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE widgets DROP decricao, DROP url, DROP imagem, DROP role, CHANGE ativo ativo SMALLINT NOT NULL');
     }
 }

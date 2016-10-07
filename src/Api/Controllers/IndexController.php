@@ -76,6 +76,16 @@ class IndexController
      */
     public function userIndex(Application $app)
     {
-        return $app['twig']->render('/user/index.html.twig', []);
+        $logs = $app['log.repository']->findBy([], ['cadastro' => 'DESC'], 1);
+        $musicas = $app['musica.repository']->findBy([], ['cadastro' => 'DESC'], 1);
+        $musicaAnexos = $app['musica.anexos.repository']->findBy([], ['cadastro' => 'DESC'], 1);
+        $posts = $app['posts.repository']->findBy([], ['cadastro' => 'DESC'], 1);
+
+        return $app['twig']->render('/user/index.html.twig', [
+            'logs' => $logs,
+            'musicas' => $musicas,
+            'musica_anexos' => $musicaAnexos,
+            'posts' => $posts
+        ]);
     }
 }

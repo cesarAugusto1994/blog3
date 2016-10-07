@@ -224,6 +224,13 @@ class UsuariosController
         $musicaAnexos = $app['musica.anexos.repository']->findBy(['usuario' => $user], ['cadastro' => 'DESC']);
         $posts = $app['posts.repository']->findBy(['usuario' => $user], ['cadastro' => 'DESC']);
     
-        return $app['twig']->render('/user/atividade.html.twig', ['logs' => $logs, 'musicas' => $musicas, 'musica_anexos' => $musicaAnexos, 'posts' => $posts]);
+        return $app['twig']->render('/user/atividade.html.twig', 
+            [
+                'logs' => $logs, 
+                'musicas' => $musicas, 
+                'musica_anexos' => $musicaAnexos, 
+                'posts' => $posts
+            ]
+        );
     }
 }

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20161005231512 extends AbstractMigration
+class Version20161007155429 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,7 +18,7 @@ class Version20161005231512 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE musica CHANGE numero numero INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE musica ADD novo TINYINT(1) NOT NULL, CHANGE numero numero INT DEFAULT NULL');
     }
 
     /**
@@ -29,6 +29,6 @@ class Version20161005231512 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE musica CHANGE numero numero INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE musica DROP novo, CHANGE numero numero INT DEFAULT NULL');
     }
 }
