@@ -41,7 +41,7 @@
                                             <button id="incfont" class="button is-dark is-outlined is-small buttonfont">A+</button>
                                             <button id="decfont" class="button is-dark is-outlined is-small buttonfont">A-</button>
                                             {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-light is-small" style="text-decoration: none">Editar Letra</a>
+                                                <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-primary is-small" style="text-decoration: none">Editar Letra</a>
                                             {% endif %}
                                         </div>
                                         <br>
@@ -72,42 +72,31 @@
                                 <div class="media">
                                     <div class="media-left media-middle">
                                         {% if anexo.tipo.id == 1 %}
-                                        <i class="fa fa-music"></i>
-                                    {% elseif anexo.tipo.id == 2 %}
-                                        <i class="fa fa-picture-o"></i>
-                                    {% elseif anexo.tipo.id == 3 %}
-                                        <i class="fa fa-file-pdf-o"></i>
+                                            <i class="fa fa-music"></i>
+                                        {% elseif anexo.tipo.id == 2 %}
+                                            <i class="fa fa-picture-o"></i>
+                                        {% elseif anexo.tipo.id == 3 %}
+                                            <i class="fa fa-file-pdf-o"></i>
                                         {% endif %}&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="media-body">
                                         <h4 class="media-heading">{{ anexo.nome }}</h4>
                                         {% if anexo.isExterno %}
-                                            <a href="{{ anexo.link }}"
-                                               target="_blank">
-                                                <button class="button is-small is-white">
-                                                    ir para o link
-                                                </button>
+                                            <a class="button is-small is-white" href="{{ anexo.link }}"
+                                               target="_blank">ir para o link
                                             </a>
                                         {% else %}
-                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
-                                               target="_blank">
-                                                <button class="button is-small is-light">
-                                                    Visualizar
-                                                </button>
+                                            <a class="button is-small is-light" href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                               target="_blank">Visualizar
                                             </a>
-                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
-                                               download>
-                                                <button class="button is-small is-white">
-                                                    Baixar
-                                                </button>
+                                            <a class="button is-small is-white" href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                               download>Baixar
                                             </a>
-                                            {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                <a class="button is-danger is-small is-inverted"
-                                                   href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
-                                                   style="text-decoration: none">
-                                                    <span>Remover</span>
-                                                </a>
-                                            {% endif %}
+                                        {% endif %}
+                                        {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
+                                            <a class="button is-danger is-small is-inverted"
+                                               href="{{ path('musica_anexos_remover', { id : anexo.id }) }}">Remover
+                                            </a>
                                         {% endif %}
                                         {% for tag in anexo.anexoTags.tag %}
                                             <button class="button is-info is-outlined">{{ tag.nome }}</button>

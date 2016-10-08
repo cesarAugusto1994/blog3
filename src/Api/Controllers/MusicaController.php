@@ -127,6 +127,10 @@ class MusicaController
         $musica->setCategoria($categoria);
         $musica->setUsuario($usuario);
         $musica->setCadastro(new \DateTime('now'));
+        $musica->setNovo(false);
+        if ($request->get('novo')) {
+            $musica->setNovo($request->get('novo'));
+        }
         $musica->setAtivo(true);
 
         $app['musica.repository']->save($musica);
@@ -187,6 +191,38 @@ class MusicaController
             return $app->redirect('/user/musica/anexos/' . $musica->getId());
         }
         
+        return $app->redirect('/admin/musicas/grid');
+    }
+
+    /**
+     * @param Request $request
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editarLetra(Request $request, Application $app)
+    {
+        /**
+         * @var Musica $musica
+         */
+        $musica = $app['musica.repository']->find($request->get('id'));
+
+        $musica->setLetra(strip_tags($request->get('letra')));
+        $musica->setLetraOriginal($request->get('letra'));
+
+        $app['musica.repository']->save($musica);
+
+        $app['log.controller']->criar('editou musica '.$musica->getNome());
+
+        $app['session']->getFlashBag()->add('mensagem', 'Musica editada com sucesso.');
+
+        if ($request->get('rota') == 'edicao_usuario') {
+            return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId());
+        }
+
+        if ($request->get('rota') == 'edicao_letra') {
+            return $app->redirect('/user/musica/anexos/' . $musica->getId());
+        }
+
         return $app->redirect('/admin/musicas/grid');
     }
 

@@ -24,8 +24,12 @@
     <article>
         <div class="container">
             <div class="row">
-
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% for alert in app.session.flashbag.get('mensagem') %}
+                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                    {% endfor %}
+
                     <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addAnexo">Novo Anexo</button>
                     <button data-toggle="modal" data-target="#upload" class="button is-danger is-small is-inverted addAnexo">Upload de Arquivos</button>
                     <hr>

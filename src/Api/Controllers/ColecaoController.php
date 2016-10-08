@@ -53,10 +53,15 @@ class ColecaoController
         
         $colecao->setNome($request->get('nome'));
         $colecao->setDescricao($request->get('descricao'));
-        //$colecao->setImagem($request->get('imagem'));
         $colecao->setAtivo(true);
         
         $app['colecao.repository']->save($colecao);
+        $app['log.controller']->criar('adicionou nova coleção '.$colecao->getNome());
+        $app['session']->getFlashBag()->add('mensagem', 'Coleção adicionada com sucesso.');
+
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/colecoes');
+        }
 
         return $app->redirect('/admin/colecoes/grid');
     }
@@ -68,13 +73,21 @@ class ColecaoController
      */
     public function editar(Request $request, Application $app)
     {
+        /**
+         * @var Colecao $colecao
+         */
         $colecao = $app['colecao.repository']->find($request->get('id'));
 
         $colecao->setNome($request->get('nome'));
         $colecao->setDescricao($request->get('descricao'));
-        //$colecao->setImagem($request->get('imagem'));
         
         $app['colecao.repository']->save($colecao);
+        $app['log.controller']->criar('editou a coleção '.$colecao->getNome());
+        $app['session']->getFlashBag()->add('mensagem', 'Coleção editada com sucesso.');
+
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/colecoes');
+        }
         
         return $app->redirect('/admin/colecoes/grid');
     }
@@ -95,6 +108,12 @@ class ColecaoController
         }
         
         $app['colecao.repository']->save($colecao);
+        $app['log.controller']->criar('alterou a situação da Coleção '.$colecao->getNome());
+        $app['session']->getFlashBag()->add('mensagem', 'Situação da Coleção alterada com sucesso.');
+
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/colecoes');
+        }
         
         return $app->redirect('/admin/colecoes/grid');
     }

@@ -24,25 +24,20 @@
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% for alert in app.session.flashbag.get('mensagem') %}
+                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                    {% endfor %}
+
                     {% for musica in musicas %}
                         <div class="media">
-                            <!--<div class="media-left media-middle">
-                                <a href="#">
-                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
-                                </a>
-                            </div>-->
                             <div class="media-body">
                                 <h4 class="media-heading">
                                     <a href="{{ path('musica_anexos_grid', { musicaId : musica.id, nome : musica.nome }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
                                     <a class="button {% if musica.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-small is-pulled-right"
-                                       href="{{ path('musicas_status', { id : musica.id }) }}"
-                                       style="text-decoration: none">
-                                        <span>{% if musica.ativo %} Inativar {% else %} Ativar {% endif %}</span>
+                                       href="{{ path('musicas_status', { id : musica.id }) }}">{% if musica.ativo %} Inativar {% else %} Ativar {% endif %}
                                     </a>
-                                    <a href="{{ path('musicas_edit', { id : musica.id }) }}" class="button is-white is-small is-pulled-right"
-                                       style="text-decoration: none">
-                                        <span>Editar</span>
-                                    </a>
+                                    <a href="{{ path('musicas_edit', { id : musica.id }) }}" class="button is-white is-small is-pulled-right">Editar</a>
                                 </h4>
                             </div>
                         </div>

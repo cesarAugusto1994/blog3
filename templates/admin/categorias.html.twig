@@ -24,13 +24,13 @@
                     <hr>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% for alert in app.session.flashbag.get('mensagem') %}
+                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                    {% endfor %}
+
                     {% for categoria in categorias %}
                         <div class="media">
-                            <!--<div class="media-left media-middle">
-                                <a href="#">
-                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
-                                </a>
-                            </div>-->
                             <div class="media-body">
                                 <h4 class="media-heading">
                                     <a href="{{ path('categoria_musicas_grid', { categoriaId : categoria.id, nome : categoria.nome|replace('^', '') }) }}">{{ categoria.nome }}</a>

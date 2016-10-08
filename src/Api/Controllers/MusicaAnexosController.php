@@ -247,11 +247,11 @@ class MusicaAnexosController
     
         $app['log.controller']->criar('removeu o arquivo '.$anexo->getNome());
     
-        if ($app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
-            return $app->redirect('/user/musica/anexos/'.$anexo->getMusica()->getId().'#menu');
-        }
-
         $app['session']->getFlashBag()->add('mensagem', 'Arquivo removido com sucesso.');
+    
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/musica/anexos/'.$anexo->getMusica()->getId());
+        }
 
         return $app->redirect('/admin/musicas/anexos/grid/'.$anexo->getMusica()->getId().'/'.$anexo->getMusica()->getNome());
     }

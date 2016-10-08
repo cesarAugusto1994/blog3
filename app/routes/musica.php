@@ -38,6 +38,10 @@ $app->get('admin/musicas/grid/{categoriaId}/{nome}', function($categoriaId, $nom
     return $app['musica.controller']->categoriaMusicasGrid($categoriaId, $app);
 })->bind('categoria_musicas_grid');
 
+$app->post('admin/musica/letra/editar', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['musica.controller']->editarLetra($request, $app);
+})->bind('musica_letra_editar');
+
 $app->post('admin/musica/save', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     
     if ($request->get('id')) {

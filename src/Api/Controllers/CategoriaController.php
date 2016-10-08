@@ -25,11 +25,12 @@ class CategoriaController
     public function index($colecaoId, Application $app)
     {
         $colecao = $app['colecao.repository']->find($colecaoId);
+        $colecoes = $app['colecao.repository']->findBy(['ativo' => true]);
     
         return $app['twig']->render(
             '/user/categorias.html.twig',
             ['categorias' => $app['categoria.repository']->findBy(['colecao' => $colecao, 'ativo' => true], ['nome' => 'ASC']),
-            'colecao' => $colecao]
+            'colecoes' => $colecoes, 'colecao' => $colecao]
         );
     }
 
@@ -66,7 +67,6 @@ class CategoriaController
     public function novo(Request $request, Application $app)
     {
         $categoria = new Categoria();
-        
         $colecao = $app['colecao.repository']->find($request->get('colecao'));
         
         $categoria->setNome($request->get('nome'));
@@ -74,6 +74,12 @@ class CategoriaController
         $categoria->setAtivo(true);
 
         $app['categoria.repository']->save($categoria);
+        $app['log.controller']->criar('adicionou nova categoria '.$categoria->getNome());
+        $app['session']->getFlashBag()->add('mensagem', 'Categoria adicionada com sucesso.');
+
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/categorias/'.$categoria->getColecao()->getId().'/'.$categoria->getColecao()->getNome());
+        }
 
         return $app->redirect('/admin/categorias/grid');
     }
@@ -85,12 +91,20 @@ class CategoriaController
      */
     public function editar(Request $request, Application $app)
     {
+        /**
+         * @var Categoria $categoria
+         */
         $categoria = $app['categoria.repository']->find($request->get('id'));
-
         $categoria->setNome($request->get('nome'));
-
+        
         $app['categoria.repository']->save($categoria);
+        $app['log.controller']->criar('editou o nome da categoria '.$categoria->getNome());
+        $app['session']->getFlashBag()->add('mensagem', 'Categoria adicionada com sucesso.');
 
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/categorias/'.$categoria->getColecao()->getId().'/'.$categoria->getColecao()->getNome());
+        }
+        
         return $app->redirect('/admin/categorias/grid');
     }
     
@@ -101,6 +115,9 @@ class CategoriaController
      */
     public function alteraStatus($id, Application $app)
     {
+        /**
+         * @var Categoria $categoria
+         */
         $categoria = $app['categoria.repository']->find($id);
 
         if ($categoria->isAtivo()) {
@@ -110,6 +127,12 @@ class CategoriaController
         }
         
         $app['categoria.repository']->save($categoria);
+        $app['log.controller']->criar('alterou a situação da Categoria '.$categoria->getNome());
+        $app['session']->getFlashBag()->add('mensagem', 'Situação da Categoria alterada com sucesso.');
+
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/categorias/'.$categoria->getColecao()->getId().'/'.$categoria->getColecao()->getNome());
+        }
     
         return $app->redirect('/admin/categorias/grid');
     }

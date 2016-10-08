@@ -20,6 +20,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% for alert in app.session.flashbag.get('mensagem') %}
+                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                    {% endfor %}
+
                     {% if is_granted('ROLE_USER') %}
                         <a style="text-decoration: none" class="button is-light is-small" href="{{ path('nova_musica', { categoria : categoria.id }) }}">Nova Musica</a>
                         <hr class="small">
@@ -30,6 +35,9 @@
                                 <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
                                     {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
                                     <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-white is-small is-pulled-right">Editar</a>
+                                    <a class="button {% if musica.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-small is-pulled-right"
+                                       href="{{ path('musicas_status', { id : musica.id }) }}">{% if musica.ativo %} Inativar {% else %} Ativar {% endif %}
+                                    </a>
                                 {% endif %}
                                 </h4>
                             </div>
