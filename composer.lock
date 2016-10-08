@@ -3192,16 +3192,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v3.1.4",
+            "version": "v3.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "96cad1c2230696ee7016753d7a3d3ba1c201d5d2"
+                "reference": "98f1e6c3f78222fb83edb87c08d22a91bc975507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/96cad1c2230696ee7016753d7a3d3ba1c201d5d2",
-                "reference": "96cad1c2230696ee7016753d7a3d3ba1c201d5d2",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/98f1e6c3f78222fb83edb87c08d22a91bc975507",
+                "reference": "98f1e6c3f78222fb83edb87c08d22a91bc975507",
                 "shasum": ""
             },
             "require": {
@@ -3262,7 +3262,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2016-08-26 12:04:02"
+            "time": "2016-10-03 17:30:23"
         },
         {
             "name": "symfony/web-profiler-bundle",

@@ -115,7 +115,7 @@ class UsuariosController
                 'constraints' => [new Assert\NotBlank(), new Assert\Length([
                     'min' => 5, 'minMessage' => 'Seu Nickname deve possuir mais de {{ limit }} caracteres.',
                     'max' => 30, 'maxMessage' => 'Seu Nickname deve possuir menos de {{ limit }} caracteres.'])],
-                'attr' => array('class' => 'form-control', 'placeholder' => 'Nickname(Login)')
+                'attr' => array('class' => 'form-control', 'placeholder' => 'Usuário ex.: usuario')
             ])->add('email', EmailType::class, [
                 'required' => true,
                 'constraints' => [new Assert\Email(), new Assert\Length(['min' => 6])],
@@ -125,6 +125,11 @@ class UsuariosController
                 'constraints' => [new Assert\NotBlank(), new Assert\Length([
                     'min' => 6, 'minMessage' => 'Sua Senha deve possuir mais de {{ limit }} caracteres.',])],
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Senha')
+            ])->add('password_confirm', PasswordType::class, [
+                'required' => true,
+                'constraints' => [new Assert\NotBlank(), new Assert\Length([
+                    'min' => 6, 'minMessage' => 'Sua Senha deve possuir mais de {{ limit }} caracteres.',])],
+                'attr' => array('class' => 'form-control', 'placeholder' => 'Confirme sua Senha')
             ])->add('salvar', SubmitType::class, [
                     'attr' => ['class' => 'btn btn-primary btn-block btn-flat', 'value' => 1]
                 ]
@@ -133,13 +138,20 @@ class UsuariosController
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            if ($request->get('form')['password'] != $request->get('form')['password_confirm']) {
+                return $app['twig']->render(
+                    'register.html.twig',
+                    ['error' => 'As Senhas não conferem.', 'form' => $form->createView()]
+                );
+            }
         
             $email = $app['usuarios.repository']->findBy(['email' => $request->get('form')['email']]);
     
             if ($email) {
                 return $app['twig']->render(
                     'register.html.twig',
-                    ['error' => 'O E-mail ja esta cadastrado.', 'form' => $form->createView()]
+                    ['error' => 'Já existe um cadastro com esse e-mail.', 'form' => $form->createView()]
                 );
             }
     
