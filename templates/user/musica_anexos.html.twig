@@ -32,92 +32,93 @@
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
 
-                    <div class="card" style="width: 100%">
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-content">
-                                            <div id="fontlinks">
-                                                <button id="incfont" class="button is-dark is-outlined is-small buttonfont">A+</button>
-                                                <button id="decfont" class="button is-dark is-outlined is-small buttonfont">A-</button>
-                                                {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                    <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-light is-small" style="text-decoration: none">Editar Letra</a>
-                                                {% endif %}
-                                            </div>
-                                            <br>
-                                            {% if musica.letra %}
-                                                <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
-                                            {% else %}
-                                                <p class="lead">Letra não disponível.</p>
+                    {% if musica.letra %}
+                        <div class="card" style="width: 100%">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <div id="fontlinks">
+                                            <button id="incfont" class="button is-dark is-outlined is-small buttonfont">A+</button>
+                                            <button id="decfont" class="button is-dark is-outlined is-small buttonfont">A-</button>
+                                            {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
+                                                <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-light is-small" style="text-decoration: none">Editar Letra</a>
                                             {% endif %}
                                         </div>
+                                        <br>
+                                        {% if musica.letra %}
+                                            <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
+                                        {% else %}
+                                            <p class="lead">Letra indisponível.</p>
+                                        {% endif %}
                                     </div>
                                 </div>
-                            </div><br>
-
+                            </div>
+                        </div><br>
+                    {% endif %}
                     <div class="card" style="width: 100%">
-                                <div class="card-content">
-
-                                    <div class="media">
-                                        <div class="media-content">
-                                            {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_USER') %}
-                                                <button data-toggle="modal" data-target="#upload" class="button is-danger is-small">Upload de Arquivo</button>
-                                            {% endif %}
-                                            <br>
-                                        </div>
-                                    </div>
-
-                                    {% for anexo in anexos %}
-                                        <div class="media">
-                                            <div class="media-left media-middle">
-                                                {% if anexo.tipo.id == 1 %}
-                                                <i class="fa fa-music"></i>
-                                            {% elseif anexo.tipo.id == 2 %}
-                                                <i class="fa fa-picture-o"></i>
-                                            {% elseif anexo.tipo.id == 3 %}
-                                                <i class="fa fa-file-pdf-o"></i>
-                                                {% endif %}&nbsp;&nbsp;&nbsp;
-                                            </div>
-                                            <div class="media-body">
-                                                <h4 class="media-heading">{{ anexo.nome }}</h4>
-                                                {% if anexo.isExterno %}
-                                                    <a href="{{ anexo.link }}"
-                                                       target="_blank">
-                                                        <button class="button is-small is-white">
-                                                            ir para o link
-                                                        </button>
-                                                    </a>
-                                                {% else %}
-                                                    <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
-                                                       target="_blank">
-                                                        <button class="button is-small is-light">
-                                                            Visualizar
-                                                        </button>
-                                                    </a>
-                                                    <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
-                                                       download>
-                                                        <button class="button is-small is-white">
-                                                            Baixar
-                                                        </button>
-                                                    </a>
-                                                    {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                        <a class="button is-danger is-small is-inverted"
-                                                           href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
-                                                           style="text-decoration: none">
-                                                            <span>Remover</span>
-                                                        </a>
-                                                    {% endif %}
-                                                {% endif %}
-                                                {% for tag in anexo.anexoTags.tag %}
-                                                    <button class="button is-info is-outlined">{{ tag.nome }}</button>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <p class="lead">Nenhum registro encontrado.</p>
-                                    {% endfor %}
+                         <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_USER') %}
+                                        <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-light is-small">Editar</a>
+                                        <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-primary is-small" style="text-decoration: none">Adicionar Letra</a>
+                                        <button data-toggle="modal" data-target="#upload" class="button is-danger is-small">Adicionar Arquivo</button>
+                                    {% endif %}
+                                    <br>
                                 </div>
-                            </div><br>
+                            </div>
 
+                            {% for anexo in anexos %}
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        {% if anexo.tipo.id == 1 %}
+                                        <i class="fa fa-music"></i>
+                                    {% elseif anexo.tipo.id == 2 %}
+                                        <i class="fa fa-picture-o"></i>
+                                    {% elseif anexo.tipo.id == 3 %}
+                                        <i class="fa fa-file-pdf-o"></i>
+                                        {% endif %}&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{ anexo.nome }}</h4>
+                                        {% if anexo.isExterno %}
+                                            <a href="{{ anexo.link }}"
+                                               target="_blank">
+                                                <button class="button is-small is-white">
+                                                    ir para o link
+                                                </button>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                               target="_blank">
+                                                <button class="button is-small is-light">
+                                                    Visualizar
+                                                </button>
+                                            </a>
+                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                               download>
+                                                <button class="button is-small is-white">
+                                                    Baixar
+                                                </button>
+                                            </a>
+                                            {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
+                                                <a class="button is-danger is-small is-inverted"
+                                                   href="{{ path('musica_anexos_remover', { id : anexo.id }) }}"
+                                                   style="text-decoration: none">
+                                                    <span>Remover</span>
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% for tag in anexo.anexoTags.tag %}
+                                            <button class="button is-info is-outlined">{{ tag.nome }}</button>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p class="lead">Nenhum registro encontrado.</p>
+                            {% endfor %}
+                                </div>
+                    </div><br>
                 </div>
             </div>
         </div>
@@ -128,15 +129,12 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
                     <div class="card" style="width: 100%">
-
                         <div class="card-content">
-
                             <div class="media">
                                 <div class="media-content">
                                     <p class="title is-3">Comentários</p>
                                 </div>
                             </div>
-
                             <div id="disqus_thread"></div>
                         </div>
                     </div>

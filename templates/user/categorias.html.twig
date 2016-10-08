@@ -26,12 +26,6 @@
                     {% endif %}
                     {% for categoria in categorias %}
                         <div class="media">
-                            <!--
-                            <div class="media-left media-middle">
-                                <a href="#">
-                                    <img class="media-object" src="{{ asset(app['default.card']) }}" alt="...">
-                                </a>
-                            </div>-->
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a></h4>
                             </div>

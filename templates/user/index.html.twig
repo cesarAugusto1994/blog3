@@ -29,7 +29,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <h6 class="media-heading">{{ log.usuario.nome }} {{ log.mensagem }}
-                                                <a class="button is-light is-small is-pulled-right">{{ log.cadastro|date('j, F, y H:i:s') }}</a>
+                                                <a class="button is-white is-small is-pulled-right">{{ log.cadastro|date('j, F, y H:i:s') }}</a>
                                             </h6>
                                         </div>
                                     </div>
@@ -38,7 +38,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <h6 class="media-heading">{{ musica.usuario.nome }} adicionou <a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.numero }} - {{ musica.nome }}</a>
-                                                <a class="button is-light is-small is-pulled-right">{{ musica.cadastro|date('j, F, y H:i:s') }}</a>
+                                                <a class="button is-white is-small is-pulled-right">{{ musica.cadastro|date('j, F, y H:i:s') }}</a>
                                             </h6>
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <h6 class="media-heading">{{ anexo.usuario.nome }} adicionou {{ anexo.nome }}
-                                                <a class="button is-light is-small is-pulled-right">{{ anexo.cadastro|date('j, F, y H:i:s') }}</a>
+                                                <a class="button is-white is-small is-pulled-right">{{ anexo.cadastro|date('j, F, y H:i:s') }}</a>
                                             </h6>
                                         </div>
                                     </div>
@@ -56,7 +56,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <h6 class="media-heading">{{ post.usuario.nome }} adicionou o post <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 30)|replace(' ', '-')|lower }) }}">{{ post.titulo }}</a>
-                                                <a class="button is-light is-small is-pulled-right">{{ post.cadastro|date('j, F, y H:i:s') }}</a>
+                                                <a class="button is-white is-small is-pulled-right">{{ post.cadastro|date('j, F, y H:i:s') }}</a>
                                             </h6>
                                         </div>
                                     </div>

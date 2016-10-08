@@ -29,10 +29,7 @@
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
                                     {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-white is-small is-pulled-right"
-                                       style="text-decoration: none">
-                                        <span>Editar</span>
-                                    </a>
+                                    <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-white is-small is-pulled-right">Editar</a>
                                 {% endif %}
                                 </h4>
                             </div>
