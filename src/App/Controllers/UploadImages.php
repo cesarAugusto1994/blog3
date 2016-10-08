@@ -81,6 +81,8 @@ trait UploadImages
             return __DIR__.'/../../../web/assets/blog/img/config/';
         } elseif ($this->origin == 'avatar') {
             return __DIR__.'/../../../web/assets/blog/img/avatar/';
+        } elseif ($this->origin == 'menu') {
+            return __DIR__.'/../../../web/assets/blog/img/menu/';
         }
         throw new \Exception('Erro ao salvar imagem.');
     }

@@ -18,6 +18,7 @@ use App\Entities\Menu;
  */
 class MenuController
 {
+    use UploadImages;
     /**
      * @param Application $app
      * @return mixed
@@ -76,18 +77,29 @@ class MenuController
      */
     public function editar(Request $request, Application $app)
     {
+        /**
+         * @var Menu $menu
+         */
         $menu = $app['menu.repository']->find($request->get('id'));
 
         $menu->setNome($request->get('nome'));
         
         if(!empty($request->get('descricao'))) {
             $menu->setDescricao($request->get('descricao'));
+        }
+
+        if(!empty($request->get('url'))) {
             $menu->setUrl($request->get('url'));
-            $menu->setIcon($request->get('icone'));
+        }
+
+        if (!empty($_FILES['icone']['size'])) {
+            $menu->setIcon($this->upload($_FILES['icone'], 'menu', $menu->getIcon()));
         }
         
         $app['menu.repository']->save($menu);
+
+        $app['session']->getFlashBag()->add('mensagem', 'Menu alterado com sucesso.');
     
-       return $app->redirect('/admin/blog#menu');
+       return $app->redirect('/admin/blog');
     }
 }

@@ -97,6 +97,7 @@ $app['dir.menu'] = function () use ($app){ return $app['dir.base'].'assets/blog/
 
 $app['background.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
+$app['avatar.default'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/defaults/avatar.png';};
 
 $app['database.blog'] = function () {
 

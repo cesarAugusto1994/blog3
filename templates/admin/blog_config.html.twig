@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Blog Settings</h1>
+                        <h1>Configura&ccedil;&otilde;es</h1>
                     </div>
                 </div>
             </div>
@@ -24,189 +24,163 @@
     <article>
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 col-lg-offset-2 col-md-3 col-md-offset-1">
+
+                <div class="col-lg-6 col-lg-offset-2 col-md-7 col-md-offset-1">
 
                     {% for alert in app.session.flashbag.get('mensagem') %}
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
 
-                    <ul class="nav nav-pills nav-stacked" id="myTabs">
-                        <li role="presentation" class="active"><a href="#home" data-toggle="tab" style="text-decoration: none">Config</a></li>
-                        <li role="presentation"><a href="#menu" data-toggle="tab" style="text-decoration: none">Menus</a></li>
-                        <li role="presentation"><a href="#posts" data-toggle="tab" style="text-decoration: none">Posts</a></li>
-                        <li role="presentation"><a href="#messages" data-toggle="tab" style="text-decoration: none">Widgets</a></li>
-                        <li role="presentation"><a href="#outros" data-toggle="tab" style="text-decoration: none">Outros</a></li>
-                    </ul>
-                </div>
-
-                <br>
-
-                <div class="col-lg-6 col-lg-offset-2 col-md-7 col-md-offset-1">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="home">
-                            <div class="card is-fullwidth">
-                                <div class="card-content">
-                                    <div class="content">
-                                        <form method="post" class="form-horizontal"
-                                              action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
-                                            <input type="hidden" name="id" value="{{ app['config'].id }}">
-                                            <p class="control"><label>Nome Blog
-                                                    <input class="input" type="text" placeholder="Nome" name="nome"
-                                                           value="{{ app['config'].nome }}" required>
-                                                </label></p>
-                                            <p class="control">Descri&ccedil;&atilde;o
-                                                <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
-                                                       name="subtitulo" value="{{ app['config'].subtitulo }}" required>
-                                            </p>
-                                            <p class="control">Background
-                                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                    <img style="height: 100%" src="{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
-                                                         data-src="{{ asset('holder.js/100%x100%') }}" alt="...">
-                                                </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-                                                <div>
-                                                    <span class="button is-primary btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
-                                                    <a href="#" class="button is-danger fileinput-exists" data-dismiss="fileinput">Remover</a>
-                                                </div>
-                                            </div>
-                                            </p>
-                                            <hr class="small">
-                                            <p class="control">
-                                                <button class="button is-success" type="submit">
-                                                    Salvar
-                                                </button>
-                                            </p>
-                                        </form>
-                                    </div>
+                    <div class="card is-fullwidth">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-3">Geral</p>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="tab-pane" id="menu">
-                            <div class="card is-fullwidth">
-                                <div class="card-content">
-                                    <div class="content">
-                                        <div class="control is-grouped">
-                                            <p class="control">
-                                                <a class="button is-success addMenu" data-toggle="modal"
-                                                   data-target="#myModal" style="text-decoration: none">
-                                                    Novo Menu
-                                                </a>
-                                            </p>
+                            <div class="content">
+                                <form method="post" class="form-horizontal"
+                                      action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="{{ app['config'].id }}">
+                                    <p class="control">Nome Blog
+                                            <input class="input" type="text" placeholder="Nome" name="nome"
+                                                   value="{{ app['config'].nome }}" required>
+                                    </p>
+                                    <p class="control">Descri&ccedil;&atilde;o
+                                        <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
+                                               name="subtitulo" value="{{ app['config'].subtitulo }}" required>
+                                    </p>
+                                    <p class="control">Background
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                            <img style="height: 100%" src="{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
+                                                 data-src="{{ asset('holder.js/100%x100%') }}" alt="...">
                                         </div>
-                                        <hr class="small">
-                                        {% for menu in app['menus']  %}
-                                            <div class="box">
-                                                <article class="media">
-                                                    <div class="media-content">
-                                                        <div class="content">
-                                                            <p>
-                                                                <strong>{{ menu.nome }}</strong> <small>{{ menu.descricao }}</small>
-                                                                <br>
-                                                            </p>
-                                                        </div>
-                                                        <nav class="level">
-                                                            <div class="level-left">
-                                                                <a class="button is-primary is-outlined is-small openMenu"
-                                                                   data-toggle="modal"
-                                                                   data-target="#myModal" data-id="{{ menu.id }}"
-                                                                   data-nome="{{ menu.nome }}"
-                                                                   data-descricao="{{ menu.descricao }}"
-                                                                   data-url="{{ menu.url }}" data-icone="{{ menu.icon }}"
-                                                                   data-cadastro="{{ menu.cadastro|date('d/m/Y H:i:s') }}"
-                                                                   style="text-decoration: none">
-                                                                <span class="icon is-small">
-                                                                  <i class="fa fa-edit"></i>
-                                                                </span>
-                                                                    <span>Editar</span>
-                                                                </a>
-                                                                <a class="button {% if menu.ativo %} is-danger {% else %} is-success {% endif %} is-outlined is-small"
-                                                                   href="{{ path('alterar_suatus_menu', { id : menu.id }) }}"
-                                                                   style="text-decoration: none">
-                                                                <span class="icon is-small">
-                                                                  <i class="fa fa-plus"></i>
-                                                                </span>
-                                                                    <span>{% if menu.ativo %} Inativar {% else %} Ativar {% endif %}</span>
-                                                                </a>
-                                                            </div>
-                                                        </nav>
-                                                    </div>
-                                                </article>
-                                            </div>
-                                        {% else %}
-                                            <p class="lead">Nenhum registro encontrado.</p>
-                                        {% endfor %}
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                        <div>
+                                            <span class="button is-light is-small is-fullwidth btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
+                                            <a href="#" class="button is-danger is-inverted is-small is-fullwidth fileinput-exists" data-dismiss="fileinput">Remover</a>
+                                        </div>
                                     </div>
-                                </div>
+                                    </p>
+                                    <hr class="small">
+                                    <p class="control">
+                                        <button class="button is-success" type="submit">
+                                            Salvar
+                                        </button>
+                                    </p>
+                                </form>
                             </div>
                         </div>
+                    </div><br>
 
-                        <div class="tab-pane" id="posts">
-                            <div class="card is-fullwidth">
-                                <div class="card-content">
-                                    <div class="content">
-                                        <form method="post" class="form-horizontal"
-                                              action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
-                                            <input type="hidden" name="id" value="{{ app['config'].id }}">
-                                            <p class="control"><label>Posts por Pagina
-                                                    <input class="input" type="text" placeholder="Nome" name="nome"
-                                                           value="{{ app['config'].nome }}" required>
-                                                </label></p>
-                                            <p class="control">Descri&ccedil;&atilde;o
-                                                <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
-                                                       name="subtitulo" value="{{ app['config'].subtitulo }}" required>
-                                            </p>
-                                            <p class="control">Background
-                                                <input class="input" type="file" placeholder="Background" name="background">
-                                            </p>
-                                            <p class="control">
-                                                <button class="button is-success" type="submit">
-                                                    Salvar
-                                                </button>
-                                            </p>
-                                        </form>
-                                     </div>
+                    <div class="card is-fullwidth">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-3">Menus</p>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="tab-pane" id="messages">
-                            <div class="card is-fullwidth">
-                                <div class="card-content">
-                                    <div class="content">
-                                        {% for widget in app['widgets'] %}
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#">
-                                                        <img class="media-object" style="min-width: 32px;" src="{{ asset(app['dir.widgets'] ~ widget.imagem) }}" alt="...">
-                                                    </a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading">{{ widget.nome }}</h4>
-                                                    {{ widget.descricao }}
-                                                </div>
-                                            </div>
-                                        {% endfor %}
+                            <div class="content">
+                                <div class="control is-grouped">
+                                    <p class="control">
+                                        <a class="button is-danger is-small addMenu" data-toggle="modal" data-target="#myModal">Novo Menu</a>
+                                    </p>
+                                </div>
+                                <hr class="small">
+                                {% for menu in app['menus']  %}
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h4 class="media-heading">{{ menu.nome }}
+                                                <a class="button {% if menu.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-small is-pulled-right"
+                                                   href="{{ path('alterar_suatus_menu', { id : menu.id }) }}">{% if menu.ativo %} Inativar {% else %} Ativar {% endif %}
+                                                </a>
+                                                <a class="button is-light is-small is-pulled-right openMenu"
+                                                   data-toggle="modal"
+                                                   data-target="#myModal" data-id="{{ menu.id }}"
+                                                   data-nome="{{ menu.nome }}"
+                                                   data-descricao="{{ menu.descricao }}"
+                                                   data-url="{{ menu.url }}" data-icone="{{ menu.icon }}"
+                                                   data-cadastro="{{ menu.cadastro|date('d/m/Y H:i:s') }}">Editar
+                                                </a>
+                                            </h4>
+                                        </div>
                                     </div>
-                                </div>
+                                {% else %}
+                                    <p class="lead">Nenhum registro encontrado.</p>
+                                {% endfor %}
                             </div>
                         </div>
+                    </div><br>
 
-                        <div class="tab-pane" id="outros">
-                            <div class="card is-fullwidth">
-                                <div class="card-content">
-                                    <div class="content">
-                                        <p class="lead"><a href="{{ path('colecoes_grid') }}">Colecoes</a></p>
-                                        <p class="lead"><a href="{{ path('categorias_grid') }}">Categorias</a></p>
-                                        <p class="lead"><a href="{{ path('musicas_grid') }}">Musicas</a></p>
-                                        <p class="lead"><a href="#">Musicas - Anexos</a></p>
+                    <div class="card is-fullwidth">
+                        <div class="card-content">
+                            <div class="content">
+                                <form method="post" class="form-horizontal"
+                                      action="{{ path('blog_settings_save') }}" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="{{ app['config'].id }}">
+                                    <p class="control"><label>Posts por Pagina
+                                            <input class="input" type="text" placeholder="Nome" name="nome"
+                                                   value="{{ app['config'].nome }}" required>
+                                        </label></p>
+                                    <p class="control">Descri&ccedil;&atilde;o
+                                        <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
+                                               name="subtitulo" value="{{ app['config'].subtitulo }}" required>
+                                    </p>
+                                    <p class="control">Background
+                                        <input class="input" type="file" placeholder="Background" name="background">
+                                    </p>
+                                    <p class="control">
+                                        <button class="button is-success" type="submit">
+                                            Salvar
+                                        </button>
+                                    </p>
+                                </form>
+                             </div>
+                        </div>
+                    </div><br>
+
+                    <div class="card is-fullwidth">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-3">Widgets</p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                {% for widget in app['widgets'] %}
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object" style="min-width: 32px;" src="{{ asset(app['dir.widgets'] ~ widget.imagem) }}" alt="...">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">{{ widget.nome }}</h4>
+                                            {{ widget.descricao }}
+                                        </div>
                                     </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
+                    </div><br>
 
-                    </div>
+                    <div class="card is-fullwidth">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-3">Outros</p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <p class="lead"><a href="{{ path('colecoes_grid') }}">Colecoes</a></p>
+                                <p class="lead"><a href="{{ path('categorias_grid') }}">Categorias</a></p>
+                                <p class="lead"><a href="{{ path('musicas_grid') }}">Musicas</a></p>
+                                <p class="lead"><a href="#">Musicas - Anexos</a></p>
+                            </div>
+                        </div>
+                    </div><br>
+
                 </div>
             </div>
         </div>
@@ -215,35 +189,30 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form class="form-horizontal" method="POST" action="{{ path('save_menu') }}">
+                <form class="form-horizontal" method="POST" action="{{ path('save_menu') }}" enctype="multipart/form-data">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Editar Menu</h4>
+                        <h4 class="modal-title" id="myModalLabel">Menu</h4>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
-                        <p class="control has-icon">
+                        <p class="control">Nome
                             <input class="input" type="text" placeholder="Nome" id="nome" name="nome" required>
-                            <i class="fa fa-edit"></i>
                         </p>
-                        <p class="control has-icon">
+                        <p class="control">Descri&ccedil;&atilde;o
                             <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" id="descricao"
                                    name="descricao" required>
-                            <i class="fa fa-file-text-o"></i>
                         </p>
-                        <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Url" id="url" name="url" required>
-                            <i class="fa fa-link"></i>
+                        <p class="control">Caminho
+                            <input class="input" type="text" placeholder="Caminho" id="url" name="url" required>
                         </p>
-                        <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Icone" id="icone" name="icone" required>
-                            <i class="fa fa-picture-o"></i>
+                        <p class="control">Imagem
+                            <input class="input" type="file" placeholder="Imagem" id="icone" name="icone" required>
                         </p>
-                        <p class="control has-icon">
+                        <p class="control">Cadastro
                             <input class="input" type="text" placeholder="Cadastro" id="cadastro" name="cadastro"
                                    disabled required>
-                            <i class="fa fa-calendar"></i>
                         </p>
                     </div>
                     <div class="modal-footer">
