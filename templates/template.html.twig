@@ -13,7 +13,8 @@
                         data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span><i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="{% if app['usuario.sessao'].nome %}{{ path('user_index') }}{% else %}{{ path('home') }}{% endif %}">{{ app['config'].nome }}</a>
+                <a class="navbar-brand"
+                   href="{% if app['usuario.sessao'].nome %}{{ path('user_index') }}{% else %}{{ path('home') }}{% endif %}">{{ app['config'].nome }}</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
@@ -29,10 +30,23 @@
                         <li><a href="{{ path('usuarios') }}">Usu&aacute;rios</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
-                        <li><a href="{{ path('perfil', { user : app['usuario.sessao'].id }) }}">Perfil <small> {{ app['usuario.sessao'].nome }}</small></a></li>
-                        <li><a href="{{ path('usuario_atividades', { user : app['usuario.sessao'].id }) }}">Atividades</a></li>
-                        <li><a href="{{ path('pesquisar') }}">Pesquisar</a></li>
+                        <li>
+                            <a href="{{ path('perfil', { user : app['usuario.sessao'].id }) }}">Perfil
+                                <small> {{ app['usuario.sessao'].nome }}</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('usuario_atividades', { user : app['usuario.sessao'].id }) }}">Atividades</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pesquisar') }}">Pesquisar</a>
+                        </li>
                     {% endif %}
+
+                    {% if is_granted('ROLE_USER') == false %}
+                        <li><a href="{{ path('pesquisar_home') }}">Pesquisar</a></li>
+                    {% endif %}
+
                     <li>
                         {% if is_granted('ROLE_USER') %}
                             <a href="{{ path('logout') }}">Sair</a>
@@ -47,18 +61,11 @@
 
     {% block content %}{% endblock %}
 
-    <div id="search">
-        <form action="{{ path('search') }}" method="get">
-            <input type="search" name="q" placeholder="Pesquisar" autocomplete="off"/>
-            <button type="submit" class="btn btn-primary">Pesquisar</button>
-        </form>
-    </div>
-
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p class="copyright text-muted">Copyright &copy; Eu Website 2016</p>
+                    <p class="copyright text-muted">Copyright &copy; {{ app['nome.blog'] }} Website 2016</p>
                 </div>
             </div>
         </div>

@@ -33,6 +33,6 @@ class SearchController
             $posts = $app['posts.repository']->search($search);
         }
         
-        return $app['twig']->render('/user/search.html.twig', ['musicas' => $musicas, 'musica_anexos' => $musicaAnexos, 'posts' => $posts]);
+        return $app['twig']->render('search.html.twig', ['musicas' => $musicas, 'musica_anexos' => $musicaAnexos, 'posts' => $posts]);
     }
 }
