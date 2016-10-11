@@ -15,7 +15,7 @@ $app->get('/user/pesquisar', function (\Symfony\Component\HttpFoundation\Request
 })->bind('pesquisar');
 
 $app->get('/pesquisar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    return $app['search.controller']->search($request->get('q'), $app);
+    return $app['search.controller']->searchPublic($request->get('q'), $app);
 })->bind('pesquisar_home');
 
 $app->get('admin/blog', function () use ($app) {
