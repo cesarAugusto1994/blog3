@@ -71,22 +71,29 @@ $app['nome.blog'] = function() use ($app){ $blog = $app['config.repository']->fi
 
 $app['tonalidades'] = function () { return ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B',];};
 
-$app['dir.base'] = function () {
-
-  if($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
-    return '/';
-  }
-
-  return '/web/';
+$app['adress'] = function () {
+    return [
+        '127.0.0.1',
+        '::1'
+    ];
 };
 
-$app['dir.base2'] = function () {
-  
-  if($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
-    return '';
-  }
-  
-  return '/web';
+$app['dir.base'] = function () use ($app) {
+
+    if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
+        return '/';
+    }
+
+    return '/web/';
+};
+
+$app['dir.base2'] = function () use ($app) {
+
+    if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
+        return '';
+    }
+
+    return '/web';
 };
 
 $app['dir.img'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/config/';};

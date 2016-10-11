@@ -4,7 +4,7 @@
 
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ path('home') }}">{{ app['nome.blog'] }}</a>
+            <a style="color: white" href="{{ path('home') }}"><b>{{ app['nome.blog'] }}</b></a>
         </div>
 
         {% if sucesso is defined %}
@@ -26,8 +26,8 @@
             <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
         {% endfor %}
 
-        <div class="register-box-body">
-            <p class="login-box-msg">Registrar novo usu&aacute;rio</p>
+        <div class="register-box-body" style="background-color: transparent">
+            <p class="login-box-msg" style="color: white">Registrar novo usu&aacute;rio</p>
             <form action="{{ path('register') }}" method="post">
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
