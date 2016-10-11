@@ -31,31 +31,6 @@ $app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($
         $app->redirect('logout');
     }
 });
-/*
-$app->get('/login', function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    $services = array_keys($app['oauth.services']);
-
-    return $app['twig']->render('login.html.twig', array(
-        'login_paths' => $app['oauth.login_paths'],
-        'logout_path' => $app['url_generator']->generate('logout', array(
-            '_csrf_token' => $app['oauth.csrf_token']('logout')
-        )),
-        'error' => $app['security.last_error']($request)
-    ));
-})->bind('login');
-
-$app->get('/auth/', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
-    
-})->bind('auth');
-
-$app->get('/auth/google/check', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
-
-})->bind('check');
-
-$app->get('/auth/google/callback', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
-
-})->bind('check');
-*/
 
 $app->post('/admin/login_check', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
     
