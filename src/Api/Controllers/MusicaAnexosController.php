@@ -12,6 +12,7 @@ use Api\Entities\AnexoTags;
 use Api\Entities\MusicaAnexos;
 use Api\Entities\MusicaTags;
 use Api\Entities\Tag;
+use Api\Entities\Tipo;
 use App\Controllers\Downloader;
 use App\Controllers\MediaFormat;
 use App\Controllers\Uploader;
@@ -35,11 +36,13 @@ class MusicaAnexosController
     public function index($musicaId, Application $app)
     {
         $musica = $app['musica.repository']->find($musicaId);
+        $tipos = $app['tipo.anexo.repository']->findBy(['ativo' => true]);
         
         return $app['twig']->render('/user/musica_anexos.html.twig', 
             [
                 'anexos' => $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true]),
-                'musica' => $musica
+                'musica' => $musica,
+                'tipos' => $tipos
             ]);
     }
     
@@ -135,14 +138,24 @@ class MusicaAnexosController
         $user = $app['session']->get('user');
         $usuario = $app['usuarios.repository']->find($user->getId());
 
+        /**
+         * @var Tipo $tipo
+         */
         $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
+
+        $link = '';
+
+        if ($tipo->getNome() == 'Video') {
+            preg_match('/[\\?\\&]v=([^\\?\\&]+)/', $request->get('link'), $matches);
+            $link = $matches[1];
+        }
 
         $musicaAnexo = new MusicaAnexos();
         $musicaAnexo->setNome($request->get('nome'));
         $musicaAnexo->setMusica($musica);
         $musicaAnexo->setTipo($tipo);
         $musicaAnexo->setLinkExterno(true);
-        $musicaAnexo->setLink($request->get('link'));
+        $musicaAnexo->setLink($link);
         $musicaAnexo->setUsuario($usuario);
         $musicaAnexo->setCadastro(new \DateTime('now'));
         $musicaAnexo->setAtivo(true);
@@ -152,35 +165,6 @@ class MusicaAnexosController
         $app['log.controller']->criar('adicionou o arquivo '.$musicaAnexo->getNome());
 
         $app['session']->getFlashBag()->add('mensagem', 'Novo link adicionado com sucesso.');
-
-        $accept = ['vozes', 'tenor', 'soprano', 'contralto'];
-        $tags = explode(' ', $request->get('nome'));
-
-        foreach ($tags as $tag) {
-
-            if (in_array(strtolower($tag), $accept)) {
-
-                $existeTag = $app['tag.repository']->findBy(['nome' => strtolower($tag)]);
-
-                if(!$existeTag) {
-                    $tagC = new Tag();
-                    $tagC->setNome(strtolower($tag));
-                    $tagC->setAtivo(true);
-                    $app['tag.repository']->save($tagC);
-                } else {
-                    $tagC = $existeTag[0];
-                }
-
-                $existeAnexoTag = $app['musica.anexo.tags.repository']->findBy(['anexo' => $musicaAnexo, 'tag' => $tagC]);
-
-                if (!$existeAnexoTag ) {
-                    $anexoTags = new AnexoTags();
-                    $anexoTags->setAnexo($musicaAnexo);
-                    $anexoTags->setTag($tagC);
-                    $app['musica.anexo.tags.repository']->save($anexoTags);
-                }
-            }
-        }
 
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }

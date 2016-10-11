@@ -62,6 +62,7 @@
                                     {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_USER') %}
                                         <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-light is-small">Editar</a>
                                         <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-primary is-small" style="text-decoration: none">Adicionar Letra</a>
+                                        <button data-toggle="modal" data-target="#addLink" class="button is-success is-small addAnexo">Adicionar Link</button>
                                         <button data-toggle="modal" data-target="#upload" class="button is-danger is-small">Adicionar Arquivo</button>
                                     {% endif %}
                                     <br>
@@ -158,6 +159,47 @@
         </div>
     </div>
 
+    <div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" method="POST" action="{{ path('save_musica_anexos', { musicaId : musica.id }) }}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Adicionar Musica</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="musica" id="musica" value="{{ musica.id }}">
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <select class="input" name="tipo" id="tipo" required>
+                                <option value=""></option>
+                                {% for tipo in tipos %}
+                                    <option value="{{ tipo.id }}" >{{ tipo.nome }}</option>
+                                {% endfor %}
+                            </select>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Link" name="link" id="link" required>
+                            <i class="fa fa-edit"></i>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <p class="control">
+                            <button class="button is-success" type="submit">
+                                Salvar
+                            </button>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 {% block javascript %}

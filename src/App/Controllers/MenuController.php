@@ -40,7 +40,11 @@ class MenuController
         $menu->setNome($request->get('nome'));
         $menu->setDescricao($request->get('descricao'));
         $menu->setUrl($request->get('url'));
-        $menu->setIcon($request->get('icone'));
+
+        if (!empty($_FILES['icone']['size'])) {
+            $menu->setIcon($this->upload($_FILES['icone'], 'menu', $menu->getIcon()));
+        }
+        
         $menu->setCadastro(new \DateTime('now'));
         $menu->setPrevilegioRequerido(false);
         $menu->setAtivo(true);

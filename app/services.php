@@ -108,10 +108,10 @@ $app['database.blog'] = function () use ($app){
     ];
   }
   return [
-      'dbname' => 'blogcesar',
-      'user' => 'cezzaar',
+      'dbname' => 'basedadoscesar',
+      'user' => 'cezzaar94',
       'password' => 'elpro1973',
-      'host' => 'mysql796.umbler.com',
+      'host' => 'mysql873.umbler.com',
       'driver' => 'pdo_mysql',
   ];
 };
