@@ -12,7 +12,7 @@
         <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
     {% endblock %}
 </head>
-<body class="hold-transition login-page" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+<body class="hold-transition login-page" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}'); background-attachment: fixed;">
 {% block content %}{% endblock %}
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>

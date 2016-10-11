@@ -96,19 +96,9 @@ $app['dir.base2'] = function () use ($app) {
     return '/web';
 };
 
-$app['dir.img'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/config/';};
-$app['dir.post'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/posts/';};
-$app['dir.avatar'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/avatar/';};
-$app['dir.widgets'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/widgets/';};
-$app['dir.menu'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/menu/';};
+$app['database.blog'] = function () use ($app){
 
-$app['background.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
-$app['background.post.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
-$app['avatar.default'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/defaults/avatar.png';};
-
-$app['database.blog'] = function () {
-
-  if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+  if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
     return [
         'dbname' => 'blog',
         'user' => 'root',
@@ -125,6 +115,16 @@ $app['database.blog'] = function () {
       'driver' => 'pdo_mysql',
   ];
 };
+
+$app['dir.img'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/config/';};
+$app['dir.post'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/posts/';};
+$app['dir.avatar'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/avatar/';};
+$app['dir.widgets'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/widgets/';};
+$app['dir.menu'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/menu/';};
+
+$app['background.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
+$app['background.post.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
+$app['avatar.default'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/defaults/avatar.png';};
 
 $app['default.url'] = function () {
   if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {

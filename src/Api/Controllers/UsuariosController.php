@@ -130,8 +130,8 @@ class UsuariosController
                 'constraints' => [new Assert\NotBlank(), new Assert\Length([
                     'min' => 6, 'minMessage' => 'Sua Senha deve possuir mais de {{ limit }} caracteres.',])],
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Confirme sua Senha')
-            ])->add('salvar', SubmitType::class, [
-                    'attr' => ['class' => 'btn btn-primary btn-block btn-flat', 'value' => 1]
+            ])->add('registrar', SubmitType::class, [
+                    'attr' => ['class' => 'btn btn-success btn-block btn-flat', 'value' => 1]
                 ]
             )->getForm();
 

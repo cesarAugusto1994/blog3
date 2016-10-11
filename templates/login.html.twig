@@ -37,39 +37,23 @@
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-xs-12">
                         <p class="control">
                             <label class="checkbox icheck" style="color: white">
                                 <input type="checkbox" id="remember_me" name="_remember_me">
                                 Lembrar-me
                             </label>
                         </p>
+                        <br>
                     </div>
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-google btn-block btn-flat">Entrar</button>
+                    <div class="col-xs-6">
+                        <a href="{{ path('register') }}" class="btn btn-danger btn-block btn-flat">N&atilde;o possou registro.</a>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-success btn-block btn-flat">Entrar</button>
                     </div>
                 </div>
-                <a href="{{ path('register') }}" class="text-center">N&atilde;o possou registro.</a>
             </form>
-
-            <!--<div>
-                {% if error %}
-                    <p>{{ error }}</p>
-                {% endif %}
-                {% if app.user %}
-                    <p>Hello {{ app.user.username }}! Your email is {{ app.user.email }}</p>
-                    <a href="{{ logout_path }}">Logout</a>
-                {% else %}
-                    <br>
-                    <h4>Acessar como:</h4>
-                    <ul>
-                        <li><a href="{{ login_paths.facebook }}">Login with Facebook</a></li>
-                        <li><a href="{{ login_paths.twitter }}">Login with Twitter</a></li>
-                        <li><a href="{{ login_paths.google }}">Login with Google</a></li>
-                        <li><a href="{{ login_paths.github }}">Login with GitHub</a></li>
-                    </ul>
-                {% endif %}
-            </div>-->
         </div>
     </div>
 

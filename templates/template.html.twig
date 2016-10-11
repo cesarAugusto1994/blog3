@@ -24,19 +24,29 @@
                         {% endif %}
                     {% endfor %}
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('postForm') }}">Novo Post</a></li>
-                        <li><a href="{{ path('grid_posts') }}">Lista Post</a></li>
-                        <li><a href="{{ path('blog') }}">Configura&ccedil;&otilde;es</a></li>
-                        <li><a href="{{ path('usuarios') }}">Usu&aacute;rios</a></li>
+                        <li>
+                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrador</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('postForm') }}">Novo Post</a></li>
+                                <li><a href="{{ path('grid_posts') }}">Lista Post</a></li>
+                                <li><a href="{{ path('blog') }}">Configura&ccedil;&otilde;es</a></li>
+                                <li><a href="{{ path('usuarios') }}">Usu&aacute;rios</a></li>
+                            </ul>
+                        </li>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
                         <li>
-                            <a href="{{ path('perfil', { user : app['usuario.sessao'].id }) }}">Perfil
+                            <a href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usu&aacute;rio
                                 <small> {{ app['usuario.sessao'].nome }}</small>
                             </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('usuario_atividades', { user : app['usuario.sessao'].id }) }}">Atividades</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ path('perfil', { user : app['usuario.sessao'].id }) }}">Perfil</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('usuario_atividades', { user : app['usuario.sessao'].id }) }}">Atividades</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="{{ path('pesquisar') }}">Pesquisar</a>
