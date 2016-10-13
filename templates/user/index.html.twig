@@ -1,6 +1,6 @@
 {% extends 'template.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{{ app['nome.blog'] }}{% endblock %}
 
 {% block content %}
 
@@ -20,24 +20,25 @@
     <article>
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="col-lg-8 col-md-10">
                     {% for menu in app['menus'] %}
-                    <div class="col-lg-4 col-md-5">
-                        <div class="card" style="height: 270px;">
-                            <div class="card-image">
-                                <figure class="image is-16by9">
-                                    <img src="{% if menu.icon is not null %}{{ asset(app['dir.menu'] ~ menu.icon ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" alt="">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="content">
-                                    <h4 class="media-heading"><a href="{{ path(menu.url) }}">{{ menu.nome }}</a></h4>
-                                    <br>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <div class="card" style="height: 270px">
+                                <div class="card-image" style="background:center center no-repeat fixed;-webkit-background-size:cover;-moz-background-size:cover;background-size:cover;-o-background-size:cover;">
+                                    <figure class="image is-16by9">
+                                        <img src="{% if menu.icon is not null %}{{ asset(app['dir.menu'] ~ menu.icon ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}"
+                                             alt="">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="content">
+                                        <h4 class="media-heading"><a href="{{ path(menu.url) }}">{{ menu.nome }}</a>
+                                        </h4>
+                                        <br>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <br>
-                    </div>
                     {% endfor %}
                 </div>
             </div>

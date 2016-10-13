@@ -30,27 +30,21 @@
                         <hr class="small">
                     {% endif %}
                     {% for categoria in categorias %}
-                        <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <h4 class="media-heading"><a
-                                                        href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a></h4>
-                                                {% if is_granted('ROLE_ADMIN') %}
-                                                    <a class="button {% if categoria.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
-                                                       href="{{ path('categoria_status', { id : categoria.id }) }}">{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}
-                                                    </a>
-                                                    <a class="button is-white is-pulled-right is-small openMenu"
-                                                       data-toggle="modal"
-                                                       data-target="#myModal" data-id="{{ categoria.id }}"
-                                                       data-nome="{{ categoria.nome }}"
-                                                       data-colecao="{{ categoria.colecao.id }}">Editar
-                                                    </a>
-                                                {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 class="media-heading"><a
+                                            href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a></h4>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a class="button {% if categoria.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
+                                           href="{{ path('categoria_status', { id : categoria.id }) }}">{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}
+                                        </a>
+                                        <a class="button is-white is-pulled-right is-small openMenu"
+                                           data-toggle="modal"
+                                           data-target="#myModal" data-id="{{ categoria.id }}"
+                                           data-nome="{{ categoria.nome }}"
+                                           data-colecao="{{ categoria.colecao.id }}">Editar
+                                        </a>
+                                    {% endif %}
                             </div>
                         </div>
                     {% else %}
