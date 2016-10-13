@@ -10,28 +10,6 @@ $app->get('/login', function(\Symfony\Component\HttpFoundation\Request $request)
     return $app['index.controller']->login($request, $app);
 })->bind('login');
 
-$app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    if (isset($app['security.token_storage'])) {
-        $token = $app['security.token_storage']->getToken();
-    } else {
-        $token = $app['security']->getToken();
-    }
-
-    $app['user'] = null;
-    $user = null;
-
-    if ($token && !$app['security.trust_resolver']->isAnonymous($token)) {
-        $app['user'] = $token->getUser();
-        $app['session']->set('user', $app['user']);
-        $app['session']->save();
-        $user = $app['session']->get('user');
-    }
-
-    if(empty($user)) {
-        $app->redirect('logout');
-    }
-});
-
 $app->post('/admin/login_check', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
     
 })->bind('login_check');

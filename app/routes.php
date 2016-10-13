@@ -22,7 +22,6 @@ include __DIR__.'/routes/user.php';
 include __DIR__.'/routes/access.php';
 
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
-
     switch ($code) {
         case 400 :
             $message = 'Ocorreu um erro no m&aacute;quina local.';
@@ -40,6 +39,5 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
             $message = 'Um erro ocorreu.';
             break;
     }
-
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
 });

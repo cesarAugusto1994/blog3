@@ -30,22 +30,28 @@
                         <hr class="small">
                     {% endif %}
                     {% for colecao in colecoes %}
-                        <div class="media">
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
-                                           href="{{ path('colecao_status', { id : colecao.id }) }}">{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}
-                                        </a>
-                                        <a class="button is-white is-pulled-right is-small openMenu"
-                                           data-toggle="modal"
-                                           data-target="#myModal" data-id="{{ colecao.id }}"
-                                           data-nome="{{ colecao.nome }}"
-                                           data-descricao="{{ colecao.descricao }}">Editar
-                                        </a>
-                                    {% endif %}
-                                </h4>
+                        <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
+                                                   href="{{ path('colecao_status', { id : colecao.id }) }}">{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}
+                                                </a>
+                                                <a class="button is-white is-pulled-right is-small openMenu"
+                                                   data-toggle="modal"
+                                                   data-target="#myModal" data-id="{{ colecao.id }}"
+                                                   data-nome="{{ colecao.nome }}"
+                                                   data-descricao="{{ colecao.descricao }}">Editar
+                                                </a>
+                                            {% endif %}
+                                        </h4>
+                                    </div>
+                                </div>
                             </div>
+                        </div><br>
                         </div>
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>

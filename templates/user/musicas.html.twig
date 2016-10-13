@@ -30,17 +30,27 @@
                         <hr class="small">
                     {% endif %}
                     {% for musica in musicas %}
-                        <div class="media">
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
-                                    {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-white is-small is-pulled-right">Editar</a>
-                                    <a class="button {% if musica.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-small is-pulled-right"
-                                       href="{{ path('musicas_status', { id : musica.id }) }}">{% if musica.ativo %} Inativar {% else %} Ativar {% endif %}
-                                    </a>
-                                {% endif %}
-                                </h4>
+                        <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a
+                                                        href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
+                                                {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
+                                                    <a href="{{ path('musicas_editar', { id : musica.id }) }}"
+                                                       class="button is-white is-small is-pulled-right">Editar</a>
+                                                    <a class="button {% if musica.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-small is-pulled-right"
+                                                       href="{{ path('musicas_status', { id : musica.id }) }}">{% if musica.ativo %} Inativar {% else %} Ativar {% endif %}
+                                                    </a>
+                                                {% endif %}
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
+                            <br>
                         </div>
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>

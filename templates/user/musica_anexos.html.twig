@@ -62,7 +62,7 @@
                                     {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_USER') %}
                                         <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-light is-small">Editar</a>
                                         {% if not musica.letra %}
-                                            <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-light is-inverted is-small" style="text-decoration: none">Adicionar Letra</a>
+                                            <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-primary is-inverted is-small" style="text-decoration: none">Adicionar Letra</a>
                                         {% endif %}
                                         <button data-toggle="modal" data-target="#addLink" class="button is-success is-inverted is-small addAnexo">Adicionar Link</button>
                                         <button data-toggle="modal" data-target="#upload" class="button is-danger is-inverted is-small">Adicionar Arquivo</button>
@@ -87,7 +87,7 @@
                                     <div class="media-body">
                                         <h4 class="media-heading">{{ anexo.nome }}</h4>
                                         {% if anexo.isExterno %}
-                                            <a class="button is-small is-white" href="{{ anexo.link }}"
+                                            <a class="button is-small is-white" href="{{ path('videos')}}"
                                                target="_blank">ir para o link
                                             </a>
                                         {% else %}
