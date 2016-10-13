@@ -41,7 +41,7 @@
                                             <button id="incfont" class="button is-dark is-outlined is-small buttonfont">A+</button>
                                             <button id="decfont" class="button is-dark is-outlined is-small buttonfont">A-</button>
                                             {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-primary is-small" style="text-decoration: none">Editar Letra</a>
+                                                <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-light is-small" style="text-decoration: none">Editar Letra</a>
                                             {% endif %}
                                         </div>
                                         <br>
@@ -61,9 +61,11 @@
                                 <div class="media-content">
                                     {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_USER') %}
                                         <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-light is-small">Editar</a>
-                                        <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-primary is-small" style="text-decoration: none">Adicionar Letra</a>
-                                        <button data-toggle="modal" data-target="#addLink" class="button is-success is-small addAnexo">Adicionar Link</button>
-                                        <button data-toggle="modal" data-target="#upload" class="button is-danger is-small">Adicionar Arquivo</button>
+                                        {% if not musica.letra %}
+                                            <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-light is-inverted is-small" style="text-decoration: none">Adicionar Letra</a>
+                                        {% endif %}
+                                        <button data-toggle="modal" data-target="#addLink" class="button is-success is-inverted is-small addAnexo">Adicionar Link</button>
+                                        <button data-toggle="modal" data-target="#upload" class="button is-danger is-inverted is-small">Adicionar Arquivo</button>
                                     {% endif %}
                                     <br>
                                 </div>
@@ -78,6 +80,8 @@
                                             <i class="fa fa-picture-o"></i>
                                         {% elseif anexo.tipo.id == 3 %}
                                             <i class="fa fa-file-pdf-o"></i>
+                                        {% elseif anexo.tipo.id == 4 %}
+                                            <i class="fa fa-video-camera"></i>
                                         {% endif %}&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="media-body">
@@ -171,22 +175,18 @@
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
                         <input type="hidden" name="musica" id="musica" value="{{ musica.id }}">
-                        <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
-                            <i class="fa fa-edit"></i>
-                        </p>
-                        <p class="control has-icon">
+                        <label class="label label-default">Tipo de Link</label>
+                        <p class="control">
                             <select class="input" name="tipo" id="tipo" required>
-                                <option value=""></option>
+                                <option value="">Selecione</option>
                                 {% for tipo in tipos %}
                                     <option value="{{ tipo.id }}" >{{ tipo.nome }}</option>
                                 {% endfor %}
                             </select>
-                            <i class="fa fa-edit"></i>
                         </p>
-                        <p class="control has-icon">
+                        <label class="label label-default">Link</label>
+                        <p class="control">
                             <input class="input" type="text" placeholder="Link" name="link" id="link" required>
-                            <i class="fa fa-edit"></i>
                         </p>
                     </div>
                     <div class="modal-footer">

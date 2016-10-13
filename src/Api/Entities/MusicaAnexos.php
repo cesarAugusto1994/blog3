@@ -59,7 +59,7 @@ class MusicaAnexos
     private $linkExterno;
     
     /**
-     * @ORM\Column(name="link", type="text")
+     * @ORM\Column(name="link", type="text", nullable=true)
      * @var string
      */
     private $link;

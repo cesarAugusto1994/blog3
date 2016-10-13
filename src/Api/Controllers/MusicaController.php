@@ -138,8 +138,8 @@ class MusicaController
         $app['log.controller']->criar('adicionou nova musica '.$musica->getNome());
 
         $app['session']->getFlashBag()->add('mensagem', 'Musica adicionada com sucesso.');
-
-        if ($request->get('role') == 'user') {
+    
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
             return $app->redirect('/user/musicas/'.$categoria->getId());
         }
 
@@ -184,7 +184,7 @@ class MusicaController
         $app['session']->getFlashBag()->add('mensagem', 'Musica editada com sucesso.');
         
         if ($request->get('rota') == 'edicao_usuario') {
-            return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId());
+            return $app->redirect('/user/musica/anexos/' . $musica->getId());
         }
     
         if ($request->get('rota') == 'edicao_letra') {
@@ -222,6 +222,10 @@ class MusicaController
         if ($request->get('rota') == 'edicao_letra') {
             return $app->redirect('/user/musica/anexos/' . $musica->getId());
         }
+    
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/musica/anexos/' . $musica->getId());
+        }
 
         return $app->redirect('/admin/musicas/grid');
     }
@@ -248,7 +252,11 @@ class MusicaController
 
         $app['log.controller']->criar('alterou o status da musica '.$musica->getNome());
 
-        $app['session']->getFlashBag()->add('mensagem', 'Musica '.($musica->isAtivo() ? 'ativada' : 'desativada').' com sucesso.');
+        $app['session']->getFlashBag()->add('mensagem', 'Musica '.($musica->isAtivo() ? 'ativada' : 'inativada').' com sucesso.');
+
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/musicas/'.$musica->getCategoria()->getId());
+        }
 
         return $app->redirect('/admin/musicas/grid');
     }

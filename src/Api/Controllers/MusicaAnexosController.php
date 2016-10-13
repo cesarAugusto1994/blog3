@@ -9,6 +9,7 @@
 namespace Api\Controllers;
 
 use Api\Entities\AnexoTags;
+use Api\Entities\Musica;
 use Api\Entities\MusicaAnexos;
 use Api\Entities\MusicaTags;
 use Api\Entities\Tag;
@@ -134,6 +135,9 @@ class MusicaAnexosController
      */
     public function novo($musicaId, Request $request, Application $app)
     {
+        /**
+         * @var Musica $musica
+         */
         $musica = $app['musica.repository']->find($musicaId);
         $user = $app['session']->get('user');
         $usuario = $app['usuarios.repository']->find($user->getId());
@@ -146,12 +150,12 @@ class MusicaAnexosController
         $link = '';
 
         if ($tipo->getNome() == 'Video') {
-            preg_match('/[\\?\\&]v=([^\\?\\&]+)/', $request->get('link'), $matches);
-            $link = $matches[1];
+            preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $request->get('link'), $matches);
+            $link = $matches[0];
         }
 
         $musicaAnexo = new MusicaAnexos();
-        $musicaAnexo->setNome($request->get('nome'));
+        $musicaAnexo->setNome($musica->getNome());
         $musicaAnexo->setMusica($musica);
         $musicaAnexo->setTipo($tipo);
         $musicaAnexo->setLinkExterno(true);
@@ -165,6 +169,10 @@ class MusicaAnexosController
         $app['log.controller']->criar('adicionou o arquivo '.$musicaAnexo->getNome());
 
         $app['session']->getFlashBag()->add('mensagem', 'Novo link adicionado com sucesso.');
+
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/musica/anexos/' . $musica->getId());
+        }
 
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
@@ -180,6 +188,9 @@ class MusicaAnexosController
          * @var MusicaAnexos $musicaAnexo
          */
         $musicaAnexo = $app['musica.anexos.repository']->find($request->get('id'));
+        /**
+         * @var Musica $musica
+         */
         $musica = $app['musica.repository']->find($request->get('musica'));
         $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
 
@@ -193,6 +204,10 @@ class MusicaAnexosController
         $app['log.controller']->criar('editou o arquivo '.$musicaAnexo->getNome());
 
         $app['session']->getFlashBag()->add('mensagem', 'Arquivo editado com sucesso.');
+
+        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+            return $app->redirect('/user/musica/anexos/' . $musica->getId());
+        }
 
         return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }

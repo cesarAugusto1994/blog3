@@ -30,7 +30,7 @@
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
 
-                    <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addAnexo">Novo Anexo</button>
+                    <button data-toggle="modal" data-target="#addLink" class="button is-light is-small addAnexo">Novo Anexo</button>
                     <button data-toggle="modal" data-target="#upload" class="button is-danger is-small is-inverted addAnexo">Upload de Arquivos</button>
                     <hr>
                     {% for anexo in anexos %}
@@ -68,7 +68,7 @@
     </article>
     <br>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form class="form-horizontal" method="POST" action="{{ path('save_musica_anexos', { musicaId : musica.id }) }}">
@@ -80,22 +80,18 @@
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
                         <input type="hidden" name="musica" id="musica" value="{{ musica.id }}">
-                        <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
-                            <i class="fa fa-edit"></i>
-                        </p>
-                        <p class="control has-icon">
+                        <label class="label label-default">Tipo de Link</label>
+                        <p class="control">
                             <select class="input" name="tipo" id="tipo" required>
-                                <option value=""></option>
+                                <option value="">Selecione</option>
                                 {% for tipo in tipos %}
                                     <option value="{{ tipo.id }}" >{{ tipo.nome }}</option>
                                 {% endfor %}
                             </select>
-                            <i class="fa fa-edit"></i>
                         </p>
-                        <p class="control has-icon">
+                        <label class="label label-default">Link</label>
+                        <p class="control">
                             <input class="input" type="text" placeholder="Link" name="link" id="link" required>
-                            <i class="fa fa-edit"></i>
                         </p>
                     </div>
                     <div class="modal-footer">
