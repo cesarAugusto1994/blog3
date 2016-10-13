@@ -2,19 +2,11 @@
 
 {% block title %}Musicas{% endblock %}
 
-{% block content %}
+{% block header %}{{ parent() }}{% endblock %}
 
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>{{ musica.nome }} - Editar letra</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+{% block headerNome %}{{ musica.nome }} - Letra{% endblock %}
+
+{% block content %}
 
     <article>
         <div class="container">
@@ -26,7 +18,7 @@
                         <p class="control">Letra:
                         <textarea class="textarea form-control" id="letra" name="letra"
                                   style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"><pre>{{ musica.letraOriginal }}</pre></textarea>
-                        </pre>
+                        </p>
                         <p class="control">
                             <button class="button is-success is-small" type="submit">Salvar</button>
                         </p>

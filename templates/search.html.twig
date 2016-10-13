@@ -2,9 +2,11 @@
 
 {% block title %}Perfil{% endblock %}
 
-{% block content %}
+{% block header %} {% endblock %}
 
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+{% block content %}
+    <header class="intro-header"
+            style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -29,68 +31,53 @@
             </div>
         </div>
     </header>
-
     <article>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
-                {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
-
-                    {% if musicas|length > 0 %}
-                        <div class="card" style="width: 100%">
-                            <div class="card-content">
-                                <h4>Musicas</h4>
-                                {% for musica in musicas %}
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <h4 class="media-heading"><a
-                                                        href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }}
-                                                    - {% endif %}{{ musica.nome }}</a>
-                                                <a class="button is-small is-light is-pulled-right"> {{ musica.categoria.nome }}</a>
-                                            </h4>
+                    {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0 %}
+                        {% if musicas|length > 0 %}
+                            <div class="card" style="width: 100%">
+                                <div class="card-content">
+                                    <h4>Musicas</h4>
+                                    {% for musica in musicas %}
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h4 class="media-heading"><a
+                                                            href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }}
+                                                            - {% endif %}{{ musica.nome }}</a>
+                                                    <a class="button is-small is-light is-pulled-right"> {{ musica.categoria.nome }}</a>
+                                                </h4>
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                        <br>
-                    {% endif %}
-
-                    {% if musica_anexos|length > 0 %}
-                        <div class="card" style="width: 100%">
-                            <div class="card-content">
-                                <h4>Arquivos</h4>
-                                {% for anexo in musica_anexos %}
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <h4 class="media-heading">
-                                                <a href="{{ path('musica_anexos', { musicaId : anexo.musica.id }) }}">{{ anexo.nome }}</a>
-                                                <a class="button is-small is-light is-pulled-right">{{ anexo.musica.nome }}</a>
-                                            </h4>
+                            <br>
+                        {% endif %}
+                        {% if musica_anexos|length > 0 %}
+                            <div class="card" style="width: 100%">
+                                <div class="card-content">
+                                    <h4>Arquivos</h4>
+                                    {% for anexo in musica_anexos %}
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h4 class="media-heading">
+                                                    <a href="{{ path('musica_anexos', { musicaId : anexo.musica.id }) }}">{{ anexo.nome }}</a>
+                                                    <a class="button is-small is-light is-pulled-right">{{ anexo.musica.nome }}</a>
+                                                </h4>
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                        <br>
+                            <br>
+                        {% endif %}
+                    {% else %}
+                        Nenhum registro Encontrado.
                     {% endif %}
-
-
-
-                 {% else %}
-
-                     Nenhum registro Encontrado.
-
-                 {% endif %}
-
                 </div>
             </div>
         </div>
     </article>
-
-{% endblock %}
-
-{% block javascript %}
-
 {% endblock %}

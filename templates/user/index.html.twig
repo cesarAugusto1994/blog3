@@ -2,35 +2,25 @@
 
 {% block title %}{{ app['nome.blog'] }}{% endblock %}
 
+{% block header %}{{ parent() }}{% endblock %}
+
+{% block headerNome %}Ol&aacute;, {{ app['usuario.sessao'].nome }}.{% endblock %}
+{% block headerSubtitulo %}Bem vindo ao {{ app['nome.blog'] }}{% endblock %}
+
 {% block content %}
-
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>Ol&aacute;, {{ app['usuario.sessao'].nome }}.</h1>
-                        <p>Bem vindo ao {{ app['nome.blog'] }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <article>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10">
                     {% for menu in app['menus'] %}
-                            <div class="media">
-                                <div class="media-body">
-                                    <h4 class="media-heading"><a href="{{ path(menu.url) }}">{{ menu.nome }}</a></h4>
-                                </div>
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="{{ path(menu.url) }}">{{ menu.nome }}</a></h4>
                             </div>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </article>
-
 {% endblock %}

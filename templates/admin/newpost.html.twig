@@ -8,19 +8,11 @@
           href="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}">
 {% endblock %}
 
-{% block content %}
+{% block header %}{{ parent() }}{% endblock %}
 
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>Criar Post</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+{% block headerNome %}Criar Post{% endblock %}
+
+{% block content %}
 
     <article>
         <div class="container">

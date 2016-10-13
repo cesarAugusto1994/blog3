@@ -25,7 +25,8 @@
                     {% endfor %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <li>
-                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrador</a>
+                            <a href="#" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">Administrador</a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ path('postForm') }}">Novo Post</a></li>
                                 <li><a href="{{ path('grid_posts') }}">Lista Post</a></li>
@@ -68,6 +69,23 @@
             </div>
         </div>
     </nav>
+
+    {% block header %}
+        <header class="intro-header"
+                style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="site-heading">
+                            <h1>{% block headerNome %}{% endblock %}</h1>
+                            <hr class="small">
+                            <span class="subheading">{% block headerSubtitulo %}{% endblock %}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endblock %}
 
     {% block content %}{% endblock %}
 

@@ -2,34 +2,19 @@
 
 {% block title %}Usu&aacute;rios{% endblock %}
 
-{% block content %}
+{% block header %}{{ parent() }}{% endblock %}
 
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>Usu&aacute;rios</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+{% block headerNome %}Usu&aacute;rios{% endblock %}
+
+{% block content %}
 
     <article>
         <div class="container">
             <div class="row">
-                <!--
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <button data-toggle="modal" data-target="#myModal" class="button is-danger is-small addColecao">Novo Usu&aacute;rio</button>
-                    <hr>
-                </div>-->
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
                     {% for alert in app.session.flashbag.get('mensagem') %}
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
-
                     {% for usuario in usuarios %}
                         <div class="media">
                             <!--
@@ -39,8 +24,10 @@
                                 </a>
                             </div><br>-->
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
-                                    <a class="button is-light is-small is-pulled-right" href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
+                                <h4 class="media-heading"><a
+                                            href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
+                                    <a class="button is-light is-small is-pulled-right"
+                                       href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
                                     {% if usuario.id != app['usuario.sessao'].id %}
                                         <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
                                            href="{{ path('usuario_status', { id : usuario.id }) }}"
@@ -78,7 +65,8 @@
                             <i class="fa fa-edit"></i>
                         </p>
                         <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="descricao" id="descricao" required>
+                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="descricao"
+                                   id="descricao" required>
                             <i class="fa fa-edit"></i>
                         </p>
                     </div>

@@ -6,20 +6,11 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 {% endblock %}
 
-{% block content %}
+{% block header %}{{ parent() }}{% endblock %}
 
-    <header class="intro-header"
-            style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>Configura&ccedil;&otilde;es</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+{% block headerNome %}Configura&ccedil;&otilde;es{% endblock %}
+
+{% block content %}
 
     <article>
         <div class="container">

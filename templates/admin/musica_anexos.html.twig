@@ -7,19 +7,11 @@
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
-{% block content %}
+{% block header %}{{ parent() }}{% endblock %}
 
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+{% block headerNome %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
+
+{% block content %}
 
     <article>
         <div class="container">

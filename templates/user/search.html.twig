@@ -2,6 +2,8 @@
 
 {% block title %}Perfil{% endblock %}
 
+{% block header %} {% endblock %}
+
 {% block content %}
 
     <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
