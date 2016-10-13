@@ -36,7 +36,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <h4 class="media-heading"><a
-                                                        href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
+                                                        href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a></h4>
                                                 {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
                                                     <a href="{{ path('musicas_editar', { id : musica.id }) }}"
                                                        class="button is-white is-small is-pulled-right">Editar</a>
@@ -44,13 +44,10 @@
                                                        href="{{ path('musicas_status', { id : musica.id }) }}">{% if musica.ativo %} Inativar {% else %} Ativar {% endif %}
                                                     </a>
                                                 {% endif %}
-                                            </h4>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-                            <br>
                         </div>
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>
