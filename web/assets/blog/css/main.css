@@ -68,3 +68,13 @@
 .label-info {
     background-color: #5bc0de;
 }
+
+.blockDiv {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #f6f6f6;
+    width: 0px;
+    height: 0px;
+    z-index: 10;
+}

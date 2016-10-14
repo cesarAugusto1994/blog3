@@ -26,7 +26,7 @@ class ColecaoController
     {
         return $app['twig']->render(
             '/user/colecoes.html.twig',
-            ['colecoes' => $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC'])]
+            ['colecoes' => $app['colecao.repository']->findBy([], ['nome' => 'ASC'])]
         );
     }
 
@@ -82,14 +82,18 @@ class ColecaoController
         $colecao->setDescricao($request->get('descricao'));
         
         $app['colecao.repository']->save($colecao);
-        $app['log.controller']->criar('editou a coleção '.$colecao->getNome());
-        $app['session']->getFlashBag()->add('mensagem', 'Coleção editada com sucesso.');
 
-        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-            return $app->redirect('/user/colecoes');
-        }
-        
-        return $app->redirect('/admin/colecoes/grid');
+        $mensagem = 'Coleção '.$colecao->getNome().' editada com sucesso.';
+
+        $app['log.controller']->criar($mensagem);
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
+
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => $mensagem
+            ]
+        );
     }
     
     /**
@@ -108,13 +112,17 @@ class ColecaoController
         }
         
         $app['colecao.repository']->save($colecao);
-        $app['log.controller']->criar('alterou a situação da Coleção '.$colecao->getNome());
-        $app['session']->getFlashBag()->add('mensagem', 'Situação da Coleção alterada com sucesso.');
 
-        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-            return $app->redirect('/user/colecoes');
-        }
-        
-        return $app->redirect('/admin/colecoes/grid');
+        $mensagem = 'Situação da Coleção  ' . $colecao->getNome() . ' alterada para ' .($colecao->isAtivo() ? 'ativa' : 'inativa'). ' com sucesso.';
+
+        $app['log.controller']->criar($mensagem);
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
+
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => $mensagem
+            ]
+        );
     }
 }
