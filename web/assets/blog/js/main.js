@@ -69,7 +69,7 @@ function block_screen() {
     $('<div id="screenBlock"></div>').appendTo('body');
     $('#screenBlock').css( { opacity: 0, background: '#f6f6f6', width: $(document).width(), height: $(document).height() } );
     $('#screenBlock').addClass('blockDiv');
-    $('#screenBlock').animate({opacity: 0.5}, 200);
+    $('#screenBlock').animate({opacity: 0.4}, 200);
 }
 
 function unblock_screen() {

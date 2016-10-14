@@ -95,17 +95,24 @@ class CategoriaController
          * @var Categoria $categoria
          */
         $categoria = $app['categoria.repository']->find($request->get('id'));
+        $colecao = $app['colecao.repository']->find($request->get('colecao'));
+
+        $categoria->setColecao($colecao);
         $categoria->setNome($request->get('nome'));
         
         $app['categoria.repository']->save($categoria);
-        $app['log.controller']->criar('editou o nome da categoria '.$categoria->getNome());
-        $app['session']->getFlashBag()->add('mensagem', 'Categoria adicionada com sucesso.');
-
-        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-            return $app->redirect('/user/categorias/'.$categoria->getColecao()->getId().'/'.$categoria->getColecao()->getNome());
-        }
+    
+        $mensagem = 'Categoria '.$categoria->getNome().' editada com sucesso.';
         
-        return $app->redirect('/admin/categorias/grid');
+        $app['log.controller']->criar($mensagem);
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
+    
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => $mensagem
+            ]
+        );
     }
     
     /**
@@ -127,13 +134,17 @@ class CategoriaController
         }
         
         $app['categoria.repository']->save($categoria);
-        $app['log.controller']->criar('alterou a situação da Categoria '.$categoria->getNome());
-        $app['session']->getFlashBag()->add('mensagem', 'Situação da Categoria alterada com sucesso.');
-
-        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-            return $app->redirect('/user/categorias/'.$categoria->getColecao()->getId().'/'.$categoria->getColecao()->getNome());
-        }
     
-        return $app->redirect('/admin/categorias/grid');
+        $mensagem = 'Situação da Categoria  ' . $categoria->getNome() . ' alterada para ' .($categoria->isAtivo() ? 'ativa' : 'inativa'). ' com sucesso.';
+        
+        $app['log.controller']->criar($mensagem);
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
+    
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => $mensagem
+            ]
+        );
     }
 }

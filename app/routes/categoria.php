@@ -32,6 +32,6 @@ $app->post('admin/categoria/save', function (\Symfony\Component\HttpFoundation\R
     
 })->bind('save_categoria');
 
-$app->get('admin/categoria/status/{id}', function($id) use ($app) {
+$app->get('admin/categoria/{id}/status', function($id) use ($app) {
     return $app['categoria.controller']->alteraStatus($id, $app);
 })->bind('categoria_status');
