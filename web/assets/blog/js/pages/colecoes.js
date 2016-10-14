@@ -8,7 +8,13 @@ function mudarStatus(e) {
 
     var id = $(this).attr('colecao_id');
 
-    alertify.confirm('Deseja Inativar esta Cole&ccedil;&atilde;o?', function(){
+    var situacao = 'Inativar';
+
+    if (false == $(this).attr('situacao')) {
+        situacao = 'Ativar';
+    }
+
+    alertify.confirm('Deseja ' + situacao + ' esta Cole&ccedil;&atilde;o?', function(){
 
         block_screen();
 
@@ -18,7 +24,6 @@ function mudarStatus(e) {
             cache: false,
             success: function (data) {
                 unblock_screen();
-                $('#snackbarid').attr('data-content', data.message);
                 window.location.reload();
             },
             error: function () {
@@ -26,7 +31,6 @@ function mudarStatus(e) {
                 alertify.error('Ocorreu um erro.');
             }
         });
-
     }).setting('labels',{'ok':'Sim', 'cancel': 'Cancelar'});
 };
 
@@ -60,6 +64,18 @@ function editarColecao(e)
     });
 
 }
+
+$(document).on('click', '.openMenu', function () {
+    $('.modal-body #id').val($(this).data('id'));
+    $('.modal-body #nome').val($(this).data('nome'));
+    $('.modal-body #descricao').val($(this).data('descricao'));
+});
+
+$(document).on('click', '.addColecao', function () {
+    $('.modal-body #id').val('');
+    $('.modal-body #nome').val('');
+    $('.modal-body #descricao').val('');
+});
 
 $(document).ready(function () {
     $('.mudarStatus').on('click', mudarStatus);

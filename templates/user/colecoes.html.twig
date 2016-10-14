@@ -12,19 +12,21 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
                     {% for alert in app.session.flashbag.get('mensagem') %}
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addColecao">Nova Cole&ccedil;&atilde;o</button>
+                        <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addColecao">
+                            Nova Cole&ccedil;&atilde;o
+                        </button>
                         <hr class="small">
                     {% endif %}
                     {% for colecao in colecoes %}
                         <div class="media">
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
+                                <h4 class="media-heading"><a
+                                            href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <a class="button is-white is-pulled-right is-small openMenu"
                                            data-toggle="modal"
@@ -33,7 +35,8 @@
                                            data-descricao="{{ colecao.descricao }}">Editar
                                         </a>
                                         <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small mudarStatus"
-                                           href="#" colecao_id="{{ colecao.id }}" >{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}
+                                           href="#" situacao="{{ colecao.ativo }}"
+                                           colecao_id="{{ colecao.id }}">{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}
                                         </a>
                                     {% endif %}
                                 </h4>
@@ -47,76 +50,58 @@
         </div>
     </article>
 
-    <article>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <form class="form-horizontal" method="POST">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Cole&ccedil;&atilde;o</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="hidden" name="id" id="id">
-                                    <input type="hidden" name="role" id="role" value="user">
-                                    <div class="control is-horizontal">
-                                        <div class="control-label">
-                                            <label for="nome">Nome</label>
-                                        </div>
-                                        <div class="control">
-                                            <div class="is-fullwidth">
-                                                <input class="input is-primary" type="text" placeholder="Nome" name="nome" id="nome" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="control is-horizontal">
-                                        <div class="control-label">
-                                            <label for="descricao">Descri&ccedil;&atilde;o</label>
-                                        </div>
-                                        <div class="control">
-                                            <div class="is-fullwidth">
-                                                <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="descricao" id="descricao" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <p class="control">
-                                        <button class="button is-success" type="submit">
-                                            Salvar
-                                        </button>
-                                    </p>
-                                </div>
-                            </form>
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form class="form-horizontal" method="POST">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Cole&ccedil;&atilde;o</h4>
                         </div>
-                    </div>
-                </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="id" id="id">
+                            <input type="hidden" name="role" id="role" value="user">
+                            <div class="control is-horizontal">
+                                <div class="control-label">
+                                    <label for="nome">Nome</label>
+                                </div>
+                                <div class="control">
+                                    <div class="is-fullwidth">
+                                        <input class="input is-primary" type="text" placeholder="Nome" name="nome"
+                                               id="nome" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control is-horizontal">
+                                <div class="control-label">
+                                    <label for="descricao">Descri&ccedil;&atilde;o</label>
+                                </div>
+                                <div class="control">
+                                    <div class="is-fullwidth">
+                                        <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
+                                               name="descricao" id="descricao" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <p class="control">
+                                <button class="button is-success" type="submit">
+                                    Salvar
+                                </button>
+                            </p>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </article>
+    </div>
 
 {% endblock %}
 
 {% block javascript %}
     {{ parent() }}
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/colecoes.js') }}"></script>
-    <script>
-        $(document).on('click', '.openMenu', function () {
-            $('.modal-body #id').val($(this).data('id'));
-            $('.modal-body #nome').val($(this).data('nome'));
-            $('.modal-body #descricao').val($(this).data('descricao'));
-        })
-    </script>
-    <script>
-        $(document).on('click', '.addColecao', function () {
-            $('.modal-body #id').val('');
-            $('.modal-body #nome').val('');
-            $('.modal-body #descricao').val('');
-        })
-    </script>
 {% endblock %}
