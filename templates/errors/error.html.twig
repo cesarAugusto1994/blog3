@@ -1,24 +1,24 @@
-{% extends "template.html.twig" %}
+{% extends "template-new.html.twig" %}
+
+{% block title %}Pesquisar{% endblock %}
+
+{% block header %} {% endblock %}
 
 {% block content %}
-    <header class="intro-header" style="background-image: url('{{ asset(app['background.default']) }}')">
+
+    <section class="moduler wrapper_404">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>{{ code }} - {{ message }}</h1>
-                        <hr class="small">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s" >{{ code }}</h1>
+                        <h2 class="wow fadeInUp animated" data-wow-delay=".6s">Opps! Ocorreu um erro.</h2>
+                        <p class="wow fadeInUp animated" data-wow-delay=".9s">{{ message }}</p>
+                        <a href="{{ path('user') }}" class="btn btn-dafault btn-home wow fadeInUp animated" data-wow-delay="1.1s">Ir para o Inicio</a>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <h2>{{ message }}</h2>
-                <p>{{ erro }}</p>
-            </div>
-        </div>
-    </div>
+    </section>
+
 {% endblock %}

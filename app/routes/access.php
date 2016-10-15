@@ -10,6 +10,10 @@ $app->get('/login', function(\Symfony\Component\HttpFoundation\Request $request)
     return $app['index.controller']->login($request, $app);
 })->bind('login');
 
+$app->get('/user/', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['index.controller']->userIndex($app);
+})->bind('user');
+
 $app->post('/admin/login_check', function(\Symfony\Component\HttpFoundation\Request $request) use($app) {
     
 })->bind('login_check');
