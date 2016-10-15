@@ -8,95 +8,53 @@
 
 {% block content %}
 
-    <article>
+    <section id="works" class="works">
         <div class="container">
+            <div class="section-heading">
+                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Indice</h1>
+            </div>
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    {% for alert in app.session.flashbag.get('mensagem') %}
-                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
-                    {% endfor %}
-                    {% for usuario in usuarios %}
-                        <div class="media">
-                            <!--
-                            <div class="media-left media-middle is-4by3">
-                                <a href="{{ path('perfil', { user : usuario.id }) }}">
-                                    <img class="media-object img-circle" style="min-height:48px; max-height: 48px; min-width: 48px; max-width: 48px;" src="{% if usuario.avatar is not null %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" alt="...">
-                                </a>
-                            </div><br>-->
-                            <div class="media-body">
-                                <h4 class="media-heading"><a
-                                            href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
+
+                {% for alert in app.session.flashbag.get('mensagem') %}
+                    <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                {% endfor %}
+
+                {% for usuario in usuarios %}
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                            {% if usuario.avatar is not null %}
+                                <div class="img-wrapper" style="width: 100%;">
+                                    <img style="width: 100%;" src="{% if usuario.avatar %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="img-responsive" alt="this is a title" >
+                                    <div class="overlay">
+                                        <div class="buttons">
+                                            <a rel="gallery" class="fancybox" href="{{ path('perfil', { user : usuario.id }) }}">Ir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <figcaption>
+                                <h4>
+                                    <a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
                                     <a class="button is-light is-small is-pulled-right"
                                        href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
-                                    {% if usuario.id != app['usuario.sessao'].id %}
-                                        <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
-                                           href="{{ path('usuario_status', { id : usuario.id }) }}"
-                                           style="text-decoration: none">
-                                            <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
-                                        </a>
-                                    {% else %}
-                                        <button class="button is-light is-small is-pulled-right">Voc&ecirc;</button>
-                                    {% endif %}
+
+                                {% if usuario.id != app['usuario.sessao'].id %}
+
+                                    <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
+                                       href="{{ path('usuario_status', { id : usuario.id }) }}"
+                                       style="text-decoration: none">
+                                    <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
+                                    </a>
+
+                                {% endif %}
                                 </h4>
-                            </div>
-                        </div>
-                    {% else %}
-                        <p class="lead">Nenhum registro encontrado.</p>
-                    {% endfor %}
-                </div>
+
+                            </figcaption>
+                        </figure>
+                    </div>
+                {% endfor %}
             </div>
         </div>
-    </article>
-    <br>
+    </section>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form class="form-horizontal" method="POST" action="{{ path('save_colecao') }}">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Adicionar Cole&ccedil;&atilde;o</h4>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="id" id="id">
-                        <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Nome" name="nome" id="nome" required>
-                            <i class="fa fa-edit"></i>
-                        </p>
-                        <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="descricao"
-                                   id="descricao" required>
-                            <i class="fa fa-edit"></i>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <p class="control">
-                            <button class="button is-success" type="submit">
-                                Salvar
-                            </button>
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-{% endblock %}
-
-{% block javascript %}
-    <script>
-        $(document).on('click', '.openMenu', function () {
-            $('.modal-body #id').val($(this).data('id'));
-            $('.modal-body #nome').val($(this).data('nome'));
-            $('.modal-body #descricao').val($(this).data('descricao'));
-        })
-    </script>
-    <script>
-        $(document).on('click', '.addColecao', function () {
-            $('.modal-body #id').val('');
-            $('.modal-body #nome').val('');
-            $('.modal-body #descricao').val('');
-        })
-    </script>
 {% endblock %}

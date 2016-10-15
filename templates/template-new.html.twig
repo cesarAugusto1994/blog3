@@ -20,7 +20,7 @@
 
                 <!-- logo -->
                 <div class="navbar-brand">
-                    <a href="{% if app['usuario.sessao'].nome %}{{ path('user_index') }}{% else %}{{ path('home') }}{% endif %}">{{ app['config'].nome }}</a>
+                    <a href="{% if app['usuario.sessao'].nome %}{{ path('user_index') }}{% else %}{{ path('home') }}{% endif %}"><span style="color: #1e282c;">{{ app['config'].nome }}</span></a>
                 </div>
                 <!-- /logo -->
             </div>
@@ -63,6 +63,13 @@
                             </li>
                             <li><a href="{{ path('pesquisar') }}">Pesquisar</a></li>
                         {% endif %}
+                        <li>
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path('logout') }}">Sair</a>
+                            {% else %}
+                                <a href="{{ path('login') }}">Entrar</a>
+                            {% endif %}
+                        </li>
                     </ul>
                 </div>
             </nav>
