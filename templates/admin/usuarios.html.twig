@@ -18,7 +18,7 @@
 
                 {% for usuario in usuarios %}
                     <div class="col-md-4 col-lg-4 col-xs-12 col-sm-12">
-                        <figure  style="max-width: 200px; min-width: 200px;" class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                        <figure  style="max-width: 300px; min-width: 300px;" class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                             {% if usuario.avatar is not null %}
                                 <div class="img-wrapper">
                                     <img style="width: 100%;" src="{% if usuario.avatar %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="img-responsive" alt="this is a title" >
