@@ -10,9 +10,6 @@
 
     <section id="works" class="works">
         <div class="container">
-            <div class="section-heading">
-                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Indice</h1>
-            </div>
             <div class="row">
 
                 {% for alert in app.session.flashbag.get('mensagem') %}
@@ -20,10 +17,10 @@
                 {% endfor %}
 
                 {% for usuario in usuarios %}
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                    <div class="col-md-4 col-lg-4 col-xs-12 col-sm-12">
+                        <figure  style="max-width: 200px; min-width: 200px;" class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                             {% if usuario.avatar is not null %}
-                                <div class="img-wrapper" style="width: 100%;">
+                                <div class="img-wrapper">
                                     <img style="width: 100%;" src="{% if usuario.avatar %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="img-responsive" alt="this is a title" >
                                     <div class="overlay">
                                         <div class="buttons">
