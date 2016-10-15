@@ -35,7 +35,7 @@ class PostController
         $pager = $app['pager.Controller'];
         $pager->pager($app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']), $page);
     
-        return $app['twig']->render('user/posts.html.twig', [
+        return $app['twig']->render('/user/posts.html.twig', [
             'posts' => $app['posts.repository']->getAll($pager->getOffset(), $pager->getLimit()),
             'firstPage' => $pager->getFirstPage(),
             'nextPage' => $pager->getNextPage(),
@@ -54,7 +54,7 @@ class PostController
         $post = $app['posts.repository']->find($id);
         $links = $app['posts.links.repository']->findBy(['post' => $id]);
 
-        return $app['twig']->render('post.html.twig', [
+        return $app['twig']->render('/user/post.html.twig', [
             'post' => $post,
             'links' => $links,
             'posts_relacionados' => []
@@ -95,7 +95,7 @@ class PostController
     {
         $author = $app['usuarios.repository']->find($author);
 
-        return $app['twig']->render('index.html.twig', [
+        return $app['twig']->render('/user/index.html.twig', [
             'posts' => $app['posts.repository']->findBy(['usuario' => $author->getId(), 'ativo' => true], ['cadastro' => 'DESC']),
             'author_message' => 'Posts criados por: '.$author->getNome()
         ]);
@@ -112,7 +112,7 @@ class PostController
             return $tag->getPost();
         }, $app['tags.repository']->findByName($tag));
 
-        return $app['twig']->render('index.html.twig', [
+        return $app['twig']->render('/user/index.html.twig', [
             'posts' => $posts,
             'tag_message' => 'Posts relacionados com: '. $tag
         ]);
@@ -168,7 +168,29 @@ class PostController
 
         $app['posts.repository']->save($post);
 
-        return $app->redirect('post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
+        $arrTags = explode(',', $request->get('tags'));
+
+        if (!empty($arrTags)) {
+
+            $tagsPost = $app['tags.repository']->findBy(['post' => $post]);
+
+            if ($tagsPost) {
+                foreach ($tagsPost as $tag) {
+                    $app['tags.repository']->remove($tag);
+                }
+            }
+
+            foreach ($arrTags as $tag) {
+                if (!empty($tag)) {
+                    $tags = new Tags();
+                    $tags->setPost($post);
+                    $tags->setNome($this->replaceSpecialStrings($tag));
+                    $app['tags.repository']->save($tags);
+                }
+            }
+        }
+
+        return $app->redirect('/user/post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
     }
     
     /**
@@ -179,7 +201,8 @@ class PostController
     public function criar(Request $request, Application $app)
     {
         $post = new Posts();
-        $usuario = $app['usuarios.repository']->find(1);
+        $user = $app['session']->get('user');
+        $usuario = $app['usuarios.repository']->find($user->getId());
         $dataCadastro = new \DateTime();
         
         $post->setTitulo($this->replaceSpecialStrings($request->get('titulo')));
@@ -208,7 +231,7 @@ class PostController
             }
         }
 
-        return $app->redirect('/post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
+        return $app->redirect('/user/post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
     }
     
     /**

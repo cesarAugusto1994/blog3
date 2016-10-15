@@ -2,50 +2,42 @@
 
 {% block title %}{{ app['nome.blog'] }}{% endblock %}
 
-{% block header %} {% endblock %}
+{% block header %}{{ parent() }}{% endblock %}
+
+{% block headerNome %}Posts{% endblock %}
 
 {% block content %}
 
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>{{ app['config'].nome }}</h1>
-                        <hr class="small">
-                        <span class="subheading">{{ app['config'].subtitulo }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
+<section id="blog-full-width">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="col-md-12">
 
-                <h3>{% if message is defined %}{{ message }}{% endif %}</h3>
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('postForm') }}" class="button is-primary">Escrever Post</a>
+                {% endif %}
 
                 {% for post in posts %}
-                    <div class="post-preview">
-                        <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}" >
-                            <h2 class="post-title">
-                                {{ post.titulo }}
+
+                    <article class="wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">
+                        <div class="blog-post-image">
+                            <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}"><img class="img-responsive" src="{% if post.background is not null %}{{ asset(app['dir.post'] ~ post.background ) }}{% endif %}" alt="" /></a>
+                        </div>
+                        <div class="blog-content">
+                            <h2 class="blogpost-title">
+                                <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}">{{ post.titulo }}</a>
                             </h2>
-                            <h3 class="post-subtitle">
-                                {{ post.conteudo|slice(0, 300)|trim|raw }} {% if post.conteudo|length > 300 %}[...]{% endif %}
-                            </h3>
-                        </a>
-                        {% if post.usuario.id is defined %}
-                            <p class="post-meta">Posted by <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '-', ' ' : '-' })|lower }) }}">{{ post.usuario.nome }}</a>
-                                &agrave; {{ post.tempoPostagem }}</p>
-                        {%  endif %}
-                    </div>
-                {% else %}
-                    <div class="post-preview">
-                        <h2 class="post-title">Nenhum Post encontrado.</h2>
-                    </div>
+                            <div class="blog-meta">
+                                <span>{{ post.tempoPostagem }}</span>
+                                <span>por <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '-', ' ' : '-' })|lower }) }}">{{ post.usuario.nome }}</a></span>
+                            </div>
+                            <p>{{ post.conteudo|slice(0, 300)|trim|raw }} {% if post.conteudo|length > 300 %}[...]{% endif %}</p>
+                            <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}" class="btn btn-dafault btn-details">Continue Reading</a>
+                        </div>
+                    </article>
+
                 {% endfor %}
+
                 <ul class="pager">
                     {% if firstPage is defined and firstPage > 0 %}
                         <li class="previous">
@@ -58,9 +50,10 @@
                         </li>
                     {% endif %}
                 </ul>
+
+                </div>
             </div>
         </div>
-    </div>
-    <hr>
+    </section>
 
 {% endblock %}

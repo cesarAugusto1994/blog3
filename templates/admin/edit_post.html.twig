@@ -4,8 +4,12 @@
 
 {% block stylesheet %}
     {{ parent() }}
-    <link rel="stylesheet"
-          href="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}">
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init($('#descricao'));</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 {% endblock %}
 
 {% block header %}{{ parent() }}{% endblock %}
@@ -21,18 +25,20 @@
                     <form method="post" class="form-horizontal"
                           action="{{ path('save_edit_post') }}" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="{{ post.id }}">
-                        <p class="control has-icon">
+                        <label>Titulo</label>
+                        <p class="control">
                             <input class="input" type="text" placeholder="Titulo" name="titulo" value="{{ post.titulo }}">
-                            <i class="fa fa-edit"></i>
                         </p>
-                        <p class="control has-icon">
+                        <label>Background</label>
+                        <p class="control">
                             <input class="input" type="file" id="background" name="background" placeholder="Background" accept="image/*">
-                            <i class="fa fa-image"></i>
                         </p>
+                        <label>Tags</label>
                         <p class="control">
                             <input type="text" value="{{ post.nomeTags }}"
                                    class="form-control" name="tags" data-role="tagsinput" placeholder="tags"/>
                         </p>
+                        <label>Descri&ccedil;&atilde;o</label>
                         <p class="control">
                             <textarea class="textarea form-control" id="descricao" name="descricao"
                                       placeholder="Descricao" placeholder="Place some text here"
@@ -94,13 +100,4 @@
         </div>
     </div>
 
-{% endblock %}
-
-{% block javascript %} {{ parent() }}
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script>tinymce.init($('#descricao'));</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 {% endblock %}

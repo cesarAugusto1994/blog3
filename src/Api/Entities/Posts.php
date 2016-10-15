@@ -47,11 +47,8 @@ class Posts
     private $conteudo;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tags", inversedBy="Posts")
-     * @ORM\JoinTable(name="post_tags",
-     *     joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
-     * )
+     * @ORM\OneToMany(targetEntity="Tags", mappedBy="post")
+     * @var Tags
      */
     private $tags;
 
@@ -303,6 +300,6 @@ class Posts
             $tags[] = $tag->getNome();
         }
 
-        return implode(',', $tags);
+        return implode(', ', $tags);
     }
 }

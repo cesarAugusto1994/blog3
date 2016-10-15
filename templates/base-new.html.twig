@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" type="image/png" href="images/favicon.png">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/ico/favicon.ico') }}" rel='shortcut icon' type='image/x-icon'/>
     <title>{{ app['nome.blog'] }} - {% block title %}{% endblock %}</title>
     <meta name="description" content="">
@@ -14,7 +13,7 @@
     <meta name="author" content="Cesar Augusto">
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/bulma.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/alertify.min.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/themes/default.min.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/main.css') }}" rel="stylesheet" type="text/css"/>
