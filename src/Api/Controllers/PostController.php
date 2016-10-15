@@ -239,10 +239,10 @@ class PostController
      * @param Application $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-        public function alterarStatus($id, Application $app)
+    public function alterarStatus($id, Application $app)
     {
         /**
-         * Posts $post
+         * @var Posts $post
          */
         $post = $app['posts.repository']->find($id);
         $post->setAtualizado(new \DateTime('now'));
@@ -252,9 +252,14 @@ class PostController
         } else {
             $post->setAtivo(true);
         }
-    
+
         $app['posts.repository']->save($post);
+
+        $mensagem = 'Situação do Post  ' . $post->getTitulo() . ' alterado para ' .($post->isAtivo() ? 'ativo' : 'inativo'). ' com sucesso.';
+
+        $app['log.controller']->criar($mensagem);
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
     
-        return $app->redirect('/admin/grid_posts');
+        return $app->redirect('/admin/posts/grid');
     }
 }
