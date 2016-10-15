@@ -21,8 +21,6 @@
                 <!-- logo -->
                 <div class="navbar-brand">
                     <a href="{% if app['usuario.sessao'].nome %}{{ path('user_index') }}{% else %}{{ path('home') }}{% endif %}">{{ app['config'].nome }}</a>
-                        <img src="images/logo.png" alt="..">
-                    </a>
                 </div>
                 <!-- /logo -->
             </div>

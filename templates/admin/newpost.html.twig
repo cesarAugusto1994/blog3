@@ -1,11 +1,23 @@
-{% extends 'template.html.twig' %}
+{% extends 'template-new.html.twig' %}
 
 {% block title %}Novo Post{% endblock %}
 
 {% block stylesheet %}
     {{ parent() }}
-    <link rel="stylesheet"
-          href="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}">
+    <script>
+        $('#tag').tagsinput({
+            confirmKeys: [13, 44],
+            tagClass: function(item) {
+                return (item.length > 10 ? 'big' : 'label label-success');
+            }
+        });
+    </script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init($('#descricao'));</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 {% endblock %}
 
 {% block header %}{{ parent() }}{% endblock %}
@@ -49,21 +61,4 @@
         </div>
     </article>
 
-{% endblock %}
-
-{% block javascript %}
-    <script>
-        $('#tag').tagsinput({
-            confirmKeys: [13, 44],
-            tagClass: function(item) {
-                return (item.length > 10 ? 'big' : 'label label-success');
-            }
-        });
-    </script>
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script>tinymce.init($('#descricao'));</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 {% endblock %}

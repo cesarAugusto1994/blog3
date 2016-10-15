@@ -1,6 +1,10 @@
-{% extends 'template.html.twig' %}
+{% extends 'template-new.html.twig' %}
 
 {% block title %}Cole&ccedil;&otilde;es{% endblock %}
+
+{% block stylesheet %}{{ parent() }}
+    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/colecoes.js') }}"></script>
+{% endblock %}
 
 {% block header %}{{ parent() }}{% endblock %}
 
@@ -63,28 +67,10 @@
                         <div class="modal-body">
                             <input type="hidden" name="id" id="id">
                             <input type="hidden" name="role" id="role" value="user">
-                            <div class="control is-horizontal">
-                                <div class="control-label">
-                                    <label for="nome">Nome</label>
-                                </div>
-                                <div class="control">
-                                    <div class="is-fullwidth">
-                                        <input class="input is-primary" type="text" placeholder="Nome" name="nome"
-                                               id="nome" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control is-horizontal">
-                                <div class="control-label">
-                                    <label for="descricao">Descri&ccedil;&atilde;o</label>
-                                </div>
-                                <div class="control">
-                                    <div class="is-fullwidth">
-                                        <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
-                                               name="descricao" id="descricao" required>
-                                    </div>
-                                </div>
-                            </div>
+                            <label for="nome">Nome</label>
+                            <input class="input is-primary" type="text" placeholder="Nome" name="nome" id="nome" required>
+                            <label for="descricao">Descri&ccedil;&atilde;o</label>
+                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="descricao" id="descricao" required>
                         </div>
                         <div class="modal-footer">
                             <p class="control">
@@ -99,9 +85,4 @@
         </div>
     </div>
 
-{% endblock %}
-
-{% block javascript %}
-    {{ parent() }}
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/colecoes.js') }}"></script>
 {% endblock %}

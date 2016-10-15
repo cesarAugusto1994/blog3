@@ -1,26 +1,51 @@
-{% extends 'template.html.twig' %}
+{% extends 'template-new.html.twig' %}
 
 {% block title %}{{ app['nome.blog'] }}{% endblock %}
 
-{% block header %}{{ parent() }}{% endblock %}
-
-{% block headerNome %}Ol&aacute;, {{ app['usuario.sessao'].nome }}.{% endblock %}
-{% block headerSubtitulo %}Bem vindo ao {{ app['nome.blog'] }}{% endblock %}
-
-{% block content %}
-    <article>
+{% block header %}
+    <section id="hero-area" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-md-10">
-                    {% for menu in app['menus'] %}
-                        <div class="media">
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ path(menu.url) }}">{{ menu.nome }}</a></h4>
-                            </div>
-                        </div>
-                    {% endfor %}
+                <div class="col-md-12 text-center">
+                    <div class="block wow fadeInUp" data-wow-delay=".3s">
+                        <!-- Slider -->
+                        <section class="cd-intro">
+                            <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
+                                <span>Ol&aacute;, {{ app['usuario.sessao'].nome }}.</span><br>
+                            </h1>
+                        </section> <!-- cd-intro -->
+                        <!-- /.slider -->
+                        <h2 class="wow fadeInUp animated" data-wow-delay=".6s">
+                            Bem vindo ao {{ app['nome.blog'] }}
+                        </h2>
+                        <a class="btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green"
+                           data-wow-delay=".9s" href="#about" data-section="#works">Iniciar</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </article>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="block wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="500ms">
+                        <h2>Indices</h2>
+                        {% for menu in app['menus'] %}
+                            <div class="media">
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="{{ path(menu.url) }}">{{ menu.nome }}</a></h4>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 {% endblock %}
