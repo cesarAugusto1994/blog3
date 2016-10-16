@@ -9,14 +9,14 @@
 {% block content %}
 
     <article>
-        <div class="container">
+        <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
                 {% if logs|length > 0 or musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
 
                     {% if logs|length > 0 %}
-                        <div class="card" style="width: 100%">
+                        <div class="card wow fadeInUp animated slide" data-wow-delay=".6s" style="width: 100%">
                             <div class="card-content">
                                 <h3>Suas Atividades</h3>
                                 {% for log in logs %}
@@ -34,7 +34,7 @@
                     {% endif %}
 
                     {% if musicas|length > 0 %}
-                    <div class="card" style="width: 100%">
+                    <div class="card wow fadeInUp animated slide" data-wow-delay=".6s" style="width: 100%">
                         <div class="card-content">
                         <h3>Musicas adicionadas por voc&ecirc;</h3>
                         {% for musica in musicas %}
@@ -51,7 +51,7 @@
                     {% endif %}
 
                     {% if musica_anexos|length > 0 %}
-                    <div class="card" style="width: 100%">
+                    <div class="card wow fadeInUp animated slide" data-wow-delay=".6s" style="width: 100%">
                         <div class="card-content">
                         <h3>Arquivos adicionados por voc&ecirc;</h3>
                         {% for anexo in musica_anexos %}
@@ -85,7 +85,7 @@
                     {% endif %}
 
                     {% if posts|length > 0 %}
-                        <div class="card" style="width: 100%">
+                        <div class="card wow fadeInUp animated slide" data-wow-delay=".6s" style="width: 100%">
                             <div class="card-content">
                                 <h3>Posts adicionados por voc&ecirc;</h3>
                                 {% for post in posts %}

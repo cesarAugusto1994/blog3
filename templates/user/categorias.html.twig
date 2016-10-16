@@ -13,7 +13,7 @@
 {% block content %}
 
     <article>
-        <div class="container">
+        <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
@@ -26,7 +26,7 @@
                         <hr class="small">
                     {% endif %}
                     {% for categoria in categorias %}
-                        <div class="media">
+                        <div class="media wow fadeInUp animated slide"  data-wow-delay=".6s">
                             <div class="media-body">
                                 <h4 class="media-heading"><a
                                             href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a>

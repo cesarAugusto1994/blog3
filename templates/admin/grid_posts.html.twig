@@ -9,12 +9,10 @@
 {% block content %}
 
     <article>
-        <div class="container">
+        <div class="container wow fadeInUp animated slide" data-wow-delay=".4s">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
                     <table class="table table-responsive">
-                        <caption>Grid Posts</caption>
                         <thead>
                         <tr>
                             <th>#</th>
@@ -26,7 +24,7 @@
                         </thead>
                         <tbody>
                         {% for post in posts %}
-                            <tr {% if post.ativo == 0 %} class="danger" {% endif %}>
+                            <tr {% if post.ativo == 0 %} class="danger wow fadeInUp animated slide" data-wow-delay=".6s" {% endif %}>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu1"
