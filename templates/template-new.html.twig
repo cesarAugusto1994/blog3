@@ -51,9 +51,10 @@
 
                         {% if is_granted('ROLE_USER') %}
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usu&aacute;rio
-                                    <small> {{ app['usuario.sessao'].nome }}</small><span
-                                            class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img style="max-width: 18px; max-height: 18px;" src="{% if app['usuario'].avatar %}{{ asset(app['dir.avatar'] ~ app['usuario'].avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
+                                         class="profile-image img-circle">
+                                     {{ app['usuario.sessao'].nome }}<span class="caret"></span></a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li><a href="{{ path('perfil', { user : app['usuario.sessao'].id }) }}">Perfil</a></li>

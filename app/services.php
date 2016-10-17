@@ -190,6 +190,12 @@ $app['usuario.sessao'] = function () use ($app) {
   ];
 };
 
+$app['usuario'] = function () use($app) {
+  
+    return $app['usuarios.repository']->find($app['usuario.sessao']['id']);
+    
+};
+
 $app['envia.email'] =  function () use ($app) {
   $config = $app['config.repository']->findAll(); return $config[0] ? $config[0]->isEnviaEmail() : 0;
 };

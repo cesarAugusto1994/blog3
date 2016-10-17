@@ -22,8 +22,8 @@
                         <p class="control">Avatar</p>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <div class="fileinput-new thumbnail" style="border: none; width: 150px; height: 150px;">
-                                <img style="height: 100%" src="{% if user.avatar %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
-                                     data-src="{% if user.avatar %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}" alt="usuario">
+                                <img style="height: 100%" src="{% if app['usuario'].avatar %}{{ asset(app['dir.avatar'] ~ app['usuario'].avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
+                                     data-src="{% if app['usuario'].avatar %}{{ asset(app['dir.avatar'] ~ app['usuario'].avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}" alt="usuario">
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                             <div>
