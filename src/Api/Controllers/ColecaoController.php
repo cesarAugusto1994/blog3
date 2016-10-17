@@ -9,6 +9,7 @@
 namespace Api\Controllers;
 
 use Api\Entities\Colecao;
+use App\Controllers\UploadImages;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ColecaoController
 {
+    use UploadImages;
     /**
      * @param Application $app
      * @return mixed
@@ -80,6 +82,13 @@ class ColecaoController
 
         $colecao->setNome($request->get('nome'));
         $colecao->setDescricao($request->get('descricao'));
+        
+        
+    
+        if (!empty($_FILES['background']['size'])) {
+            $colecao->setImagem($this->upload($_FILES['background'], 'colecao', $colecao->getImagem()));
+            $app['log.controller']->criar('alterou a imagem de fundo da cole&ccedil;&atilde;o '.$colecao->getNome());
+        }
         
         $app['colecao.repository']->save($colecao);
 

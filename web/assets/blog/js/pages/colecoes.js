@@ -38,20 +38,13 @@ function editarColecao(e)
 {
     e.preventDefault();
 
-    var id = $('#id').val();
-    var role = $('#role').val();
-    var nome = $('#nome').val();
-    var descricao = $('#descricao').val();
-
     $.ajax({
         type: 'POST',
         url: '/admin/colecao/save',
-        data: {
-            'id' : id,
-            'role' : role,
-            'nome' : nome,
-            'descricao' : descricao
-        },
+        enctype: 'multipart/form-data',
+        data: new FormData( this ),
+        processData: false,
+        contentType: false,
         cache: false,
         success: function () {
             unblock_screen();

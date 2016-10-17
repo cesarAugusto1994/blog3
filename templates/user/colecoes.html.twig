@@ -29,8 +29,8 @@
                     {% for colecao in app['colecoes'] %}
                         <div class="col-sm-4 col-xs-12">
                             <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
-                                <div class="img-wrapper" style="width: 100%;">
-                                    <img style="width: 100%;" src="{% if colecao.imagem %}{{ asset(app['dir.menu'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
+                                <div class="img-wrapper">
+                                    <img style="min-height: 160px; max-height: 160px; margin: auto;" src="{% if colecao.imagem %}{{ asset(app['dir.colecao'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
                                     <div class="overlay">
 
                                     </div>
@@ -68,7 +68,7 @@
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form class="form-horizontal" method="POST">
+                    <form id="formColecao" class="form-horizontal" method="POST" enctype="multipart/form-data">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                         aria-hidden="true">&times;</span></button>
@@ -81,6 +81,8 @@
                             <input class="input is-primary" type="text" placeholder="Nome" name="nome" id="nome" required>
                             <label for="descricao">Descri&ccedil;&atilde;o</label>
                             <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="descricao" id="descricao" required>
+                            <label for="background">Imagem de Fundo</label>
+                            <input type="file" class="input is-primary" name="background" id="background" placeholder="Imagem de Fundo">
                         </div>
                         <div class="modal-footer">
                             <p class="control">
