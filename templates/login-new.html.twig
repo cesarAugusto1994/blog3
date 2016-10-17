@@ -15,6 +15,7 @@
                                 <div class="login-logo">
                                     <a href="{{ path('home') }}"><b>{{ app['nome.blog'] }}</b></a>
                                 </div>
+
                                 {% if sucesso is defined %}
                                     <div class="alert alert-success" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -29,44 +30,46 @@
                                         {% if error == 'Bad credentials.' %}Usu&aacute;rio ou Senha s&atilde;o in&aacute;lidos.{% else %}{{ error }}{% endif %}
                                     </div>
                                 {% endif %}
-                                <div class="register-box-body" style="background-color: transparent">
-                                    <p class="login-box-msg">Registrar novo usu&aacute;rio</p>
-                                    <form action="{{ path('register') }}" method="post">
-                                        {{ form_start(form) }}
-                                        {{ form_errors(form) }}
+
+                                <div class="login-box-body" style="background-color: transparent">
+                                    <p class="login-box-msg">Entre para iniciar a sess&atilde;o</p>
+                                    <form method="post" action="{{ path('login_check') }}">
                                         <div class="form-group has-feedback">
-                                            {{ form_widget(form.nome) }}
-                                            {{ form_errors(form.nome) }}
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                        </div>
-                                        <div class="form-group has-feedback">
-                                            {{ form_widget(form.nickname) }}
-                                            {{ form_errors(form.nickname) }}
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                        </div>
-                                        <div class="form-group has-feedback">
-                                            {{ form_widget(form.email) }}
-                                            {{ form_errors(form.email) }}
+                                            <input type="text" name="_username" value="{{ last_username }}"
+                                                   class="form-control" placeholder="Email ou Nome">
                                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         </div>
                                         <div class="form-group has-feedback">
-                                            {{ form_widget(form.password) }}
-                                            {{ form_errors(form.password) }}
-                                            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                                        </div>
-                                        <div class="form-group has-feedback">
-                                            {{ form_widget(form.password_confirm) }}
-                                            {{ form_errors(form.password_confirm) }}
-                                            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                                            <input type="password" name="_password" class="form-control"
+                                                   placeholder="Password" required="required" title="Informe a Senha">
+                                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                                         </div>
                                         <div class="row">
+                                            <div class="col-xs-12">
+                                                <p class="control text-center">
+                                                    <label class="checkbox icheck light wow fadeInUp animated smooth-scroll"
+                                                           style="color: white">
+                                                        <input type="checkbox" checked id="remember_me" name="_remember_me">
+                                                        Lembrar-me
+                                                    </label>
+                                                </p>
+                                                <br>
+                                            </div>
                                             <div class="col-xs-6">
-                                                <a href="{{ path('login') }}" class="btn btn-danger btn-block btn-flat">Entrar</a>
-                                            </div><!-- /.col -->
+                                                <a href="{{ path('register') }}"
+                                                   class="btn btn-danger btn-block btn-flat">Registrar</a>
+                                            </div>
                                             <div class="col-xs-6">
-                                                {{ form_widget(form.registrar) }}
-                                                {{ form_end(form) }}
-                                            </div><!-- /.col -->
+                                                <button type="submit" class="btn btn-success btn-block btn-flat">
+                                                    Entrar
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12"><br>
+                                                <a href="{{ path('home') }}" class="btn btn-link btn-block btn-flat">P&aacute;gina
+                                                    Inicial.</a>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>

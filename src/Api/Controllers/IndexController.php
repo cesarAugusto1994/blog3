@@ -46,7 +46,7 @@ class IndexController
      */
     public function login(Request $request, Application $app)
     {
-        return $app['twig']->render('login.html.twig', array(
+        return $app['twig']->render('login-new.html.twig', array(
             'error'         => $app['security.last_error']($request),
             'last_username' => $app['session']->get('_security.last_username'),
         ));
