@@ -31,18 +31,12 @@
 
 {% block content %}
 
-
-
-
-
+    {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
     <article>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
-
                 {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
-
                     {% if musicas|length > 0 %}
                     <div class="card" style="width: 100%">
                         <div class="card-content">
@@ -58,7 +52,6 @@
                             </div>
                         <br>
                     {% endif %}
-
                     {% if musica_anexos|length > 0 %}
                     <div class="card" style="width: 100%">
                         <div class="card-content">
@@ -91,19 +84,14 @@
                             </div>
                         <br>
                     {% endif %}
-
-
-
                  {% else %}
-
                      Nenhum registro Encontrado.
-
                  {% endif %}
-
                 </div>
             </div>
         </div>
     </article>
+    {% endif %}
 
 {% endblock %}
 

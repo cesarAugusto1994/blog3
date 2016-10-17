@@ -1,41 +1,42 @@
-{% extends 'template.html.twig' %}
+{% extends 'template-new.html.twig' %}
 
-{% block title %}Perfil{% endblock %}
+{% block title %}Pesquisar{% endblock %}
 
-{% block header %} {% endblock %}
-
-{% block content %}
-    <header class="intro-header"
-            style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+{% block header %}
+    <section id="hero-area" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>Pesquisar</h1>
-                        <form method="get" class="form-horizontal" action="{{ path('pesquisar_home') }}"
-                              enctype="multipart/form-data">
-
-                            <input type="hidden" name="search_form" value="1">
-
-                            <p class="control has-icon">
-                                <input class="input is-large" type="text" autofocus placeholder="..." name="q" required>
-                                <i class="fa fa-search"></i>
-                            </p>
-
-                            <p class="control is-fullwidth">
-                                <button class="button is-danger is-large is-fullwidth" type="submit">Pesquisar</button>
-                            </p>
-                        </form>
+                <div class="col-md-12 text-center">
+                    <div class="block wow fadeInUp" data-wow-delay=".3s">
+                        <!-- Slider -->
+                        <section class="cd-intro">
+                            <form method="get" class="form-horizontal is-centered" action="{{ path('pesquisar') }}"
+                                  enctype="multipart/form-data">
+                                <input type="hidden" name="search_form" value="1">
+                                <p class="control has-icon">
+                                    <input class="input is-large wow fadeInUp" type="text" data-wow-delay=".4s" autofocus placeholder="..." name="q" required>
+                                    <i class="fa fa-search"></i>
+                                </p>
+                                <p class="control is-fullwidth">
+                                    <button class="button is-danger is-large is-grouped-centered wow fadeInUp" data-wow-delay=".5s" type="submit">Pesquisar</button>
+                                </p>
+                            </form>
+                        </section> <!-- cd-intro -->
                     </div>
                 </div>
             </div>
         </div>
-    </header>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+    {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
     <article>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0 %}
+                    {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
                         {% if musicas|length > 0 %}
                             <div class="card" style="width: 100%">
                                 <div class="card-content">
@@ -43,11 +44,7 @@
                                     {% for musica in musicas %}
                                         <div class="media">
                                             <div class="media-body">
-                                                <h4 class="media-heading"><a
-                                                            href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }}
-                                                            - {% endif %}{{ musica.nome }}</a>
-                                                    <a class="button is-small is-light is-pulled-right"> {{ musica.categoria.nome }}</a>
-                                                </h4>
+                                                <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.numero }} - {{ musica.nome }}</a><small> {{ musica.categoria.nome }}</small></h4>
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -62,10 +59,24 @@
                                     {% for anexo in musica_anexos %}
                                         <div class="media">
                                             <div class="media-body">
-                                                <h4 class="media-heading">
-                                                    <a href="{{ path('musica_anexos', { musicaId : anexo.musica.id }) }}">{{ anexo.nome }}</a>
-                                                    <a class="button is-small is-light is-pulled-right">{{ anexo.musica.nome }}</a>
-                                                </h4>
+                                                <h4 class="media-heading">{{ anexo.nome }}</h4>
+                                                <a href="{{ path('musica_anexos', { musicaId : anexo.musica.id }) }}">
+                                                    <button class="button is-small is-white">
+                                                        Ir para musica
+                                                    </button>
+                                                </a>
+                                                <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                                   target="_blank">
+                                                    <button class="button is-small is-success is-outlined">
+                                                        Visualizar
+                                                    </button>
+                                                </a>
+                                                <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                                   download>
+                                                    <button class="button is-small is-primary is-outlined">
+                                                        Baixar
+                                                    </button>
+                                                </a>
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -80,4 +91,5 @@
             </div>
         </div>
     </article>
+    {% endif %}
 {% endblock %}

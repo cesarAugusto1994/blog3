@@ -1,55 +1,66 @@
-{% extends "template.html.twig" %}
+{% extends 'template-new.html.twig' %}
 
 {% block title %}{{ app['nome.blog'] }}{% endblock %}
 
-{% block header %}{{ parent() }}{% endblock %}
-
-{% block headerNome %}{{ app['config'].nome }}{% endblock %}
-{% block headerSubtitulo %}{{ app['config'].subtitulo }}{% endblock %}
+{% block header %}
+    <section id="hero-area" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="block wow fadeInUp" data-wow-delay=".3s">
+                        <!-- Slider -->
+                        <section class="cd-intro">
+                            <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
+                                <span>Ol&aacute;.</span><br>
+                            </h1>
+                        </section> <!-- cd-intro -->
+                        <!-- /.slider -->
+                        <h2 class="wow fadeInUp animated" data-wow-delay=".6s">
+                            Bem vindo ao {{ app['nome.blog'] }}
+                        </h2>
+                        <a class="btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green"
+                           data-wow-delay=".9s" href="#works" data-section="#works">Iniciar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
 
 {% block content %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
-                <h3>{% if message is defined %}{{ message }}{% endif %}</h3>
-
-                {% for post in posts %}
-                    <div class="post-preview">
-                        <a href="{{ path('post', { postId : post.id, postTitulo : post.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}" >
-                            <h2 class="post-title">
-                                {{ post.titulo }}
-                            </h2>
-                            <h3 class="post-subtitle">
-                                {{ post.conteudo|slice(0, 300)|trim|raw }} {% if post.conteudo|length > 300 %}[...]{% endif %}
-                            </h3>
-                        </a>
-                        {% if post.usuario.id is defined %}
-                        <p class="post-meta">Posted by <a href="{{ path('author', { author : post.usuario.id, name : post.usuario.nome|replace({'.': '-', ' ' : '-' })|lower }) }}">{{ post.usuario.nome }}</a>
-                            &agrave; {{ post.tempoPostagem }}</p>
-                        {%  endif %}
-                    </div>
-                {% else %}
-                    <div class="post-preview">
-                        <h2 class="post-title">Nenhum Post encontrado.</h2>
+    <section id="works" class="works">
+        <div class="container">
+            <div class="section-heading">
+                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Indice</h1>
+            </div>
+            <div class="row">
+                {% for menu in app['menus'] %}
+                    <div class="col-sm-4 col-xs-12">
+                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                            <div class="img-wrapper" style="width: 100%;">
+                                <img style="width: 100%;" src="{% if menu.icon is not null %}{{ asset(app['dir.menu'] ~ menu.icon ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
+                                <div class="overlay">
+                                    <div class="buttons">
+                                        <a rel="gallery" class="fancybox" href="{{ path(menu.url) }}">Ir</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <figcaption>
+                                <h4>
+                                    <a href="{{ path(menu.url) }}">
+                                        {{ menu.nome }}
+                                    </a>
+                                </h4>
+                                <p>
+                                    {{ menu.descricao }}
+                                </p>
+                            </figcaption>
+                        </figure>
                     </div>
                 {% endfor %}
-                    <ul class="pager">
-                        {% if firstPage is defined and firstPage > 0 %}
-                            <li class="previous">
-                                <a href="{{ path('page', { 'page' : firstPage }) }}">&xlarr; Newer Posts</a>
-                            </li>
-                        {% endif %}
-                        {% if nextPage is defined and nextPage > 0 %}
-                            <li class="next">
-                                <a href="{{ path('page', { 'page' : nextPage }) }}">Older Posts &xrarr;</a>
-                            </li>
-                        {% endif %}
-                    </ul>
             </div>
         </div>
-    </div>
-    <hr>
+    </section>
 
 {% endblock %}

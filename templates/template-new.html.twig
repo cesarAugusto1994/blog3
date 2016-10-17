@@ -63,6 +63,11 @@
                             </li>
                             <li><a href="{{ path('pesquisar') }}">Pesquisar</a></li>
                         {% endif %}
+
+                        {% if is_granted('ROLE_USER') == false %}
+                            <li><a href="{{ path('pesquisar_home') }}">Pesquisar</a></li>
+                        {% endif %}
+
                         <li>
                             {% if is_granted('ROLE_USER') %}
                                 <a href="{{ path('logout') }}">Sair</a>
