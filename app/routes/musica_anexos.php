@@ -36,3 +36,13 @@ $app->get('admin/musica/anexos/remover/{id}', function($id) use ($app) {
 $app->get('admin/musica/anexos/videos', function () use ($app) {
     return $app['musica.anexos.controller']->getByTipo(4, $app);
 })->bind('videos');
+
+$app->post('/user/musica/{id}/anexos/comentar', function($id, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    if (!$request->get('id')) {
+        throw new InvalidArgumentException('Deve ser inrmada a musica.');
+    }
+    if (empty($request->get('comentario'))) {
+        throw new InvalidArgumentException('O texto não pode estar vazio.');
+    }
+    return $app['comentario.controller']->criar($request, $app);
+})->bind('comentar_musica');

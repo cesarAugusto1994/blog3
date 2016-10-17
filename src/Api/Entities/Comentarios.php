@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Comentarios
  * @package Api\Entities
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Api\Repositories\ComentariosRepository")
  * @ORM\Table(name="comentarios")
  */
 class Comentarios
@@ -31,6 +31,13 @@ class Comentarios
      * @var string
      */
     private $comentario;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Musica", inversedBy="Comentarios")
+     * @ORM\JoinColumn(name="musica_id", referencedColumnName="id")
+     * @var Musica
+     */
+    private $musica;
     
     /**
      * @ORM\ManyToOne(targetEntity="Usuarios")
@@ -73,6 +80,22 @@ class Comentarios
     public function setComentario($comentario)
     {
         $this->comentario = $comentario;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getMusica()
+    {
+        return $this->musica;
+    }
+    
+    /**
+     * @param mixed $musica
+     */
+    public function setMusica($musica)
+    {
+        $this->musica = $musica;
     }
     
     /**

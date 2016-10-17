@@ -28,6 +28,7 @@ $app['widgets.controller'] = function () use($app) { return new \App\Controllers
 $app['email.confirmacao.controller'] = function () { return new \Api\Controllers\EmailConfirmacaoController();};
 $app['search.controller'] = function () { return new \Api\Controllers\SearchController();};
 $app['log.controller'] = function () use ($app) { return new \Api\Controllers\LogController($app);};
+$app['comentario.controller'] = function () use ($app) { return new \Api\Controllers\ComentarioController();};
 
 #################################################################################################
 #################################################################################################
@@ -52,6 +53,7 @@ $app['categoria.repository'] = function () use ($app) { return $app['orm.em']->g
 $app['widgets.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\App\Entities\Widgets::class);};
 $app['email.confirmation.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\EmailConfirmacao::class);};
 $app['log.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Log::class);};
+$app['comentario.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Comentarios::class);};
 
 #################################################################################################
 #################################################################################################

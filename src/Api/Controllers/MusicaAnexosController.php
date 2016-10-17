@@ -36,6 +36,9 @@ class MusicaAnexosController
      */
     public function index($musicaId, Application $app)
     {
+        /**
+         * @var Musica $musica
+         */
         $musica = $app['musica.repository']->find($musicaId);
         $tipos = $app['tipo.anexo.repository']->findBy(['ativo' => true]);
         

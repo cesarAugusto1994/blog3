@@ -1,16 +1,18 @@
 {% extends 'template-new.html.twig' %}
 
-{% block title %}{{ musica.nome }}{% endblock %}
+{% block title %}{% endblock %}
 
 {% block header %}{{ parent() }}{% endblock %}
 
 {% block stylesheet%}{{ parent() }}
+    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/musica_anexos.js') }}"></script>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet" />
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" type="text/css" rel="stylesheet" />
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
+
     <script type="text/javascript">
         $(function() {
             $("pre").transpose();
@@ -199,12 +201,26 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
                     <div class="card wow fadeInUp animated slide" data-wow-delay=".6s" style="width: 100%">
                         <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    <p class="title is-3">Comentários</p>
-                                </div>
+
+                            <p class="title is-3">Comentários</p>
+
+                            <div class="post-comment">
+                                <form role="form" class="form-horizontal">
+                                    <input type="hidden" name="musica_id" id="musica_id" value="{{ musica.id }}">
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            <textarea class=" form-control" name="comentario" id="comentario" rows="4" required placeholder="Criar Coment&aacute;rio"></textarea>
+                                        </div>
+                                    </div>
+                                    <p>
+                                    </p>
+                                    <p>
+                                        <button class="button is-danger" type="submit">Enviar</button>
+                                    </p>
+                                    <p></p>
+                                </form>
                             </div>
-                            <div id="disqus_thread"></div>
+
                         </div>
                     </div>
                 </div>
