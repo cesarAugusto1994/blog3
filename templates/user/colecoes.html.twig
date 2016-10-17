@@ -26,25 +26,35 @@
                         </button>
                         <hr class="small">
                     {% endif %}
-                    {% for colecao in colecoes %}
-                        <div class="media wow fadeInUp animated slide"  data-wow-delay=".6s">
-                            <div class="media-body">
-                                <h4 class="media-heading"><a
-                                            href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">{{ colecao.nome }}</a>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a class="button is-white is-pulled-right is-small openMenu"
-                                           data-toggle="modal"
-                                           data-target="#myModal" data-id="{{ colecao.id }}"
-                                           data-nome="{{ colecao.nome }}"
-                                           data-descricao="{{ colecao.descricao }}">Editar
+                    {% for colecao in app['colecoes'] %}
+                        <div class="col-sm-4 col-xs-12">
+                            <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                                <div class="img-wrapper" style="width: 100%;">
+                                    <img style="width: 100%;" src="{% if colecao.imagem %}{{ asset(app['dir.menu'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
+                                    <div class="overlay">
+
+                                    </div>
+                                </div>
+                                <figcaption>
+                                    <h4>
+                                        <a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
+                                            {{ colecao.nome }}
                                         </a>
-                                        <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small mudarStatus"
-                                           href="#" situacao="{{ colecao.ativo }}"
-                                           colecao_id="{{ colecao.id }}">{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}
-                                        </a>
-                                    {% endif %}
-                                </h4>
-                            </div>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <a class="button is-white is-pulled-right is-small openMenu"
+                                               data-toggle="modal"
+                                               data-target="#myModal" data-id="{{ colecao.id }}"
+                                               data-nome="{{ colecao.nome }}"
+                                               data-descricao="{{ colecao.descricao }}">Editar
+                                            </a>
+                                            <a class="button {% if colecao.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small mudarStatus"
+                                               href="#" situacao="{{ colecao.ativo }}"
+                                               colecao_id="{{ colecao.id }}">{% if colecao.ativo %} Inativar {% else %} Ativar {% endif %}
+                                            </a>
+                                        {% endif %}
+                                    </h4>
+                                </figcaption>
+                            </figure>
                         </div>
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>
