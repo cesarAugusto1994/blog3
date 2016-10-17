@@ -11,7 +11,7 @@
                         <!-- Slider -->
                         <section class="cd-intro">
                             <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
-                                <span>Ol&aacute;.</span><br>
+                                <span>{{ app['nome.blog'] }}</span><br>
                             </h1>
                         </section> <!-- cd-intro -->
                         <!-- /.slider -->
@@ -54,6 +54,38 @@
                                 </h4>
                                 <p>
                                     {{ menu.descricao }}
+                                </p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="works" class="works">
+        <div class="container">
+            <div class="section-heading">
+                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Cole&ccedil;&otilde;es</h1>
+            </div>
+            <div class="row">
+                {% for colecao in app['colecoes'] %}
+                    <div class="col-sm-4 col-xs-12">
+                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                            <div class="img-wrapper" style="width: 100%;">
+                                <img style="width: 100%;" src="{% if colecao.imagem %}{{ asset(app['dir.menu'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
+                                <div class="overlay">
+
+                                </div>
+                            </div>
+                            <figcaption>
+                                <h4>
+                                    <a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
+                                        {{ colecao.nome }}
+                                    </a>
+                                </h4>
+                                <p>
+                                    {{ colecao.descricao }}
                                 </p>
                             </figcaption>
                         </figure>

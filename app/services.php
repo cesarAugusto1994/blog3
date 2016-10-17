@@ -62,10 +62,11 @@ $app['log.repository'] = function () use ($app) { return $app['orm.em']->getRepo
 //$app['auth.service'] = function () use ($app) { return new \Api\Services\Auth();};
 
 
-$app['categories'] = function() use ($app) {return $app['tags.repository']->findAll();};
+$app['categories'] = function() use ($app) { return $app['tags.repository']->findAll();};
 $app['menus'] = function () use ($app) { return $app['menu.repository']->findBy(['ativo' => true]);};
 $app['config'] = function () use ($app) { return $app['config.controller']->index($app);};
-$app['widgets'] = function () use($app) { return $app['widgets.controller']->getAll($app); };
+$app['widgets'] = function () use($app) { return $app['widgets.controller']->getAll($app);};
+$app['colecoes'] = function() use ($app) { return $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);};
 
 $app['nome.blog'] = function() use ($app){ $blog = $app['config.repository']->findAll(); return $blog[0] ? $blog[0]->getNome() : 'Blog'; };
 

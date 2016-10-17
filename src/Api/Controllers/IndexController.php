@@ -80,12 +80,14 @@ class IndexController
         $musicas = $app['musica.repository']->findBy([], ['cadastro' => 'DESC'], 1);
         $musicaAnexos = $app['musica.anexos.repository']->findBy([], ['cadastro' => 'DESC'], 1);
         $posts = $app['posts.repository']->findBy([], ['cadastro' => 'DESC'], 1);
+        $colecoes = $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
 
         return $app['twig']->render('/user/index.html.twig', [
             'logs' => $logs,
             'musicas' => $musicas,
             'musica_anexos' => $musicaAnexos,
-            'posts' => $posts
+            'posts' => $posts,
+            'colecoes' => $colecoes
         ]);
     }
 }
