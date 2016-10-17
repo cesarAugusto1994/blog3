@@ -40,11 +40,7 @@
                         <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                             <div class="img-wrapper" style="width: 100%;">
                                 <img style="width: 100%;" src="{% if menu.icon is not null %}{{ asset(app['dir.menu'] ~ menu.icon ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
-                                <div class="overlay">
-                                    <div class="buttons">
-                                        <a rel="gallery" class="fancybox" href="{{ path(menu.url) }}">Ir</a>
-                                    </div>
-                                </div>
+                                <div class="overlay"></div>
                             </div>
                             <figcaption>
                                 <h4>
@@ -74,9 +70,7 @@
                         <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                             <div class="img-wrapper" style="width: 100%;">
                                 <img style="width: 100%;" src="{% if colecao.imagem %}{{ asset(app['dir.menu'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
-                                <div class="overlay">
-
-                                </div>
+                                <div class="overlay"></div>
                             </div>
                             <figcaption>
                                 <h4>

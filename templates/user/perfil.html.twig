@@ -21,7 +21,7 @@
                           enctype="multipart/form-data">
                         <p class="control">Avatar</p>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <div class="fileinput-new thumbnail" style="border: none; width: 200px; height: 150px;">
+                            <div class="fileinput-new thumbnail" style="border: none; width: 150px; height: 150px;">
                                 <img style="height: 100%" src="{% if user.avatar %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
                                      data-src="{% if user.avatar %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}" alt="usuario">
                             </div>
@@ -43,11 +43,7 @@
                         </p>
 
                         <p class="control">
-                            <button class="button is-success is-small" type="submit">
-                                Salvar
-                            </button>
-                            <a href="#" style="text-decoration: none" class="button is-danger is-small">Inativar Conta</a>
-                            <a href="#" style="text-decoration: none" class="button is-light is-small">Alterar Senha</a>
+                            <button class="button is-success is-small" type="submit">Salvar</button>
                         </p>
                     </form>
                 </div>
