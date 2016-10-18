@@ -41,12 +41,14 @@ class MusicaAnexosController
          */
         $musica = $app['musica.repository']->find($musicaId);
         $tipos = $app['tipo.anexo.repository']->findBy(['ativo' => true]);
+        $comentarios = $app['comentario.repository']->findBy(['musica' => $musica, 'ativo' => true], ['id' => 'DESC']);
         
         return $app['twig']->render('/user/musica_anexos.html.twig', 
             [
                 'anexos' => $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true]),
                 'musica' => $musica,
-                'tipos' => $tipos
+                'tipos' => $tipos,
+                'comentarios' => $comentarios
             ]);
     }
     

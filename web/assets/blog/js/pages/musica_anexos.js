@@ -64,8 +64,6 @@ function criarComentario(e)
     var id = $('#musica_id').val();
     var comentario = $('#comentario').val();
 
-    console.log(comentario);
-
     $.ajax({
         type: 'POST',
         url: '/user/musica/'+id+'/anexos/comentar',
@@ -76,7 +74,7 @@ function criarComentario(e)
         cache: false,
         success: function (data) {
             unblock_screen();
-            comentario = '';
+            $('#comentario').val('');
             window.location.reload();
         },
         error: function () {
