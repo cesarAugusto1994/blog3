@@ -91,5 +91,5 @@ function criarComentario(e)
 }
 
 $(document).ready(function () {
-    $('form').submit(criarComentario);
+    $('#form-comentario').submit(criarComentario);
 });
