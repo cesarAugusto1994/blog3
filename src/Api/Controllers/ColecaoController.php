@@ -56,8 +56,11 @@ class ColecaoController
         $colecao->setNome($request->get('nome'));
         $colecao->setDescricao($request->get('descricao'));
         $colecao->setAtivo(true);
-        
+
+        $app['db']->beginTransaction();
         $app['colecao.repository']->save($colecao);
+        $app['db']->commit();
+
         $app['log.controller']->criar('adicionou nova coleção '.$colecao->getNome());
         $app['session']->getFlashBag()->add('mensagem', 'Coleção adicionada com sucesso.');
 
@@ -90,8 +93,10 @@ class ColecaoController
             $app['log.controller']->criar('alterou a imagem de fundo da cole&ccedil;&atilde;o '.$colecao->getNome());
         }
         
+        $app['db']->beginTransaction();
         $app['colecao.repository']->save($colecao);
-
+        $app['db']->commit();
+    
         $mensagem = 'Coleção '.$colecao->getNome().' editada com sucesso.';
 
         $app['log.controller']->criar($mensagem);
@@ -119,8 +124,10 @@ class ColecaoController
         } else {
             $colecao->setAtivo(true);
         }
-        
+
+        $app['db']->beginTransaction();
         $app['colecao.repository']->save($colecao);
+        $app['db']->commit();
 
         $mensagem = 'Situação da Coleção  ' . $colecao->getNome() . ' alterada para ' .($colecao->isAtivo() ? 'ativa' : 'inativa'). ' com sucesso.';
 

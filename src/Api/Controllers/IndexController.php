@@ -77,7 +77,7 @@ class IndexController
     public function userIndex(Application $app)
     {
         $logs = $app['log.repository']->findBy([], ['cadastro' => 'DESC'], 1);
-        $musicas = $app['musica.repository']->findBy([], ['cadastro' => 'DESC'], 1);
+        $musicas = $app['musica.repository']->findBy([], ['cadastro' => 'DESC'], 6);
         $musicaAnexos = $app['musica.anexos.repository']->findBy([], ['cadastro' => 'DESC'], 1);
         $posts = $app['posts.repository']->findBy([], ['cadastro' => 'DESC'], 1);
         $colecoes = $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);

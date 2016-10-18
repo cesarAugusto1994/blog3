@@ -89,4 +89,30 @@
         </div>
     </section>
 
+    <section id="feature">
+        <div class="container">
+            <div class="section-heading">
+                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Adicionadas recentemente</h1>
+            </div>
+            <div class="row">
+                {% for musica in musicas %}
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <div class="media wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="1800ms">
+                        <div class="media-left">
+                            <div class="icon">
+                                <i class="ion-ios-play"></i>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{ musica.nome }}</h4>
+                            <p>{{ musica.letra|slice(0, 150)|raw }}</p>
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+            </div>
+        </div>
+    </section> <!-- /#feature -->
+
+
 {% endblock %}

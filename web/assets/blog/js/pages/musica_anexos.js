@@ -64,6 +64,12 @@ function criarComentario(e)
     var id = $('#musica_id').val();
     var comentario = $('#comentario').val();
 
+    if('' == comentario) {
+        alertify.error('Deve comentar algo.');
+        $('#comentario').focus();
+        return false;
+    }
+
     $.ajax({
         type: 'POST',
         url: '/user/musica/'+id+'/anexos/comentar',

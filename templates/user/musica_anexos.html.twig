@@ -208,7 +208,7 @@
                                 {% for comentario in comentarios %}
                                     <div class="media">
                                         <a class="pull-left">
-                                            <img style="min-width: 64px; max-width: 64px; min-height: 64px; max-height: 64px; margin: auto" alt="" src="{% if comentario.usuario.avatar %}{{ asset(app['dir.avatar'] ~ comentario.usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="media-object">
+                                            <img style="min-width: 64px; max-width: 64px; min-height: 64px; max-height: 64px; margin: auto" alt="" src="{% if comentario.usuario.avatar %}{{ asset(app['dir.avatar'] ~ comentario.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}" class="media-object">
                                         </a>
                                         <div class="media-body">
                                             <h4 class="media-heading">{{ comentario.usuario.nome }}</h4>
@@ -229,18 +229,14 @@
                                     <input type="hidden" name="musica_id" id="musica_id" value="{{ musica.id }}">
                                     <div class="form-group">
                                         <div class="col-lg-12">
-                                            <textarea class=" form-control" name="comentario" id="comentario" rows="4" required placeholder="Criar Coment&aacute;rio"></textarea>
+                                            <textarea class=" form-control" name="comentario" id="comentario" rows="4" placeholder="Criar Coment&aacute;rio"></textarea>
                                         </div>
                                     </div>
                                     <p>
+                                        <button class="button is-danger" type="submit">Comentar</button>
                                     </p>
-                                    <p>
-                                        <button class="button is-danger" type="submit">Enviar</button>
-                                    </p>
-                                    <p></p>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
