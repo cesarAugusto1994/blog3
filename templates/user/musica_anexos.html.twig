@@ -207,8 +207,8 @@
                             <div class="comments">
                                 {% for comentario in comentarios %}
                                     <div class="media">
-                                        <a href="" class="pull-left">
-                                            <img alt="" src="{% if comentario.usuario.avatar %}{{ asset(app['dir.avatar'] ~ comentario.usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="media-object">
+                                        <a class="pull-left">
+                                            <img style="min-width: 64px; max-width: 64px; min-height: 64px; max-height: 64px; margin: auto" alt="" src="{% if comentario.usuario.avatar %}{{ asset(app['dir.avatar'] ~ comentario.usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="media-object">
                                         </a>
                                         <div class="media-body">
                                             <h4 class="media-heading">{{ comentario.usuario.nome }}</h4>
