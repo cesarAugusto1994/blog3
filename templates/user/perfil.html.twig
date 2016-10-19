@@ -13,6 +13,10 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
+                    <a class="button is-danger is-small"
+                       href="{{ path('usuario_atividades', { user : user.id }) }}">Atividades</a>
+                    <hr>
+
                     {% for alert in app.session.flashbag.get('mensagem') %}
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}

@@ -32,15 +32,16 @@
     <section id="works" class="works">
         <div class="container">
             <div class="section-heading">
-                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Indice</h1>
+                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Inicio</h1>
             </div>
             <div class="row">
                 {% for menu in app['menus'] %}
                     <div class="col-sm-4 col-xs-12">
                         <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                             <div class="img-wrapper">
-                                <img style="min-height: 160px; max-height: 160px; margin: auto;" src="{% if menu.icon is not null %}{{ asset(app['dir.menu'] ~ menu.icon ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
-                                <div class="overlay"></div>
+                                <a href="{{ path(menu.url) }}">
+                                    <img style="min-height: 160px; max-height: 160px; margin: auto;" src="{% if menu.icon is not null %}{{ asset(app['dir.menu'] ~ menu.icon ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
+                                    <div class="overlay"></div></a>
                             </div>
                             <figcaption>
                                 <h4>
@@ -69,8 +70,9 @@
                     <div class="col-sm-4 col-xs-12">
                         <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                             <div class="img-wrapper" style="width: 100%;">
-                                <img style="min-height: 160px; max-height: 160px; margin: auto;" src="{% if colecao.imagem %}{{ asset(app['dir.colecao'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
-                                <div class="overlay"></div>
+                                <a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
+                                    <img style="min-height: 160px; max-height: 160px; margin: auto;" src="{% if colecao.imagem %}{{ asset(app['dir.colecao'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
+                                    <div class="overlay"></div></a>
                             </div>
                             <figcaption>
                                 <h4>
