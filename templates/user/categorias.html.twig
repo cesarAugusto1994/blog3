@@ -13,7 +13,7 @@
 {% block content %}
 
     <article>
-        <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
@@ -26,24 +26,29 @@
                         <hr class="small">
                     {% endif %}
                     {% for categoria in categorias %}
-                        <div class="media wow fadeInUp animated slide"  data-wow-delay=".6s">
-                            <div class="media-body">
-                                <h4 class="media-heading"><a
-                                            href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a class="button is-white is-pulled-right is-small openMenu"
-                                           data-toggle="modal"
-                                           data-target="#myModal" data-id="{{ categoria.id }}"
-                                           data-nome="{{ categoria.nome }}"
-                                           data-colecao="{{ categoria.colecao.id }}">Editar
-                                        </a>
-                                        <a class="button mudarStatus {% if categoria.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
-                                           categoria_id="{{ categoria.id }}" href="#">{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}
-                                        </a>
-                                    {% endif %}
-                                </h4>
+                        <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a
+                                                    href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <a class="button is-white is-pulled-right is-small openMenu"
+                                                   data-toggle="modal"
+                                                   data-target="#myModal" data-id="{{ categoria.id }}"
+                                                   data-nome="{{ categoria.nome }}"
+                                                   data-colecao="{{ categoria.colecao.id }}">Editar
+                                                </a>
+                                                <a class="button mudarStatus {% if categoria.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
+                                                   categoria_id="{{ categoria.id }}"
+                                                   href="#">{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}
+                                                </a>
+                                            {% endif %}
+                                        </h4>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </div><br>
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>
                     {% endfor %}
