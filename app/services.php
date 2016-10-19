@@ -125,6 +125,7 @@ $app['dir.avatar'] = function () use ($app){ return $app['dir.base'].'assets/blo
 $app['dir.widgets'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/widgets/';};
 $app['dir.menu'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/menu/';};
 $app['dir.colecao'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/colecoes/';};
+$app['dir.anexo'] = function () use ($app){ return $app['dir.base'].'assets/blog/musicas/';};
 
 $app['background.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';

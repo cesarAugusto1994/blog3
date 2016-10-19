@@ -36,7 +36,11 @@ function mudarStatus(e) {
 
 function editarColecao(e)
 {
+    $("#confirmar").addClass('button is-success is-loading');
+
     e.preventDefault();
+
+    block_screen();
 
     $.ajax({
         type: "POST",

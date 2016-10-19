@@ -36,7 +36,11 @@ function mudarStatus(e) {
 
 function editarCategoria(e)
 {
+    $("#confirmar").addClass('button is-success is-loading');
+    
     e.preventDefault();
+
+    block_screen();
 
     var id = $('#id').val();
     var nome = $('#nome').val();

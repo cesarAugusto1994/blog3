@@ -2,25 +2,19 @@
  * Created by cesar on 14/10/16.
  */
 
-function mudarStatus(e) {
+function removerArquivo(e) {
 
     e.preventDefault();
 
-    var id = $(this).attr('colecao_id');
+    var id = $(this).attr("anexo");
 
-    var situacao = 'Inativar';
-
-    if (false == $(this).attr('situacao')) {
-        situacao = 'Ativar';
-    }
-
-    alertify.confirm('Deseja ' + situacao + ' esta Cole&ccedil;&atilde;o?', function(){
+    alertify.confirm('Deseja remover este arquivo?', function(){
 
         block_screen();
 
         $.ajax({
-            type: 'GET',
-            url: '/admin/colecao/status/' + id,
+            type: 'POST',
+            url: '/user/musica/'+id+'/anexos/remover',
             cache: false,
             success: function (data) {
                 unblock_screen();
@@ -34,14 +28,19 @@ function mudarStatus(e) {
     }).setting('labels',{'ok':'Sim', 'cancel': 'Cancelar'});
 };
 
-function editarColecao(e)
+function upload(e)
 {
     e.preventDefault();
 
+    var id = $('#musica_id').val();
+    $("#btn-upload").addClass('button is-success is-loading');
+
+    block_screen();
+
     $.ajax({
-        type: 'POST',
-        url: '/admin/colecao/save',
-        enctype: 'multipart/form-data',
+        type: "POST",
+        url: "/user/musica/"+id+"/anexos/upload",
+        enctype: "multipart/form-data",
         data: new FormData( this ),
         processData: false,
         contentType: false,
@@ -52,9 +51,40 @@ function editarColecao(e)
         },
         error: function () {
             unblock_screen();
-            alertify.error('Ocorreu um erro.');
+            $("#btn-upload").removeClass('is-loading');
+            alertify.error("Ocorreu um erro.");
         }
     });
+}
+
+function addLink(e)
+{
+    e.preventDefault();
+
+    var id = $('#musica_id').val();
+    $("#btn-add-link").addClass('button is-success is-loading');
+
+    block_screen();
+
+    $.ajax({
+        type: "POST",
+        url: "/user/musica/"+id+"/anexos/save",
+        enctype: "multipart/form-data",
+        data: new FormData( this ),
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function () {
+            unblock_screen();
+            window.location.reload();
+        },
+        error: function () {
+            unblock_screen();
+            $("#btn-add-link").removeClass('is-loading');
+            alertify.error("Ocorreu um erro.");
+        }
+    });
+
 }
 
 function criarComentario(e)
@@ -70,6 +100,8 @@ function criarComentario(e)
         return false;
     }
 
+    $("#comentar").addClass('button is-success is-loading');
+
     $.ajax({
         type: 'POST',
         url: '/user/musica/'+id+'/anexos/comentar',
@@ -80,6 +112,7 @@ function criarComentario(e)
         cache: false,
         success: function (data) {
             unblock_screen();
+            $("#comentar").removeClass('is-loading');
             $('#comentario').val('');
             window.location.reload();
         },
@@ -91,5 +124,8 @@ function criarComentario(e)
 }
 
 $(document).ready(function () {
+    $('#remover-arquivo').click(removerArquivo);
     $('#form-comentario').submit(criarComentario);
+    $('#form-upload').submit(upload);
+    $('#form-add-link').submit(addLink);
 });

@@ -100,6 +100,17 @@ class MusicaAnexosController
             'onRemove' => null //A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
         ));
 
+        if ($data['hasErrors']) {
+            return $app->json(
+                [
+                    'class' => 'error',
+                    'message' => $data['errors']
+                ]
+            );
+        }
+
+        $mensagem = 'Nenhum arquivo foi encontrado.';
+
         foreach ($_FILES['files']['name'] as $key => $name) {
 
             if (empty($name)) {
@@ -118,18 +129,21 @@ class MusicaAnexosController
             $musicaAnexo->setCadastro(new \DateTime('now'));
             $musicaAnexo->setAtivo(true);
 
+            $app['db']->beginTransaction();
             $app['musica.anexos.repository']->save($musicaAnexo);
-    
-            $app['log.controller']->criar('adicionou o arquivo '.$musicaAnexo->getNome());
+            $app['db']->commit();
 
-            $app['session']->getFlashBag()->add('mensagem', 'Upload de arquivo realizado com sucesso.');
+            $mensagem = 'Adicionou o arquivo '.$musicaAnexo->getNome();
+            $app['log.controller']->criar($mensagem);
+            $app['session']->getFlashBag()->add('mensagem', $mensagem);
         }
 
-        if ($request->get('user_anexos')) {
-           return $app->redirect('/user/musica/anexos/'.$musica->getId().'#menu'); 
-        }
-        
-        return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => $mensagem
+            ]
+        );
     }
 
     /**
@@ -152,7 +166,7 @@ class MusicaAnexosController
          */
         $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
 
-        $link = '';
+        $link = $request->get('link');
 
         if ($tipo->getNome() == 'Video') {
             preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $request->get('link'), $matches);
@@ -169,11 +183,14 @@ class MusicaAnexosController
         $musicaAnexo->setCadastro(new \DateTime('now'));
         $musicaAnexo->setAtivo(true);
 
+        $app['db']->beginTransaction();
         $app['musica.anexos.repository']->save($musicaAnexo);
-    
-        $app['log.controller']->criar('adicionou o arquivo '.$musicaAnexo->getNome());
+        $app['db']->commit();
 
-        $app['session']->getFlashBag()->add('mensagem', 'Novo link adicionado com sucesso.');
+        $mensagem = 'Adicionou o arquivo '.$musicaAnexo->getNome();
+    
+        $app['log.controller']->criar($mensagem);
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
 
         if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
             return $app->redirect('/user/musica/anexos/' . $musica->getId());
@@ -246,18 +263,23 @@ class MusicaAnexosController
         if(file_exists($directory)) {
             unlink($directory);
         }
-        
-        $app['musica.anexos.repository']->remove($anexo);
-    
-        $app['log.controller']->criar('removeu o arquivo '.$anexo->getNome());
-    
-        $app['session']->getFlashBag()->add('mensagem', 'Arquivo removido com sucesso.');
-    
-        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-            return $app->redirect('/user/musica/anexos/'.$anexo->getMusica()->getId());
-        }
 
-        return $app->redirect('/admin/musicas/anexos/grid/'.$anexo->getMusica()->getId().'/'.$anexo->getMusica()->getNome());
+        $app['db']->beginTransaction();
+        $app['musica.anexos.repository']->remove($anexo);
+        $app['db']->commit();
+
+        $mensagem = 'removeu o arquivo '.$anexo->getNome();
+    
+        $app['log.controller']->criar($mensagem);
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
+
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => $mensagem
+            ]
+        );
+
     }
 
     /**

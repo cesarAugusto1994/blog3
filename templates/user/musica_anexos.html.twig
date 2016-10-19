@@ -176,13 +176,8 @@
                                             </a>
                                         {% endif %}
                                         {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                            <a class="button is-danger is-small is-inverted"
-                                               href="{{ path('musica_anexos_remover', { id : anexo.id }) }}">Remover
-                                            </a>
+                                            <a id="remover-arquivo" anexo="{{ anexo.id }}" class="button is-danger is-small is-inverted">Remover</a>
                                         {% endif %}
-                                        {% for tag in anexo.anexoTags.tag %}
-                                            <button class="button is-info is-outlined">{{ tag.nome }}</button>
-                                        {% endfor %}
                                     </div>
                                 </div>
                             {% else %}
@@ -233,7 +228,7 @@
                                         </div>
                                     </div>
                                     <p>
-                                        <button class="button is-danger" type="submit">Comentar</button>
+                                        <button id="comentar" class="button is-danger" type="submit">Comentar</button>
                                     </p>
                                 </form>
                             </div>
@@ -247,7 +242,7 @@
     <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form class="wow fadeInUp animated slide" data-wow-delay=".6s" method="post" action="{{ path('musica_anexos_upload', { musicaId : musica.id }) }}"  enctype="multipart/form-data">
+                <form id="form-upload" method="post" enctype="multipart/form-data">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
@@ -260,7 +255,7 @@
                     </div>
                     <div class="modal-footer">
                         <p class="control">
-                            <button class="button is-success" type="submit">
+                            <button id="btn-upload" class="button is-success" type="submit">
                                 Salvar
                             </button>
                         </p>
@@ -273,7 +268,7 @@
     <div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form class="form-horizontal" method="POST" action="{{ path('save_musica_anexos', { musicaId : musica.id }) }}">
+                <form id="form-add-link" class="form-horizontal" method="POST">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
@@ -298,7 +293,7 @@
                     </div>
                     <div class="modal-footer">
                         <p class="control">
-                            <button class="button is-success" type="submit">
+                            <button id="btn-add-link" class="button is-success" type="submit">
                                 Salvar
                             </button>
                         </p>
