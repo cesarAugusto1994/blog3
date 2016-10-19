@@ -11,7 +11,7 @@
                         <!-- Slider -->
                         <section class="cd-intro">
                             <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
-                                <span>{{ app['nome.blog'] }}</span><br>
+                                <span>Ol&aacute;, {{ app['usuario.sessao'].nome }}.</span><br>
                             </h1>
                         </section> <!-- cd-intro -->
                         <!-- /.slider -->
@@ -88,5 +88,67 @@
             </div>
         </div>
     </section>
+
+    <section id="feature">
+        <div class="container">
+            <div class="section-heading">
+                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Adicionadas recentemente</h1>
+            </div>
+            <div class="row">
+                {% for musica in musicas %}
+                    <div class="col-md-4 col-lg-4 col-xs-12">
+                        <div class="media wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="1800ms">
+                            <div class="media-left">
+                                <div class="icon">
+                                    <i class="ion-ios-play"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.nome }}</a></h4>
+                                <p>
+                                    <a class="button is-light is-small" href="{{ path('categorias', { colecaoId : musica.categoria.colecao.id, nome : musica.categoria.colecao.nome }) }}">{{ musica.categoria.colecao.nome }}</a>
+                                    <a class="button is-light is-small" href="{{ path('musicas', { categoriaId : musica.categoria.id }) }}">{{ musica.categoria.nome }}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section> <!-- /#feature -->
+
+    <section id="call-to-action">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <h2 class="title wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">Nossos videos</h2>
+                        <div class="row">
+                            {% for video in videos %}
+                                <div class="col-sm-4 col-xs-12">
+                                    <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                                        <div class="img-wrapper" style="width: 100%;">
+                                            {% if video.link is not null %}
+                                                <iframe  width="100%" height="100%" src="https://www.youtube.com/embed/{{ video.link }}"
+                                                         frameborder="0" allowfullscreen></iframe>
+                                            {% endif %}
+                                        </div>
+                                        <figcaption>
+                                            <h4>
+                                                {{ video.nome }}
+                                            </h4>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a href="{{ path('videos') }}" class="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Ver mais</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
 
 {% endblock %}

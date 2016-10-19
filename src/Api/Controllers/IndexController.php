@@ -28,6 +28,9 @@ class IndexController
     public function index($page = 1, Application $app)
     {
         $pager = $app['pager.Controller'];
+        $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
+        $tipo = $app['tipo.anexo.repository']->find(4);
+        $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo], ['cadastro' => 'DESC'], 3);
         $pager->pager($app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']), $page);
 
         return $app['twig']->render('index.html.twig', [
@@ -35,7 +38,9 @@ class IndexController
             'firstPage' => $pager->getFirstPage(),
             'nextPage' => $pager->getNextPage(),
             'limitPerPage' => $pager->getLimit(),
-            'records' => $pager->getCountData()
+            'records' => $pager->getCountData(),
+            'musicas' => $musicas,
+            'videos' => $videos
         ]);
     }
 
@@ -81,13 +86,16 @@ class IndexController
         $musicaAnexos = $app['musica.anexos.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 1);
         $posts = $app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 1);
         $colecoes = $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+        $tipo = $app['tipo.anexo.repository']->find(4);
+        $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo], ['cadastro' => 'DESC'], 3);
 
         return $app['twig']->render('/user/index.html.twig', [
             'logs' => $logs,
             'musicas' => $musicas,
             'musica_anexos' => $musicaAnexos,
             'posts' => $posts,
-            'colecoes' => $colecoes
+            'colecoes' => $colecoes,
+            'videos' => $videos
         ]);
     }
 }
