@@ -6,6 +6,8 @@
  * Time: 09:28
  */
 
+use Doctrine\Common\Cache\ApcCache as Cache;
+
 /*
 $app->register(new Gigablah\Silex\OAuth\OAuthServiceProvider(), array(
     'oauth.services' => array(
@@ -57,7 +59,7 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
             'charset'  => 'utf8',
             'driverOptions' => array(
                 1002 => 'SET NAMES utf8'
-            )
+            ),
         )
     ),
 ));
@@ -93,6 +95,13 @@ $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), a
         ),
     ),
 ));
+
+$app->register(new Moust\Silex\Provider\CacheServiceProvider(), array(
+    'cache.options' => array(
+        'driver' => 'apc'
+    )
+));
+
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
 
 $app->register(new Silex\Provider\LocaleServiceProvider());
@@ -112,10 +121,7 @@ $app['swiftmailer.options'] = array(
     'pretend' =>false
 );
 
-
-
 $app->register(new \Silex\Provider\HttpCacheServiceProvider(), array(
     'http.cache.cache_dir' => __DIR__.'/../var/cache/http/'
 ));
-
 

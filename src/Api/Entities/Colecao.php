@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package Api\Entities
  * @ORM\Table(name="colecao")
  * @ORM\Entity(repositoryClass="Api\Repositories\ColecaoRepository")
+ * @ORM\Cache(usage="READ_WRITE")
  */
 class Colecao
 {
