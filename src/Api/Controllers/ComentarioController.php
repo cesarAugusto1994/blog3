@@ -36,11 +36,12 @@ class ComentarioController
         $comentario->setUsuario($usuario);
         $comentario->setCadastro(new \DateTime('now'));
         $comentario->setAtivo(true);
-
+        
+        $app['db']->beginTransaction();
         $app['comentario.repository']->save($comentario);
+        $app['db']->commit();
     
-        //$app['log.controller']->criar('comentou na musica '.$musica->getNome());
-    
+        $app['log.controller']->criar('Comentou o hino '.$musica->getNome());
         $app['session']->getFlashBag()->add('mensagem', 'Comentário enviado com sucesso.');
     
         return $app->json(

@@ -73,7 +73,10 @@ class CategoriaController
         $categoria->setColecao($colecao);
         $categoria->setAtivo(true);
 
+        $app['db']->beginTransaction();
         $app['categoria.repository']->save($categoria);
+        $app['db']->commit();
+
         $app['log.controller']->criar('adicionou nova categoria '.$categoria->getNome());
         $app['session']->getFlashBag()->add('mensagem', 'Categoria adicionada com sucesso.');
 
@@ -99,8 +102,10 @@ class CategoriaController
 
         $categoria->setColecao($colecao);
         $categoria->setNome($request->get('nome'));
-        
+
+        $app['db']->beginTransaction();
         $app['categoria.repository']->save($categoria);
+        $app['db']->commit();
     
         $mensagem = 'Categoria '.$categoria->getNome().' editada com sucesso.';
         
@@ -132,8 +137,10 @@ class CategoriaController
         } else {
             $categoria->setAtivo(true);
         }
-        
+
+        $app['db']->beginTransaction();
         $app['categoria.repository']->save($categoria);
+        $app['db']->commit();
     
         $mensagem = 'Situação da Categoria  ' . $categoria->getNome() . ' alterada para ' .($categoria->isAtivo() ? 'ativa' : 'inativa'). ' com sucesso.';
         

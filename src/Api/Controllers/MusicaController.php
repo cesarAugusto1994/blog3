@@ -247,8 +247,10 @@ class MusicaController
         } else {
             $musica->setAtivo(true);
         }
-
+    
+        $app['db']->beginTransaction();
         $app['musica.repository']->save($musica);
+        $app['db']->commit();
 
         $app['log.controller']->criar('alterou o status da musica '.$musica->getNome());
 

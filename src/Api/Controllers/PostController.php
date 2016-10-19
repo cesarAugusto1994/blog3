@@ -165,9 +165,11 @@ class PostController
         if (!empty($_FILES['background']['size'])) {
             $post->setBackground($this->upload($_FILES['background'], 'post', $post->getBackground()));
         }
-
+    
+        $app['db']->beginTransaction();
         $app['posts.repository']->save($post);
-
+        $app['db']->commit();
+    
         $arrTags = explode(',', $request->get('tags'));
 
         if (!empty($arrTags)) {
@@ -217,9 +219,11 @@ class PostController
         if (!empty($_FILES['background']['size'])) {
             $post->setBackground($this->upload($_FILES['background'], 'post', $post->getBackground()));
         }
-
+    
+        $app['db']->beginTransaction();
         $app['posts.repository']->save($post);
-
+        $app['db']->commit();
+    
         $arrTags = explode(',', $request->get('tags'));
 
         foreach ($arrTags as $tag) {
@@ -252,9 +256,11 @@ class PostController
         } else {
             $post->setAtivo(true);
         }
-
+    
+        $app['db']->beginTransaction();
         $app['posts.repository']->save($post);
-
+        $app['db']->commit();
+    
         $mensagem = 'Situação do Post  ' . $post->getTitulo() . ' alterado para ' .($post->isAtivo() ? 'ativo' : 'inativo'). ' com sucesso.';
 
         $app['log.controller']->criar($mensagem);

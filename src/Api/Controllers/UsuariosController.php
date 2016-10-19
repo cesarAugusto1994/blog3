@@ -89,7 +89,9 @@ class UsuariosController
             $app['log.controller']->criar('alterou a foto do perfil de '.$usuario->getNome());
         }
 
+        $app['db']->beginTransaction();
         $app['usuarios.repository']->save($usuario);
+        $app['db']->commit();
 
         $app['session']->getFlashBag()->add('mensagem', 'Informações do usuário alteradas com sucesso.');
 
@@ -167,9 +169,12 @@ class UsuariosController
             $usuario->setAvatar($app['avatar.default']);
             $usuario->setRoles('ROLE_USER');
             $usuario->setAtivo(true);
-            $app['usuarios.repository']->save($usuario);
 
-            $app['session']->getFlashBag()->add('mensagem', 'Você se cadastrou com sucesso.');
+            $app['db']->beginTransaction();
+            $app['usuarios.repository']->save($usuario);
+            $app['db']->commit();
+
+            //$app['session']->getFlashBag()->add('mensagem', 'Você se cadastrou com sucesso.');
 
             //$app['email.confirmacao.controller']->criar($usuario, $app);
 
@@ -216,7 +221,9 @@ class UsuariosController
             $usuario->setAtivo(true);
         }
 
+        $app['db']->beginTransaction();
         $app['usuarios.repository']->save($usuario);
+        $app['db']->commit();
 
         $app['log.controller']->criar(($usuario->isAtivo() ? 'ativou' : 'inativou') . ' o usuário ' . $usuario->getNome());
 

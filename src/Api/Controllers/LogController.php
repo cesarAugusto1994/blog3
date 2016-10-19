@@ -48,7 +48,9 @@ class LogController
             $log->setRota($rota);
         }
         $log->setCadastro(new \DateTime('now'));
-        
+
+        $this->app['db']->beginTransaction();
         $this->app['log.repository']->save($log);
+        $this->app['db']->commit();
     }
 }
