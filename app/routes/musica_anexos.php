@@ -48,3 +48,7 @@ $app->post('/user/musica/{id}/anexos/comentar', function($id, \Symfony\Component
     }
     return $app['comentario.controller']->criar($request, $app);
 })->bind('comentar_musica');
+
+$app->get('/user/musica/anexos/comentario/{comentarioId}/remover', function ($comentarioId) use ($app) {
+    return $app['comentario.controller']->remover($comentarioId, $app);
+});

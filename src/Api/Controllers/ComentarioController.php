@@ -51,4 +51,31 @@ class ComentarioController
             ]
         );
     }
+    
+    /**
+     * @param $id
+     * @param \Silex\Application $app
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function remover($id, \Silex\Application $app)
+    {
+        /**
+         * @var Comentarios $comentario
+         */
+        $comentario = $app['comentario.repository']->find($id);
+        
+        $app['db']->beginTransaction();
+        $app['comentario.repository']->remove($comentario);
+        $app['db']->commit();
+        
+        $mensagem = 'Comentário removido com sucesso.';
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
+    
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => $mensagem
+            ]
+        );
+    }
 }

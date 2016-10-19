@@ -4,40 +4,43 @@
 
 {% block header %}{{ parent() }}{% endblock %}
 
-{% block stylesheet%}{{ parent() }}
+{% block stylesheet %}{{ parent() }}
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/musica_anexos.js') }}"></script>
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet" />
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}"
+          rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
+          rel="stylesheet"/>
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}"
+          type="text/css" rel="stylesheet"/>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $("pre").transpose();
         });
     </script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $(function() {
+        $(document).ready(function () {
+            $(function () {
                 $('.c').css('font-size', 8);
                 $('#content').css('font-size', 8)
             });
-            $('#incfont').click(function(){
-                curSize= parseInt($('#content').css('font-size')) + 2;
-                curSize2= parseInt($('.c').css('font-size')) + 2;
-                if(curSize<=32)
+            $('#incfont').click(function () {
+                curSize = parseInt($('#content').css('font-size')) + 2;
+                curSize2 = parseInt($('.c').css('font-size')) + 2;
+                if (curSize <= 32)
                     $('#content').css('font-size', curSize);
-                if(curSize2<=32)
+                if (curSize2 <= 32)
                     $('.c').css('font-size', curSize2);
             });
-            $('#decfont').click(function(){
-                curSize= parseInt($('#content').css('font-size')) - 2;
-                curSize2= parseInt($('.c').css('font-size')) - 2;
-                if(curSize>=5)
+            $('#decfont').click(function () {
+                curSize = parseInt($('#content').css('font-size')) - 2;
+                curSize2 = parseInt($('.c').css('font-size')) - 2;
+                if (curSize >= 5)
                     $('#content').css('font-size', curSize);
-                if(curSize2>=5)
+                if (curSize2 >= 5)
                     $('.c').css('font-size', curSize2);
             });
         });
@@ -61,7 +64,7 @@
         });
     </script>
     <script type="text/javascript">
-        $(function(){
+        $(function () {
             var hash = window.location.hash;
             hash && $('ul.nav a[href="' + hash + '"]').tab('show');
 
@@ -110,20 +113,27 @@
                     {% endfor %}
 
                     {% if musica.letra %}
-                        <div class="card wow fadeInUp animated slide"  data-wow-delay=".3s" style="width: 100%">
+                        <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
                             <div class="card-content">
                                 <div class="media">
                                     <div class="media-content">
                                         <div id="fontlinks">
-                                            <button id="incfont" class="button is-dark is-outlined is-small buttonfont">A+</button>
-                                            <button id="decfont" class="button is-dark is-outlined is-small buttonfont">A-</button>
+                                            <button id="incfont" class="button is-dark is-outlined is-small buttonfont">
+                                                A+
+                                            </button>
+                                            <button id="decfont" class="button is-dark is-outlined is-small buttonfont">
+                                                A-
+                                            </button>
                                             {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-light is-small" style="text-decoration: none">Editar Letra</a>
+                                                <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}"
+                                                   class="button is-light is-small" style="text-decoration: none">Editar
+                                                    Letra</a>
                                             {% endif %}
                                         </div>
                                         <br>
                                         {% if musica.letra %}
-                                            <pre id="content" style="background-color: transparent; border: none;" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
+                                            <pre id="content" style="background-color: transparent; border: none;"
+                                                 data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
                                         {% else %}
                                             <p class="lead">Letra indisponível.</p>
                                         {% endif %}
@@ -132,84 +142,90 @@
                             </div>
                         </div><br>
                     {% endif %}
-                    <div class="card wow fadeInUp animated slide"  data-wow-delay=".3s" style="width: 100%">
-                         <div class="card-content">
+                    <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
+                        <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
                                     {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_USER') %}
-                                        <a href="{{ path('musicas_editar', { id : musica.id }) }}" class="button is-light is-small">Editar</a>
+                                        <a href="{{ path('musicas_editar', { id : musica.id }) }}"
+                                           class="button is-light is-small">Editar</a>
                                         {% if not musica.letra %}
-                                            <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}" class="button is-primary is-inverted is-small" style="text-decoration: none">Adicionar Letra</a>
+                                            <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}"
+                                               class="button is-primary is-inverted is-small"
+                                               style="text-decoration: none">Adicionar Letra</a>
                                         {% endif %}
-                                        <button data-toggle="modal" data-target="#addLink" class="button is-success is-inverted is-small addAnexo">Adicionar Link</button>
-                                        <button data-toggle="modal" data-target="#upload" class="button is-danger is-inverted is-small">Adicionar Arquivo</button>
+                                        <button data-toggle="modal" data-target="#addLink"
+                                                class="button is-success is-inverted is-small addAnexo">Adicionar Link
+                                        </button>
+                                        <button data-toggle="modal" data-target="#upload"
+                                                class="button is-danger is-inverted is-small">Adicionar Arquivo
+                                        </button>
                                     {% endif %}
                                     <br>
                                 </div>
                             </div>
 
                             {% for anexo in anexos %}
-                                <div class="media wow fadeInUp animated slide"  data-wow-delay=".3s">
+                                <div class="media wow fadeInUp animated slide" data-wow-delay=".3s">
                                     <div class="media-left media-middle">
                                         {% if anexo.tipo.id == 1 %}
-                                            <i class="fa fa-music"></i>
-                                        {% elseif anexo.tipo.id == 2 %}
-                                            <i class="fa fa-picture-o"></i>
-                                        {% elseif anexo.tipo.id == 3 %}
-                                            <i class="fa fa-file-pdf-o"></i>
-                                        {% elseif anexo.tipo.id == 4 %}
-                                            <i class="fa fa-video-camera"></i>
+                                        <i class="fa fa-music"></i>
+                                    {% elseif anexo.tipo.id == 2 %}
+                                        <i class="fa fa-picture-o"></i>
+                                    {% elseif anexo.tipo.id == 3 %}
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    {% elseif anexo.tipo.id == 4 %}
+                                        <i class="fa fa-video-camera"></i>
                                         {% endif %}&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="media-body">
                                         <h4 class="media-heading">{{ anexo.nome }}</h4>
                                         {% if anexo.isExterno %}
-                                            <a class="button is-small is-white" href="{{ path('videos')}}"
+                                            <a class="button is-small is-white" href="{{ path('videos') }}"
                                                target="_blank">ir para o link
                                             </a>
                                         {% else %}
-                                            <a class="button is-small is-light" href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                            <a class="button is-small is-light"
+                                               href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
                                                target="_blank">Visualizar
                                             </a>
-                                            <a class="button is-small is-white" href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                            <a class="button is-small is-white"
+                                               href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
                                                download>Baixar
                                             </a>
                                         {% endif %}
                                         {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                            <a id="remover-arquivo" anexo="{{ anexo.id }}" class="button is-danger is-small is-inverted">Remover</a>
+                                            <a id="remover-arquivo" anexo="{{ anexo.id }}"
+                                               class="button is-danger is-small is-inverted">Remover</a>
                                         {% endif %}
                                     </div>
                                 </div>
                             {% else %}
                                 <p class="lead">Nenhum registro encontrado.</p>
                             {% endfor %}
-                                </div>
-                    </div><br>
-                </div>
-            </div>
-        </div>
-    </article>
-
-    <article>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
+                        </div>
+                    </div>
+                    <br>
                     <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
                         <div class="card-content">
-
                             <p class="title is-3">Comentários</p>
-
                             <div class="comments">
                                 {% for comentario in comentarios %}
                                     <div class="media">
                                         <a class="pull-left">
-                                            <img style="min-width: 64px; max-width: 64px; min-height: 64px; max-height: 64px; margin: auto" alt="" src="{% if comentario.usuario.avatar %}{{ asset(app['dir.avatar'] ~ comentario.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}" class="media-object">
+                                            <img style="min-width: 64px; max-width: 64px; min-height: 64px; max-height: 64px; margin: auto"
+                                                 alt=""
+                                                 src="{% if comentario.usuario.avatar %}{{ asset(app['dir.avatar'] ~ comentario.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}"
+                                                 class="media-object">
                                         </a>
                                         <div class="media-body">
-                                            <h4 class="media-heading">{{ comentario.usuario.nome }}</h4>
-                                            <p class="text-muted">
-                                                {{ comentario.cadastro|date('d/m/Y H:i:s') }}
-                                            </p>
+                                            <h4 class="media-heading">{{ comentario.usuario.nome }}&nbsp;&nbsp;
+                                                {% if comentario.usuario.id == app['usuario'].id or is_granted('ROLE_ADMIN') %}
+                                                    <a class="button is-primary is-inverted is-small">Editar</a>
+                                                    <a comentario_id="{{ comentario.id }}" class="button is-danger is-inverted is-small remover-comentario">Remover</a>
+                                                {% endif %}
+                                                <a class="button is-light is-small is-pulled-right">{{ comentario.cadastro|date('d/m/Y H:i:s') }}</a>
+                                            </h4>
                                             <p>
                                                 {{ comentario.comentario }}
                                             </p>
@@ -217,14 +233,16 @@
                                         </div>
                                     </div>
                                 {% endfor %}
-                            </div><br>
+                            </div>
+                            <br>
 
                             <div class="post-comment">
                                 <form role="form" id="form-comentario" class="form-horizontal">
                                     <input type="hidden" name="musica_id" id="musica_id" value="{{ musica.id }}">
                                     <div class="form-group">
                                         <div class="col-lg-12">
-                                            <textarea class=" form-control" name="comentario" id="comentario" rows="4" placeholder="Criar Coment&aacute;rio"></textarea>
+                                            <textarea class=" form-control" name="comentario" id="comentario" rows="4"
+                                                      placeholder="Criar Coment&aacute;rio"></textarea>
                                         </div>
                                     </div>
                                     <p>
@@ -282,7 +300,7 @@
                             <select class="input" name="tipo" id="tipo" required>
                                 <option value="">Selecione</option>
                                 {% for tipo in tipos %}
-                                    <option value="{{ tipo.id }}" >{{ tipo.nome }}</option>
+                                    <option value="{{ tipo.id }}">{{ tipo.nome }}</option>
                                 {% endfor %}
                             </select>
                         </p>

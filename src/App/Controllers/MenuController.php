@@ -99,8 +99,10 @@ class MenuController
         if (!empty($_FILES['icone']['size'])) {
             $menu->setIcon($this->upload($_FILES['icone'], 'menu', $menu->getIcon()));
         }
-        
+
+        $app['db']->beginTransaction();
         $app['menu.repository']->save($menu);
+        $app['db']->commit();
 
         $app['session']->getFlashBag()->add('mensagem', 'Menu alterado com sucesso.');
     

@@ -26,4 +26,13 @@ class ComentariosRepository extends EntityRepository
         $this->_em->persist($comentarios);
         $this->_em->flush($comentarios);
     }
+    
+    /**
+     * @param Comentarios $comentarios
+     */
+    public function remove(Comentarios $comentarios)
+    {
+        $this->getEntityManager()->remove($comentarios);
+        $this->getEntityManager()->flush($comentarios);
+    }
 }
