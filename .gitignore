@@ -3,3 +3,5 @@ var/
 tests/
 web/assets/blog/musicas/*
 web/assets/blog/img/posts/*
+
+web/build/
