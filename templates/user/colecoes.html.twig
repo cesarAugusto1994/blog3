@@ -20,6 +20,9 @@
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
 
+                    <div id="colecoes" data-img="{{ app['dir.colecao'] }}" data-source="{{ path('api_colecoes') }}"></div>
+                    <script src="{{ asset('assets/build/colecoes.js') }}"></script>
+
                     {% if is_granted('ROLE_ADMIN') %}
                         <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addColecao">
                             Nova Cole&ccedil;&atilde;o

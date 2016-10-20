@@ -6,15 +6,22 @@
  * Time: 09:31
  */
 
-$app->get('user/colecoes', function() use ($app){
+$colecao = $app['controllers_factory'];
+
+$colecao->get('colecoes', function() use ($app){
     return $app['colecao.controller']->index($app);
 })->bind('colecoes');
 
-$app->get('/admin/colecoes/grid', function() use ($app){
+$colecao->get('colecoes/all', function() use ($app){
+    $colecoes = $app['colecao.repository']->findBy([], ['nome' => 'ASC']);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($colecoes);
+})->bind('api_colecoes');
+
+$colecao->get('/admin/colecoes/grid', function() use ($app){
     return $app['colecao.controller']->colecoesGrid($app);
 })->bind('colecoes_grid');
 
-$app->post('/admin/colecao/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$colecao->post('/admin/colecao/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     
     if ($request->get('id')) {
         return $app['colecao.controller']->editar($request, $app);
@@ -24,6 +31,8 @@ $app->post('/admin/colecao/save', function (\Symfony\Component\HttpFoundation\Re
     
 })->bind('save_colecao');
 
-$app->get('/admin/colecao/status/{id}', function($id) use ($app) {
+$colecao->get('/admin/colecao/status/{id}', function($id) use ($app) {
     return $app['colecao.controller']->alteraStatus($id, $app);
 })->bind('colecao_status');
+
+return $colecao;

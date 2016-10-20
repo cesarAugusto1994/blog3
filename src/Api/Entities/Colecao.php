@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Api\Repositories\ColecaoRepository")
  * @ORM\Cache(usage="READ_WRITE")
  */
-class Colecao
+class Colecao implements \JsonSerializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -121,5 +121,14 @@ class Colecao
     public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "nome" => $this->nome,
+            "imagem" => $this->imagem
+        ];
     }
 }

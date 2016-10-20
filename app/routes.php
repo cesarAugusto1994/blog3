@@ -18,7 +18,8 @@ include __DIR__.'/routes/musica.php';
 include __DIR__.'/routes/musica_anexos.php';
 include __DIR__.'/routes/categoria.php';
 include __DIR__.'/routes/colecao.php';
-include __DIR__.'/routes/user.php';
+$app->mount('/user', include __DIR__ . '/routes/colecao.php');
+$app->mount('/user', include __DIR__ . '/routes/user.php');
 include __DIR__.'/routes/access.php';
 
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
