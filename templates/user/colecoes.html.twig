@@ -26,7 +26,7 @@
 
                     <div id="colecoes" data-img="{{ app['dir.colecao'] }}" data-source="{{ path('api_colecoes') }}"
                          data-defaul-image="{{ app['background.default'] }}" data-user="{{ app['usuario'].roles }}"></div>
-                    <script src="{{ asset('assets/build/colecoes.js') }}"></script>
+                    <script src="{{ asset(app['dir.base'] ~ 'assets/build/colecoes.js') }}"></script>
 
                 </div>
             </div>
