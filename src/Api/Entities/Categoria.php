@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="categoria", options={"collate":"utf8_general_ci", "charset":"utf8"})
  * @ORM\Entity(repositoryClass="Api\Repositories\CategoriaRepository")
  */
-class Categoria
+class Categoria implements \JsonSerializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -107,5 +107,16 @@ class Categoria
     public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
+    }
+    
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "nome" => $this->nome
+        ];
     }
 }

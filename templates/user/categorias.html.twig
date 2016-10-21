@@ -17,14 +17,15 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    {% for alert in app.session.flashbag.get('mensagem') %}
-                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
-                    {% endfor %}
-
                     {% if is_granted('ROLE_ADMIN') %}
                         <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addCategoria">Nova Categoria</button>
                         <hr class="small">
                     {% endif %}
+
+                    <div id="categorias" data-source="{{ path('api_categorias', { categoriaId : categoria.id }) }}"
+                         data-user="{{ app['usuario'].roles }}"></div>
+                    <script src="{{ asset(app['dir.base'] ~ 'assets/build/categorias.js') }}"></script>
+
                     {% for categoria in categorias %}
                         <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
                             <div class="card-content">
