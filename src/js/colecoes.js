@@ -120,7 +120,7 @@ $(function () {
                 block_screen();
 
                 $.ajax({
-                    type: 'PATCH',
+                    type: 'POST',
                     url: '/user/colecao/' + colecao.colecao.id,
                     cache: false,
                     success: function (data) {

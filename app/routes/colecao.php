@@ -31,7 +31,7 @@ $colecao->post('/admin/colecao/save', function (\Symfony\Component\HttpFoundatio
     
 })->bind('save_colecao');
 
-    $colecao->patch('colecao/{id}', function($id) use ($app) {
+$colecao->post('colecao/{id}', function($id) use ($app) {
     return $app['colecao.controller']->alteraStatus($id, $app);
 })->bind('colecao_status');
 
