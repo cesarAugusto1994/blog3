@@ -6,7 +6,7 @@ function mudarStatus(e) {
 
     e.preventDefault();
 
-    var id = $(this).attr("colecao_id");
+    var id = $(this).attr("data-colecao");
 
     var situacao = "Inativar";
 

@@ -128,7 +128,8 @@ class Colecao implements \JsonSerializable
         return [
             "id" => $this->id,
             "nome" => $this->nome,
-            "imagem" => $this->imagem
+            "imagem" => $this->imagem,
+            "ativo" => $this->ativo
         ];
     }
 }

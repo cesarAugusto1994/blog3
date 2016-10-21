@@ -63,7 +63,7 @@ alertify.defaults = {
 };
 
 function block_screen() {
-    alertify.message('<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>');
+    //alertify.message('<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>');
     $('<div id="screenBlock"></div>').appendTo('body');
     $('#screenBlock').css( { opacity: 0, background: '#f6f6f6', width: $(document).width(), height: $(document).height() } );
     $('#screenBlock').addClass('blockDiv');
