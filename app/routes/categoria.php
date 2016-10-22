@@ -8,14 +8,22 @@
 
 $categorias = $app['controllers_factory'];
 
-$categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) use ($app){
-    return $app['categoria.controller']->index($colecaoId, $app);
+$categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) use ($app) {
+
+    $colecao = $app['colecao.repository']->find($colecaoId);
+    $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao, 'ativo' => true], ['nome' => 'ASC']);
+
+    return $app['twig']->render(
+        '/user/categorias.html.twig',
+        ['categorias' => $categorias, 'colecao' => $colecao]
+    );
+
 })->bind('categorias');
 
 $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
 
     $colecao = $app['colecao.repository']->find($colecaoId);
-    $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao, 'ativo' => true], ['nome' => 'ASC']);
+    $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao], ['nome' => 'ASC']);
     return new \Symfony\Component\HttpFoundation\JsonResponse($categorias);
 
 })->bind('api_categorias');
@@ -32,7 +40,7 @@ $categorias->post('admin/categoria/nova', function(\Symfony\Component\HttpFounda
     return $app['categoria.controller']->novo($request, $app);
 })->bind('nova_categoria');
 
-$categorias->post('admin/categoria/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$categorias->post('categoria/{id}/editar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     
     if ($request->get('id')) {
         return $app['categoria.controller']->editar($request, $app);
@@ -42,7 +50,7 @@ $categorias->post('admin/categoria/save', function (\Symfony\Component\HttpFound
     
 })->bind('save_categoria');
 
-$categorias->get('admin/categoria/{id}/status', function($id) use ($app) {
+$categorias->post('categoria/{id}/status', function($id) use ($app) {
     return $app['categoria.controller']->alteraStatus($id, $app);
 })->bind('categoria_status');
 

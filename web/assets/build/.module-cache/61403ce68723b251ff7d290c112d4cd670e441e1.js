@@ -119,7 +119,7 @@ $(function () {
                             var _this = this;
 
                             return (
-                                React.createElement("option", {value: colecao.id}, _this.props.colecao.id)
+                            React.createElement("option", {key: colecao.id, value: colecao.id, selected: _this.props.colecao.id == colecao.id}, colecao.nome)
                             )
                         })
                     )

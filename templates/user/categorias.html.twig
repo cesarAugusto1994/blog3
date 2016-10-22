@@ -22,10 +22,10 @@
                         <hr class="small">
                     {% endif %}
 
-                    <div id="categorias" data-source="{{ path('api_categorias', { categoriaId : categoria.id }) }}"
+                    <div id="categorias" data-source="{{ path('api_categorias', { colecaoId : colecao.id }) }}"
                          data-user="{{ app['usuario'].roles }}"></div>
                     <script src="{{ asset(app['dir.base'] ~ 'assets/build/categorias.js') }}"></script>
-
+{#
                     {% for categoria in categorias %}
                         <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
                             <div class="card-content">
@@ -52,7 +52,7 @@
                         </div><br>
                     {% else %}
                         <p class="lead">Nenhum registro encontrado.</p>
-                    {% endfor %}
+                    {% endfor %}#}
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
                                     <label for="colecao">Cole&ccedil;&atilde;o</label>
                                     <select class="input is-primary" name="colecao" id="colecao" required>
                                         <option value=""></option>
-                                        {% for colecao in colecoes %}
+                                        {% for colecao in app['colecoes'] %}
                                             <option value="{{ colecao.id }}">{{ colecao.nome }}</option>
                                         {% endfor %}
                                     </select>

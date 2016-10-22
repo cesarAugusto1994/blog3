@@ -5,21 +5,19 @@
 $(function () {
 
     var divStyle = {
-        minHeight: '160px',
-        maxHeight: '160px',
-        margin: 'auto'
+        width: '100%'
     };
 
     class BtnEditar extends React.Component {
 
         render() {
+
             return (
-                <a className="button is-white is-pulled-right is-small openMenu"
-                   data-toggle="modal"
-                   data-target="#myModal"
-                   data-id={ this.props.colecao.id }
-                   data-nome={ this.props.colecao.nome }
-                   data-descricao={ this.props.colecao.nome }>Editar</a>
+                <a className="button is-white is-pulled-right is-small"
+                   onClick={ this.props.acao }
+                   data-id={ this.props.categoria.id }
+                   data-nome={ this.props.categoria.nome }
+                   data-colecao={ this.props.categoria.colecao.id }>Editar</a>
             )
         }
 
@@ -29,7 +27,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-danger is-inverted is-pulled-right is-small mudarStatus"  onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Inativar</a>
+                <a className="button is-danger is-inverted is-pulled-right is-small mudarStatus"  onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
             )
         }
 
@@ -39,89 +37,210 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-success is-inverted is-pulled-right is-small mudarStatus" onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Ativar</a>
+                <a className="button is-success is-inverted is-pulled-right is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Ativar</a>
             )
         }
 
     };
 
-    class Image extends React.Component{
-        render() {
+    var Modal = React.createClass({
+        componentDidMount: function() {
+            $(this.getDOMNode)
+                .modal({backdrop: "static", keyboard: true, show: false});
+        },
+
+        componentWillUnmount: function() {
+            $(this.getDOMNode)
+                .off("hidden", this.handleHidden);
+        },
+
+        open: function() {
+            $(this.getDOMNode).modal("show");
+        },
+
+        close: function() {
+            $(this.getDOMNode).modal("hide");
+        },
+
+        render: function() {
             return (
-                <a href={this.props.categoriasUrl}>
-                    <img className="img-responsive" style={divStyle} src={this.props.colecao.imagem ? this.props.dirImg + '' + this.props.colecao.imagem : this.props.defaultImage } alt={this.props.colecao.name} />
-                </a>
+                <div id="scheduleentry-modal" className="modal fade" tabIndex="-1">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal">
+                                    <span>&times;</span>
+                                </button>
+                                <h4 className="modal-title">{this.props.title}</h4>
+                            </div>
+                            <form className="form-horizontal" onSubmit={this.props.handleSubmit}>
+                                <div className="modal-body">
+                                    {this.props.children}
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="button is-danger is-outlined is-pulled-left" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" className="button is-success">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             )
         }
-    };
+    });
 
-    class Figure extends React.Component{
+    var SelectColecoes = React.createClass({
 
-        render() {
+        getInitialState: function() {
+            return {data: []};
+        },
+        load : function () {
+            var _this = this;
+            $.get('/user/colecoes/all', function (result) {
+                this.setState({ data: result });
+            }.bind(this));
+        },
+        componentDidMount: function() {
+            if (!this.state.data) {
+                this.load();
+            }
+        },
+
+        render: function () {
+
+            return (
+                <div>
+                    <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
+                    <select className="input is-primary" ref="colecao" name="colecao" id="colecao" defaultValue={this.props.colecao.id}>
+
+                        { this.state.data.map(function (colecao) {
+
+                            var _this = this;
+
+                            return (
+                                <option value={colecao.id} >{_this.props.colecao.id}</option>
+                            )
+                        })}
+                    </select>
+                </div>
+            )
+        }
+
+    });
+
+    var EditarCategoriaModal = React.createClass({
+        
+        handleSubmit : function (e) {
+          
+            e.preventDefault();
+            
+            var id = ReactDOM.findDOMNode(this.refs.id).value.trim;
+            var nome = ReactDOM.findDOMNode(this.refs.nome).value.trim;
+            var colecao = ReactDOM.findDOMNode(this.refs.colecao).value.trim;
+
+            if (!nome || !colecao) {
+                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
+            }
+
+            return false;
+
+            $.ajax({
+                type: "POST",
+                url: "/user/categoria/"+id+"/editar",
+                data : {
+                    id : id,
+                    nome : nome,
+                    colecao : colecao
+                },
+                cache: false,
+                success: function (data) {
+                    alertify.success(data.message);
+                    unblock_screen();
+                    _this.loadStatus();
+                },
+                error: function () {
+                    unblock_screen();
+                    alertify.error("Ocorreu um erro.");
+                }
+            });
+        },
+        
+        render: function() {
+
+            console.log(this.props.categoria.colecao);
+
+            var modal = null;
+            modal = (
+                <Modal title="Categoria" handleSubmit={this.handleSubmit}>
+                    <input type="hidden" ref="id" name="id" id="id" />
+                    <label htmlFor="nome">Nome</label>
+                    <input className="input is-primary" type="text" placeholder="Nome" defaultValue={this.props.categoria.nome} ref="nome" name="nome" id="nome" required/>
+                    <SelectColecoes colecao={this.props.categoria.colecao}/>
+                </Modal>
+            );
+
+            return (
+                <div className="scheduleentry-modal">
+                    {modal}
+                </div>
+            );
+        }
+    });
+
+    var BlockCategorias = React.createClass({
+
+        render: function () {
 
             var mudarStatus = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
-                mudarStatus = <MudarStatusColecao colecao={this.props.colecao} reloadColecao={this.props.reloadColecao}/>
+                mudarStatus = <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
             }
 
             return (
-                <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
-                    <div className="img-wrapper" >
-                        <Image colecao={this.props.colecao} dirImg={this.props.dirImg} categoriasUrl={this.props.categoriasUrl} defaultImage={this.props.defaultImage}/>
+                <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={divStyle}>
+                    <div className="card-content">
+                        <div className="media">
+                            <div className="media-body">
+                                <h4 className="media-heading">
+                                    <a href={this.props.musicasUrl}>{this.props.categoria.nome}</a>
+                                    <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
+                                    {mudarStatus}
+                                </h4>
+                            </div>
+                        </div>
                     </div>
-                    <figcaption>
-                        <h4>
-                            <a href={this.props.categoriasUrl}>
-                                {this.props.colecao.nome}
-                            </a>
-                            <BtnEditar colecao={this.props.colecao} />
-                            {mudarStatus}
-                        </h4>
-                    </figcaption>
-                </figure>
-            )
-        }
-    };
-
-    class BlockColecoes extends React.Component{
-
-        render() {
-
-            return (
-                <div className="col-sm-4 col-xs-12">
-                    <Figure colecao={this.props.colecao} dirImg={this.props.dirImg} categoriasUrl={this.props.categoriasUrl}
-                            defaultImage={this.props.defaultImage} reloadColecao={this.props.reloadColecao} user={this.props.user}/>
                 </div>
             )
         }
-    };
+    });
 
-    var MudarStatusColecao = React.createClass({
+    var MudarStatusCategoria = React.createClass({
 
         loadStatus : function() {
-            this.props.reloadColecao();
-            this.setState({ ativo: !this.props.colecao.ativo });
+            this.props.reloadCategoria();
+            this.setState({ ativo: !this.props.categoria.ativo });
         },
 
         getInitialState: function() {
-            return { ativo: this.props.colecao.ativo }
+            return { ativo: this.props.categoria.ativo }
         },
 
-        handleInativarColecao: function (e) {
+        handleInativarCategoria: function (e) {
 
             e.preventDefault();
 
             var _this = this;
-            var colecao = this.props;
+            var categoria = this.props;
 
-            alertify.confirm("Deseja " + (this.state.ativo ? 'Inativar' : 'Ativar') + " esta Cole&ccedil;&atilde;o?", function () {
+            alertify.confirm("Deseja " + (this.state.ativo ? 'Inativar' : 'Ativar') + " esta Categoria?", function () {
 
                 block_screen();
 
                 $.ajax({
                     type: 'POST',
-                    url: '/user/colecao/' + colecao.colecao.id,
+                    url: '/user/categoria/' + categoria.categoria.id + '/status',
                     cache: false,
                     success: function (data) {
                         alertify.success(data.message);
@@ -141,9 +260,9 @@ $(function () {
             var btnStatus = '';
 
             if (this.state.ativo) {
-                btnStatus = <BtnInativar acao={this.handleInativarColecao} colecao={this.props.colecao}/>;
+                btnStatus = <BtnInativar acao={this.handleInativarCategoria} categoria={this.props.categoria}/>;
             } else {
-                btnStatus = <BtnAtivar acao={this.handleInativarColecao} colecao={this.props.colecao}/>
+                btnStatus = <BtnAtivar acao={this.handleInativarCategoria} categoria={this.props.categoria}/>
             }
 
             return (
@@ -166,20 +285,27 @@ $(function () {
         componentDidMount: function() {
             this.load();
         },
+        openModal: function () {
+            $("#scheduleentry-modal").modal("show");
+        },
 
         render: function () {
 
             var _this = this;
 
             return (
+                <div>
                 <span>{ this.state.data.map(function (categoria) {
                     var musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
                     return (
                         <div key={categoria.id}>
-                            'Echo'
+                            <BlockCategorias categoria={categoria} musicasUrl={musicasUrl} user={user} reloadCategoria={_this.load} acao={_this.openModal}/>
+                            <EditarCategoriaModal categoria={categoria} />
                         </div>
                     )
                 }) }</span>
+
+                </div>
             )
         }
     });
@@ -193,6 +319,19 @@ $(function () {
         </div>,
         document.getElementById('categorias')
     );
+
+    $(document).on('click', '.openMenu', function () {
+        $('.modal-body #id').val($(this).data('id'));
+        $('.modal-body #nome').val($(this).data('nome'));
+        $('.modal-body #colecao').val($(this).data('colecao'));
+        $('.modal-body #colecao').attr('selected', selected);
+    });
+
+    $(document).on('click', '.addCategoria', function () {
+        $('.modal-body #id').val('');
+        $('.modal-body #nome').val('');
+        $('.modal-body #colecao').val('');
+    });
 
 
 });

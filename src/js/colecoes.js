@@ -170,9 +170,7 @@ $(function () {
         render: function () {
 
             var _this = this;
-
-            //console.log(user);
-
+            
             return (
                 <span>{ this.state.data.map(function (colecao) {
                     var categoriasUrl = "/user/categorias/" + colecao.id + "/" + colecao.nome;

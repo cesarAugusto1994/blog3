@@ -109,17 +109,20 @@ $(function () {
 
         render: function () {
 
+            var selected = false;
+
             return (
                 React.createElement("div", null, 
                     React.createElement("label", {htmlFor: "colecao"}, "Coleção"), 
-                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.colecao.id}, 
-
+                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao"}, 
                          this.state.data.map(function (colecao) {
 
-                            var _this = this;
+                            if (this.props.colecao.id == colecao.id) {
+                                selected = true;
+                            }
 
                             return (
-                                React.createElement("option", {value: colecao.id}, _this.props.colecao.id)
+                            React.createElement("option", {key: colecao.id, value: colecao.id, selected: selected}, colecao.nome)
                             )
                         })
                     )

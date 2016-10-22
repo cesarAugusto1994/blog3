@@ -119,7 +119,7 @@ $(function () {
                             var _this = this;
 
                             return (
-                                React.createElement("option", {value: colecao.id}, _this.props.colecao.id)
+                            React.createElement("option", {value: colecao.id}, _this.props.colecao.id)
                             )
                         })
                     )

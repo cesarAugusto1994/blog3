@@ -102,9 +102,7 @@ $(function () {
             }.bind(this));
         },
         componentDidMount: function() {
-            if (!this.state.data) {
-                this.load();
-            }
+            this.load();
         },
 
         render: function () {
@@ -112,14 +110,10 @@ $(function () {
             return (
                 React.createElement("div", null, 
                     React.createElement("label", {htmlFor: "colecao"}, "Coleção"), 
-                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.colecao.id}, 
-
+                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao"}, 
                          this.state.data.map(function (colecao) {
-
-                            var _this = this;
-
                             return (
-                                React.createElement("option", {value: colecao.id}, _this.props.colecao.id)
+                            React.createElement("option", {key: colecao.id, value: colecao.id}, colecao.nome)
                             )
                         })
                     )
@@ -135,9 +129,9 @@ $(function () {
           
             e.preventDefault();
             
-            var id = ReactDOM.findDOMNode(this.refs.id).value.trim;
-            var nome = ReactDOM.findDOMNode(this.refs.nome).value.trim;
-            var colecao = ReactDOM.findDOMNode(this.refs.colecao).value.trim;
+            var id = React.findDOMNode(this.refs.id).value.trim;
+            var nome = React.findDOMNode(this.refs.nome).value.trim;
+            var colecao = React.findDOMNode(this.refs.colecao).value.trim;
 
             if (!nome || !colecao) {
                 alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
@@ -167,16 +161,13 @@ $(function () {
         },
         
         render: function() {
-
-            console.log(this.props.categoria.colecao);
-
             var modal = null;
             modal = (
                 React.createElement(Modal, {title: "Categoria", handleSubmit: this.handleSubmit}, 
                     React.createElement("input", {type: "hidden", ref: "id", name: "id", id: "id"}), 
                     React.createElement("label", {htmlFor: "nome"}, "Nome"), 
-                    React.createElement("input", {className: "input is-primary", type: "text", placeholder: "Nome", defaultValue: this.props.categoria.nome, ref: "nome", name: "nome", id: "nome", required: true}), 
-                    React.createElement(SelectColecoes, {colecao: this.props.categoria.colecao})
+                    React.createElement("input", {className: "input is-primary", type: "text", placeholder: "Nome", value: this.props.categoria.nome, ref: "nome", name: "nome", id: "nome", required: true}), 
+                    React.createElement(SelectColecoes, null)
                 )
             );
 
