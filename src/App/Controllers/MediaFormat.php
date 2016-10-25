@@ -9,7 +9,7 @@
 namespace App\Controllers;
 
 
-trait MediaFormat
+class MediaFormat
 {
     /**
      * @param string $media
@@ -24,7 +24,7 @@ trait MediaFormat
      * @param $media
      * @return int
      */
-    public function getFormatTipo($media)
+    public static function getFormatTipo($media)
     {
         switch ($media) {
             case 'application/pdf':

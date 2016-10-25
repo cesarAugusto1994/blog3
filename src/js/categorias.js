@@ -27,7 +27,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-danger is-inverted is-pulled-right is-small mudarStatus"  onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
+                <a className="button is-danger is-inverted is-pulled-right is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
             )
         }
 
@@ -296,7 +296,7 @@ $(function () {
             return (
                 <div>
                 <span>{ this.state.data.map(function (categoria) {
-                    var musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
+                    var musicasUrl = "/user/musicas/" + categoria.id;
                     return (
                         <div key={categoria.id}>
                             <BlockCategorias categoria={categoria} musicasUrl={musicasUrl} user={user} reloadCategoria={_this.load} acao={_this.openModal}/>

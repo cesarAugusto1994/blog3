@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Api\Repositories\MusicaAnexosRepository")
  * @ORM\Table(name="musica_anexos")
  */
-class MusicaAnexos
+class MusicaAnexos implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -233,5 +233,14 @@ class MusicaAnexos
     public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "nome" => $this->nome,
+            "cadastro" => $this->cadastro->format(DATE_RFC822)
+        ];
     }
 }

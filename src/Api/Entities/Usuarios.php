@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Api\Repositories\UsuariosRepository")
  * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
-class Usuarios
+class Usuarios implements \JsonSerializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -223,5 +223,14 @@ class Usuarios
     public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "nome" => $this->nome,
+            "avatar" => $this->avatar
+        ];
     }
 }

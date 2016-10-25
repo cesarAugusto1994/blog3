@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Api\Repositories\ComentariosRepository")
  * @ORM\Table(name="comentarios")
  */
-class Comentarios
+class Comentarios implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -144,5 +144,18 @@ class Comentarios
     public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "comentario" => $this->comentario,
+            "usuario" => $this->usuario,
+            "cadastro" => $this->cadastro->format('d/m/Y H:i:s')
+        ];
     }
 }

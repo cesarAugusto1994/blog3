@@ -154,7 +154,7 @@ function removerComentario(e) {
 $(document).ready(function () {
     $("#remover-arquivo").click(removerArquivo);
     $(".remover-comentario").click(removerComentario);
-    $("#form-comentario").submit(criarComentario);
+    //$("#form-comentario").submit(criarComentario);
     $("#form-upload").submit(upload);
     $("#form-add-link").submit(addLink);
 });

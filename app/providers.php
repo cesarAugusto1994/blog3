@@ -63,7 +63,6 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
         )
     ),
 ));
-
 $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), array(
     'orm.proxies_dir' => __DIR__.'/../var/cache/doctrine/',
     'orm.em.options' => array(
@@ -95,20 +94,16 @@ $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), a
         ),
     ),
 ));
-
 $app->register(new Moust\Silex\Provider\CacheServiceProvider(), array(
     'cache.options' => array(
         'driver' => 'apc'
     )
 ));
-
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
-
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'locale_fallbacks' => array('en'),
 ));
-
 $app->register(new Silex\Provider\SwiftmailerServiceProvider());
 $app['swiftmailer.options'] = array(
     'driver' => 'smtp',
@@ -120,7 +115,6 @@ $app['swiftmailer.options'] = array(
     'auth_mode' => null,
     'pretend' =>false
 );
-
 $app->register(new \Silex\Provider\HttpCacheServiceProvider(), array(
     'http.cache.cache_dir' => __DIR__.'/../var/cache/http/'
 ));

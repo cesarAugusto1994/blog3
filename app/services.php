@@ -138,16 +138,10 @@ $app['default.url'] = function () {
   return 'bloggrupopolo-com.umbler.net';
 };
 
-/**
- * @return string
- */
 $app['about'] = function () {
   return 'Aenean placerat. In vulputate urna eu arcu. Aliquam erat volutpat. Suspendisse potenti. Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl.';
 };
 
-/**
- * @return string
- */
 $app['default.card'] = function() use ($app) {
   $default = $app['config.repository']->findAll();
   if (!empty($default[0]->getBackground())) {
@@ -156,16 +150,10 @@ $app['default.card'] = function() use ($app) {
   return $app['dir.base'] . 'assets/blog/img/wallpaper.jpg';
 };
 
-/**
- * @return \Ramsey\Uuid\UuidInterface
- */
 $app['uuid.service'] = function(){
   return Ramsey\Uuid\Uuid::uuid4();
 };
 
-/**
- * @return \Api\Services\Email
- */
 $app['usuario.email.service'] = function() use ($app){
   
   $assunto = 'Bem Vindo Ao site.';
@@ -175,9 +163,6 @@ $app['usuario.email.service'] = function() use ($app){
   return new \Api\Services\Email($assunto, $from, $body);
 };
 
-/**
- * 
- */
 $app['usuario.sessao'] = function () use ($app) {
     
   $user = $app['session']->get('user');
@@ -194,9 +179,7 @@ $app['usuario.sessao'] = function () use ($app) {
 };
 
 $app['usuario'] = function () use($app) {
-  
     return $app['usuarios.repository']->find($app['usuario.sessao']['id']);
-    
 };
 
 $app['envia.email'] =  function () use ($app) {

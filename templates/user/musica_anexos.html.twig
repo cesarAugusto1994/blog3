@@ -206,52 +206,12 @@
                         </div>
                     </div>
                     <br>
-                    <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
-                        <div class="card-content">
-                            <p class="title is-3">Comentários</p>
-                            <div class="comments">
-                                {% for comentario in comentarios %}
-                                    <div class="media">
-                                        <a class="pull-left">
-                                            <img style="min-width: 64px; max-width: 64px; min-height: 64px; max-height: 64px; margin: auto"
-                                                 alt=""
-                                                 src="{% if comentario.usuario.avatar %}{{ asset(app['dir.avatar'] ~ comentario.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}"
-                                                 class="media-object">
-                                        </a>
-                                        <div class="media-body">
-                                            <h4 class="media-heading">{{ comentario.usuario.nome }}&nbsp;&nbsp;
-                                                {% if comentario.usuario.id == app['usuario'].id or is_granted('ROLE_ADMIN') %}
-                                                    <a class="button is-primary is-inverted is-small">Editar</a>
-                                                    <a comentario_id="{{ comentario.id }}" class="button is-danger is-inverted is-small remover-comentario">Remover</a>
-                                                {% endif %}
-                                                <a class="button is-light is-small is-pulled-right">{{ comentario.cadastro|date('d/m/Y H:i:s') }}</a>
-                                            </h4>
-                                            <p>
-                                                {{ comentario.comentario }}
-                                            </p>
-                                            <!--<a href="">Reply</a>-->
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <br>
 
-                            <div class="post-comment">
-                                <form role="form" id="form-comentario" class="form-horizontal">
-                                    <input type="hidden" name="musica_id" id="musica_id" value="{{ musica.id }}">
-                                    <div class="form-group">
-                                        <div class="col-lg-12">
-                                            <textarea class=" form-control" name="comentario" id="comentario" rows="4"
-                                                      placeholder="Criar Coment&aacute;rio"></textarea>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <button id="comentar" class="button is-danger" type="submit">Comentar</button>
-                                    </p>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="comentarios" data-source="{{ path('api_comentarios', { musicaId : musica.id }) }}"
+                         data-source-arquivos="{{ path('api_anexos', { musicaId : musica.id }) }}"
+                         data-user="{{ app['usuario'].roles }}" data-dir-avatar="{{ app['dir.avatar'] }}"
+                         data-musica-id="{{ musica.id }}"></div>
+                    <script src="{{ asset(app['dir.base'] ~ 'assets/build/anexos.js') }}"></script>
                 </div>
             </div>
         </div>
@@ -269,7 +229,7 @@
                     <div class="modal-body">
                         <input type="hidden" name="user_anexos" value="1">
                         <input type="hidden" name="musica" value="{{ musica.id }}">
-                        <input class="input" type="file" name="files[]" id="filer_input" multiple="multiple">
+                        <input class="input" type="file" name="files[]" id="filer_inputs" multiple="multiple">
                     </div>
                     <div class="modal-footer">
                         <p class="control">

@@ -25,31 +25,7 @@ class ComentarioController
      */
     public function criar(Request $request, \Silex\Application $app)
     {
-        $musica = $app['musica.repository']->find($request->get('id'));
-
-        $user = $app['session']->get('user');
-        $usuario = $app['usuarios.repository']->find($user->getId());
         
-        $comentario = new Comentarios();
-        $comentario->setComentario($request->get('comentario'));
-        $comentario->setMusica($musica);
-        $comentario->setUsuario($usuario);
-        $comentario->setCadastro(new \DateTime('now'));
-        $comentario->setAtivo(true);
-        
-        $app['db']->beginTransaction();
-        $app['comentario.repository']->save($comentario);
-        $app['db']->commit();
-    
-        $app['log.controller']->criar('Comentou o hino '.$musica->getNome());
-        $app['session']->getFlashBag()->add('mensagem', 'Comentário enviado com sucesso.');
-    
-        return $app->json(
-            [
-                'class' => 'success',
-                'message' => 'Comentário enviado com sucesso.'
-            ]
-        );
     }
     
     /**
@@ -59,23 +35,6 @@ class ComentarioController
      */
     public function remover($id, \Silex\Application $app)
     {
-        /**
-         * @var Comentarios $comentario
-         */
-        $comentario = $app['comentario.repository']->find($id);
-        
-        $app['db']->beginTransaction();
-        $app['comentario.repository']->remove($comentario);
-        $app['db']->commit();
-        
-        $mensagem = 'Comentário removido com sucesso.';
-        $app['session']->getFlashBag()->add('mensagem', $mensagem);
-    
-        return $app->json(
-            [
-                'class' => 'success',
-                'message' => $mensagem
-            ]
-        );
+       
     }
 }

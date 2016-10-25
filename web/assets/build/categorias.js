@@ -296,7 +296,7 @@ $(function () {
             return (
                 React.createElement("div", null, 
                 React.createElement("span", null,  this.state.data.map(function (categoria) {
-                    var musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
+                    var musicasUrl = "/user/musicas/" + categoria.id;
                     return (
                         React.createElement("div", {key: categoria.id}, 
                             React.createElement(BlockCategorias, {categoria: categoria, musicasUrl: musicasUrl, user: user, reloadCategoria: _this.load, acao: _this.openModal}), 
