@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="")
  * @ORM\Table(name="tipo_anexo")
  */
-class Tipo
+class Tipo implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -98,5 +98,13 @@ class Tipo
     public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
+    }
+    
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "nome" => $this->nome
+        ];
     }
 }

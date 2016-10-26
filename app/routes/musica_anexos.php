@@ -16,24 +16,23 @@ $anexos->get('/musica/anexos/{musicaId}', function($musicaId) use ($app) {
      */
     $musica = $app['musica.repository']->find($musicaId);
     $tipos = $app['tipo.anexo.repository']->findBy(['ativo' => true]);
-    $comentarios = $app['comentario.repository']->findBy(['musica' => $musica, 'ativo' => true], ['id' => 'DESC']);
 
     return $app['twig']->render(
         '/user/musica_anexos.html.twig',
         [
-            'anexos' => $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true]),
             'musica' => $musica,
             'tipos' => $tipos,
-            'comentarios' => $comentarios
         ]
     );
 
 })->bind('musica_anexos');
 
 $anexos->get('/musica/{musicaId}/anexos', function($musicaId) use ($app) {
+
     $musica = $app['musica.repository']->find($musicaId);
     $anexos = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true]);
     return new \Symfony\Component\HttpFoundation\JsonResponse($anexos);
+
 })->bind('api_anexos');
 
 $anexos->get('/musicas/anexos/grid/{musicaId}/{nome}', function($musicaId, $nome) use ($app){
@@ -52,7 +51,7 @@ $anexos->get('/musicas/anexos/grid/{musicaId}/{nome}', function($musicaId, $nome
 
 })->bind('musica_anexos_grid');
 
-$anexos->match('/musica/{id}/anexos/remover', function($id) use ($app) {
+$anexos->post('/musica/anexos/{id}/remover', function($id) use ($app) {
 
     /**
      * @var \Api\Entities\MusicaAnexos $anexo
@@ -83,15 +82,19 @@ $anexos->match('/musica/{id}/anexos/remover', function($id) use ($app) {
     })->bind('musica_anexos_remover');
 
 $anexos->get('/musica/anexos/videos', function () use ($app) {
+
     $tipo = $app['tipo.anexo.repository']->find(4);
     $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo]);
     return $app['twig']->render('user/videos.html.twig', ['videos' => $videos]);
+
 })->bind('videos');
 
 $anexos->get('/comentarios/{musicaId}', function ($musicaId) use ($app) {
+
     $musica = $app['musica.repository']->find($musicaId);
     $comentarios = $app['comentario.repository']->findBy(['musica' => $musica, 'ativo' => true], ['id' => 'DESC']);
     return new \Symfony\Component\HttpFoundation\JsonResponse($comentarios);
+
 })->bind('api_comentarios');
 
 $anexos->post('/musica/{musicaId}/anexos/upload', function($musicaId, \Symfony\Component\HttpFoundation\Request $request) use ($app) {

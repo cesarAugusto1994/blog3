@@ -83,7 +83,7 @@ $(function () {
                 cache: false,
                 success: function (data) {
                     unblock_screen();
-                    _this.props.closeModal();
+                    window.location.reload();
                 },
                 error: function (data) {
                     unblock_screen();
@@ -101,7 +101,8 @@ $(function () {
             modal = (
                 <Modal title="Upload de Arquivos" handleSubmit={this.handleSubmit}>
                     <input type="hidden" name="musica" ref="id" defaultValue={this.props.musica} />
-                    <input className="input" type="file" ref="arquivo" name="files[]" id="filer_input" multiple="multiple" />
+                    <input className="input" type="file" ref="arquivo" name="files[]" id="filer_input" multiple="multiple"
+                           accept="image/gif, image/jpeg, image/png, image/jpg, audio/mpeg, audio/mp3, application/octet-stream, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
                 </Modal>
             );
 
@@ -313,6 +314,135 @@ $(function () {
         }
     });
 
+    class BtnRemover extends React.Component{
+
+        render() {
+            return(
+              <a className="button is-danger is-inverted is-small" onClick={this.props.acao}>Remover</a>
+            );
+        }
+
+    }
+
+    class BtnDownload extends React.Component{
+
+        render() {
+            return(
+                <a href={this.props.anexo} download="download" className="button is-white is-small">Baixar</a>
+            );
+        }
+
+    }
+
+    class BtnVisualizar extends React.Component{
+
+        render() {
+            return(
+                <a href={this.props.anexo} target="_Blank" className="button is-light is-small">Visualizar</a>
+            );
+        }
+    }
+
+    class BtnEditar extends React.Component{
+
+        render() {
+            return(
+                <a href={this.props.source} className="button is-light is-small">Editar</a>
+            );
+        }
+    }
+
+    class BtnAddLetra extends React.Component{
+
+        render() {
+            return(
+                <a href={this.props.source} className="button is-primary is-inverted is-small">Adicionar Letra</a>
+            );
+        }
+    }
+
+    class BtnAddLink extends React.Component{
+
+        render() {
+            return(
+                <a data-toggle="modal" data-target="#addLink" className="button is-success is-inverted is-small addAnexo">Adicionar Link</a>
+            );
+        }
+    }
+
+    class BtnLink extends React.Component{
+
+        render() {
+            return(
+                <a href={this.props.href} target="_Blank" className="button is-white is-small">Ir para o Link</a>
+            );
+        }
+    }
+
+    var RemoverArquivo = React.createClass({
+
+        handleRemover : function (e) {
+
+            e.preventDefault();
+
+            console.log(this.props);
+
+            var id = this.props.anexo.id;
+            var _this = this;
+
+            alertify.confirm("Deseja remover este arquivo?", function(){
+
+                block_screen();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/musica/anexos/"+id+"/remover",
+                    cache: false,
+                    success: function (data) {
+                        unblock_screen();
+                        alertify.success(data.message);
+                        _this.props.reloadArquivos();
+                    },
+                    error: function () {
+                        unblock_screen();
+                        alertify.error("Ocorreu um erro.");
+                    }
+                });
+            }).setting("labels",{"ok":"Sim", "cancel": "Cancelar"});
+
+        },
+
+        render : function() {
+            return (
+              <BtnRemover acao={this.handleRemover} />
+            );
+        }
+
+    });
+
+    var ImagemArquivo = React.createClass({
+
+        render : function () {
+
+            var image = <i className="fa fa-music">&nbsp;</i>;
+
+            if (2 == this.props.anexo.tipo.id) {
+                image = <i className="fa fa-picture-o">&nbsp;</i>;
+            } else if (3 == this.props.anexo.tipo.id) {
+                image = <i className="fa file-pdf-o">&nbsp;</i>;
+            } else if (4 == this.props.anexo.tipo.id) {
+                image = <i className="fa fa-video-camera">&nbsp;</i>;
+            }
+
+            return (
+                <div className="media-left media-middle">
+                    {image}
+                </div>
+            );
+        }
+
+    });
+
     var ListArquivos = React.createClass({
 
         getInitialState: function () {
@@ -329,23 +459,40 @@ $(function () {
         },
         
         render : function () {
+
+            var _this = this;
+
             return (
                 <div>
                     {this.state.data.map(function (anexo) {
+
+                        var arquivo = _this.props.dirAnexos + anexo.nome;
+
+                        var visualzar = '';
+                        var downLoad = '';
+                        var link = '';
+
+                        if (!anexo.isExterno) {
+                            visualzar = <BtnVisualizar anexo={arquivo} />;
+                            downLoad = <BtnDownload anexo={arquivo} />;
+                        } else {
+                            link = <BtnLink href={_this.props.sourceVideos} />;
+                        }
                         
                         return (
                             <div key={anexo.id}>
                                 <div className="media">
+                                    <ImagemArquivo anexo={anexo} />
                                     <div className="media-body">
                                         <h4 className="media-heading">{anexo.nome}
                                             <a className="button is-light is-small is-pulled-right">{anexo.cadastro}</a>
                                         </h4>
-                                        <p>
-                                            {comentario.comentario}
-                                        </p>
+                                            {visualzar}
+                                            {downLoad}
+                                            {link}
+                                            <RemoverArquivo anexo={anexo} reloadArquivos={_this.load}/>
                                     </div>
                                 </div>
-                                <br/>
                             </div>
                         )
                     })}
@@ -368,6 +515,7 @@ $(function () {
         closeModal: function() {
             this.setState({ isModalOpen: false });
         },
+
         render: function () {
 
             return (
@@ -376,8 +524,13 @@ $(function () {
                     <div className="card-content">
                         <div className="media">
                             <div className="media-content">
+                                <BtnEditar source={this.props.sourceEditar} />
+                                <BtnAddLetra source={this.props.sourceAddLetra}/>
+                                <BtnAddLink />
                                 <button data-toggle="modal" data-target="#scheduleentry-modal" onClick={this.openModal} className="button is-danger is-inverted is-small">Adicionar Arquivo</button>
-                                <ListArquivos sourceArquivos={this.props.sourceArquivos}/>
+                                <br />
+                                <br />
+                                <ListArquivos sourceArquivos={this.props.sourceArquivos} sourceVideos={this.props.sourceVideos} dirAnexos={this.props.dirAnexos}/>
                             </div>
                         </div>
                     </div>
@@ -390,13 +543,18 @@ $(function () {
 
     var source = $("#comentarios").attr("data-source");
     var sourceArquivos = $("#comentarios").attr("data-source-arquivos");
+    var sourceVideos = $("#comentarios").attr("data-source-videos");
+    var sourceEditar = $("#comentarios").attr("data-source-editar");
+    var sourceAddLetra = $("#comentarios").attr("data-source-add-letra");
+    
     var musicaId = $("#comentarios").attr("data-musica-id");
     var user = $("#comentarios").attr("data-user");
     var dirAvatar = $("#comentarios").attr("data-dir-avatar");
+    var dirAnexos = $("#comentarios").attr("data-dir-anexos");
 
     ReactDOM.render(
         <div>
-            <ViewArquivos sourceArquivos={sourceArquivos} musica={musicaId}/>
+            <ViewArquivos sourceArquivos={sourceArquivos} sourceEditar={sourceEditar} sourceAddLetra={sourceAddLetra} sourceVideos={sourceVideos} musica={musicaId} dirAnexos={dirAnexos}/>
             <ViewCometarios source={source} user={user} dirAvatar={dirAvatar} musicaId={musicaId}/>
         </div>,
         document.getElementById('comentarios')

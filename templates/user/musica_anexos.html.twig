@@ -142,75 +142,15 @@
                             </div>
                         </div><br>
                     {% endif %}
-                    <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_USER') %}
-                                        <a href="{{ path('musicas_editar', { id : musica.id }) }}"
-                                           class="button is-light is-small">Editar</a>
-                                        {% if not musica.letra %}
-                                            <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}"
-                                               class="button is-primary is-inverted is-small"
-                                               style="text-decoration: none">Adicionar Letra</a>
-                                        {% endif %}
-                                        <button data-toggle="modal" data-target="#addLink"
-                                                class="button is-success is-inverted is-small addAnexo">Adicionar Link
-                                        </button>
-                                        <button data-toggle="modal" data-target="#upload"
-                                                class="button is-danger is-inverted is-small">Adicionar Arquivo
-                                        </button>
-                                    {% endif %}
-                                    <br>
-                                </div>
-                            </div>
-
-                            {% for anexo in anexos %}
-                                <div class="media wow fadeInUp animated slide" data-wow-delay=".3s">
-                                    <div class="media-left media-middle">
-                                        {% if anexo.tipo.id == 1 %}
-                                        <i class="fa fa-music"></i>
-                                    {% elseif anexo.tipo.id == 2 %}
-                                        <i class="fa fa-picture-o"></i>
-                                    {% elseif anexo.tipo.id == 3 %}
-                                        <i class="fa fa-file-pdf-o"></i>
-                                    {% elseif anexo.tipo.id == 4 %}
-                                        <i class="fa fa-video-camera"></i>
-                                        {% endif %}&nbsp;&nbsp;&nbsp;
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">{{ anexo.nome }}</h4>
-                                        {% if anexo.isExterno %}
-                                            <a class="button is-small is-white" href="{{ path('videos') }}"
-                                               target="_blank">ir para o link
-                                            </a>
-                                        {% else %}
-                                            <a class="button is-small is-light"
-                                               href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
-                                               target="_blank">Visualizar
-                                            </a>
-                                            <a class="button is-small is-white"
-                                               href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
-                                               download>Baixar
-                                            </a>
-                                        {% endif %}
-                                        {% if anexo.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                            <a id="remover-arquivo" anexo="{{ anexo.id }}"
-                                               class="button is-danger is-small is-inverted">Remover</a>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            {% else %}
-                                <p class="lead">Nenhum registro encontrado.</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <br>
 
                     <div id="comentarios" data-source="{{ path('api_comentarios', { musicaId : musica.id }) }}"
                          data-source-arquivos="{{ path('api_anexos', { musicaId : musica.id }) }}"
                          data-user="{{ app['usuario'].roles }}" data-dir-avatar="{{ app['dir.avatar'] }}"
-                         data-musica-id="{{ musica.id }}"></div>
+                         data-dir-anexos="{{ app['dir.anexo'] }}"
+                         data-musica-id="{{ musica.id }}" data-source-editar="{{ path('musicas_editar', { id : musica.id }) }}"
+                         data-source-add-letra="{{ path('musicas_letra_editar', { id : musica.id }) }}"
+                         data-source-videos="{{ path('videos') }}">
+                    </div>
                     <script src="{{ asset(app['dir.base'] ~ 'assets/build/anexos.js') }}"></script>
                 </div>
             </div>

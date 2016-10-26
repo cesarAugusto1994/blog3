@@ -14,7 +14,7 @@ function removerArquivo(e) {
 
         $.ajax({
             type: "POST",
-            url: "/user/musica/"+id+"/anexos/remover",
+            url: "/user/musica/anexos/"+id+"/remover",
             cache: false,
             success: function (data) {
                 unblock_screen();

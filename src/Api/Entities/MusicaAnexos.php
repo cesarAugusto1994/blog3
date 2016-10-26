@@ -240,6 +240,9 @@ class MusicaAnexos implements \JsonSerializable
         return [
             "id" => $this->id,
             "nome" => $this->nome,
+            "tipo" => $this->tipo,
+            "isExterno" => $this->linkExterno,
+            "link" => $this->link,
             "cadastro" => $this->cadastro->format(DATE_RFC822)
         ];
     }

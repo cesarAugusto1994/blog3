@@ -83,7 +83,7 @@ $(function () {
                 cache: false,
                 success: function (data) {
                     unblock_screen();
-                    _this.props.closeModal();
+                    window.location.reload();
                 },
                 error: function (data) {
                     unblock_screen();
@@ -101,7 +101,8 @@ $(function () {
             modal = (
                 React.createElement(Modal, {title: "Upload de Arquivos", handleSubmit: this.handleSubmit}, 
                     React.createElement("input", {type: "hidden", name: "musica", ref: "id", defaultValue: this.props.musica}), 
-                    React.createElement("input", {className: "input", type: "file", ref: "arquivo", name: "files[]", id: "filer_input", multiple: "multiple"})
+                    React.createElement("input", {className: "input", type: "file", ref: "arquivo", name: "files[]", id: "filer_input", multiple: "multiple", 
+                           accept: "image/gif, image/jpeg, image/png, image/jpg, audio/mpeg, audio/mp3, application/octet-stream, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"})
                 )
             );
 
@@ -313,6 +314,135 @@ $(function () {
         }
     });
 
+    class BtnRemover extends React.Component{
+
+        render() {
+            return(
+              React.createElement("a", {className: "button is-danger is-inverted is-small", onClick: this.props.acao}, "Remover")
+            );
+        }
+
+    }
+
+    class BtnDownload extends React.Component{
+
+        render() {
+            return(
+                React.createElement("a", {href: this.props.anexo, download: "download", className: "button is-white is-small"}, "Baixar")
+            );
+        }
+
+    }
+
+    class BtnVisualizar extends React.Component{
+
+        render() {
+            return(
+                React.createElement("a", {href: this.props.anexo, target: "_Blank", className: "button is-light is-small"}, "Visualizar")
+            );
+        }
+    }
+
+    class BtnEditar extends React.Component{
+
+        render() {
+            return(
+                React.createElement("a", {href: this.props.source, className: "button is-light is-small"}, "Editar")
+            );
+        }
+    }
+
+    class BtnAddLetra extends React.Component{
+
+        render() {
+            return(
+                React.createElement("a", {href: this.props.source, className: "button is-primary is-inverted is-small"}, "Adicionar Letra")
+            );
+        }
+    }
+
+    class BtnAddLink extends React.Component{
+
+        render() {
+            return(
+                React.createElement("a", {"data-toggle": "modal", "data-target": "#addLink", className: "button is-success is-inverted is-small addAnexo"}, "Adicionar Link")
+            );
+        }
+    }
+
+    class BtnLink extends React.Component{
+
+        render() {
+            return(
+                React.createElement("a", {href: this.props.href, target: "_Blank", className: "button is-white is-small"}, "Ir para o Link")
+            );
+        }
+    }
+
+    var RemoverArquivo = React.createClass({displayName: "RemoverArquivo",
+
+        handleRemover : function (e) {
+
+            e.preventDefault();
+
+            console.log(this.props);
+
+            var id = this.props.anexo.id;
+            var _this = this;
+
+            alertify.confirm("Deseja remover este arquivo?", function(){
+
+                block_screen();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/musica/anexos/"+id+"/remover",
+                    cache: false,
+                    success: function (data) {
+                        unblock_screen();
+                        alertify.success(data.message);
+                        _this.props.reloadArquivos();
+                    },
+                    error: function () {
+                        unblock_screen();
+                        alertify.error("Ocorreu um erro.");
+                    }
+                });
+            }).setting("labels",{"ok":"Sim", "cancel": "Cancelar"});
+
+        },
+
+        render : function() {
+            return (
+              React.createElement(BtnRemover, {acao: this.handleRemover})
+            );
+        }
+
+    });
+
+    var ImagemArquivo = React.createClass({displayName: "ImagemArquivo",
+
+        render : function () {
+
+            var image = React.createElement("i", {className: "fa fa-music"}, " ");
+
+            if (2 == this.props.anexo.tipo.id) {
+                image = React.createElement("i", {className: "fa fa-picture-o"}, " ");
+            } else if (3 == this.props.anexo.tipo.id) {
+                image = React.createElement("i", {className: "fa file-pdf-o"}, " ");
+            } else if (4 == this.props.anexo.tipo.id) {
+                image = React.createElement("i", {className: "fa fa-video-camera"}, " ");
+            }
+
+            return (
+                React.createElement("div", {className: "media-left media-middle"}, 
+                    image
+                )
+            );
+        }
+
+    });
+
     var ListArquivos = React.createClass({displayName: "ListArquivos",
 
         getInitialState: function () {
@@ -329,23 +459,40 @@ $(function () {
         },
         
         render : function () {
+
+            var _this = this;
+
             return (
                 React.createElement("div", null, 
                     this.state.data.map(function (anexo) {
+
+                        var arquivo = _this.props.dirAnexos + anexo.nome;
+
+                        var visualzar = '';
+                        var downLoad = '';
+                        var link = '';
+
+                        if (!anexo.isExterno) {
+                            visualzar = React.createElement(BtnVisualizar, {anexo: arquivo});
+                            downLoad = React.createElement(BtnDownload, {anexo: arquivo});
+                        } else {
+                            link = React.createElement(BtnLink, {href: _this.props.sourceVideos});
+                        }
                         
                         return (
                             React.createElement("div", {key: anexo.id}, 
                                 React.createElement("div", {className: "media"}, 
+                                    React.createElement(ImagemArquivo, {anexo: anexo}), 
                                     React.createElement("div", {className: "media-body"}, 
                                         React.createElement("h4", {className: "media-heading"}, anexo.nome, 
                                             React.createElement("a", {className: "button is-light is-small is-pulled-right"}, anexo.cadastro)
                                         ), 
-                                        React.createElement("p", null, 
-                                            comentario.comentario
-                                        )
+                                            visualzar, 
+                                            downLoad, 
+                                            link, 
+                                            React.createElement(RemoverArquivo, {anexo: anexo, reloadArquivos: _this.load})
                                     )
-                                ), 
-                                React.createElement("br", null)
+                                )
                             )
                         )
                     })
@@ -368,6 +515,7 @@ $(function () {
         closeModal: function() {
             this.setState({ isModalOpen: false });
         },
+
         render: function () {
 
             return (
@@ -376,8 +524,13 @@ $(function () {
                     React.createElement("div", {className: "card-content"}, 
                         React.createElement("div", {className: "media"}, 
                             React.createElement("div", {className: "media-content"}, 
+                                React.createElement(BtnEditar, {source: this.props.sourceEditar}), 
+                                React.createElement(BtnAddLetra, {source: this.props.sourceAddLetra}), 
+                                React.createElement(BtnAddLink, null), 
                                 React.createElement("button", {"data-toggle": "modal", "data-target": "#scheduleentry-modal", onClick: this.openModal, className: "button is-danger is-inverted is-small"}, "Adicionar Arquivo"), 
-                                React.createElement(ListArquivos, {sourceArquivos: this.props.sourceArquivos})
+                                React.createElement("br", null), 
+                                React.createElement("br", null), 
+                                React.createElement(ListArquivos, {sourceArquivos: this.props.sourceArquivos, sourceVideos: this.props.sourceVideos, dirAnexos: this.props.dirAnexos})
                             )
                         )
                     )
@@ -390,13 +543,18 @@ $(function () {
 
     var source = $("#comentarios").attr("data-source");
     var sourceArquivos = $("#comentarios").attr("data-source-arquivos");
+    var sourceVideos = $("#comentarios").attr("data-source-videos");
+    var sourceEditar = $("#comentarios").attr("data-source-editar");
+    var sourceAddLetra = $("#comentarios").attr("data-source-add-letra");
+    
     var musicaId = $("#comentarios").attr("data-musica-id");
     var user = $("#comentarios").attr("data-user");
     var dirAvatar = $("#comentarios").attr("data-dir-avatar");
+    var dirAnexos = $("#comentarios").attr("data-dir-anexos");
 
     ReactDOM.render(
         React.createElement("div", null, 
-            React.createElement(ViewArquivos, {sourceArquivos: sourceArquivos, musica: musicaId}), 
+            React.createElement(ViewArquivos, {sourceArquivos: sourceArquivos, sourceEditar: sourceEditar, sourceAddLetra: sourceAddLetra, sourceVideos: sourceVideos, musica: musicaId, dirAnexos: dirAnexos}), 
             React.createElement(ViewCometarios, {source: source, user: user, dirAvatar: dirAvatar, musicaId: musicaId})
         ),
         document.getElementById('comentarios')
