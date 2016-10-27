@@ -9,7 +9,7 @@
 namespace App\Controllers;
 
 
-trait UploadImages
+class UploadImages
 {
     /**
      * @var string

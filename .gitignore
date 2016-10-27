@@ -3,3 +3,9 @@ var/
 tests/
 web/assets/blog/musicas/*
 web/assets/blog/img/posts/*
+web/assets/blog/img/avatar/*
+web/assets/blog/img/background/*
+web/assets/blog/img/colecoes/*
+web/assets/blog/img/config/*
+web/assets/blog/img/menu/*
+web/assets/blog/img/widgets/*

@@ -131,31 +131,6 @@
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
-                                    <p class="title is-3">Widgets</p>
-                                </div>
-                            </div>
-                            <div class="content">
-                                {% for widget in app['widgets'] %}
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img class="media-object" style="min-width: 32px;" src="{{ asset(app['dir.widgets'] ~ widget.imagem) }}" alt="...">
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading">{{ widget.nome }}</h4>
-                                            {{ widget.descricao }}
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div><br>
-
-                    <div class="card is-fullwidth wow fadeInUp animated slide" data-wow-delay=".6s">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
                                     <p class="title is-3">Outros</p>
                                 </div>
                             </div>

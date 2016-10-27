@@ -61,26 +61,25 @@ $app['comentario.repository'] = function () use ($app) { return $app['orm.em']->
 #################################################################################################
 #################################################################################################
 
-//$app['auth.service'] = function () use ($app) { return new \Api\Services\Auth();};
-
+$app['upload.service'] = function () use ($app) { return new \App\Controllers\UploadImages(); };
 
 $app['categories'] = function() use ($app) { return $app['tags.repository']->findAll();};
 $app['menus'] = function () use ($app) { return $app['menu.repository']->findBy(['ativo' => true]);};
-$app['config'] = function () use ($app) { return $app['config.controller']->index($app);};
+$app['config'] = function () use ($app) {
+    $configs = $app['config.repository']->findAll();
+    return end($configs);
+};
 $app['widgets'] = function () use($app) { return $app['widgets.controller']->getAll($app);};
 $app['colecoes'] = function() use ($app) { return $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);};
 
 $app['nome.blog'] = function() use ($app){ $blog = $app['config.repository']->findAll(); return $blog[0] ? $blog[0]->getNome() : 'Blog'; };
-
 $app['tonalidades'] = function () { return ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B',];};
-
 $app['adress'] = function () {
     return [
         '127.0.0.1',
         '::1'
     ];
 };
-
 $app['dir.base'] = function () use ($app) {
 
     if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
@@ -89,7 +88,6 @@ $app['dir.base'] = function () use ($app) {
 
     return '/web/';
 };
-
 $app['dir.base2'] = function () use ($app) {
 
     if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
@@ -98,9 +96,7 @@ $app['dir.base2'] = function () use ($app) {
 
     return '/web';
 };
-
 $app['database.blog'] = function () use ($app){
-
   if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
     return [
         'dbname' => 'blog',

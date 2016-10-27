@@ -14,16 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ConfigController
 {
-    use UploadImages;
     /**
      * @param Application $app
      * @return mixed
      */
     public function index(Application $app)
     {
-        $configs = $app['config.repository']->findAll();
         
-        return end($configs);
     }
     
     /**
@@ -33,19 +30,7 @@ class ConfigController
      */
     public function novo(Request $request, Application $app) 
     {
-        $config = new Config();
-        
-        $config->setNome($request->get('nome'));
-        $config->setSubtitulo($request->get('subtitulo'));
-        
-        if (!empty($_FILES['background']['size'])) {
-            $config->setBackground($this->upload($_FILES['background'], 'config', $config->getBackground()));
-        }
-
-        $config->setEnviaEmail(false);
-        $app['config.repository']->save($config);
-    
-        return $app->redirect('/admin/blog');
+       
     }
     
     /**
@@ -55,20 +40,6 @@ class ConfigController
      */
     public function editar(Request $request, Application $app)
     {
-        $config = $app['config.repository']->find($request->get('id'));
-
-        if  (!empty($request->get('nome'))) {
-            $config->setNome($request->get('nome'));
-        }
-
-        $config->setSubtitulo($request->get('subtitulo'));
-
-        if (!empty($_FILES['background']['size'])) {
-            $config->setBackground($this->upload($_FILES['background'], 'config', $config->getBackground()));
-        }
         
-        $app['config.repository']->save($config);
-
-        return $app->redirect('/admin/blog');
     }
 }

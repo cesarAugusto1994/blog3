@@ -12,7 +12,19 @@ $app->get('/user/contact', 'index.controller:contact')->bind('contact');
 $app->get('/user/', 'index.controller:userIndex')->bind('user_index');
 $app->get('/events')->bind('events');
 
-include __DIR__.'/routes/menu.php';
+$app->get('search', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['post.controller']->search($request->get('q'), $app);
+})->bind('search');
+
+$app->get('/user/pesquisar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['search.controller']->search($request->get('q'), $app);
+})->bind('pesquisar');
+
+$app->get('/pesquisar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['search.controller']->searchPublic($request->get('q'), $app);
+})->bind('pesquisar_home');
+
+$app->mount('/admin', include __DIR__ . '/routes/menu.php');
 include __DIR__.'/routes/post.php';
 include __DIR__.'/routes/musica.php';
 $app->mount('/user', include __DIR__ . '/routes/musica_anexos.php');

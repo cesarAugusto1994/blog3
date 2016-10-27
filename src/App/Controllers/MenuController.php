@@ -18,14 +18,13 @@ use App\Entities\Menu;
  */
 class MenuController
 {
-    use UploadImages;
     /**
      * @param Application $app
      * @return mixed
      */
     public function index(Application $app)
     {
-        return $app->redirect('/admin/blog');
+        
     }
     
     /**
@@ -35,23 +34,7 @@ class MenuController
      */
     public function criar(Request $request, Application $app)
     {
-        $menu = new Menu();
-        
-        $menu->setNome($request->get('nome'));
-        $menu->setDescricao($request->get('descricao'));
-        $menu->setUrl($request->get('url'));
-
-        if (!empty($_FILES['icone']['size'])) {
-            $menu->setIcon($this->upload($_FILES['icone'], 'menu', $menu->getIcon()));
-        }
-        
-        $menu->setCadastro(new \DateTime('now'));
-        $menu->setPrevilegioRequerido(false);
-        $menu->setAtivo(true);
-        
-        $app['menu.repository']->save($menu);
-        
-        return $app->redirect('/admin/menu#menu');
+       
     }
     
     /**
@@ -61,17 +44,7 @@ class MenuController
      */
     public function alterarStatus($id, $app)
     {
-        $menu = $app['menu.repository']->find($id);
-    
-        if ($menu->isAtivo()) {
-            $menu->setAtivo(false);
-        } else {
-            $menu->setAtivo(true);
-        }
 
-        $app['menu.repository']->save($menu);
-    
-        return $app->redirect('/admin/menu#menu');
     }
     
     /**
@@ -81,31 +54,6 @@ class MenuController
      */
     public function editar(Request $request, Application $app)
     {
-        /**
-         * @var Menu $menu
-         */
-        $menu = $app['menu.repository']->find($request->get('id'));
-
-        $menu->setNome($request->get('nome'));
         
-        if(!empty($request->get('descricao'))) {
-            $menu->setDescricao($request->get('descricao'));
-        }
-
-        if(!empty($request->get('url'))) {
-            $menu->setUrl($request->get('url'));
-        }
-
-        if (!empty($_FILES['icone']['size'])) {
-            $menu->setIcon($this->upload($_FILES['icone'], 'menu', $menu->getIcon()));
-        }
-
-        $app['db']->beginTransaction();
-        $app['menu.repository']->save($menu);
-        $app['db']->commit();
-
-        $app['session']->getFlashBag()->add('mensagem', 'Menu alterado com sucesso.');
-    
-       return $app->redirect('/admin/blog');
     }
 }
