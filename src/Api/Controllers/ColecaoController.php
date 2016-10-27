@@ -19,17 +19,13 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ColecaoController
 {
-    use UploadImages;
     /**
      * @param Application $app
      * @return mixed
      */
     public function index(Application $app)
     {
-        return $app['twig']->render(
-            '/user/colecoes.html.twig',
-            ['colecoes' => $app['colecao.repository']->findBy([], ['nome' => 'ASC'])]
-        );
+        
     }
 
     /**
@@ -38,10 +34,7 @@ class ColecaoController
      */
     public function colecoesGrid(Application $app)
     {
-        return $app['twig']->render(
-            '/admin/colecoes.html.twig',
-            ['colecoes' => $app['colecao.repository']->findBy([], ['nome' => 'ASC'])]
-        );
+        
     }
 
     /**
@@ -51,24 +44,7 @@ class ColecaoController
      */
     public function novo(Request $request, Application $app)
     {
-        $colecao = new Colecao();
         
-        $colecao->setNome($request->get('nome'));
-        $colecao->setDescricao($request->get('descricao'));
-        $colecao->setAtivo(true);
-
-        $app['db']->beginTransaction();
-        $app['colecao.repository']->save($colecao);
-        $app['db']->commit();
-
-        $app['log.controller']->criar('adicionou nova coleção '.$colecao->getNome());
-        $app['session']->getFlashBag()->add('mensagem', 'Coleção adicionada com sucesso.');
-
-        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-            return $app->redirect('/user/colecoes');
-        }
-
-        return $app->redirect('/admin/colecoes/grid');
     }
 
     /**
@@ -78,36 +54,7 @@ class ColecaoController
      */
     public function editar(Request $request, Application $app)
     {
-        /**
-         * @var Colecao $colecao
-         */
-        $colecao = $app['colecao.repository']->find($request->get('id'));
-
-        $colecao->setNome($request->get('nome'));
-        $colecao->setDescricao($request->get('descricao'));
-        
-        
-    
-        if (!empty($_FILES['background']['size'])) {
-            $colecao->setImagem($this->upload($_FILES['background'], 'colecao', $colecao->getImagem()));
-            $app['log.controller']->criar('alterou a imagem de fundo da cole&ccedil;&atilde;o '.$colecao->getNome());
-        }
-        
-        $app['db']->beginTransaction();
-        $app['colecao.repository']->save($colecao);
-        $app['db']->commit();
-    
-        $mensagem = 'Coleção '.$colecao->getNome().' editada com sucesso.';
-
-        $app['log.controller']->criar($mensagem);
-        $app['session']->getFlashBag()->add('mensagem', $mensagem);
-
-        return $app->json(
-            [
-                'class' => 'success',
-                'message' => $mensagem
-            ]
-        );
+       
     }
     
     /**
@@ -117,28 +64,6 @@ class ColecaoController
      */
     public function alteraStatus($id, Application $app)
     {
-        $colecao = $app['colecao.repository']->find($id);
         
-        if ($colecao->isAtivo()) {
-            $colecao->setAtivo(false);
-        } else {
-            $colecao->setAtivo(true);
-        }
-
-        $app['db']->beginTransaction();
-        $app['colecao.repository']->save($colecao);
-        $app['db']->commit();
-
-        $mensagem = 'Situação da Coleção  ' . $colecao->getNome() . ' alterada para ' .($colecao->isAtivo() ? 'ativa' : 'inativa'). ' com sucesso.';
-
-        $app['log.controller']->criar($mensagem);
-        $app['session']->getFlashBag()->add('mensagem', $mensagem);
-
-        return $app->json(
-            [
-                'class' => 'success',
-                'message' => $mensagem
-            ]
-        );
     }
 }
