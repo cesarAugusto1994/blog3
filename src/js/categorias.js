@@ -43,6 +43,14 @@ $(function () {
 
     };
 
+    class BtnAddCategoria extends React.Component{
+        render() {
+            return (
+                <button onClick={this.props.openModal} className="button is-light is-small">Nova Categoria</button>
+            );
+        }
+    };
+
     var Modal = React.createClass({
         componentDidMount: function() {
             $(this.getDOMNode)
@@ -90,60 +98,31 @@ $(function () {
         }
     });
 
-    var SelectColecoes = React.createClass({
+    var EditarCategoriaModal = React.createClass({
 
         getInitialState: function() {
             return {data: []};
         },
         load : function () {
-            var _this = this;
             $.get('/user/colecoes/all', function (result) {
                 this.setState({ data: result });
             }.bind(this));
         },
         componentDidMount: function() {
-            if (!this.state.data) {
-                this.load();
-            }
+            this.load();
         },
-
-        render: function () {
-
-            return (
-                <div>
-                    <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
-                    <select className="input is-primary" ref="colecao" name="colecao" id="colecao" defaultValue={this.props.colecao.id}>
-
-                        { this.state.data.map(function (colecao) {
-
-                            var _this = this;
-
-                            return (
-                                <option value={colecao.id} >{_this.props.colecao.id}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-            )
-        }
-
-    });
-
-    var EditarCategoriaModal = React.createClass({
         
         handleSubmit : function (e) {
           
             e.preventDefault();
-            
-            var id = ReactDOM.findDOMNode(this.refs.id).value.trim;
-            var nome = ReactDOM.findDOMNode(this.refs.nome).value.trim;
-            var colecao = ReactDOM.findDOMNode(this.refs.colecao).value.trim;
+
+            var id = this.refs.id.value.trim();
+            var nome = this.refs.nome.value.trim();
+            var colecao = this.refs.colecao.value.trim();
 
             if (!nome || !colecao) {
                 alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
             }
-
-            return false;
 
             $.ajax({
                 type: "POST",
@@ -157,7 +136,6 @@ $(function () {
                 success: function (data) {
                     alertify.success(data.message);
                     unblock_screen();
-                    _this.loadStatus();
                 },
                 error: function () {
                     unblock_screen();
@@ -168,20 +146,99 @@ $(function () {
         
         render: function() {
 
-            console.log(this.props.categoria.colecao);
-
             var modal = null;
             modal = (
                 <Modal title="Categoria" handleSubmit={this.handleSubmit}>
-                    <input type="hidden" ref="id" name="id" id="id" />
+                    <input type="hidden" ref="id" name="id" id="id" defaultValue={this.props.categoria.id}/>
                     <label htmlFor="nome">Nome</label>
                     <input className="input is-primary" type="text" placeholder="Nome" defaultValue={this.props.categoria.nome} ref="nome" name="nome" id="nome" required/>
-                    <SelectColecoes colecao={this.props.categoria.colecao}/>
+                    <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
+                    <select className="input is-primary" ref="colecao" name="colecao" id="colecao" value={this.props.categoria.colecao.id}>
+                        { this.state.data.map(function (colecao) {
+                            return (
+                                <option key={colecao.id} value={colecao.id}>{colecao.nome}</option>
+                            )
+                        })}
+                    </select>
                 </Modal>
             );
 
             return (
-                <div className="scheduleentry-modal">
+                <div>
+                    {modal}
+                </div>
+            );
+        }
+    });
+
+    var NovaCategoriaModal = React.createClass({
+
+        getInitialState: function() {
+            return {data: []};
+        },
+        load : function () {
+            $.get('/user/colecoes/all', function (result) {
+                this.setState({ data: result });
+            }.bind(this));
+        },
+        componentDidMount: function() {
+            this.load();
+        },
+
+        handleSubmit : function (e) {
+
+            e.preventDefault();
+
+            var nome = this.refs.nome.value.trim();
+            var colecao = this.refs.colecao.value.trim();
+
+            if (!nome || !colecao) {
+                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
+            }
+
+            var _this = this;
+
+            $.ajax({
+                type: "POST",
+                url: "/user/categoria/adicionar",
+                data : {
+                    nome : nome,
+                    colecao : colecao
+                },
+                cache: false,
+                success: function (data) {
+                    alertify.success(data.message);
+                    unblock_screen();
+                    _this.props.closeModal();
+                    _this.props.reloadCategoria();
+                },
+                error: function () {
+                    unblock_screen();
+                    alertify.error("Ocorreu um erro.");
+                }
+            });
+        },
+
+        render: function() {
+
+            var modal = null;
+            modal = (
+                <Modal title="Categoria" handleSubmit={this.handleSubmit}>
+                    <label htmlFor="nome">Nome</label>
+                    <input className="input is-primary" type="text" placeholder="Nome" ref="nome" name="nome" id="nome" required/>
+                    <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
+                    <select className="input is-primary" ref="colecao" name="colecao" id="colecao">
+                        { this.state.data.map(function (colecao) {
+                            return (
+                                <option key={colecao.id} value={colecao.id}>{colecao.nome}</option>
+                            )
+                        })}
+                    </select>
+                </Modal>
+            );
+
+            return (
+                <div>
                     {modal}
                 </div>
             );
@@ -193,9 +250,11 @@ $(function () {
         render: function () {
 
             var mudarStatus = '';
+            var editar = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
                 mudarStatus = <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
+                editar = <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
             }
 
             return (
@@ -205,7 +264,7 @@ $(function () {
                             <div className="media-body">
                                 <h4 className="media-heading">
                                     <a href={this.props.musicasUrl}>{this.props.categoria.nome}</a>
-                                    <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
+                                    {editar}
                                     {mudarStatus}
                                 </h4>
                             </div>
@@ -266,13 +325,51 @@ $(function () {
             }
 
             return (
-                <i>{btnStatus}</i>
+                <e>{btnStatus}</e>
             )
         }
 
     });
 
     var CategoriasList = React.createClass({
+
+        render: function () {
+
+            var _this = this;
+
+            return (
+                <div>
+                <span>{ _this.props.categoria.map(function (categoria) {
+                    var musicasUrl = "/user/musicas/" + categoria.id;
+                    return (
+                        <div key={categoria.id}>
+                            <BlockCategorias categoria={categoria} musicasUrl={musicasUrl} user={_this.props.user} reloadCategoria={_this.props.reloadCategoria} acao={_this.props.acao}/>
+                            <EditarCategoriaModal categoria={categoria} />
+                        </div>
+                    )
+                }) }</span>
+
+                </div>
+            )
+        }
+    });
+
+    var OpcoesList = React.createClass({
+
+        render : function () {
+            return (
+                <div>
+                    <BtnAddCategoria openModal={this.props.acao} />
+                    <NovaCategoriaModal reloadCategoria={this.props.reloadCategoria} closeModal={this.props.closeModal}/>
+                    <hr className="small" />
+                </div>
+            );
+        }
+
+    });
+
+    var View = React.createClass({
+
         getInitialState: function() {
             return {data: []};
         },
@@ -288,25 +385,27 @@ $(function () {
         openModal: function () {
             $("#scheduleentry-modal").modal("show");
         },
+        closeModal: function () {
+            $("#scheduleentry-modal").modal("hide");
+            $('.modal-body #id').val('');
+            $('.modal-body #nome').val('');
+            $('.modal-body #colecao').val('');
+        },
 
-        render: function () {
+        render : function () {
 
-            var _this = this;
+            var opcoes = '';
+
+            if (this.props.user == 'ROLE_ADMIN') {
+                opcoes = <OpcoesList reloadCategoria={this.load} acao={this.openModal} closeModal={this.closeModal} />
+            }
 
             return (
                 <div>
-                <span>{ this.state.data.map(function (categoria) {
-                    var musicasUrl = "/user/musicas/" + categoria.id;
-                    return (
-                        <div key={categoria.id}>
-                            <BlockCategorias categoria={categoria} musicasUrl={musicasUrl} user={user} reloadCategoria={_this.load} acao={_this.openModal}/>
-                            <EditarCategoriaModal categoria={categoria} />
-                        </div>
-                    )
-                }) }</span>
-
+                    {opcoes}
+                    <CategoriasList categoria={this.state.data} source={this.props.source} user={this.props.user} reloadCategoria={this.load} acao={this.openModal}/>
                 </div>
-            )
+            );
         }
     });
 
@@ -315,23 +414,10 @@ $(function () {
 
     ReactDOM.render(
         <div>
-            <CategoriasList source={source} user={user}/>
+            <View source={source} user={user}/>
         </div>,
         document.getElementById('categorias')
     );
-
-    $(document).on('click', '.openMenu', function () {
-        $('.modal-body #id').val($(this).data('id'));
-        $('.modal-body #nome').val($(this).data('nome'));
-        $('.modal-body #colecao').val($(this).data('colecao'));
-        $('.modal-body #colecao').attr('selected', selected);
-    });
-
-    $(document).on('click', '.addCategoria', function () {
-        $('.modal-body #id').val('');
-        $('.modal-body #nome').val('');
-        $('.modal-body #colecao').val('');
-    });
 
 
 });

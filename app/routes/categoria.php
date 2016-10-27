@@ -40,15 +40,13 @@ $categorias->post('admin/categoria/nova', function(\Symfony\Component\HttpFounda
     return $app['categoria.controller']->novo($request, $app);
 })->bind('nova_categoria');
 
-$categorias->post('categoria/{id}/editar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    
-    if ($request->get('id')) {
-        return $app['categoria.controller']->editar($request, $app);
-    }
-    
-    return $app['categoria.controller']->novo($request, $app);
-    
+$categorias->post('categoria/{id}/editar', function ($id, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['categoria.controller']->editar($request, $app);
 })->bind('save_categoria');
+
+$categorias->post('categoria/adicionar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['categoria.controller']->novo($request, $app);
+});
 
 $categorias->post('categoria/{id}/status', function($id) use ($app) {
     return $app['categoria.controller']->alteraStatus($id, $app);

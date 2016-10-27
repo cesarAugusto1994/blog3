@@ -29,7 +29,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class UsuariosController
 {
-    use UploadImages;
     /**
      * @param int $id
      * @param Application $app
@@ -85,7 +84,7 @@ class UsuariosController
         }
 
         if (!empty($_FILES['background']['size'])) {
-            $usuario->setAvatar($this->upload($_FILES['background'], 'avatar', $usuario->getAvatar()));
+            $usuario->setAvatar($app['upload.service']->upload($_FILES['background'], 'avatar', $usuario->getAvatar()));
             $app['log.controller']->criar('alterou a foto do perfil de '.$usuario->getNome());
         }
 
@@ -166,7 +165,6 @@ class UsuariosController
             $usuario->setEmail($request->get('form')['email']);
             $usuario->setPassword($password);
             $usuario->setCadastro(new \DateTime('now'));
-            $usuario->setAvatar($app['avatar.default']);
             $usuario->setRoles('ROLE_USER');
             $usuario->setAtivo(true);
 

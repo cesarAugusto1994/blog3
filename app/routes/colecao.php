@@ -22,7 +22,7 @@ $colecao->get('colecoes/all', function() use ($app){
     return new \Symfony\Component\HttpFoundation\JsonResponse($colecoes);
 })->bind('api_colecoes');
 
-$colecao->get('/admin/colecoes/grid', function() use ($app){
+$colecao->get('colecoes/grid', function() use ($app){
 
     return $app['twig']->render(
         '/admin/colecoes.html.twig',
@@ -31,7 +31,7 @@ $colecao->get('/admin/colecoes/grid', function() use ($app){
 
 })->bind('colecoes_grid');
 
-$colecao->post('/admin/colecao/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$colecao->post('colecao/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     
     if ($request->get('id')) {
 
@@ -73,23 +73,17 @@ $colecao->post('/admin/colecao/save', function (\Symfony\Component\HttpFoundatio
     $app['colecao.repository']->save($colecao);
     $app['db']->commit();
 
-    if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-        return $app->redirect('/user/colecoes');
-    }
-
-    return $app->redirect('/admin/colecoes/grid');
+    return $app->redirect('/user/colecoes');
     
 })->bind('save_colecao');
 
-$colecao->post('colecao/{id}', function($id) use ($app) {
+$colecao->post('colecao/{id}/status', function($id) use ($app) {
 
+    /**
+     * @var \Api\Entities\Colecao $colecao
+     */
     $colecao = $app['colecao.repository']->find($id);
-
-    if ($colecao->isAtivo()) {
-        $colecao->setAtivo(false);
-    } else {
-        $colecao->setAtivo(true);
-    }
+    $colecao->setAtivo(!$colecao->isAtivo());
 
     $app['db']->beginTransaction();
     $app['colecao.repository']->save($colecao);

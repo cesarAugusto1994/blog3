@@ -2,10 +2,6 @@
 
 {% block title %}{% if colecao.nome %}{{ colecao.nome }}{% else %}Categorias{% endif %}{% endblock %}
 
-{% block stylesheet %}{{ parent() }}
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/categorias.js') }}"></script>
-{% endblock %}
-
 {% block header %}{{ parent() }}{% endblock %}
 
 {% block headerNome %}{% if colecao.nome %}{{ colecao.nome }}{% else %}Categorias{% endif %}{% endblock %}
@@ -16,82 +12,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <button data-toggle="modal" data-target="#myModal" class="button is-light is-small addCategoria">Nova Categoria</button>
-                        <hr class="small">
-                    {% endif %}
-
                     <div id="categorias" data-source="{{ path('api_categorias', { colecaoId : colecao.id }) }}"
                          data-user="{{ app['usuario'].roles }}"></div>
                     <script src="{{ asset(app['dir.base'] ~ 'assets/build/categorias.js') }}"></script>
-{#
-                    {% for categoria in categorias %}
-                        <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style="width: 100%">
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><a
-                                                    href="{{ path('musicas', { categoriaId : categoria.id }) }}">{{ categoria.nome }}</a>
-                                            {% if is_granted('ROLE_ADMIN') %}
-                                                <a class="button is-white is-pulled-right is-small openMenu"
-                                                   data-toggle="modal"
-                                                   data-target="#myModal" data-id="{{ categoria.id }}"
-                                                   data-nome="{{ categoria.nome }}"
-                                                   data-colecao="{{ categoria.colecao.id }}">Editar
-                                                </a>
-                                                <a class="button mudarStatus {% if categoria.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-pulled-right is-small"
-                                                   categoria_id="{{ categoria.id }}"
-                                                   href="#">{% if categoria.ativo %} Inativar {% else %} Ativar {% endif %}
-                                                </a>
-                                            {% endif %}
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><br>
-                    {% else %}
-                        <p class="lead">Nenhum registro encontrado.</p>
-                    {% endfor %}#}
-                </div>
-            </div>
-        </div>
-    </article>
-
-    <article>
-        <div class="container">
-            <div class="row">
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <form class="form-horizontal" method="POST">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Categoria</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="hidden" name="id" id="id">
-                                    <label for="nome">Nome</label>
-                                    <input class="input is-primary" type="text" placeholder="Nome" name="nome" id="nome" required>
-                                    <label for="colecao">Cole&ccedil;&atilde;o</label>
-                                    <select class="input is-primary" name="colecao" id="colecao" required>
-                                        <option value=""></option>
-                                        {% for colecao in app['colecoes'] %}
-                                            <option value="{{ colecao.id }}">{{ colecao.nome }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="modal-footer">
-                                    <p class="control">
-                                        <button class="button is-success" type="submit">
-                                            Salvar
-                                        </button>
-                                    </p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

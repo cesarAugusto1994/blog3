@@ -14,7 +14,7 @@ $(function () {
 
         render() {
             return (
-                React.createElement("a", {className: "button is-white is-pulled-right is-small openMenu", 
+                React.createElement("a", {className: "button is-light is-pulled-right is-small openMenu", 
                    "data-toggle": "modal", 
                    "data-target": "#myModal", 
                    "data-id":  this.props.colecao.id, 
@@ -29,7 +29,7 @@ $(function () {
 
         render() {
             return (
-                React.createElement("a", {className: "button is-danger is-inverted is-pulled-right is-small mudarStatus", onClick: this.props.acao, "data-colecao":  this.props.colecao.id}, "Inativar")
+                React.createElement("a", {className: "button is-danger is-outlined is-pulled-right is-small mudarStatus", onClick: this.props.acao, "data-colecao":  this.props.colecao.id}, "Inativar")
             )
         }
 
@@ -39,7 +39,7 @@ $(function () {
 
         render() {
             return (
-                React.createElement("a", {className: "button is-success is-inverted is-pulled-right is-small mudarStatus", onClick: this.props.acao, "data-colecao":  this.props.colecao.id}, "Ativar")
+                React.createElement("a", {className: "button is-success is-outlined is-pulled-right is-small mudarStatus", onClick: this.props.acao, "data-colecao":  this.props.colecao.id}, "Ativar")
             )
         }
 
@@ -60,9 +60,11 @@ $(function () {
         render() {
 
             var mudarStatus = '';
+            var editar = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
                 mudarStatus = React.createElement(MudarStatusColecao, {colecao: this.props.colecao, reloadColecao: this.props.reloadColecao})
+                editar = React.createElement(BtnEditar, {colecao: this.props.colecao})
             }
 
             return (
@@ -75,7 +77,7 @@ $(function () {
                             React.createElement("a", {href: this.props.categoriasUrl}, 
                                 this.props.colecao.nome
                             ), 
-                            React.createElement(BtnEditar, {colecao: this.props.colecao}), 
+                            editar, 
                             mudarStatus
                         )
                     )
@@ -121,7 +123,7 @@ $(function () {
 
                 $.ajax({
                     type: 'POST',
-                    url: '/user/colecao/' + colecao.colecao.id,
+                    url: '/user/colecao/' + colecao.colecao.id + '/status',
                     cache: false,
                     success: function (data) {
                         alertify.success(data.message);
@@ -147,7 +149,7 @@ $(function () {
             }
 
             return (
-                React.createElement("i", null, btnStatus)
+                React.createElement("e", null, btnStatus)
             )
         }
 

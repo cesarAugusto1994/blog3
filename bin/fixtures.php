@@ -15,6 +15,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use App\Model\Fixtures\Config as FixtureConfig;
 use App\Model\Fixtures\Menu as FixtureMenu;
 use App\Model\Fixtures\Usuarios as FixtureUser;
+use App\Model\Fixtures\Tipos as FixtureTipo;
 
 $loader = new Loader();
 //também podemos carregar todos os fixtures do diretório indicado
@@ -22,6 +23,7 @@ $loader = new Loader();
 $loader->addFixture(new FixtureConfig());
 $loader->addFixture(new FixtureMenu());
 $loader->addFixture(new FixtureUser());
+$loader->addFixture(new FixtureTipo());
 $purger = new ORMPurger();
 $executor = new ORMExecutor($entityManager, $purger);
 $executor->execute($loader->getFixtures(), false);

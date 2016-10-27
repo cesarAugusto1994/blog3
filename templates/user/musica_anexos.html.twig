@@ -124,8 +124,8 @@
                                             <button id="decfont" class="button is-dark is-outlined is-small buttonfont">
                                                 A-
                                             </button>
-                                            {% if musica.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_ADMIN') %}
-                                                <a href="{{ path('musicas_letra_editar', { id : musica.id }) }}"
+                                            {% if musica.usuario.id == app['usuario'].id or is_granted('ROLE_ADMIN') %}
+                                                <a href="{{ path('view_editar_letra_musica', { id : musica.id }) }}"
                                                    class="button is-light is-small" style="text-decoration: none">Editar
                                                     Letra</a>
                                             {% endif %}
@@ -147,8 +147,8 @@
                          data-source-arquivos="{{ path('api_anexos', { musicaId : musica.id }) }}"
                          data-user="{{ app['usuario'].roles }}" data-dir-avatar="{{ app['dir.avatar'] }}"
                          data-dir-anexos="{{ app['dir.anexo'] }}"
-                         data-musica-id="{{ musica.id }}" data-source-editar="{{ path('musicas_editar', { id : musica.id }) }}"
-                         data-source-add-letra="{{ path('musicas_letra_editar', { id : musica.id }) }}"
+                         data-musica-id="{{ musica.id }}" data-source-editar="{{ path('view_editar_musica', { id : musica.id }) }}"
+                         data-source-add-letra="{{ path('view_editar_letra_musica', { id : musica.id }) }}"
                          data-source-videos="{{ path('videos') }}">
                     </div>
                     <script src="{{ asset(app['dir.base'] ~ 'assets/build/anexos.js') }}"></script>

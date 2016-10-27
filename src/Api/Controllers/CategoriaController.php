@@ -77,14 +77,12 @@ class CategoriaController
         $app['categoria.repository']->save($categoria);
         $app['db']->commit();
 
-        $app['log.controller']->criar('adicionou nova categoria '.$categoria->getNome());
-        $app['session']->getFlashBag()->add('mensagem', 'Categoria adicionada com sucesso.');
-
-        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-            return $app->redirect('/user/categorias/'.$categoria->getColecao()->getId().'/'.$categoria->getColecao()->getNome());
-        }
-
-        return $app->redirect('/admin/categorias/grid');
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => 'Adicionou nova categoria '.$categoria->getNome()
+            ]
+        );
     }
     
     /**

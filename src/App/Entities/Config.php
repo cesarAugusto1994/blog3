@@ -45,7 +45,7 @@ class Config
     private $background;
     
     /**
-     * @ORM\Column(name="envia_email", type="boolean", options={"default" : 0})
+     * @ORM\Column(name="envia_email", type="boolean", nullable=true)
      * @var boolean
      */
     private $enviaEmail;

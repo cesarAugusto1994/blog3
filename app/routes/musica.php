@@ -6,51 +6,68 @@
  * Time: 08:41
  */
 
-$app->get('/user/musicas/{categoriaId}', function($categoriaId) use ($app) {
-    return $app['musica.controller']->index($categoriaId, $app);
-})->bind('musicas');
+$musica = $app['controllers_factory'];
 
-$app->get('admin/musicas/add', function() use ($app){
-    return $app['musica.controller']->novaMusica($app);
-})->bind('musicas_add');
+$musica->get('musicas/{categoriaId}', function($categoriaId) use ($app) {
 
-$app->get('user/musicas/nova/{categoria}', function($categoria) use ($app){
-    return $app['musica.controller']->novaMusica($categoria, $app, true);
-})->bind('nova_musica');
+    $categoria = $app['categoria.repository']->find($categoriaId);
 
-$app->get('admin/musicas/edit/{id}', function($id) use ($app){
-    return $app['musica.controller']->editarMusica($id, $app);
-})->bind('musicas_edit');
+    return $app['twig']->render(
+        '/user/musicas.html.twig',
+        [
+            'musicas' => $app['musica.repository']->findBy(
+                ['categoria' => $categoria, 'ativo' => true],
+                ['numero' => 'ASC', 'nome' => 'ASC']
+            ),
+            'categoria' => $categoria
+        ]
+    );
 
-$app->get('user/musicas/{id}/editar', function($id) use ($app){
-    return $app['musica.controller']->editarMusica($id, $app, true);
-})->bind('musicas_editar');
+})->bind('view_musicas');
 
-$app->get('user/musicas/{id}/letra/editar', function($id) use ($app){
-    return $app['musica.controller']->editarMusica($id, $app, false, true);
-})->bind('musicas_letra_editar');
+$musica->get('musicas/nova/{categoria}', function($categoria) use ($app){
 
-$app->get('admin/musicas/grid', function() use ($app){
-    return $app['musica.controller']->musicasGrid($app);
-})->bind('musicas_grid');
+    $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+    return $app['twig']->render(
+        '/user/musica_nova.html.twig',
+        ['categoriaTela' => $categoria, 'categorias' => $categorias]
+    );
 
-$app->get('admin/musicas/grid/{categoriaId}/{nome}', function($categoriaId, $nome) use ($app){
-    return $app['musica.controller']->categoriaMusicasGrid($categoriaId, $app);
-})->bind('categoria_musicas_grid');
+})->bind('view_adicionar_musica');
 
-$app->post('admin/musica/letra/editar', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    return $app['musica.controller']->editarLetra($request, $app);
-})->bind('musica_letra_editar');
+$musica->get('musicas/{id}/editar', function($id) use ($app){
 
-$app->post('admin/musica/save', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    $musica = $app['musica.repository']->find($id);
+    $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+    return $app['twig']->render('/user/musica_editar.html.twig', ['musica' => $musica, 'categorias' => $categorias]);
+
+})->bind('view_editar_musica');
+
+$musica->get('musicas/{id}/letra/editar', function($id) use ($app){
+
+    $musica = $app['musica.repository']->find($id);
+    $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+    return $app['twig']->render(
+        '/user/musica_editar_letra.html.twig',
+        ['musica' => $musica, 'categorias' => $categorias]
+    );
+
+})->bind('view_editar_letra_musica');
+
+$musica->post('musicas/{id}/status', function($id) use ($app){
+
+    /**
+     * @var \Api\Entities\Musica $musica
+     */
+    $musica = $app['musica.repository']->find($id);
+    $musica->setAtivo(!$musica->isAtivo());
+
+    $app['db']->beginTransaction();
+    $app['musica.repository']->save($musica);
+    $app['db']->commit();
+
+    return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId());
     
-    if ($request->get('id')) {
-        return $app['musica.controller']->editar($request, $app);
-    }
-    return $app['musica.controller']->novo($request, $app);
-    
-})->bind('save_musica');
+})->bind('api_musica_status');
 
-$app->get('admin/musicas/status/{id}', function($id) use ($app){
-    return $app['musica.controller']->alteraStatus($id, $app);
-})->bind('musicas_status');
+return $musica;

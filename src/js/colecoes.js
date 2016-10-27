@@ -14,7 +14,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-white is-pulled-right is-small openMenu"
+                <a className="button is-light is-pulled-right is-small openMenu"
                    data-toggle="modal"
                    data-target="#myModal"
                    data-id={ this.props.colecao.id }
@@ -29,7 +29,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-danger is-inverted is-pulled-right is-small mudarStatus"  onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Inativar</a>
+                <a className="button is-danger is-outlined is-pulled-right is-small mudarStatus"  onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Inativar</a>
             )
         }
 
@@ -39,7 +39,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-success is-inverted is-pulled-right is-small mudarStatus" onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Ativar</a>
+                <a className="button is-success is-outlined is-pulled-right is-small mudarStatus" onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Ativar</a>
             )
         }
 
@@ -60,9 +60,11 @@ $(function () {
         render() {
 
             var mudarStatus = '';
+            var editar = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
                 mudarStatus = <MudarStatusColecao colecao={this.props.colecao} reloadColecao={this.props.reloadColecao}/>
+                editar = <BtnEditar colecao={this.props.colecao} />
             }
 
             return (
@@ -75,7 +77,7 @@ $(function () {
                             <a href={this.props.categoriasUrl}>
                                 {this.props.colecao.nome}
                             </a>
-                            <BtnEditar colecao={this.props.colecao} />
+                            {editar}
                             {mudarStatus}
                         </h4>
                     </figcaption>
@@ -121,7 +123,7 @@ $(function () {
 
                 $.ajax({
                     type: 'POST',
-                    url: '/user/colecao/' + colecao.colecao.id,
+                    url: '/user/colecao/' + colecao.colecao.id + '/status',
                     cache: false,
                     success: function (data) {
                         alertify.success(data.message);
@@ -147,7 +149,7 @@ $(function () {
             }
 
             return (
-                <i>{btnStatus}</i>
+                <e>{btnStatus}</e>
             )
         }
 

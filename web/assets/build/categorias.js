@@ -43,6 +43,14 @@ $(function () {
 
     };
 
+    class BtnAddCategoria extends React.Component{
+        render() {
+            return (
+                React.createElement("button", {onClick: this.props.openModal, className: "button is-light is-small"}, "Nova Categoria")
+            );
+        }
+    };
+
     var Modal = React.createClass({displayName: "Modal",
         componentDidMount: function() {
             $(this.getDOMNode)
@@ -90,60 +98,31 @@ $(function () {
         }
     });
 
-    var SelectColecoes = React.createClass({displayName: "SelectColecoes",
+    var EditarCategoriaModal = React.createClass({displayName: "EditarCategoriaModal",
 
         getInitialState: function() {
             return {data: []};
         },
         load : function () {
-            var _this = this;
             $.get('/user/colecoes/all', function (result) {
                 this.setState({ data: result });
             }.bind(this));
         },
         componentDidMount: function() {
-            if (!this.state.data) {
-                this.load();
-            }
+            this.load();
         },
-
-        render: function () {
-
-            return (
-                React.createElement("div", null, 
-                    React.createElement("label", {htmlFor: "colecao"}, "Coleção"), 
-                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.colecao.id}, 
-
-                         this.state.data.map(function (colecao) {
-
-                            var _this = this;
-
-                            return (
-                                React.createElement("option", {value: colecao.id}, _this.props.colecao.id)
-                            )
-                        })
-                    )
-                )
-            )
-        }
-
-    });
-
-    var EditarCategoriaModal = React.createClass({displayName: "EditarCategoriaModal",
         
         handleSubmit : function (e) {
           
             e.preventDefault();
-            
-            var id = ReactDOM.findDOMNode(this.refs.id).value.trim;
-            var nome = ReactDOM.findDOMNode(this.refs.nome).value.trim;
-            var colecao = ReactDOM.findDOMNode(this.refs.colecao).value.trim;
+
+            var id = this.refs.id.value.trim();
+            var nome = this.refs.nome.value.trim();
+            var colecao = this.refs.colecao.value.trim();
 
             if (!nome || !colecao) {
                 alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
             }
-
-            return false;
 
             $.ajax({
                 type: "POST",
@@ -157,7 +136,6 @@ $(function () {
                 success: function (data) {
                     alertify.success(data.message);
                     unblock_screen();
-                    _this.loadStatus();
                 },
                 error: function () {
                     unblock_screen();
@@ -168,20 +146,99 @@ $(function () {
         
         render: function() {
 
-            console.log(this.props.categoria.colecao);
-
             var modal = null;
             modal = (
                 React.createElement(Modal, {title: "Categoria", handleSubmit: this.handleSubmit}, 
-                    React.createElement("input", {type: "hidden", ref: "id", name: "id", id: "id"}), 
+                    React.createElement("input", {type: "hidden", ref: "id", name: "id", id: "id", defaultValue: this.props.categoria.id}), 
                     React.createElement("label", {htmlFor: "nome"}, "Nome"), 
                     React.createElement("input", {className: "input is-primary", type: "text", placeholder: "Nome", defaultValue: this.props.categoria.nome, ref: "nome", name: "nome", id: "nome", required: true}), 
-                    React.createElement(SelectColecoes, {colecao: this.props.categoria.colecao})
+                    React.createElement("label", {htmlFor: "colecao"}, "Coleção"), 
+                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao", value: this.props.categoria.colecao.id}, 
+                         this.state.data.map(function (colecao) {
+                            return (
+                                React.createElement("option", {key: colecao.id, value: colecao.id}, colecao.nome)
+                            )
+                        })
+                    )
                 )
             );
 
             return (
-                React.createElement("div", {className: "scheduleentry-modal"}, 
+                React.createElement("div", null, 
+                    modal
+                )
+            );
+        }
+    });
+
+    var NovaCategoriaModal = React.createClass({displayName: "NovaCategoriaModal",
+
+        getInitialState: function() {
+            return {data: []};
+        },
+        load : function () {
+            $.get('/user/colecoes/all', function (result) {
+                this.setState({ data: result });
+            }.bind(this));
+        },
+        componentDidMount: function() {
+            this.load();
+        },
+
+        handleSubmit : function (e) {
+
+            e.preventDefault();
+
+            var nome = this.refs.nome.value.trim();
+            var colecao = this.refs.colecao.value.trim();
+
+            if (!nome || !colecao) {
+                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
+            }
+
+            var _this = this;
+
+            $.ajax({
+                type: "POST",
+                url: "/user/categoria/adicionar",
+                data : {
+                    nome : nome,
+                    colecao : colecao
+                },
+                cache: false,
+                success: function (data) {
+                    alertify.success(data.message);
+                    unblock_screen();
+                    _this.props.closeModal();
+                    _this.props.reloadCategoria();
+                },
+                error: function () {
+                    unblock_screen();
+                    alertify.error("Ocorreu um erro.");
+                }
+            });
+        },
+
+        render: function() {
+
+            var modal = null;
+            modal = (
+                React.createElement(Modal, {title: "Categoria", handleSubmit: this.handleSubmit}, 
+                    React.createElement("label", {htmlFor: "nome"}, "Nome"), 
+                    React.createElement("input", {className: "input is-primary", type: "text", placeholder: "Nome", ref: "nome", name: "nome", id: "nome", required: true}), 
+                    React.createElement("label", {htmlFor: "colecao"}, "Coleção"), 
+                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao"}, 
+                         this.state.data.map(function (colecao) {
+                            return (
+                                React.createElement("option", {key: colecao.id, value: colecao.id}, colecao.nome)
+                            )
+                        })
+                    )
+                )
+            );
+
+            return (
+                React.createElement("div", null, 
                     modal
                 )
             );
@@ -193,9 +250,11 @@ $(function () {
         render: function () {
 
             var mudarStatus = '';
+            var editar = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
                 mudarStatus = React.createElement(MudarStatusCategoria, {categoria: this.props.categoria, reloadCategoria: this.props.reloadCategoria})
+                editar = React.createElement(BtnEditar, {categoria: this.props.categoria, acao: this.props.acao})
             }
 
             return (
@@ -205,7 +264,7 @@ $(function () {
                             React.createElement("div", {className: "media-body"}, 
                                 React.createElement("h4", {className: "media-heading"}, 
                                     React.createElement("a", {href: this.props.musicasUrl}, this.props.categoria.nome), 
-                                    React.createElement(BtnEditar, {categoria: this.props.categoria, acao: this.props.acao}), 
+                                    editar, 
                                     mudarStatus
                                 )
                             )
@@ -266,13 +325,51 @@ $(function () {
             }
 
             return (
-                React.createElement("i", null, btnStatus)
+                React.createElement("e", null, btnStatus)
             )
         }
 
     });
 
     var CategoriasList = React.createClass({displayName: "CategoriasList",
+
+        render: function () {
+
+            var _this = this;
+
+            return (
+                React.createElement("div", null, 
+                React.createElement("span", null,  _this.props.categoria.map(function (categoria) {
+                    var musicasUrl = "/user/musicas/" + categoria.id;
+                    return (
+                        React.createElement("div", {key: categoria.id}, 
+                            React.createElement(BlockCategorias, {categoria: categoria, musicasUrl: musicasUrl, user: _this.props.user, reloadCategoria: _this.props.reloadCategoria, acao: _this.props.acao}), 
+                            React.createElement(EditarCategoriaModal, {categoria: categoria})
+                        )
+                    )
+                }) )
+
+                )
+            )
+        }
+    });
+
+    var OpcoesList = React.createClass({displayName: "OpcoesList",
+
+        render : function () {
+            return (
+                React.createElement("div", null, 
+                    React.createElement(BtnAddCategoria, {openModal: this.props.acao}), 
+                    React.createElement(NovaCategoriaModal, {reloadCategoria: this.props.reloadCategoria, closeModal: this.props.closeModal}), 
+                    React.createElement("hr", {className: "small"})
+                )
+            );
+        }
+
+    });
+
+    var View = React.createClass({displayName: "View",
+
         getInitialState: function() {
             return {data: []};
         },
@@ -288,25 +385,27 @@ $(function () {
         openModal: function () {
             $("#scheduleentry-modal").modal("show");
         },
+        closeModal: function () {
+            $("#scheduleentry-modal").modal("hide");
+            $('.modal-body #id').val('');
+            $('.modal-body #nome').val('');
+            $('.modal-body #colecao').val('');
+        },
 
-        render: function () {
+        render : function () {
 
-            var _this = this;
+            var opcoes = '';
+
+            if (this.props.user == 'ROLE_ADMIN') {
+                opcoes = React.createElement(OpcoesList, {reloadCategoria: this.load, acao: this.openModal, closeModal: this.closeModal})
+            }
 
             return (
                 React.createElement("div", null, 
-                React.createElement("span", null,  this.state.data.map(function (categoria) {
-                    var musicasUrl = "/user/musicas/" + categoria.id;
-                    return (
-                        React.createElement("div", {key: categoria.id}, 
-                            React.createElement(BlockCategorias, {categoria: categoria, musicasUrl: musicasUrl, user: user, reloadCategoria: _this.load, acao: _this.openModal}), 
-                            React.createElement(EditarCategoriaModal, {categoria: categoria})
-                        )
-                    )
-                }) )
-
+                    opcoes, 
+                    React.createElement(CategoriasList, {categoria: this.state.data, source: this.props.source, user: this.props.user, reloadCategoria: this.load, acao: this.openModal})
                 )
-            )
+            );
         }
     });
 
@@ -315,23 +414,10 @@ $(function () {
 
     ReactDOM.render(
         React.createElement("div", null, 
-            React.createElement(CategoriasList, {source: source, user: user})
+            React.createElement(View, {source: source, user: user})
         ),
         document.getElementById('categorias')
     );
-
-    $(document).on('click', '.openMenu', function () {
-        $('.modal-body #id').val($(this).data('id'));
-        $('.modal-body #nome').val($(this).data('nome'));
-        $('.modal-body #colecao').val($(this).data('colecao'));
-        $('.modal-body #colecao').attr('selected', selected);
-    });
-
-    $(document).on('click', '.addCategoria', function () {
-        $('.modal-body #id').val('');
-        $('.modal-body #nome').val('');
-        $('.modal-body #colecao').val('');
-    });
 
 
 });

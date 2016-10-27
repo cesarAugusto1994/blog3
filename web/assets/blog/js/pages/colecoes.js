@@ -44,7 +44,7 @@ function editarColecao(e)
 
     $.ajax({
         type: "POST",
-        url: "/admin/colecao/save",
+        url: "/user/colecao/save",
         enctype: "multipart/form-data",
         data: new FormData( this ),
         processData: false,

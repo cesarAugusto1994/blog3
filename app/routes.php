@@ -26,7 +26,8 @@ $app->get('/pesquisar', function (\Symfony\Component\HttpFoundation\Request $req
 
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
 include __DIR__.'/routes/post.php';
-include __DIR__.'/routes/musica.php';
+include __DIR__.'/routes/musica_admin.php';
+$app->mount('/user', include __DIR__ . '/routes/musica.php');
 $app->mount('/user', include __DIR__ . '/routes/musica_anexos.php');
 $app->mount('/user', include __DIR__ . '/routes/categoria.php');
 $app->mount('/user', include __DIR__ . '/routes/colecao.php');
