@@ -10,7 +10,7 @@ use App\Controllers\Uploader;
 
 $anexos = $app['controllers_factory'];
 
-$anexos->get('/musica/anexos/{musicaId}', function($musicaId) use ($app) {
+$anexos->get('/musica/{musicaId}/anexos', function($musicaId) use ($app) {
     /**
      * @var \Api\Entities\Musica $musica
      */

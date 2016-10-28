@@ -153,10 +153,10 @@ $(function () {
                     React.createElement("label", {htmlFor: "nome"}, "Nome"), 
                     React.createElement("input", {className: "input is-primary", type: "text", placeholder: "Nome", defaultValue: this.props.categoria.nome, ref: "nome", name: "nome", id: "nome", required: true}), 
                     React.createElement("label", {htmlFor: "colecao"}, "Coleção"), 
-                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao", value: this.props.categoria.colecao.id}, 
+                    React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.categoria.colecao.id}, 
                          this.state.data.map(function (colecao) {
                             return (
-                                React.createElement("option", {key: colecao.id, value: colecao.id}, colecao.nome)
+                                React.createElement("option", {key: colecao.id, defaultValue: colecao.id}, colecao.nome)
                             )
                         })
                     )
@@ -340,7 +340,7 @@ $(function () {
             return (
                 React.createElement("div", null, 
                 React.createElement("span", null,  _this.props.categoria.map(function (categoria) {
-                    var musicasUrl = "/user/musicas/" + categoria.id;
+                    var musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
                     return (
                         React.createElement("div", {key: categoria.id}, 
                             React.createElement(BlockCategorias, {categoria: categoria, musicasUrl: musicasUrl, user: _this.props.user, reloadCategoria: _this.props.reloadCategoria, acao: _this.props.acao}), 

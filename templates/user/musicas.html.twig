@@ -2,8 +2,6 @@
 
 {% block title %}{% if categoria.nome %}{{ categoria.nome }}{% else %}Musicas{% endif %}{% endblock %}
 
-{% block header %}{{ parent() }}{% endblock %}
-
 {% block headerNome %}{% if categoria.nome %}{{ categoria.nome }}{% else %}Musicas{% endif %}{% endblock %}
 
 {% block content %}
@@ -13,32 +11,11 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    {% for alert in app.session.flashbag.get('mensagem') %}
-                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
-                    {% endfor %}
+                    <div id="musicas" data-source="{{ path('api_musicas', { categoria : categoria.id }) }}"
+                         data-add-musica="{{ path('view_adicionar_musica', { categoria : categoria.id }) }}"
+                    data-user="{{ app['usuario'].roles }}"></div>
+                    <script src="{{ asset(app['dir.base'] ~ 'assets/build/musicas.js') }}"></script>
 
-                    {% if is_granted('ROLE_USER') %}
-                        <a style="text-decoration: none" class="button is-light is-small" href="{{ path('view_adicionar_musica', { categoria : categoria.id }) }}">Nova Musica</a>
-                        <hr class="small">
-                    {% endif %}
-                    {% for musica in musicas %}
-                        <div class="media wow fadeInUp animated slide"  data-wow-delay=".3s">
-                            <div class="media-body">
-                                <h4 class="media-heading"><a
-                                            href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
-                                    {% if musica.usuario.id == app['usuario'].id or is_granted('ROLE_ADMIN') %}
-                                        <a href="{{ path('view_editar_musica', { id : musica.id }) }}"
-                                           class="button is-white is-small is-pulled-right">Editar</a>
-                                        <a class="button {% if musica.ativo %} is-danger {% else %} is-success {% endif %} is-inverted is-small is-pulled-right"
-                                           href="{{ path('api_musica_status', { id : musica.id }) }}">{% if musica.ativo %} Inativar {% else %} Ativar {% endif %}
-                                        </a>
-                                    {% endif %}
-                                </h4>
-                            </div>
-                        </div>
-                    {% else %}
-                        <p class="lead">Nenhum registro encontrado.</p>
-                    {% endfor %}
                 </div>
             </div>
         </div>

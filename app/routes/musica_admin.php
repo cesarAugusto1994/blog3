@@ -73,24 +73,24 @@ $app->post('admin/musica/letra/editar', function(\Symfony\Component\HttpFoundati
 })->bind('musica_letra_editar');
 
 $app->post('admin/musica/save', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    
+
     if ($request->get('id')) {
         /**
          * @var \Api\Entities\Musica $musica
          */
         $musica = $app['musica.repository']->find($request->get('id'));
-        
+
         if ($request->get('nome')) {
             $musica->setNome($request->get('nome'));
             $musica->setNumero($request->get('numero'));
             $musica->setTom($request->get('tonalidade'));
         }
-        
+
         if ($request->get('letra')) {
             $musica->setLetra(strip_tags($request->get('letra')));
             $musica->setLetraOriginal($request->get('letra'));
         }
-        
+
         if ($request->get('categoria')) {
             /**
              * @var \Api\Entities\Categoria $categoria
@@ -98,24 +98,24 @@ $app->post('admin/musica/save', function(\Symfony\Component\HttpFoundation\Reque
             $categoria = $app['categoria.repository']->find($request->get('categoria'));
             $musica->setCategoria($categoria);
         }
-        
+
         $app['musica.repository']->save($musica);
-        
+
         $app['log.controller']->criar('editou musica '.$musica->getNome());
-        
+
         $app['session']->getFlashBag()->add('mensagem', 'Musica editada com sucesso.');
-        
+
         if ($request->get('rota') == 'edicao_usuario') {
             return $app->redirect('/user/musica/anexos/' . $musica->getId());
         }
-        
+
         if ($request->get('rota') == 'edicao_letra') {
             return $app->redirect('/user/musica/anexos/' . $musica->getId());
         }
-        
+
         return $app->redirect('/admin/musicas/grid');
     }
-    
+
     $musica = new \Api\Entities\Musica();
     /**
      * @var \Api\Entities\Categoria $categoria
@@ -126,11 +126,11 @@ $app->post('admin/musica/save', function(\Symfony\Component\HttpFoundation\Reque
      * @var \Api\Entities\Usuarios $usuario
      */
     $usuario = $app['usuarios.repository']->find($user->getId());
-    
+
     $musica->setNome($request->get('nome'));
     $musica->setNumero($request->get('numero') ?: null);
     $musica->setTom($request->get('tonalidade'));
-    
+
     if ($request->get('letra')) {
         $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setLetraOriginal($request->get('letra'));
@@ -143,17 +143,17 @@ $app->post('admin/musica/save', function(\Symfony\Component\HttpFoundation\Reque
         $musica->setNovo($request->get('novo'));
     }
     $musica->setAtivo(true);
-    
+
     $app['musica.repository']->save($musica);
-    
+
     $app['log.controller']->criar('adicionou nova musica '.$musica->getNome());
-    
+
     $app['session']->getFlashBag()->add('mensagem', 'Musica adicionada com sucesso.');
-    
+
     if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
         return $app->redirect('/user/musicas/'.$categoria->getId());
     }
-    
+
     return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
-    
+
 })->bind('save_musica');

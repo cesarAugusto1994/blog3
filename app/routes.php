@@ -33,7 +33,7 @@ $app->mount('/user', include __DIR__ . '/routes/categoria.php');
 $app->mount('/user', include __DIR__ . '/routes/colecao.php');
 $app->mount('/user', include __DIR__ . '/routes/user.php');
 include __DIR__.'/routes/access.php';
-
+/*
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
     switch ($code) {
         case 400 :
@@ -53,4 +53,4 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
             break;
     }
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
-});
+});*/

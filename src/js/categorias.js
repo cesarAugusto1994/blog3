@@ -153,10 +153,10 @@ $(function () {
                     <label htmlFor="nome">Nome</label>
                     <input className="input is-primary" type="text" placeholder="Nome" defaultValue={this.props.categoria.nome} ref="nome" name="nome" id="nome" required/>
                     <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
-                    <select className="input is-primary" ref="colecao" name="colecao" id="colecao" value={this.props.categoria.colecao.id}>
+                    <select className="input is-primary" ref="colecao" name="colecao" id="colecao" defaultValue={this.props.categoria.colecao.id}>
                         { this.state.data.map(function (colecao) {
                             return (
-                                <option key={colecao.id} value={colecao.id}>{colecao.nome}</option>
+                                <option key={colecao.id} defaultValue={colecao.id}>{colecao.nome}</option>
                             )
                         })}
                     </select>
@@ -340,7 +340,7 @@ $(function () {
             return (
                 <div>
                 <span>{ _this.props.categoria.map(function (categoria) {
-                    var musicasUrl = "/user/musicas/" + categoria.id;
+                    var musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
                     return (
                         <div key={categoria.id}>
                             <BlockCategorias categoria={categoria} musicasUrl={musicasUrl} user={_this.props.user} reloadCategoria={_this.props.reloadCategoria} acao={_this.props.acao}/>

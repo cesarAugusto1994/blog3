@@ -6,9 +6,15 @@
  * Time: 08:41
  */
 
-$musica = $app['controllers_factory'];
+$musica = $app['controllers_factory']; ini_set('display_errors', E_ALL);
 
-$musica->get('musicas/{categoriaId}', function($categoriaId) use ($app) {
+$musica->get('musicas/{categoria}/data', function($categoria) use ($app) {
+    $categoria = $app['categoria.repository']->find($categoria);
+    $musicas = $app['musica.repository']->findBy(['categoria' => $categoria], ['numero' => 'ASC', 'nome' => 'ASC']);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);
+})->bind('api_musicas');
+
+$musica->get('musicas/{categoriaId}/{nome}', function($categoriaId, $nome) use ($app) {
 
     $categoria = $app['categoria.repository']->find($categoriaId);
 
@@ -35,7 +41,7 @@ $musica->get('musicas/nova/{categoria}', function($categoria) use ($app){
 
 })->bind('view_adicionar_musica');
 
-$musica->get('musicas/{id}/editar', function($id) use ($app){
+$musica->get('musicas/{id}/{nome}/editar', function($id, $nome) use ($app){
 
     $musica = $app['musica.repository']->find($id);
     $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
@@ -66,7 +72,10 @@ $musica->post('musicas/{id}/status', function($id) use ($app){
     $app['musica.repository']->save($musica);
     $app['db']->commit();
 
-    return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId());
+    return $app->json([
+        'class' => 'success',
+        'message' => 'O item foi '. ($musica->isAtivo() ? 'ativado' : 'inativado') . ' com sucesso'
+    ]);
     
 })->bind('api_musica_status');
 
