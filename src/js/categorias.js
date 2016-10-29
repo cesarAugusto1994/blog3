@@ -100,18 +100,6 @@ $(function () {
 
     var EditarCategoriaModal = React.createClass({
 
-        getInitialState: function() {
-            return {data: []};
-        },
-        load : function () {
-            $.get('/user/colecoes/all', function (result) {
-                this.setState({ data: result });
-            }.bind(this));
-        },
-        componentDidMount: function() {
-            this.load();
-        },
-        
         handleSubmit : function (e) {
           
             e.preventDefault();
@@ -154,7 +142,7 @@ $(function () {
                     <input className="input is-primary" type="text" placeholder="Nome" defaultValue={this.props.categoria.nome} ref="nome" name="nome" id="nome" required/>
                     <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
                     <select className="input is-primary" ref="colecao" name="colecao" id="colecao" defaultValue={this.props.categoria.colecao.id}>
-                        { this.state.data.map(function (colecao) {
+                        { this.props.colecoes.map(function (colecao) {
                             return (
                                 <option key={colecao.id} defaultValue={colecao.id}>{colecao.nome}</option>
                             )
@@ -333,6 +321,18 @@ $(function () {
 
     var CategoriasList = React.createClass({
 
+        getInitialState: function() {
+            return {data: []};
+        },
+        load : function () {
+            $.get('/user/colecoes/all', function (result) {
+                this.setState({ data: result });
+            }.bind(this));
+        },
+        componentDidMount: function() {
+            this.load();
+        },
+
         render: function () {
 
             var _this = this;
@@ -344,7 +344,7 @@ $(function () {
                     return (
                         <div key={categoria.id}>
                             <BlockCategorias categoria={categoria} musicasUrl={musicasUrl} user={_this.props.user} reloadCategoria={_this.props.reloadCategoria} acao={_this.props.acao}/>
-                            <EditarCategoriaModal categoria={categoria} />
+                            <EditarCategoriaModal colecoes={_this.state.data} categoria={categoria} />
                         </div>
                     )
                 }) }</span>

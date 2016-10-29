@@ -18,7 +18,7 @@
         <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <form class="form-horizontal" method="POST" action="{{ path('musica_letra_editar') }}">
+                    <form class="form-horizontal" method="POST" action="{{ path('api_musica_letra_editar', { id : musica.id }) }}">
                         <input type="hidden" name="id" id="id" value="{{ musica.id }}">
                         <input type="hidden" name="rota" id="rota" value="edicao_letra">
                         <p class="control">

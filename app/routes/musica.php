@@ -49,7 +49,7 @@ $musica->get('musicas/{id}/{nome}/editar', function($id, $nome) use ($app){
 
 })->bind('view_editar_musica');
 
-$musica->get('musicas/{id}/letra/editar', function($id) use ($app){
+$musica->get('musicas/{id}/letra/editar/view', function($id) use ($app){
 
     $musica = $app['musica.repository']->find($id);
     $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
@@ -78,5 +78,104 @@ $musica->post('musicas/{id}/status', function($id) use ($app){
     ]);
     
 })->bind('api_musica_status');
+
+$app->post('musica/{id}/letra/editar', function($id, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    
+    /**
+     * @var \Api\Entities\Musica $musica
+     */
+    $musica = $app['musica.repository']->find($id);
+    
+    if (!$musica) {
+        throw new Exception('Musica não encontrada.');
+    }
+    
+    $musica->setLetra(strip_tags($request->get('letra')));
+    $musica->setLetraOriginal($request->get('letra'));
+    
+    $app['db']->beginTransaction();
+    $app['musica.repository']->save($musica);
+    $app['db']->commit();
+    
+    return $app->redirect('/user/musica/'.$musica->getId().'/anexos');
+    
+})->bind('api_musica_letra_editar');
+
+$app->post('musica/save', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    if ($request->get('id')) {
+
+        /**
+         * @var \Api\Entities\Musica $musica
+         */
+        $musica = $app['musica.repository']->find($request->get('id'));
+
+        if ($request->get('nome')) {
+            $musica->setNome($request->get('nome'));
+        }
+
+        if ($request->get('numero')) {
+            $musica->setNumero($request->get('numero'));
+        }
+
+        if ($request->get('tonalidade')) {
+            $musica->setTom($request->get('tonalidade'));
+        }
+
+        if ($request->get('letra')) {
+            $musica->setLetra(strip_tags($request->get('letra')));
+            $musica->setLetraOriginal($request->get('letra'));
+        }
+
+        if ($request->get('categoria')) {
+            /**
+             * @var \Api\Entities\Categoria $categoria
+             */
+            $categoria = $app['categoria.repository']->find($request->get('categoria'));
+            $musica->setCategoria($categoria);
+        }
+
+        $app['db']->beginTransaction();
+        $app['musica.repository']->save($musica);
+        $app['db']->commit();
+
+        return $app->redirect('/user/musica/' . $musica->getId().'/anexos');
+    }
+
+    $musica = new \Api\Entities\Musica();
+    /**
+     * @var \Api\Entities\Categoria $categoria
+     */
+    $categoria = $app['categoria.repository']->find($request->get('categoria'));
+    $user = $app['session']->get('user');
+    /**
+     * @var \Api\Entities\Usuarios $usuario
+     */
+    $usuario = $app['usuarios.repository']->find($user->getId());
+
+    $musica->setNome($request->get('nome'));
+    $musica->setNumero($request->get('numero') ?: null);
+    $musica->setTom($request->get('tonalidade'));
+
+    if ($request->get('letra')) {
+        $musica->setLetra(strip_tags($request->get('letra')));
+        $musica->setLetraOriginal($request->get('letra'));
+    }
+    $musica->setCategoria($categoria);
+    $musica->setUsuario($usuario);
+    $musica->setCadastro(new \DateTime('now'));
+    $musica->setNovo(false);
+    if ($request->get('novo')) {
+        $musica->setNovo($request->get('novo'));
+    }
+    $musica->setAtivo(true);
+
+    $app['db']->beginTransaction();
+    $app['musica.repository']->save($musica);
+    $app['db']->commit();
+
+    return $app->redirect('/user/musica/' . $musica->getId().'/anexos');
+
+})->bind('save_musica');
 
 return $musica;

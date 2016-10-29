@@ -11,7 +11,7 @@
                         <!-- Slider -->
                         <section class="cd-intro">
                             <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
-                                <span>Ol&aacute;, {{ app['usuario.sessao'].nome }}.</span><br>
+                                <span>Ol&aacute;, {{ app.usuario.nome }}.</span><br>
                             </h1>
                         </section> <!-- cd-intro -->
                         <!-- /.slider -->
@@ -109,7 +109,7 @@
                             <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.nome }}</a></h4>
                             <p>
                                 <a class="button is-light is-small" href="{{ path('categorias', { colecaoId : musica.categoria.colecao.id, nome : musica.categoria.colecao.nome }) }}">{{ musica.categoria.colecao.nome }}</a>
-                                <a class="button is-light is-small" href="{{ path('view_musicas', { categoriaId : musica.categoria.id }) }}">{{ musica.categoria.nome }}</a>
+                                <a class="button is-light is-small" href="{{ path('view_musicas', { categoriaId : musica.categoria.id, nome : musica.categoria.nome }) }}">{{ musica.categoria.nome }}</a>
                             </p>
                         </div>
                     </div>

@@ -100,18 +100,6 @@ $(function () {
 
     var EditarCategoriaModal = React.createClass({displayName: "EditarCategoriaModal",
 
-        getInitialState: function() {
-            return {data: []};
-        },
-        load : function () {
-            $.get('/user/colecoes/all', function (result) {
-                this.setState({ data: result });
-            }.bind(this));
-        },
-        componentDidMount: function() {
-            this.load();
-        },
-        
         handleSubmit : function (e) {
           
             e.preventDefault();
@@ -154,7 +142,7 @@ $(function () {
                     React.createElement("input", {className: "input is-primary", type: "text", placeholder: "Nome", defaultValue: this.props.categoria.nome, ref: "nome", name: "nome", id: "nome", required: true}), 
                     React.createElement("label", {htmlFor: "colecao"}, "Coleção"), 
                     React.createElement("select", {className: "input is-primary", ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.categoria.colecao.id}, 
-                         this.state.data.map(function (colecao) {
+                         this.props.colecoes.map(function (colecao) {
                             return (
                                 React.createElement("option", {key: colecao.id, defaultValue: colecao.id}, colecao.nome)
                             )
@@ -333,6 +321,18 @@ $(function () {
 
     var CategoriasList = React.createClass({displayName: "CategoriasList",
 
+        getInitialState: function() {
+            return {data: []};
+        },
+        load : function () {
+            $.get('/user/colecoes/all', function (result) {
+                this.setState({ data: result });
+            }.bind(this));
+        },
+        componentDidMount: function() {
+            this.load();
+        },
+
         render: function () {
 
             var _this = this;
@@ -344,7 +344,7 @@ $(function () {
                     return (
                         React.createElement("div", {key: categoria.id}, 
                             React.createElement(BlockCategorias, {categoria: categoria, musicasUrl: musicasUrl, user: _this.props.user, reloadCategoria: _this.props.reloadCategoria, acao: _this.props.acao}), 
-                            React.createElement(EditarCategoriaModal, {categoria: categoria})
+                            React.createElement(EditarCategoriaModal, {colecoes: _this.state.data, categoria: categoria})
                         )
                     )
                 }) )

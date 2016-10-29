@@ -147,7 +147,7 @@
                          data-source-arquivos="{{ path('api_anexos', { musicaId : musica.id }) }}"
                          data-user="{{ app['usuario'].roles }}" data-dir-avatar="{{ app['dir.avatar'] }}"
                          data-dir-anexos="{{ app['dir.anexo'] }}"
-                         data-musica-id="{{ musica.id }}" data-source-editar="{{ path('view_editar_musica', { id : musica.id }) }}"
+                         data-musica-id="{{ musica.id }}" data-source-editar="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome }) }}"
                          data-source-add-letra="{{ path('view_editar_letra_musica', { id : musica.id }) }}"
                          data-source-videos="{{ path('videos') }}">
                     </div>

@@ -20,7 +20,7 @@
 
                 <!-- logo -->
                 <div class="navbar-brand">
-                    <a href="{% if app['usuario'].nome %}{{ path('user_index') }}{% else %}{{ path('home') }}{% endif %}"><img style="min-width: 24px; max-width: 24px; min-height: 24px; max-height: 24px;" alt="" src="{{ asset(app['dir.base'] ~ 'assets/blog/ico/favicon.ico') }}">&nbsp;<span style="color: #1e282c;">{{ app['config'].nome }}</span></a>
+                    <a href="{{ path('home') }}"><img style="min-width: 24px; max-width: 24px; min-height: 24px; max-height: 24px;" alt="" src="{{ asset(app['dir.base'] ~ 'assets/blog/ico/favicon.ico') }}">&nbsp;<span style="color: #1e282c;">{{ app['config'].nome }}</span></a>
                 </div>
                 <!-- /logo -->
             </div>

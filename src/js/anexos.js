@@ -25,7 +25,7 @@ $(function () {
 
         render: function() {
             return (
-                <div id="scheduleentry-modal" className="modal fade" tabIndex="-1">
+                <div id="modal-musicas" className="modal fade" tabIndex="-1">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -82,14 +82,15 @@ $(function () {
                 contentType: false,
                 cache: false,
                 success: function (data) {
+                    alertify.success(data.message);
+                    _this.props.reloadArquivos();
+                    _this.props.closeModal();
                     unblock_screen();
-                    window.location.reload();
                 },
                 error: function (data) {
                     unblock_screen();
                     $("#btn-upload").removeClass("is-loading");
                     alertify.error(data.message);
-                    _this.props.closeModal();
                 }
             });
 
@@ -107,7 +108,7 @@ $(function () {
             );
 
             return (
-                <div className="scheduleentry-modal">
+                <div>
                     {modal}
                 </div>
             );
@@ -444,19 +445,6 @@ $(function () {
     });
 
     var ListArquivos = React.createClass({
-
-        getInitialState: function () {
-            return {data: []};
-        },
-        load: function () {
-            var _this = this;
-            $.get(_this.props.sourceArquivos, function (result) {
-                _this.setState({data: result});
-            }.bind(_this));
-        },
-        componentDidMount: function () {
-            this.load();
-        },
         
         render : function () {
 
@@ -464,7 +452,7 @@ $(function () {
 
             return (
                 <div>
-                    {this.state.data.map(function (anexo) {
+                    {this.props.anexos.map(function (anexo) {
 
                         var arquivo = _this.props.dirAnexos + anexo.nome;
 
@@ -490,7 +478,7 @@ $(function () {
                                             {visualzar}
                                             {downLoad}
                                             {link}
-                                            <RemoverArquivo anexo={anexo} reloadArquivos={_this.load}/>
+                                            <RemoverArquivo anexo={anexo} reloadArquivos={_this.props.reloadArquivos}/>
                                     </div>
                                 </div>
                             </div>
@@ -504,16 +492,23 @@ $(function () {
 
     var ViewArquivos = React.createClass({
 
-        getInitialState: function() {
-            return { isModalOpen: false };
+        getInitialState: function () {
+            return {data: []};
+        },
+        load: function () {
+            $.get(this.props.sourceArquivos, function (result) {
+                this.setState({data: result});
+            }.bind(this));
+        },
+        componentDidMount: function () {
+            this.load();
         },
 
-        openModal: function() {
-            this.setState({ isModalOpen: true });
+        openModal: function () {
+            $("#modal-musicas").modal("show");
         },
-
-        closeModal: function() {
-            this.setState({ isModalOpen: false });
+        closeModal: function () {
+            $("#modal-musicas").modal("hide");
         },
 
         render: function () {
@@ -527,15 +522,15 @@ $(function () {
                                 <BtnEditar source={this.props.sourceEditar} />
                                 <BtnAddLetra source={this.props.sourceAddLetra}/>
                                 <BtnAddLink />
-                                <button data-toggle="modal" data-target="#scheduleentry-modal" onClick={this.openModal} className="button is-danger is-inverted is-small">Adicionar Arquivo</button>
+                                <button data-toggle="modal" data-target="#modal-musicas" onClick={this.openModal} className="button is-danger is-inverted is-small">Adicionar Arquivo</button>
                                 <br />
-                                <br />
-                                <ListArquivos sourceArquivos={this.props.sourceArquivos} sourceVideos={this.props.sourceVideos} dirAnexos={this.props.dirAnexos}/>
+                                <ListArquivos reloadArquivos={this.load} anexos={this.state.data} sourceArquivos={this.props.sourceArquivos} sourceVideos={this.props.sourceVideos} dirAnexos={this.props.dirAnexos}/>
                             </div>
                         </div>
                     </div>
                 </div>
-                    <UploadArquivo closeModal={this.closeModal} musica={this.props.musica} />
+                    <UploadArquivo reloadArquivos={this.load} openModal={this.openModal} closeModal={this.closeModal} musica={this.props.musica} />
+                    <br />
                 </div>
             );
         }

@@ -27,7 +27,7 @@ $anexos->get('/musica/{musicaId}/anexos', function($musicaId) use ($app) {
 
 })->bind('musica_anexos');
 
-$anexos->get('/musica/{musicaId}/anexos', function($musicaId) use ($app) {
+$anexos->get('/musica/{musicaId}/anexos/data', function($musicaId) use ($app) {
 
     $musica = $app['musica.repository']->find($musicaId);
     $anexos = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true]);
@@ -58,7 +58,7 @@ $anexos->post('/musica/anexos/{id}/remover', function($id) use ($app) {
      */
     $anexo = $app['musica.anexos.repository']->find($id);
 
-    $directory = __DIR__.'/../../../web/assets/blog/musicas/'.$anexo->getLink();
+    $directory = $app['dir.base2'].'assets/blog/musicas/'.$anexo->getLink();
 
     if(file_exists($directory)) {
         unlink($directory);
