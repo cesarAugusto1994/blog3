@@ -4,53 +4,6 @@
 
 $(function () {
 
-    var Modal = React.createClass({displayName: "Modal",
-        componentDidMount: function() {
-            $(this.getDOMNode)
-                .modal({backdrop: "static", keyboard: true, show: false});
-        },
-
-        componentWillUnmount: function() {
-            $(this.getDOMNode)
-                .off("hidden", this.handleHidden);
-        },
-
-        open: function() {
-            $(this.getDOMNode).modal("show");
-        },
-
-        close: function() {
-            $(this.getDOMNode).modal("hide");
-        },
-
-        render: function() {
-            return (
-                React.createElement("div", {id: "modal-musicas", className: "modal fade", tabIndex: "-1"}, 
-                    React.createElement("div", {className: "modal-dialog"}, 
-                        React.createElement("div", {className: "modal-content"}, 
-                            React.createElement("div", {className: "modal-header"}, 
-                                React.createElement("button", {type: "button", className: "close", "data-dismiss": "modal"}, 
-                                    React.createElement("span", null, "×")
-                                ), 
-                                React.createElement("h4", {className: "modal-title"}, this.props.title)
-                            ), 
-                            React.createElement("form", {className: "form-horizontal", ref: "uploadForm", onSubmit: this.props.handleSubmit}, 
-                                React.createElement("div", {className: "modal-body"}, 
-                                    this.props.children
-                                ), 
-                                React.createElement("div", {className: "modal-footer"}, 
-                                    React.createElement("button", {type: "button", className: "button is-danger is-outlined is-pulled-left", "data-dismiss": "modal"}, "Cancelar"), 
-                                    React.createElement("button", {type: "submit", className: "button is-success"}, "Salvar")
-                                )
-                            )
-                        )
-                    )
-                )
-
-            )
-        }
-    });
-
     var UploadArquivo = React.createClass({displayName: "UploadArquivo",
 
         handleSubmit : function (e) {
@@ -100,10 +53,136 @@ $(function () {
 
             var modal = null;
             modal = (
-                React.createElement(Modal, {title: "Upload de Arquivos", handleSubmit: this.handleSubmit}, 
-                    React.createElement("input", {type: "hidden", name: "musica", ref: "id", defaultValue: this.props.musica}), 
-                    React.createElement("input", {className: "input", type: "file", ref: "arquivo", name: "files[]", id: "filer_input", multiple: "multiple", 
-                           accept: "image/gif, image/jpeg, image/png, image/jpg, audio/mpeg, audio/mp3, application/octet-stream, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"})
+                React.createElement("div", {id: "modal-musicas", className: "modal fade", tabIndex: "-1"}, 
+                    React.createElement("div", {className: "modal-dialog"}, 
+                        React.createElement("div", {className: "modal-content"}, 
+                            React.createElement("div", {className: "modal-header"}, 
+                                React.createElement("button", {type: "button", className: "close", "data-dismiss": "modal"}, 
+                                    React.createElement("span", null, "×")
+                                ), 
+                                React.createElement("h4", {className: "modal-title"}, this.props.title)
+                            ), 
+                            React.createElement("form", {className: "form-horizontal", ref: "uploadForm", onSubmit: this.handleSubmit}, 
+                                React.createElement("div", {className: "modal-body"}, 
+                                    React.createElement("input", {type: "hidden", name: "musica", ref: "id", defaultValue: this.props.musica}), 
+                                    React.createElement("input", {className: "input", type: "file", ref: "arquivo", name: "files[]", id: "filer_input", multiple: "multiple", 
+                                           accept: "image/gif, image/jpeg, image/png, image/jpg, audio/mpeg, audio/mp3, application/octet-stream, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"})
+                                ), 
+                                React.createElement("div", {className: "modal-footer"}, 
+                                    React.createElement("button", {type: "button", className: "button is-danger is-outlined is-pulled-left", "data-dismiss": "modal"}, "Cancelar"), 
+                                    React.createElement("button", {type: "submit", className: "button is-success"}, "Salvar")
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+
+            return (
+                React.createElement("div", null, 
+                    modal
+                )
+            );
+        }
+    });
+
+    var AddLink = React.createClass({displayName: "AddLink",
+
+        handleSubmit : function (e) {
+
+            e.preventDefault();
+
+            var _this = this;
+
+            var id = this.refs.musica.value.trim();
+            var tipo = this.refs.tipo.value.trim();
+            var link = this.refs.link.value.trim();
+
+            if(!link) {
+                alertify.error("Erro no arquivo.");
+                return false;
+            }
+
+            $("#btn-upload").addClass("is-loading");
+            block_screen();
+
+            $.ajax({
+                type: "POST",
+                url: "/user/musica/"+id+"/anexos/save",
+                data: {
+                    id : id,
+                    tipo : tipo,
+                    link : link
+                },
+                cache: false,
+                success: function (data) {
+                    alertify.success(data.message);
+                    _this.props.reloadArquivos();
+                    _this.props.closeModal();
+                    unblock_screen();
+                },
+                error: function (data) {
+                    unblock_screen();
+                    $("#btn-upload").removeClass("is-loading");
+                    alertify.error(data.message);
+                }
+            });
+
+        },
+
+        getInitialState: function () {
+            return {data: []};
+        },
+        load: function () {
+            $.get('/user/tipos/anexos', function (result) {
+                this.setState({data: result});
+            }.bind(this));
+        },
+        componentDidMount: function () {
+            this.load();
+        },
+
+        render: function() {
+
+            var modal = null;
+            modal = (
+                React.createElement("div", {id: "modal-add-link", className: "modal fade", tabIndex: "-1"}, 
+                    React.createElement("div", {className: "modal-dialog"}, 
+                        React.createElement("div", {className: "modal-content"}, 
+                            React.createElement("div", {className: "modal-header"}, 
+                                React.createElement("button", {type: "button", className: "close", "data-dismiss": "modal"}, 
+                                    React.createElement("span", null, "×")
+                                ), 
+                                React.createElement("h4", {className: "modal-title"}, this.props.title)
+                            ), 
+                            React.createElement("form", {className: "form-horizontal", onSubmit: this.handleSubmit}, 
+                                React.createElement("div", {className: "modal-body"}, 
+                                React.createElement("input", {type: "hidden", name: "musica", id: "musica", ref: "musica", defaultValue: this.props.musica}), 
+                                React.createElement("p", {className: "control"}, 
+                                    React.createElement("label", null, "Tipo Arquivo"), 
+                                    React.createElement("select", {name: "tipo", id: "tipo", ref: "tipo", className: "input"}, 
+                                        
+                                            this.state.data.map(function (tipo) {
+                                                return (
+                                                    React.createElement("option", {key: tipo.id, value: tipo.id}, tipo.nome)
+                                                )
+                                            })
+                                        
+                                    )
+                                ), 
+                                React.createElement("p", {className: "control"}, 
+                                    React.createElement("label", null, "Link"), 
+                                    React.createElement("input", {className: "input", type: "text", placeholder: "Link", name: "link", id: "link", ref: "link", 
+                                           required: true})
+                                )
+                                ), 
+                                React.createElement("div", {className: "modal-footer"}, 
+                                    React.createElement("button", {type: "button", className: "button is-danger is-outlined is-pulled-left", "data-dismiss": "modal"}, "Cancelar"), 
+                                    React.createElement("button", {type: "submit", className: "button is-success"}, "Salvar")
+                                )
+                            )
+                        )
+                    )
                 )
             );
 
@@ -118,6 +197,9 @@ $(function () {
     var styleCard = { width: '100%' };
     var styleImg = {
         minWidth: '64px', maxWidth: '64px', minHeight: '64px', maxHeight: '64px', margin: 'auto'
+    };
+    var styleCardLetra = {
+        backgroundColor: 'transparent', border: 'none'
     };
 
     var RemoverComentario = React.createClass({displayName: "RemoverComentario",
@@ -366,7 +448,7 @@ $(function () {
 
         render() {
             return(
-                React.createElement("a", {"data-toggle": "modal", "data-target": "#addLink", className: "button is-success is-inverted is-small addAnexo"}, "Adicionar Link")
+                React.createElement("a", {onClick: this.props.openModal, className: "button is-success is-inverted is-small"}, "Adicionar Link")
             );
         }
     }
@@ -380,13 +462,61 @@ $(function () {
         }
     }
 
+    class CardLetra extends React.Component{
+
+        render() {
+            return (
+                React.createElement("div", null, 
+                    React.createElement("div", {className: "card wow fadeInUp animated slide", "data-wow-delay": ".3s", style: styleCard}, 
+                        React.createElement("div", {className: "card-content"}, 
+                            React.createElement("div", {className: "media"}, 
+                                React.createElement("div", {className: "media-content"}, 
+                                    this.props.children
+                                )
+                            )
+                        )
+                    ), 
+                    React.createElement("br", null)
+                )
+            )
+        }
+    };
+    
+    class BlockLetra extends React.Component{
+        
+        render() {
+
+            return (
+                React.createElement("pre", {id: "content", style: styleCardLetra, "data-key": this.props.musica.tom}, this.props.musica.letra)
+            )
+        }
+        
+    }
+
+    class Font extends React.Component {
+
+        render() {
+            return (
+
+                React.createElement("div", {id: "fontlinks"}, 
+                    React.createElement("button", {id: "incfont", className: "button is-dark is-outlined is-small buttonfont"}, 
+                        "A+"
+                    ), 
+                    React.createElement("button", {id: "decfont", className: "button is-dark is-outlined is-small buttonfont"}, 
+                        "A-"
+                    ), 
+                    React.createElement(BtnEditar, {source: this.props.source})
+                )
+            )
+        }
+
+    }
+
     var RemoverArquivo = React.createClass({displayName: "RemoverArquivo",
 
         handleRemover : function (e) {
 
             e.preventDefault();
-
-            console.log(this.props);
 
             var id = this.props.anexo.id;
             var _this = this;
@@ -510,6 +640,12 @@ $(function () {
         closeModal: function () {
             $("#modal-musicas").modal("hide");
         },
+        openModalAddLink :  function () {
+            $("#modal-add-link").modal("show");
+        },
+        closeModalAddLink: function () {
+            $("#modal-add-link").modal("hide");
+        },
 
         render: function () {
 
@@ -521,8 +657,8 @@ $(function () {
                             React.createElement("div", {className: "media-content"}, 
                                 React.createElement(BtnEditar, {source: this.props.sourceEditar}), 
                                 React.createElement(BtnAddLetra, {source: this.props.sourceAddLetra}), 
-                                React.createElement(BtnAddLink, null), 
-                                React.createElement("button", {"data-toggle": "modal", "data-target": "#modal-musicas", onClick: this.openModal, className: "button is-danger is-inverted is-small"}, "Adicionar Arquivo"), 
+                                React.createElement(BtnAddLink, {openModal: this.openModalAddLink}), 
+                                React.createElement("button", {onClick: this.openModal, className: "button is-danger is-inverted is-small"}, "Adicionar Arquivo"), 
                                 React.createElement("br", null), 
                                 React.createElement(ListArquivos, {reloadArquivos: this.load, anexos: this.state.data, sourceArquivos: this.props.sourceArquivos, sourceVideos: this.props.sourceVideos, dirAnexos: this.props.dirAnexos})
                             )
@@ -530,9 +666,35 @@ $(function () {
                     )
                 ), 
                     React.createElement(UploadArquivo, {reloadArquivos: this.load, openModal: this.openModal, closeModal: this.closeModal, musica: this.props.musica}), 
+                    React.createElement(AddLink, {reloadArquivos: this.load, openModal: this.openModalAddLink, closeModal: this.closeModalAddLink, musica: this.props.musica}), 
                     React.createElement("br", null)
                 )
             );
+        }
+    });
+
+    var ViewLetra = React.createClass({displayName: "ViewLetra",
+
+        getInitialState: function () {
+            return {data: []};
+        },
+        load: function () {
+            $.get(this.props.sourceMusica, function (result) {
+                this.setState({data: result});
+            }.bind(this));
+        },
+        componentDidMount: function () {
+            this.load();
+        },
+
+        render : function() {
+            return (
+                React.createElement(CardLetra, null, 
+                    React.createElement(Font, {source: this.props.sourceAddLetra}), 
+                    React.createElement("br", null), 
+                    React.createElement(BlockLetra, {musica: this.state.data})
+                )
+            )
         }
     });
 
@@ -541,6 +703,7 @@ $(function () {
     var sourceVideos = $("#comentarios").attr("data-source-videos");
     var sourceEditar = $("#comentarios").attr("data-source-editar");
     var sourceAddLetra = $("#comentarios").attr("data-source-add-letra");
+    var sourceMusica= $("#comentarios").attr("data-source-musica");
     
     var musicaId = $("#comentarios").attr("data-musica-id");
     var user = $("#comentarios").attr("data-user");
@@ -549,9 +712,32 @@ $(function () {
 
     ReactDOM.render(
         React.createElement("div", null, 
+            React.createElement(ViewLetra, {sourceMusica: sourceMusica, sourceAddLetra: sourceAddLetra}), 
             React.createElement(ViewArquivos, {sourceArquivos: sourceArquivos, sourceEditar: sourceEditar, sourceAddLetra: sourceAddLetra, sourceVideos: sourceVideos, musica: musicaId, dirAnexos: dirAnexos}), 
             React.createElement(ViewCometarios, {source: source, user: user, dirAvatar: dirAvatar, musicaId: musicaId})
         ),
         document.getElementById('comentarios')
     );
+
+    $('#incfont').click(function () {
+        curSize = parseInt($('#content').css('font-size')) + 2;
+        curSize2 = parseInt($('.c').css('font-size')) + 2;
+        if (curSize <= 32)
+            $('#content').css('font-size', curSize);
+        if (curSize2 <= 32)
+            $('.c').css('font-size', curSize2);
+    });
+    $('#decfont').click(function () {
+        curSize = parseInt($('#content').css('font-size')) - 2;
+        curSize2 = parseInt($('.c').css('font-size')) - 2;
+        if (curSize >= 5)
+            $('#content').css('font-size', curSize);
+        if (curSize2 >= 5)
+            $('.c').css('font-size', curSize2);
+    });
+    $(function () {
+        $("pre").transpose({ key : 'C' });
+        $('.c').css('font-size', 8);
+        $('#content').css('font-size', 8)
+    });
 });

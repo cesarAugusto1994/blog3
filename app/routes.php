@@ -32,6 +32,7 @@ $app->mount('/user', include __DIR__ . '/routes/musica_anexos.php');
 $app->mount('/user', include __DIR__ . '/routes/categoria.php');
 $app->mount('/user', include __DIR__ . '/routes/colecao.php');
 $app->mount('/user', include __DIR__ . '/routes/user.php');
+$app->mount('/user', include __DIR__ . '/routes/tipos_anexos.php');
 include __DIR__.'/routes/access.php';
 /*
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {

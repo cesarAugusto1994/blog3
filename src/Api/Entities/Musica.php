@@ -284,11 +284,17 @@ class Musica implements \JsonSerializable
         $this->ativo = $ativo;
     }
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         return [
             "id" => $this->id,
             "nome" => $this->nome,
+            "letra" => $this->letra,
+            "letraOriginal" => $this->letraOriginal,
+            "tom" => $this->tom,
             "ativo" => $this->ativo
         ];
     }

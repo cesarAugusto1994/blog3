@@ -178,11 +178,57 @@ $anexos->post('/musica/{musicaId}/anexos/upload', function($musicaId, \Symfony\C
 
 })->bind('musica_anexos_upload');
 
-$anexos->post('/musica/{musicaId}/anexos/save', function(\Symfony\Component\HttpFoundation\Request $request, $musicaId) use ($app) {
-    if ($request->get('id')) {
-        return $app['musica.anexos.controller']->editar($request, $app);
+$anexos->post('/musica/{musicaId}/anexos/save', function($musicaId, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    ini_set('display_errors', E_ALL);
+
+    /**
+     * @var \Api\Entities\Musica $musica
+     */
+    $musica = $app['musica.repository']->find($musicaId);
+    $user = $app['session']->get('user');
+    $usuario = $app['usuarios.repository']->find($user->getId());
+
+
+    if (!$request->get('tipo')) {
+        throw new Exception('Tipo não encontrado');
     }
-    return $app['musica.anexos.controller']->novo($musicaId, $request, $app);
+
+    /**
+     * @var \Api\Entities\Tipo $tipo
+     */
+    $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
+
+    $link = $request->get('link');
+
+    if ($tipo->getNome() == 'Video') {
+        preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $request->get('link'), $matches);
+        $link = $matches[0];
+    }
+
+    $musicaAnexo = new \Api\Entities\MusicaAnexos();
+    $musicaAnexo->setNome($musica->getNome());
+    $musicaAnexo->setMusica($musica);
+    $musicaAnexo->setTipo($tipo);
+    $musicaAnexo->setLinkExterno(true);
+    $musicaAnexo->setLink($link);
+    $musicaAnexo->setUsuario($usuario);
+    $musicaAnexo->setCadastro(new \DateTime('now'));
+    $musicaAnexo->setAtivo(true);
+
+    $app['db']->beginTransaction();
+    $app['musica.anexos.repository']->save($musicaAnexo);
+    $app['db']->commit();
+
+    $mensagem = 'Adicionou o arquivo '.$musicaAnexo->getNome();
+
+    return $app->json(
+        [
+            'class' => 'success',
+            'message' => $mensagem
+        ]
+    );
+
 })->bind('save_musica_anexos');
 
 $anexos->post('/musica/{id}/anexos/comentar', function($id, \Symfony\Component\HttpFoundation\Request $request) use ($app) {

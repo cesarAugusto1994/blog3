@@ -133,7 +133,7 @@ $(function () {
                     
                         _this.state.data.map(function (musica) {
 
-                            var linkAnexos = "/user/musica/"+ musica.id +"/anexos/data";
+                            var linkAnexos = "/user/musica/"+ musica.id +"/anexos";
                             var editarMusica = "/user/musicas/" + musica.id + "/" + musica.nome + "/editar";
 
                             return (

@@ -6,7 +6,12 @@
  * Time: 08:41
  */
 
-$musica = $app['controllers_factory']; ini_set('display_errors', E_ALL);
+$musica = $app['controllers_factory'];
+
+$musica->get('musicas/{id}/data', function($id) use ($app) {
+    $musica = $app['musica.repository']->find($id);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($musica);
+})->bind('api_musica');
 
 $musica->get('musicas/{categoria}/data', function($categoria) use ($app) {
     $categoria = $app['categoria.repository']->find($categoria);

@@ -64,49 +64,7 @@ class MusicaAnexosController
      */
     public function novo($musicaId, Request $request, Application $app)
     {
-        /**
-         * @var Musica $musica
-         */
-        $musica = $app['musica.repository']->find($musicaId);
-        $user = $app['session']->get('user');
-        $usuario = $app['usuarios.repository']->find($user->getId());
 
-        /**
-         * @var Tipo $tipo
-         */
-        $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
-
-        $link = $request->get('link');
-
-        if ($tipo->getNome() == 'Video') {
-            preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $request->get('link'), $matches);
-            $link = $matches[0];
-        }
-
-        $musicaAnexo = new MusicaAnexos();
-        $musicaAnexo->setNome($musica->getNome());
-        $musicaAnexo->setMusica($musica);
-        $musicaAnexo->setTipo($tipo);
-        $musicaAnexo->setLinkExterno(true);
-        $musicaAnexo->setLink($link);
-        $musicaAnexo->setUsuario($usuario);
-        $musicaAnexo->setCadastro(new \DateTime('now'));
-        $musicaAnexo->setAtivo(true);
-
-        $app['db']->beginTransaction();
-        $app['musica.anexos.repository']->save($musicaAnexo);
-        $app['db']->commit();
-
-        $mensagem = 'Adicionou o arquivo '.$musicaAnexo->getNome();
-    
-        $app['log.controller']->criar($mensagem);
-        $app['session']->getFlashBag()->add('mensagem', $mensagem);
-
-        if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
-            return $app->redirect('/user/musica/anexos/' . $musica->getId());
-        }
-
-        return $app->redirect('/admin/musicas/anexos/grid/'.$musica->getId().'/'.$musica->getNome());
     }
 
     /**
