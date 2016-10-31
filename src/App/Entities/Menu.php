@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repositories\MenuRepository")
  * @ORM\Table(name="menu")
  */
-class Menu
+class Menu implements \JsonSerializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -186,5 +186,19 @@ class Menu
     public function setPrevilegioRequerido($previlegioRequerido)
     {
         $this->previlegioRequerido = $previlegioRequerido;
+    }
+    
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "nome" => $this->nome,
+            "descricao" => $this->descricao,
+            "url" => $this->url,
+            "icon" => $this->icon,
+        ];
     }
 }

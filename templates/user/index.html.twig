@@ -2,155 +2,17 @@
 
 {% block title %}{{ app['nome.blog'] }}{% endblock %}
 
-{% block header %}
-    <section id="hero-area" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="block wow fadeInUp" data-wow-delay=".3s">
-                        <!-- Slider -->
-                        <section class="cd-intro">
-                            <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
-                                <span>Ol&aacute;, {{ app.usuario.nome }}.</span><br>
-                            </h1>
-                        </section> <!-- cd-intro -->
-                        <!-- /.slider -->
-                        <h2 class="wow fadeInUp animated" data-wow-delay=".6s">
-                            Bem vindo ao {{ app['nome.blog'] }}
-                        </h2>
-                        <a class="btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green"
-                           data-wow-delay=".9s" href="#works" data-section="#works">Iniciar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-{% endblock %}
+{% block header %}&nbsp;{% endblock %}
 
 {% block content %}
 
-    <section id="works" class="works">
-        <div class="container">
-            <div class="section-heading">
-                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Inicio</h1>
-            </div>
-            <div class="row">
-                {% for menu in app['menus'] %}
-                    <div class="col-sm-4 col-xs-12">
-                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
-                            <div class="img-wrapper">
-                                <a href="{{ path(menu.url) }}">
-                                    <img style="min-height: 160px; max-height: 160px; margin: auto;" src="{% if menu.icon is not null %}{{ asset(app['dir.menu'] ~ menu.icon ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
-                                    <div class="overlay"></div></a>
-                            </div>
-                            <figcaption>
-                                <h4>
-                                    <a href="{{ path(menu.url) }}">
-                                        {{ menu.nome }}
-                                    </a>
-                                </h4>
-                                <p>
-                                    {{ menu.descricao }}
-                                </p>
-                            </figcaption>
-                        </figure>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section id="works" class="works">
-        <div class="container">
-            <div class="section-heading">
-                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Cole&ccedil;&otilde;es</h1>
-            </div>
-            <div class="row">
-                {% for colecao in app['colecoes'] %}
-                    <div class="col-sm-4 col-xs-12">
-                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
-                            <div class="img-wrapper" style="width: 100%;">
-                                <a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
-                                    <img style="min-height: 160px; max-height: 160px; margin: auto;" src="{% if colecao.imagem %}{{ asset(app['dir.colecao'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}" class="img-responsive" alt="this is a title" >
-                                    <div class="overlay"></div></a>
-                            </div>
-                            <figcaption>
-                                <h4>
-                                    <a href="{{ path('categorias', { colecaoId : colecao.id, nome : colecao.nome }) }}">
-                                        {{ colecao.nome }}
-                                    </a>
-                                </h4>
-                                <p>
-                                    {{ colecao.descricao }}
-                                </p>
-                            </figcaption>
-                        </figure>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section id="feature">
-        <div class="container">
-            <div class="section-heading">
-                <h1 class="title wow fadeInDown" data-wow-delay=".3s">Adicionadas recentemente</h1>
-            </div>
-            <div class="row">
-                {% for musica in musicas %}
-                <div class="col-md-4 col-lg-4 col-xs-12">
-                    <div class="media wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="1800ms">
-                        <div class="media-left">
-                            <div class="icon">
-                                <i class="ion-ios-play"></i>
-                            </div>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.nome }}</a></h4>
-                            <p>
-                                <a class="button is-light is-small" href="{{ path('categorias', { colecaoId : musica.categoria.colecao.id, nome : musica.categoria.colecao.nome }) }}">{{ musica.categoria.colecao.nome }}</a>
-                                <a class="button is-light is-small" href="{{ path('view_musicas', { categoriaId : musica.categoria.id, nome : musica.categoria.nome }) }}">{{ musica.categoria.nome }}</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                    {% endfor %}
-            </div>
-        </div>
-    </section> <!-- /#feature -->
-
-    <section id="call-to-action">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="block">
-                        <h2 class="title wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">Nossos videos</h2>
-                        <div class="row">
-                            {% for video in videos %}
-                                <div class="col-sm-4 col-xs-12">
-                                    <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
-                                        <div class="img-wrapper" style="width: 100%;">
-                                            {% if video.link is not null %}
-                                                <iframe  width="100%" height="100%" src="https://www.youtube.com/embed/{{ video.link }}"
-                                                         frameborder="0" allowfullscreen></iframe>
-                                            {% endif %}
-                                        </div>
-                                        <figcaption>
-                                            <h4>
-                                                {{ video.nome }}
-                                            </h4>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <a href="{{ path('videos') }}" class="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Ver mais</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
+    <div id="user" data-menu="{{ path('api_menu') }}"
+         data-dir-menu="{{ app['dir.menu'] }}"
+         data-colecao="{{ path('api_colecoes') }}"
+         data-dir-colecao="{{ app['dir.colecao'] }}"
+         data-default-background="{{ app['background.default'] }}"
+         data-musica="{{ path('api_musicas_recentes') }}"
+         data-videos="{{ path('api_videos') }}"></div>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/build/user.js') }}"></script>
 
 {% endblock %}

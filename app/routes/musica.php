@@ -8,10 +8,15 @@
 
 $musica = $app['controllers_factory'];
 
-$musica->get('musicas/{id}/data', function($id) use ($app) {
+$musica->get('musicas/{id}', function($id) use ($app) {
     $musica = $app['musica.repository']->find($id);
     return new \Symfony\Component\HttpFoundation\JsonResponse($musica);
 })->bind('api_musica');
+
+$musica->get('musicas/adicionadas/recentemente', function() use ($app) {
+    $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);
+})->bind('api_musicas_recentes');
 
 $musica->get('musicas/{categoria}/data', function($categoria) use ($app) {
     $categoria = $app['categoria.repository']->find($categoria);
@@ -36,7 +41,7 @@ $musica->get('musicas/{categoriaId}/{nome}', function($categoriaId, $nome) use (
 
 })->bind('view_musicas');
 
-$musica->get('musicas/nova/{categoria}', function($categoria) use ($app){
+$musica->get('musicas/adicionar/{categoria}/1', function($categoria) use ($app){
 
     $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
     return $app['twig']->render(

@@ -116,7 +116,7 @@ $(function () {
         load : function () {
             var _this = this;
             $.get(_this.props.source, function (result) {
-                this.setState({data: result});
+                _this.setState({data: result});
             }.bind(_this))
         },  
 

@@ -89,6 +89,14 @@ $anexos->get('/musica/anexos/videos', function () use ($app) {
 
 })->bind('videos');
 
+$anexos->get('/videos/data', function() use ($app) {
+    
+    $tipo = $app['tipo.anexo.repository']->find(4);
+    $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo]);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($videos);
+    
+})->bind('api_videos');
+
 $anexos->get('/comentarios/{musicaId}', function ($musicaId) use ($app) {
 
     $musica = $app['musica.repository']->find($musicaId);

@@ -8,6 +8,11 @@
 
 $menu = $app['controllers_factory'];
 
+$menu->get('menus', function () use ($app) {
+    $menu = $app['menu.repository']->findBy(['ativo' => true]);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($menu);
+})->bind('api_menu');
+
 $menu->get('blog', function () use ($app) {
     return $app['twig']->render('admin/blog_config.html.twig');
 })->bind('blog');
