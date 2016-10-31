@@ -134,7 +134,7 @@ $(function () {
                 React.createElement(MainMenu, null, 
                      this.state.data.map(function(menu) {
                         return (
-                            React.createElement("li", {key: menu.id}, React.createElement("a", {href: menu.url}, menu.nome))
+                            React.createElement("li", {key: menu.id}, React.createElement("a", {href:  "/user/" + menu.url}, menu.nome))
                         )
                     }), 
                     admin, 
@@ -175,6 +175,7 @@ $(function () {
     var userNome = $("#menu").data("usuario-nome");
     var userRoles = $("#menu").data("usuario-roles");
     var userAvatar = $("#menu").data("usuario-avatar");
+
     var configNome = $("#menu").data("config-nome");
     var configImg = $("#menu").data("config-img");
 

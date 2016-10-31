@@ -134,7 +134,7 @@ $(function () {
                 <MainMenu>
                     { this.state.data.map(function(menu) {
                         return (
-                            <li key={menu.id}><a href={menu.url}>{menu.nome}</a></li>
+                            <li key={menu.id}><a href={ "/user/" + menu.url}>{menu.nome}</a></li>
                         )
                     }) }
                     {admin}
@@ -175,6 +175,7 @@ $(function () {
     var userNome = $("#menu").data("usuario-nome");
     var userRoles = $("#menu").data("usuario-roles");
     var userAvatar = $("#menu").data("usuario-avatar");
+
     var configNome = $("#menu").data("config-nome");
     var configImg = $("#menu").data("config-img");
 

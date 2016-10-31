@@ -197,8 +197,6 @@ $(function () {
     var defaultImage = $("#colecoes").attr("data-defaul-image");
     var user = $("#colecoes").attr("data-user");
 
-    console.log(user);
-
     ReactDOM.render(
         <div>
             <ColecoesList source={source} dirImg={dirImg} defaultImage={defaultImage} user={user}/>
