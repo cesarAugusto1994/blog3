@@ -17,7 +17,7 @@ $user->get('perfil/{user}', function($user) use($app) {
     return new \Symfony\Component\HttpFoundation\JsonResponse($user);
 })->bind('api_user');
 
-$user->get('/user/{user}/atividades', function($user) use($app) {
+$user->get('/{user}/atividades', function($user) use($app) {
     return $app['usuarios.controller']->getAtividadesUsuario($user, $app);
 })->bind('usuario_atividades')->value('user', 1);
 
