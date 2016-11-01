@@ -164,7 +164,11 @@ $app['usuario.sessao'] = function () use ($app) {
   $user = $app['session']->get('user');
   
   if(empty($user)) {
-    return [];
+    return [
+        'id' => 0,
+        'nome' => "Usuario",
+        'email' => "usuario@usuario.com.br"
+    ];
   }
   
   return [

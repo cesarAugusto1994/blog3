@@ -675,6 +675,19 @@ $(function () {
 
     var ViewLetra = React.createClass({
 
+        render : function() {
+            return (
+                <CardLetra>
+                    <Font source={this.props.sourceAddLetra}/>
+                    <br />
+                    <BlockLetra musica={this.props.dataMusica} />
+                </CardLetra>
+            )
+        }
+    });
+
+    var Render = React.createClass({
+
         getInitialState: function () {
             return {data: []};
         },
@@ -687,13 +700,22 @@ $(function () {
             this.load();
         },
 
-        render : function() {
+        render : function () {
             return (
-                <CardLetra>
-                    <Font source={this.props.sourceAddLetra}/>
-                    <br />
-                    <BlockLetra musica={this.state.data} />
-                </CardLetra>
+                <div>
+                    <ViewLetra dataMusica={this.state.data}
+                               sourceAddLetra={this.props.sourceAddLetra}/>
+                    <ViewArquivos sourceArquivos={this.props.sourceArquivos}
+                                  sourceEditar={this.props.sourceEditar}
+                                  sourceAddLetra={this.props.sourceAddLetra}
+                                  sourceVideos={this.props.sourceVideos}
+                                  musica={this.props.musicaId}
+                                  dirAnexos={this.props.dirAnexos}/>
+                    <ViewCometarios source={this.props.source}
+                                    user={this.props.user}
+                                    dirAvatar={this.props.dirAvatar}
+                                    musicaId={this.props.musicaId}/>
+                </div>
             )
         }
     });
@@ -712,9 +734,18 @@ $(function () {
 
     ReactDOM.render(
         <div>
-            <ViewLetra sourceMusica={sourceMusica} sourceAddLetra={sourceAddLetra} />
-            <ViewArquivos sourceArquivos={sourceArquivos} sourceEditar={sourceEditar} sourceAddLetra={sourceAddLetra} sourceVideos={sourceVideos} musica={musicaId} dirAnexos={dirAnexos}/>
-            <ViewCometarios source={source} user={user} dirAvatar={dirAvatar} musicaId={musicaId}/>
+           <Render sourceMusica={sourceMusica}
+                   sourceAddLetra={sourceAddLetra}
+                   sourceArquivos={sourceArquivos}
+                   sourceEditar={sourceEditar}
+                   sourceVideos={sourceVideos}
+                   musica={musicaId}
+                   dirAnexos={dirAnexos}
+                   source={source}
+                   user={user}
+                   dirAvatar={dirAvatar}
+                   musicaId={musicaId}
+           />
         </div>,
         document.getElementById('comentarios')
     );

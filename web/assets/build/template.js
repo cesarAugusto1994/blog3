@@ -102,6 +102,7 @@ $(function () {
             var linkToPerfil = "/user/perfil/" + this.props.user.id;
             var linkToAtividades = "/user/"+this.props.user.id+"/atividades";
             var admin = "";
+            var user = "";
 
             if ("ROLE_ADMIN" == user.role) {
                 admin = React.createElement("li", {className: "dropdown"}, 
@@ -119,15 +120,27 @@ $(function () {
             };
 
             var access = {
-                label : "logout",
-                link : "/admin/logout"
+                label : "login",
+                link : "/login"
             };
     
             if ("ROLE_USER" == user.roles) {
                  access = {
-                    label : "login",
-                    link : "/login"
+                     label : "logout",
+                     link : "/admin/logout"
                 };
+                user = React.createElement("li", {className: "dropdown"}, 
+                    React.createElement("a", {href: "#", className: "dropdown-toggle", "data-toggle": "dropdown"}, 
+                        React.createElement("img", {style: StyleImg, src: rootAvatar, 
+                             className: "profile-image img-circle"})
+                    ), 
+                    React.createElement("div", {className: "dropdown-menu"}, 
+                        React.createElement("ul", null, 
+                            React.createElement("li", null, React.createElement("a", {href: linkToPerfil}, "Perfil")), 
+                            React.createElement("li", null, React.createElement("a", {href: linkToAtividades}, "Atividades"))
+                        )
+                    )
+                )
             }
 
             return (
@@ -138,18 +151,7 @@ $(function () {
                         )
                     }), 
                     admin, 
-                    React.createElement("li", {className: "dropdown"}, 
-                        React.createElement("a", {href: "#", className: "dropdown-toggle", "data-toggle": "dropdown"}, 
-                            React.createElement("img", {style: StyleImg, src: rootAvatar, 
-                                 className: "profile-image img-circle"})
-                        ), 
-                        React.createElement("div", {className: "dropdown-menu"}, 
-                            React.createElement("ul", null, 
-                                React.createElement("li", null, React.createElement("a", {href: linkToPerfil}, "Perfil")), 
-                                React.createElement("li", null, React.createElement("a", {href: linkToAtividades}, "Atividades"))
-                            )
-                        )
-                    ), 
+                    user, 
                     React.createElement("li", null, React.createElement("a", {href: this.props.pesquisar}, "Pesquisar")), 
                     React.createElement("li", null, React.createElement("a", {href: access.link}, access.label))
                 )

@@ -675,6 +675,19 @@ $(function () {
 
     var ViewLetra = React.createClass({displayName: "ViewLetra",
 
+        render : function() {
+            return (
+                React.createElement(CardLetra, null, 
+                    React.createElement(Font, {source: this.props.sourceAddLetra}), 
+                    React.createElement("br", null), 
+                    React.createElement(BlockLetra, {musica: this.props.dataMusica})
+                )
+            )
+        }
+    });
+
+    var Render = React.createClass({displayName: "Render",
+
         getInitialState: function () {
             return {data: []};
         },
@@ -687,12 +700,21 @@ $(function () {
             this.load();
         },
 
-        render : function() {
+        render : function () {
             return (
-                React.createElement(CardLetra, null, 
-                    React.createElement(Font, {source: this.props.sourceAddLetra}), 
-                    React.createElement("br", null), 
-                    React.createElement(BlockLetra, {musica: this.state.data})
+                React.createElement("div", null, 
+                    React.createElement(ViewLetra, {dataMusica: this.state.data, 
+                               sourceAddLetra: this.props.sourceAddLetra}), 
+                    React.createElement(ViewArquivos, {sourceArquivos: this.props.sourceArquivos, 
+                                  sourceEditar: this.props.sourceEditar, 
+                                  sourceAddLetra: this.props.sourceAddLetra, 
+                                  sourceVideos: this.props.sourceVideos, 
+                                  musica: this.props.musicaId, 
+                                  dirAnexos: this.props.dirAnexos}), 
+                    React.createElement(ViewCometarios, {source: this.props.source, 
+                                    user: this.props.user, 
+                                    dirAvatar: this.props.dirAvatar, 
+                                    musicaId: this.props.musicaId})
                 )
             )
         }
@@ -712,9 +734,18 @@ $(function () {
 
     ReactDOM.render(
         React.createElement("div", null, 
-            React.createElement(ViewLetra, {sourceMusica: sourceMusica, sourceAddLetra: sourceAddLetra}), 
-            React.createElement(ViewArquivos, {sourceArquivos: sourceArquivos, sourceEditar: sourceEditar, sourceAddLetra: sourceAddLetra, sourceVideos: sourceVideos, musica: musicaId, dirAnexos: dirAnexos}), 
-            React.createElement(ViewCometarios, {source: source, user: user, dirAvatar: dirAvatar, musicaId: musicaId})
+           React.createElement(Render, {sourceMusica: sourceMusica, 
+                   sourceAddLetra: sourceAddLetra, 
+                   sourceArquivos: sourceArquivos, 
+                   sourceEditar: sourceEditar, 
+                   sourceVideos: sourceVideos, 
+                   musica: musicaId, 
+                   dirAnexos: dirAnexos, 
+                   source: source, 
+                   user: user, 
+                   dirAvatar: dirAvatar, 
+                   musicaId: musicaId}
+           )
         ),
         document.getElementById('comentarios')
     );

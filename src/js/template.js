@@ -102,6 +102,7 @@ $(function () {
             var linkToPerfil = "/user/perfil/" + this.props.user.id;
             var linkToAtividades = "/user/"+this.props.user.id+"/atividades";
             var admin = "";
+            var user = "";
 
             if ("ROLE_ADMIN" == user.role) {
                 admin = <li className="dropdown">
@@ -119,15 +120,27 @@ $(function () {
             };
 
             var access = {
-                label : "logout",
-                link : "/admin/logout"
+                label : "login",
+                link : "/login"
             };
     
             if ("ROLE_USER" == user.roles) {
                  access = {
-                    label : "login",
-                    link : "/login"
+                     label : "logout",
+                     link : "/admin/logout"
                 };
+                user = <li className="dropdown">
+                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                        <img style={StyleImg} src={rootAvatar}
+                             className="profile-image img-circle" />
+                    </a>
+                    <div className="dropdown-menu">
+                        <ul>
+                            <li><a href={linkToPerfil}>Perfil</a></li>
+                            <li><a href={linkToAtividades}>Atividades</a></li>
+                        </ul>
+                    </div>
+                </li>
             }
 
             return (
@@ -138,18 +151,7 @@ $(function () {
                         )
                     }) }
                     {admin}
-                    <li className="dropdown">
-                        <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                            <img style={StyleImg} src={rootAvatar}
-                                 className="profile-image img-circle" />
-                        </a>
-                        <div className="dropdown-menu">
-                            <ul>
-                                <li><a href={linkToPerfil}>Perfil</a></li>
-                                <li><a href={linkToAtividades}>Atividades</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                    {user}
                     <li><a href={this.props.pesquisar}>Pesquisar</a></li>
                     <li><a href={access.link}>{access.label}</a></li>
                 </MainMenu>
