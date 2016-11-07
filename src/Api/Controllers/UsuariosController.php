@@ -96,96 +96,7 @@ class UsuariosController
 
         return $app->redirect('/user/perfil/'.$usuario->getId());
     }
-    
-    /**
-     * @param Request $request
-     * @param Application $app
-     * @return mixed
-     */
-    public function novo(Request $request, Application $app)
-    {
-        $form = $app['form.factory']->createBuilder(FormType::class)
-            ->add('nome', TextType::class, [
-                'required' => true,
-                'constraints' => [new Assert\NotBlank(), new Assert\Length([
-                    'min' => 5, 'minMessage' => 'Seu Nome deve possuir mais de {{ limit }} caracteres.',
-                    'max' => 30, 'maxMessage' => 'Seu Nome deve possuir menos de {{ limit }} caracteres.'])],
-                'attr' => array('class' => 'form-control', 'placeholder' => 'Nome')
-            ])->add('nickname', TextType::class, [
-                'required' => true,
-                'constraints' => [new Assert\NotBlank(), new Assert\Length([
-                    'min' => 5, 'minMessage' => 'Seu Nickname deve possuir mais de {{ limit }} caracteres.',
-                    'max' => 30, 'maxMessage' => 'Seu Nickname deve possuir menos de {{ limit }} caracteres.'])],
-                'attr' => array('class' => 'form-control', 'placeholder' => 'Usuário ex.: usuario')
-            ])->add('email', EmailType::class, [
-                'required' => true,
-                'constraints' => [new Assert\Email(), new Assert\Length(['min' => 6])],
-                'attr' => array('class' => 'form-control', 'placeholder' => 'E-mail')
-            ])->add('password', PasswordType::class, [
-                'required' => true,
-                'constraints' => [new Assert\NotBlank(), new Assert\Length([
-                    'min' => 6, 'minMessage' => 'Sua Senha deve possuir mais de {{ limit }} caracteres.',])],
-                'attr' => array('class' => 'form-control', 'placeholder' => 'Senha')
-            ])->add('password_confirm', PasswordType::class, [
-                'required' => true,
-                'constraints' => [new Assert\NotBlank(), new Assert\Length([
-                    'min' => 6, 'minMessage' => 'Sua Senha deve possuir mais de {{ limit }} caracteres.',])],
-                'attr' => array('class' => 'form-control', 'placeholder' => 'Confirme sua Senha')
-            ])->add('registrar', SubmitType::class, [
-                    'attr' => ['class' => 'btn btn-success btn-block btn-flat', 'value' => 1]
-                ]
-            )->getForm();
 
-        $form->handleRequest($request);
-    
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-            if ($request->get('form')['password'] != $request->get('form')['password_confirm']) {
-                return $app['twig']->render(
-                    'register.html.twig',
-                    ['error' => 'As Senhas não conferem.', 'form' => $form->createView()]
-                );
-            }
-        
-            $email = $app['usuarios.repository']->findBy(['email' => $request->get('form')['email']]);
-    
-            if ($email) {
-                return $app['twig']->render(
-                    'register.html.twig',
-                    ['error' => 'Já existe um cadastro com esse e-mail.', 'form' => $form->createView()]
-                );
-            }
-    
-            $encoder = $app['security.encoder.digest'];
-            $password = $encoder->encodePassword($request->get('form')['password'], '');
-    
-            $usuario = new Usuarios();
-            $usuario->setNome($request->get('form')['nome']);
-            $usuario->setNickname(strtolower($request->get('form')['nickname']));
-            $usuario->setEmail($request->get('form')['email']);
-            $usuario->setPassword($password);
-            $usuario->setCadastro(new \DateTime('now'));
-            $usuario->setRoles('ROLE_USER');
-            $usuario->setAtivo(true);
-
-            $app['db']->beginTransaction();
-            $app['usuarios.repository']->save($usuario);
-            $app['db']->commit();
-
-            //$app['session']->getFlashBag()->add('mensagem', 'Você se cadastrou com sucesso.');
-
-            //$app['email.confirmacao.controller']->criar($usuario, $app);
-
-            if ($app['envia.email']) {
-                //$app['usuario.email.service']->send($usuario->getEmail(), $app);
-            }
-        
-            return $app->redirect('login');
-        }
-    
-        return $app['twig']->render('register.html.twig', ['form' => $form->createView()]);
-    }
-    
     /**
      * @param int $id
      * @param Application $app
@@ -212,20 +123,11 @@ class UsuariosController
          * @var Usuarios $usuario
          */
         $usuario = $app['usuarios.repository']->find($id);
-
-        if ($usuario->isAtivo()) {
-            $usuario->setAtivo(false);
-        } else {
-            $usuario->setAtivo(true);
-        }
+        $usuario->setAtivo(!$usuario->isAtivo());
 
         $app['db']->beginTransaction();
         $app['usuarios.repository']->save($usuario);
         $app['db']->commit();
-
-        $app['log.controller']->criar(($usuario->isAtivo() ? 'ativou' : 'inativou') . ' o usuário ' . $usuario->getNome());
-
-        $app['session']->getFlashBag()->add('mensagem', 'Usuário '.($usuario->isAtivo() ? 'ativado' : 'inativado').' com sucesso.');
 
         return $app->redirect('/admin/usuarios/list');
     }

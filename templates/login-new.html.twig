@@ -16,65 +16,56 @@
                                     <a href="{{ path('home') }}"><b>{{ app['nome.blog'] }}</b></a>
                                 </div>
 
-                                {% if sucesso is defined %}
-                                    <div class="alert alert-success" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                                    aria-hidden="true">x</span></button>
-                                        {{ sucesso }}
-                                    </div>
-                                {% endif %}
-                                {% if error %}
-                                    <div class="alert alert-danger alert-dismissable" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                                    aria-hidden="true">x</span></button>
-                                        {% if error == 'Bad credentials.' %}Usu&aacute;rio ou Senha s&atilde;o in&aacute;lidos.{% else %}{{ error }}{% endif %}
-                                    </div>
-                                {% endif %}
-
                                 <div class="login-box-body" style="background-color: transparent">
                                     <p class="login-box-msg">Entre para iniciar a sess&atilde;o</p>
+
+                                    {% if sucesso is defined %}
+                                        <div class="alert alert-success" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                        aria-hidden="true">x</span></button>
+                                            {{ sucesso }}
+                                        </div>
+                                    {% endif %}
+                                    {% if error %}
+                                        <div class="alert alert-danger alert-dismissable" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                        aria-hidden="true">x</span></button>
+                                            {% if error == 'Bad credentials.' %}Usu&aacute;rio ou Senha s&atilde;o inv&aacute;lidos.{% else %}{{ error }}{% endif %}
+                                        </div>
+                                    {% endif %}
+
                                     <form method="post" action="{{ path('login_check') }}">
                                         <div class="form-group has-feedback">
                                             <input type="text" name="_username" value="{{ last_username }}"
-                                                   class="form-control" placeholder="Email ou Nome">
+                                                   class="input" placeholder="Email" required>
                                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         </div>
                                         <div class="form-group has-feedback">
-                                            <input type="password" name="_password" class="form-control"
-                                                   placeholder="Password" required="required" title="Informe a Senha">
+                                            <input type="password" name="_password" class="input"
+                                                   placeholder="Senha" required="required" title="Informe a Senha">
                                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-12">
-                                                <p class="control text-center">
-                                                    <label class="checkbox icheck light wow fadeInUp animated smooth-scroll"
-                                                           style="color: white">
-                                                        <input type="checkbox" checked id="remember_me" name="_remember_me">
-                                                        Lembrar-me
-                                                    </label>
-                                                </p>
-                                                <br>
-                                            </div>
                                             <div class="col-xs-6">
                                                 <a href="{{ path('register') }}"
-                                                   class="btn btn-danger btn-block btn-flat">Registrar</a>
+                                                   class="button is-danger is-inverted is-fullwidth">Registrar</a>
                                             </div>
                                             <div class="col-xs-6">
-                                                <button type="submit" class="btn btn-success btn-block btn-flat">
+                                                <button type="submit" class="button is-success is-fullwidth">
                                                     Entrar
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12"><br>
-                                                <a href="{{ path('home') }}" class="btn btn-link btn-block btn-flat">P&aacute;gina
+                                                <a href="{{ path('home') }}" class="button is-light is-fullwidth">P&aacute;gina
                                                     Inicial.</a>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                        </section> <!-- cd-intro -->
+                        </section>
                     </div>
                 </div>
             </div>

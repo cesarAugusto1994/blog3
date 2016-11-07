@@ -45,19 +45,6 @@ class IndexController
     }
 
     /**
-     * @param Request $request
-     * @param Application $app
-     * @return mixed
-     */
-    public function login(Request $request, Application $app)
-    {
-        return $app['twig']->render('login-new.html.twig', array(
-            'error'         => $app['security.last_error']($request),
-            'last_username' => $app['session']->get('_security.last_username'),
-        ));
-    }
-
-    /**
      * @param Application $app
      * @return mixed
      */

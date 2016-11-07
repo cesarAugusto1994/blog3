@@ -102,7 +102,7 @@ $(function () {
             var linkToPerfil = "/user/perfil/" + this.props.user.id;
             var linkToAtividades = "/user/"+this.props.user.id+"/atividades";
             var admin = "";
-            var user = "";
+            var userProfile = "";
 
             if ("ROLE_ADMIN" == user.role) {
                 admin = <li className="dropdown">
@@ -124,12 +124,12 @@ $(function () {
                 link : "/login"
             };
     
-            if ("ROLE_USER" == user.roles) {
+            if (("ROLE_USER" || "ROLE_ADMIN") == user.role) {
                  access = {
                      label : "logout",
                      link : "/admin/logout"
                 };
-                user = <li className="dropdown">
+                userProfile = <li className="dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                         <img style={StyleImg} src={rootAvatar}
                              className="profile-image img-circle" />
@@ -151,7 +151,7 @@ $(function () {
                         )
                     }) }
                     {admin}
-                    {user}
+                    {userProfile}
                     <li><a href={this.props.pesquisar}>Pesquisar</a></li>
                     <li><a href={access.link}>{access.label}</a></li>
                 </MainMenu>

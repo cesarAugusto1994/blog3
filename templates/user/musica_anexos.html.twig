@@ -5,9 +5,9 @@
 {% block header %}{{ parent() }}{% endblock %}
 
 {% block stylesheet %}{{ parent() }}
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/musica_anexos.js') }}"></script>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet"/>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/musica_anexos.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
@@ -37,41 +37,4 @@
         </div>
     </article>
 
-    <div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form id="form-add-link" class="form-horizontal">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Adicionar Musica</h4>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="id" id="id">
-                        <input type="hidden" name="musica" id="musica" value="{{ musica.id }}">
-                        <label>Tipo de Link</label>
-                        <p class="control">
-                            <select class="input" name="tipo" id="tipo" required>
-                                <option value="">Selecione</option>
-                                {% for tipo in tipos %}
-                                    <option value="{{ tipo.id }}">{{ tipo.nome }}</option>
-                                {% endfor %}
-                            </select>
-                        </p>
-                        <label>Link</label>
-                        <p class="control">
-                            <input class="input" type="text" placeholder="Link" name="link" id="link" required>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <p class="control">
-                            <button id="btn-add-link" class="button is-success" type="submit">
-                                Salvar
-                            </button>
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 {% endblock %}

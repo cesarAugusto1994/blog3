@@ -102,7 +102,7 @@ $(function () {
             var linkToPerfil = "/user/perfil/" + this.props.user.id;
             var linkToAtividades = "/user/"+this.props.user.id+"/atividades";
             var admin = "";
-            var user = "";
+            var userProfile = "";
 
             if ("ROLE_ADMIN" == user.role) {
                 admin = React.createElement("li", {className: "dropdown"}, 
@@ -124,12 +124,12 @@ $(function () {
                 link : "/login"
             };
     
-            if ("ROLE_USER" == user.roles) {
+            if (("ROLE_USER" || "ROLE_ADMIN") == user.role) {
                  access = {
                      label : "logout",
                      link : "/admin/logout"
                 };
-                user = React.createElement("li", {className: "dropdown"}, 
+                userProfile = React.createElement("li", {className: "dropdown"}, 
                     React.createElement("a", {href: "#", className: "dropdown-toggle", "data-toggle": "dropdown"}, 
                         React.createElement("img", {style: StyleImg, src: rootAvatar, 
                              className: "profile-image img-circle"})
@@ -151,7 +151,7 @@ $(function () {
                         )
                     }), 
                     admin, 
-                    user, 
+                    userProfile, 
                     React.createElement("li", null, React.createElement("a", {href: this.props.pesquisar}, "Pesquisar")), 
                     React.createElement("li", null, React.createElement("a", {href: access.link}, access.label))
                 )
