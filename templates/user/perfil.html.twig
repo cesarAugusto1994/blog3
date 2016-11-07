@@ -1,9 +1,6 @@
 {% extends 'template-new.html.twig' %}
 
 {% block title %}Perfil{% endblock %}
-
-{% block header %}{{ parent() }}{% endblock %}
-
 {% block headerNome %}Perfil{% endblock %}
 
 {% block content %}
@@ -39,9 +36,6 @@
                         <p class="control">Nome Completo
                             <input class="input" type="text" placeholder="Nome" name="nome" value="{{ user.nome }}" required>
                         </p>
-                        <p class="control">Nickname
-                            <input class="input" type="text" placeholder="Nickname" name="nickname" value="{{ user.nickname }}" required>
-                        </p>
                         <p class="control">E-mail
                             <input class="input" type="text" placeholder="email" name="email" value="{{ user.email }}" required>
                         </p>
@@ -54,9 +48,5 @@
             </div>
         </div>
     </article>
-
-{% endblock %}
-
-{% block javascript %}
 
 {% endblock %}

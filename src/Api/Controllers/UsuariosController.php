@@ -36,9 +36,7 @@ class UsuariosController
      */
     public function getUser($id, Application $app)
     {
-        $user = $app['usuarios.repository']->find($id);
-
-        return $app['twig']->render('/user/perfil.html.twig', ['user' => $user]);
+       
     }
     
     /**
@@ -70,29 +68,20 @@ class UsuariosController
         $usuario = $app['usuarios.repository']->find($request->get('id'));
 
         if ($request->get('nome') != $usuario->getNome()) {
-            $app['log.controller']->criar('alterou o nome de usuario no perfil de ' . $usuario->getNome() . ' para ' . $request->get('nome'));
             $usuario->setNome($request->get('nome'));
-        }
-        
-        if ($request->get('nickname') != $usuario->getNickname()) {
-            $usuario->setNickname(strtolower($request->get('nickname')));
         }
 
         if ($request->get('email') != $usuario->getEmail()) {
             $usuario->setEmail($request->get('email'));
-            $app['log.controller']->criar('alterou o e-mail no perfil de ' . $usuario->getNome());
         }
 
         if (!empty($_FILES['background']['size'])) {
             $usuario->setAvatar($app['upload.service']->upload($_FILES['background'], 'avatar', $usuario->getAvatar()));
-            $app['log.controller']->criar('alterou a foto do perfil de '.$usuario->getNome());
         }
 
         $app['db']->beginTransaction();
         $app['usuarios.repository']->save($usuario);
         $app['db']->commit();
-
-        $app['session']->getFlashBag()->add('mensagem', 'Informações do usuário alteradas com sucesso.');
 
         return $app->redirect('/user/perfil/'.$usuario->getId());
     }

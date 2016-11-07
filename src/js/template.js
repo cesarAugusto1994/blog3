@@ -123,16 +123,16 @@ $(function () {
                 label : "login",
                 link : "/login"
             };
-    
-            if (("ROLE_USER" || "ROLE_ADMIN") == user.role) {
-                 access = {
-                     label : "logout",
-                     link : "/admin/logout"
+
+            if ($.inArray(user.role, ["ROLE_USER", "ROLE_ADMIN"])) {
+                access = {
+                    label : "logout",
+                    link : "/admin/logout"
                 };
                 userProfile = <li className="dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                         <img style={StyleImg} src={rootAvatar}
-                             className="profile-image img-circle" />
+                             className="profile-image img-circle" />&nbsp;&nbsp;{user.nome}
                     </a>
                     <div className="dropdown-menu">
                         <ul>

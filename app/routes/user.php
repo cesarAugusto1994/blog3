@@ -9,8 +9,16 @@
 $user = $app['controllers_factory'];
 
 $user->get('perfil/{user}', function($user) use($app) {
-    return $app['usuarios.controller']->getUser($user, $app);
-})->bind('perfil')->value('user', 1);
+
+    $user = $app['usuarios.repository']->find($user);
+
+    if(!$user) {
+        return $app->redirect('/admin/usuarios/list');
+    }
+
+    return $app['twig']->render('/user/perfil.html.twig', ['user' => $user]);
+
+})->bind('perfil');
 
 $user->get('/email/{email}', function($email) use($app) {
     $user = $app['usuarios.repository']->findBy(['email' => $email]);
@@ -26,16 +34,9 @@ $user->get('/{user}/atividades', function($user) use($app) {
     return $app['usuarios.controller']->getAtividadesUsuario($user, $app);
 })->bind('usuario_atividades')->value('user', 1);
 
-$user->get('/admin/usuarios/list', function () use ($app) {
-    return $app['usuarios.controller']->getUsuarios($app);
-})->bind('usuarios');
-
 $user->post('/user/perfil/editar', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['usuarios.controller']->editar($request, $app);
 })->bind('usuario_editar');
 
-$user->get('/admin/usuario/{id}/status', function($id) use ($app) {
-    return $app['usuarios.controller']->alteraStatus($id, $app);
-})->bind('usuario_status');
 
 return $user;

@@ -24,6 +24,14 @@ $app->get('/pesquisar', function (\Symfony\Component\HttpFoundation\Request $req
     return $app['search.controller']->searchPublic($request->get('q'), $app);
 })->bind('pesquisar_home');
 
+$app->get('/admin/usuarios/list', function () use ($app) {
+    return $app['usuarios.controller']->getUsuarios($app);
+})->bind('usuarios');
+
+$app->get('/admin/usuario/{id}/status', function($id) use ($app) {
+    return $app['usuarios.controller']->alteraStatus($id, $app);
+})->bind('usuario_status');
+
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
 include __DIR__.'/routes/post.php';
 include __DIR__.'/routes/musica_admin.php';
@@ -34,7 +42,7 @@ $app->mount('/user', include __DIR__ . '/routes/colecao.php');
 $app->mount('/user', include __DIR__ . '/routes/user.php');
 $app->mount('/user', include __DIR__ . '/routes/tipos_anexos.php');
 include __DIR__.'/routes/access.php';
-/*
+
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
     switch ($code) {
         case 400 :
@@ -54,4 +62,4 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
             break;
     }
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
-});*/
+});
