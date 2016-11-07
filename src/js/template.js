@@ -9,14 +9,14 @@ $(function () {
         maxWidth: '24px',
         minHeight: '24px',
         maxHeight: '24px',
-        margin : 'auto'
+        margin: 'auto'
     };
 
     const FontLogoStyle = {
-        color : "#1e282c"
+        color: "#1e282c"
     };
 
-    class CardMenu extends React.Component{
+    class CardMenu extends React.Component {
 
         render() {
             return (
@@ -27,14 +27,16 @@ $(function () {
                 </header>
             )
         }
-    };
+    }
+    ;
 
-    class NavbarHeader extends React.Component{
+    class NavbarHeader extends React.Component {
 
         render() {
             return (
                 <div className="navbar-header">
-                    <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <button type="button" className="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-collapse">
                         <span className="sr-only">Toggle navigation</span>
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
@@ -42,14 +44,16 @@ $(function () {
                     </button>
 
                     <div className="navbar-brand">
-                        <a href="/user/"><img style={StyleImg} alt="..." src={this.props.configImg}/>&nbsp;<span style={FontLogoStyle}>{this.props.configNome}</span></a>
+                        <a href="/user/"><img style={StyleImg} alt="..." src={this.props.configImg}/>&nbsp;<span
+                            style={FontLogoStyle}>{this.props.configNome}</span></a>
                     </div>
                 </div>
             );
         }
-    };
+    }
+    ;
 
-    class MainMenu extends React.Component{
+    class MainMenu extends React.Component {
 
         render() {
             return (
@@ -62,9 +66,10 @@ $(function () {
                 </nav>
             )
         }
-    };
-    
-    class Footer extends React.Component{
+    }
+    ;
+
+    class Footer extends React.Component {
         render() {
             return (
                 <footer id="footer">
@@ -82,25 +87,25 @@ $(function () {
 
     var Menu = React.createClass({
 
-        getInitialState : function () {
-          return { data : [] }
+        getInitialState: function () {
+            return {data: []}
         },
 
-        load : function () {
+        load: function () {
             $.get('/admin/menus', function (result) {
-                this.setState({ data : result })
+                this.setState({data: result})
             }.bind(this))
         },
 
-        componentDidMount : function () {
+        componentDidMount: function () {
             this.load();
         },
 
-        render : function () {
+        render: function () {
 
             var rootAvatar = this.props.dirAvatar + this.props.user.avatar;
             var linkToPerfil = "/user/perfil/" + this.props.user.id;
-            var linkToAtividades = "/user/"+this.props.user.id+"/atividades";
+            var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
             var admin = "";
             var userProfile = "";
 
@@ -120,19 +125,19 @@ $(function () {
             };
 
             var access = {
-                label : "login",
-                link : "/login"
+                label: "login",
+                link: "/login"
             };
 
             if ($.inArray(user.role, ["ROLE_USER", "ROLE_ADMIN"]) !== -1) {
                 access = {
-                    label : "logout",
-                    link : "/admin/logout"
+                    label: "logout",
+                    link: "/admin/logout"
                 };
                 userProfile = <li className="dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                         <img style={StyleImg} src={rootAvatar}
-                             className="profile-image img-circle" />&nbsp;&nbsp;{user.nome}
+                             className="profile-image img-circle"/>&nbsp;&nbsp;{user.nome}
                     </a>
                     <div className="dropdown-menu">
                         <ul>
@@ -145,7 +150,7 @@ $(function () {
 
             return (
                 <MainMenu>
-                    { this.state.data.map(function(menu) {
+                    { this.state.data.map(function (menu) {
                         return (
                             <li key={menu.id}><a href={ "/user/" + menu.url}>{menu.nome}</a></li>
                         )
@@ -161,16 +166,16 @@ $(function () {
 
     var Mount = React.createClass({
 
-        render : function () {
+        render: function () {
 
             return (
                 <CardMenu>
                     <NavbarHeader configNome={this.props.configNome} configImg={this.props.configImg}/>
-                        <Menu user={this.props.user} dirAvatar={this.props.dirAvatar} pesquisar={this.props.pesquisar} />
+                    <Menu user={this.props.user} dirAvatar={this.props.dirAvatar} pesquisar={this.props.pesquisar}/>
                 </CardMenu>
             )
         }
-        
+
     });
 
     var userId = $("#menu").data("usuario-id");
@@ -182,7 +187,7 @@ $(function () {
     var configImg = $("#menu").data("config-img");
 
     var user = {
-        id : userId, nome : userNome, role : userRoles, avatar : userAvatar
+        id: userId, nome: userNome, role: userRoles, avatar: userAvatar
     };
 
     var pesquisar = $("#menu").data("pesquisar");
@@ -191,7 +196,8 @@ $(function () {
 
     ReactDOM.render(
         <div>
-            <Mount user={user} dirAvatar={dirAvatar} avatarDefault={avatarDefault} pesquisar={pesquisar} configNome={configNome} configImg={configImg}/>
+            <Mount user={user} dirAvatar={dirAvatar} avatarDefault={avatarDefault} pesquisar={pesquisar}
+                   configNome={configNome} configImg={configImg}/>
         </div>,
         document.getElementById("menu")
     )

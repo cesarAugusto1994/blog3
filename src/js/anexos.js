@@ -283,8 +283,7 @@ $(function () {
                         var img = _this.props.dirAvatar + comentario.usuario.avatar;
 
                         return (
-                            <div key={comentario.id}>
-                                <div className="media">
+                                <div key={comentario.id} className="media">
                                     <ImageComentario avatar={img}/>
                                     <div className="media-body">
                                         <h4 className="media-heading">{comentario.usuario.nome}
@@ -292,13 +291,11 @@ $(function () {
                                                                reloadComentarios={_this.props.reloadComentarios}/>
                                             <a className="button is-light is-small is-pulled-right">{comentario.cadastro}</a>
                                         </h4>
-                                        <p>
+                                        <p className="text-muted">
                                             {comentario.comentario}
                                         </p>
                                     </div>
                                 </div>
-                                <br/>
-                            </div>
                         )
                     })}
                 </div>
@@ -312,9 +309,9 @@ $(function () {
             return (
                 <a className="pull-left">
                     <img style={styleImg}
-                         alt=""
+                         alt="user"
                          src={this.props.avatar}
-                         className="media-object"/>
+                         className="media-object  img img-circle"/>
                 </a>
             );
         }
@@ -409,7 +406,7 @@ $(function () {
                 <div>
                     <CardComentarios>
                         <ListComentarios data={this.state.data} dirAvatar={this.props.dirAvatar}
-                                         reloadComentarios={this.load}/>
+                                         reloadComentarios={this.load}/><br/>
                         <FormComentario musicaId={this.props.musicaId} reloadComentarios={this.load}/>
                     </CardComentarios>
                 </div>
@@ -678,7 +675,6 @@ $(function () {
                             <div className="media">
                                 <div className="media-content">
                                     <BtnEditar source={this.props.sourceEditar}/>
-                                    <BtnAddLetra source={this.props.sourceAddLetra}/>
                                     <BtnAddLink openModal={this.openModalAddLink}/>
                                     <button onClick={this.openModal} className="button is-danger is-inverted is-small">
                                         Adicionar Arquivo
@@ -732,8 +728,6 @@ $(function () {
         render: function () {
             return (
                 <div>
-                    <ViewLetra dataMusica={this.state.data}
-                               sourceAddLetra={this.props.sourceAddLetra}/>
                     <ViewArquivos sourceArquivos={this.props.sourceArquivos}
                                   sourceEditar={this.props.sourceEditar}
                                   sourceAddLetra={this.props.sourceAddLetra}

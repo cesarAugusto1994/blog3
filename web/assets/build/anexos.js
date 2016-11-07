@@ -283,8 +283,7 @@ $(function () {
                         var img = _this.props.dirAvatar + comentario.usuario.avatar;
 
                         return (
-                            React.createElement("div", {key: comentario.id}, 
-                                React.createElement("div", {className: "media"}, 
+                                React.createElement("div", {key: comentario.id, className: "media"}, 
                                     React.createElement(ImageComentario, {avatar: img}), 
                                     React.createElement("div", {className: "media-body"}, 
                                         React.createElement("h4", {className: "media-heading"}, comentario.usuario.nome, 
@@ -292,13 +291,11 @@ $(function () {
                                                                reloadComentarios: _this.props.reloadComentarios}), 
                                             React.createElement("a", {className: "button is-light is-small is-pulled-right"}, comentario.cadastro)
                                         ), 
-                                        React.createElement("p", null, 
+                                        React.createElement("p", {className: "text-muted"}, 
                                             comentario.comentario
                                         )
                                     )
-                                ), 
-                                React.createElement("br", null)
-                            )
+                                )
                         )
                     })
                 )
@@ -312,9 +309,9 @@ $(function () {
             return (
                 React.createElement("a", {className: "pull-left"}, 
                     React.createElement("img", {style: styleImg, 
-                         alt: "", 
+                         alt: "user", 
                          src: this.props.avatar, 
-                         className: "media-object"})
+                         className: "media-object  img img-circle"})
                 )
             );
         }
@@ -409,7 +406,7 @@ $(function () {
                 React.createElement("div", null, 
                     React.createElement(CardComentarios, null, 
                         React.createElement(ListComentarios, {data: this.state.data, dirAvatar: this.props.dirAvatar, 
-                                         reloadComentarios: this.load}), 
+                                         reloadComentarios: this.load}), React.createElement("br", null), 
                         React.createElement(FormComentario, {musicaId: this.props.musicaId, reloadComentarios: this.load})
                     )
                 )
@@ -678,7 +675,6 @@ $(function () {
                             React.createElement("div", {className: "media"}, 
                                 React.createElement("div", {className: "media-content"}, 
                                     React.createElement(BtnEditar, {source: this.props.sourceEditar}), 
-                                    React.createElement(BtnAddLetra, {source: this.props.sourceAddLetra}), 
                                     React.createElement(BtnAddLink, {openModal: this.openModalAddLink}), 
                                     React.createElement("button", {onClick: this.openModal, className: "button is-danger is-inverted is-small"}, 
                                         "Adicionar Arquivo"
@@ -732,8 +728,6 @@ $(function () {
         render: function () {
             return (
                 React.createElement("div", null, 
-                    React.createElement(ViewLetra, {dataMusica: this.state.data, 
-                               sourceAddLetra: this.props.sourceAddLetra}), 
                     React.createElement(ViewArquivos, {sourceArquivos: this.props.sourceArquivos, 
                                   sourceEditar: this.props.sourceEditar, 
                                   sourceAddLetra: this.props.sourceAddLetra, 

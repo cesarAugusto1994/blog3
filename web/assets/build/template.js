@@ -9,14 +9,14 @@ $(function () {
         maxWidth: '24px',
         minHeight: '24px',
         maxHeight: '24px',
-        margin : 'auto'
+        margin: 'auto'
     };
 
     const FontLogoStyle = {
-        color : "#1e282c"
+        color: "#1e282c"
     };
 
-    class CardMenu extends React.Component{
+    class CardMenu extends React.Component {
 
         render() {
             return (
@@ -27,14 +27,16 @@ $(function () {
                 )
             )
         }
-    };
+    }
+    ;
 
-    class NavbarHeader extends React.Component{
+    class NavbarHeader extends React.Component {
 
         render() {
             return (
                 React.createElement("div", {className: "navbar-header"}, 
-                    React.createElement("button", {type: "button", className: "navbar-toggle", "data-toggle": "collapse", "data-target": ".navbar-collapse"}, 
+                    React.createElement("button", {type: "button", className: "navbar-toggle", "data-toggle": "collapse", 
+                            "data-target": ".navbar-collapse"}, 
                         React.createElement("span", {className: "sr-only"}, "Toggle navigation"), 
                         React.createElement("span", {className: "icon-bar"}), 
                         React.createElement("span", {className: "icon-bar"}), 
@@ -42,14 +44,16 @@ $(function () {
                     ), 
 
                     React.createElement("div", {className: "navbar-brand"}, 
-                        React.createElement("a", {href: "/user/"}, React.createElement("img", {style: StyleImg, alt: "...", src: this.props.configImg}), " ", React.createElement("span", {style: FontLogoStyle}, this.props.configNome))
+                        React.createElement("a", {href: "/user/"}, React.createElement("img", {style: StyleImg, alt: "...", src: this.props.configImg}), " ", React.createElement("span", {
+                            style: FontLogoStyle}, this.props.configNome))
                     )
                 )
             );
         }
-    };
+    }
+    ;
 
-    class MainMenu extends React.Component{
+    class MainMenu extends React.Component {
 
         render() {
             return (
@@ -62,9 +66,10 @@ $(function () {
                 )
             )
         }
-    };
-    
-    class Footer extends React.Component{
+    }
+    ;
+
+    class Footer extends React.Component {
         render() {
             return (
                 React.createElement("footer", {id: "footer"}, 
@@ -82,25 +87,25 @@ $(function () {
 
     var Menu = React.createClass({displayName: "Menu",
 
-        getInitialState : function () {
-          return { data : [] }
+        getInitialState: function () {
+            return {data: []}
         },
 
-        load : function () {
+        load: function () {
             $.get('/admin/menus', function (result) {
-                this.setState({ data : result })
+                this.setState({data: result})
             }.bind(this))
         },
 
-        componentDidMount : function () {
+        componentDidMount: function () {
             this.load();
         },
 
-        render : function () {
+        render: function () {
 
             var rootAvatar = this.props.dirAvatar + this.props.user.avatar;
             var linkToPerfil = "/user/perfil/" + this.props.user.id;
-            var linkToAtividades = "/user/"+this.props.user.id+"/atividades";
+            var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
             var admin = "";
             var userProfile = "";
 
@@ -120,14 +125,14 @@ $(function () {
             };
 
             var access = {
-                label : "login",
-                link : "/login"
+                label: "login",
+                link: "/login"
             };
 
             if ($.inArray(user.role, ["ROLE_USER", "ROLE_ADMIN"]) !== -1) {
                 access = {
-                    label : "logout",
-                    link : "/admin/logout"
+                    label: "logout",
+                    link: "/admin/logout"
                 };
                 userProfile = React.createElement("li", {className: "dropdown"}, 
                     React.createElement("a", {href: "#", className: "dropdown-toggle", "data-toggle": "dropdown"}, 
@@ -145,7 +150,7 @@ $(function () {
 
             return (
                 React.createElement(MainMenu, null, 
-                     this.state.data.map(function(menu) {
+                     this.state.data.map(function (menu) {
                         return (
                             React.createElement("li", {key: menu.id}, React.createElement("a", {href:  "/user/" + menu.url}, menu.nome))
                         )
@@ -161,16 +166,16 @@ $(function () {
 
     var Mount = React.createClass({displayName: "Mount",
 
-        render : function () {
+        render: function () {
 
             return (
                 React.createElement(CardMenu, null, 
                     React.createElement(NavbarHeader, {configNome: this.props.configNome, configImg: this.props.configImg}), 
-                        React.createElement(Menu, {user: this.props.user, dirAvatar: this.props.dirAvatar, pesquisar: this.props.pesquisar})
+                    React.createElement(Menu, {user: this.props.user, dirAvatar: this.props.dirAvatar, pesquisar: this.props.pesquisar})
                 )
             )
         }
-        
+
     });
 
     var userId = $("#menu").data("usuario-id");
@@ -182,7 +187,7 @@ $(function () {
     var configImg = $("#menu").data("config-img");
 
     var user = {
-        id : userId, nome : userNome, role : userRoles, avatar : userAvatar
+        id: userId, nome: userNome, role: userRoles, avatar: userAvatar
     };
 
     var pesquisar = $("#menu").data("pesquisar");
@@ -191,7 +196,8 @@ $(function () {
 
     ReactDOM.render(
         React.createElement("div", null, 
-            React.createElement(Mount, {user: user, dirAvatar: dirAvatar, avatarDefault: avatarDefault, pesquisar: pesquisar, configNome: configNome, configImg: configImg})
+            React.createElement(Mount, {user: user, dirAvatar: dirAvatar, avatarDefault: avatarDefault, pesquisar: pesquisar, 
+                   configNome: configNome, configImg: configImg})
         ),
         document.getElementById("menu")
     )
