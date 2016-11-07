@@ -6,7 +6,7 @@ $(function () {
 
     var UploadArquivo = React.createClass({
 
-        handleSubmit : function (e) {
+        handleSubmit: function (e) {
 
             e.preventDefault();
 
@@ -14,12 +14,12 @@ $(function () {
 
             var id = this.refs.id.value.trim();
             var arquivo = this.refs.arquivo.value.trim();
-            
-            if(!arquivo) {
+
+            if (!arquivo) {
                 alertify.error("Erro no arquivo.");
                 return false;
             }
-            
+
             var fd = new FormData();
             fd.append('files[]', this.refs.arquivo.files[0]);
 
@@ -28,7 +28,7 @@ $(function () {
 
             $.ajax({
                 type: "POST",
-                url: "/user/musica/"+id+"/anexos/upload",
+                url: "/user/musica/" + id + "/anexos/upload",
                 enctype: "multipart/form-data",
                 data: fd,
                 processData: false,
@@ -49,7 +49,7 @@ $(function () {
 
         },
 
-        render: function() {
+        render: function () {
 
             var modal = null;
             modal = (
@@ -64,12 +64,15 @@ $(function () {
                             </div>
                             <form className="form-horizontal" ref="uploadForm" onSubmit={this.handleSubmit}>
                                 <div className="modal-body">
-                                    <input type="hidden" name="musica" ref="id" defaultValue={this.props.musica} />
-                                    <input className="input" type="file" ref="arquivo" name="files[]" id="filer_input" multiple="multiple"
-                                           accept="image/gif, image/jpeg, image/png, image/jpg, audio/mpeg, audio/mp3, application/octet-stream, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                    <input type="hidden" name="musica" ref="id" defaultValue={this.props.musica}/>
+                                    <input className="input" type="file" ref="arquivo" name="files[]" id="filer_input"
+                                           multiple="multiple"
+                                           accept="image/gif, image/jpeg, image/png, image/jpg, audio/mpeg, audio/mp3, application/octet-stream, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="button is-danger is-outlined is-pulled-left" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" className="button is-danger is-outlined is-pulled-left"
+                                            data-dismiss="modal">Cancelar
+                                    </button>
                                     <button type="submit" className="button is-success">Salvar</button>
                                 </div>
                             </form>
@@ -88,7 +91,7 @@ $(function () {
 
     var AddLink = React.createClass({
 
-        handleSubmit : function (e) {
+        handleSubmit: function (e) {
 
             e.preventDefault();
 
@@ -98,7 +101,7 @@ $(function () {
             var tipo = this.refs.tipo.value.trim();
             var link = this.refs.link.value.trim();
 
-            if(!link) {
+            if (!link) {
                 alertify.error("Erro no arquivo.");
                 return false;
             }
@@ -108,11 +111,11 @@ $(function () {
 
             $.ajax({
                 type: "POST",
-                url: "/user/musica/"+id+"/anexos/save",
+                url: "/user/musica/" + id + "/anexos/save",
                 data: {
-                    id : id,
-                    tipo : tipo,
-                    link : link
+                    id: id,
+                    tipo: tipo,
+                    link: link
                 },
                 cache: false,
                 success: function (data) {
@@ -142,7 +145,7 @@ $(function () {
             this.load();
         },
 
-        render: function() {
+        render: function () {
 
             var modal = null;
             modal = (
@@ -157,27 +160,31 @@ $(function () {
                             </div>
                             <form className="form-horizontal" onSubmit={this.handleSubmit}>
                                 <div className="modal-body">
-                                <input type="hidden" name="musica" id="musica" ref="musica" defaultValue={this.props.musica} />
-                                <p className="control">
-                                    <label>Tipo Arquivo</label>
-                                    <select name="tipo" id="tipo" ref="tipo" className="input">
-                                        {
-                                            this.state.data.map(function (tipo) {
-                                                return (
-                                                    <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>
-                                                )
-                                            })
-                                        }
-                                    </select>
-                                </p>
-                                <p className="control">
-                                    <label>Link</label>
-                                    <input className="input" type="text" placeholder="Link" name="link" id="link" ref="link"
-                                           required/>
-                                </p>
+                                    <input type="hidden" name="musica" id="musica" ref="musica"
+                                           defaultValue={this.props.musica}/>
+                                    <p className="control">
+                                        <label>Tipo Arquivo</label>
+                                        <select name="tipo" id="tipo" ref="tipo" className="input">
+                                            {
+                                                this.state.data.map(function (tipo) {
+                                                    return (
+                                                        <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    </p>
+                                    <p className="control">
+                                        <label>Link</label>
+                                        <input className="input" type="text" placeholder="Link" name="link" id="link"
+                                               ref="link"
+                                               required/>
+                                    </p>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="button is-danger is-outlined is-pulled-left" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" className="button is-danger is-outlined is-pulled-left"
+                                            data-dismiss="modal">Cancelar
+                                    </button>
                                     <button type="submit" className="button is-success">Salvar</button>
                                 </div>
                             </form>
@@ -194,7 +201,7 @@ $(function () {
         }
     });
 
-    var styleCard = { width: '100%' };
+    var styleCard = {width: '100%'};
     var styleImg = {
         minWidth: '64px', maxWidth: '64px', minHeight: '64px', maxHeight: '64px', margin: 'auto'
     };
@@ -206,37 +213,38 @@ $(function () {
 
         handleRemoverComentario: function (e) {
 
-        e.preventDefault();
+            e.preventDefault();
 
-        var _this = this;
+            var _this = this;
 
-        alertify.confirm("Deseja remover este Coment&aacute;rio?", function () {
+            alertify.confirm("Deseja remover este Coment&aacute;rio?", function () {
 
-            block_screen();
+                block_screen();
 
-            $.ajax({
-                type: 'POST',
-                url: '/user/musica/anexos/comentario/'+ _this.props.comentario.id +'/remover',
-                cache: false,
-                success: function (data) {
-                    alertify.success(data.message);
-                    unblock_screen();
-                    _this.props.reloadComentarios();
-                },
-                error: function () {
-                    unblock_screen();
-                    alertify.error("Ocorreu um erro.");
-                }
-            })
+                $.ajax({
+                    type: 'POST',
+                    url: '/user/musica/anexos/comentario/' + _this.props.comentario.id + '/remover',
+                    cache: false,
+                    success: function (data) {
+                        alertify.success(data.message);
+                        unblock_screen();
+                        _this.props.reloadComentarios();
+                    },
+                    error: function () {
+                        unblock_screen();
+                        alertify.error("Ocorreu um erro.");
+                    }
+                })
 
-        }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
-    },
+            }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
+        },
 
 
-        render : function () {
+        render: function () {
 
             return (
-                <a className="button is-danger is-inverted is-small" onClick={this.handleRemoverComentario} data-comentario={this.props.comentario}>Inativar</a>
+                <a className="button is-danger is-inverted is-small" onClick={this.handleRemoverComentario}
+                   data-comentario={this.props.comentario}>Inativar</a>
             )
         }
     });
@@ -260,6 +268,10 @@ $(function () {
 
     var ListComentarios = React.createClass({
 
+        componentDidMount: function () {
+            return setInterval(this.props.reloadComentarios, 10000);
+        },
+
         render: function () {
 
             var _this = this;
@@ -276,7 +288,8 @@ $(function () {
                                     <ImageComentario avatar={img}/>
                                     <div className="media-body">
                                         <h4 className="media-heading">{comentario.usuario.nome}
-                                            <RemoverComentario comentario={comentario} reloadComentarios={_this.props.reloadComentarios} />
+                                            <RemoverComentario comentario={comentario}
+                                                               reloadComentarios={_this.props.reloadComentarios}/>
                                             <a className="button is-light is-small is-pulled-right">{comentario.cadastro}</a>
                                         </h4>
                                         <p>
@@ -295,13 +308,13 @@ $(function () {
 
     var ImageComentario = React.createClass({
 
-        render : function () {
+        render: function () {
             return (
                 <a className="pull-left">
                     <img style={styleImg}
                          alt=""
                          src={this.props.avatar}
-                         className="media-object" />
+                         className="media-object"/>
                 </a>
             );
         }
@@ -309,7 +322,7 @@ $(function () {
 
     var FormComentario = React.createClass({
 
-        handleSubmit : function (e) {
+        handleSubmit: function (e) {
 
             e.preventDefault();
 
@@ -319,19 +332,21 @@ $(function () {
             var _this = this;
 
             if (!comentario) {
+                $("#comentario").addClass("is-danger");
                 alertify.error('Deve informar um comentario');
                 _this.refs.comentario.focus();
                 return false;
             }
 
+            $("#comentario").removeClass("is-danger");
             $("#comentar").addClass("is-loading");
 
             $.ajax({
                 type: "POST",
-                url: "/user/musica/"+id+"/anexos/comentar",
-                data : {
-                    "id" : id,
-                    "comentario" : comentario
+                url: "/user/musica/" + id + "/anexos/comentar",
+                data: {
+                    "id": id,
+                    "comentario": comentario
                 },
                 cache: false,
                 success: function (data) {
@@ -350,20 +365,24 @@ $(function () {
 
         },
 
-        render : function () {
+        render: function () {
 
             return (
                 <div className="post-comment">
                     <form className="form-horizontal">
-                        <input type="hidden" name="musica_id" id="musica_id" ref="id" defaultValue={this.props.musicaId} />
-                            <div className="form-group">
-                                <div className="col-lg-12">
-                                    <textarea className=" form-control" name="comentario" id="comentario" ref="comentario" rows="3" placeholder="Comentar"></textarea>
-                                </div>
+                        <input type="hidden" name="musica_id" id="musica_id" ref="id"
+                               defaultValue={this.props.musicaId}/>
+                        <div className="form-group">
+                            <div className="col-lg-12">
+                                <textarea className="textarea" name="comentario" id="comentario" ref="comentario"
+                                          rows="3" placeholder="Comentar"></textarea>
                             </div>
-                            <p>
-                                <button id="comentar" ref="submit" className="button is-danger" onClick={this.handleSubmit}>Comentar</button>
-                            </p>
+                        </div>
+                        <p>
+                            <button id="comentar" ref="submit" className="button is-danger" onClick={this.handleSubmit}>
+                                Enviar
+                            </button>
+                        </p>
                     </form>
                 </div>
             );
@@ -385,84 +404,85 @@ $(function () {
             this.load();
         },
 
-        render : function () {
+        render: function () {
             return (
                 <div>
                     <CardComentarios>
-                        <ListComentarios data={this.state.data} dirAvatar={this.props.dirAvatar} reloadComentarios={this.load} />
-                        <FormComentario musicaId={this.props.musicaId} reloadComentarios={this.load} />
+                        <ListComentarios data={this.state.data} dirAvatar={this.props.dirAvatar}
+                                         reloadComentarios={this.load}/>
+                        <FormComentario musicaId={this.props.musicaId} reloadComentarios={this.load}/>
                     </CardComentarios>
                 </div>
             )
         }
     });
 
-    class BtnRemover extends React.Component{
+    class BtnRemover extends React.Component {
 
         render() {
-            return(
-              <a className="button is-danger is-inverted is-small" onClick={this.props.acao}>Remover</a>
+            return (
+                <a className="button is-danger is-inverted is-small" onClick={this.props.acao}>Remover</a>
             );
         }
 
     }
 
-    class BtnDownload extends React.Component{
+    class BtnDownload extends React.Component {
 
         render() {
-            return(
+            return (
                 <a href={this.props.anexo} download="download" className="button is-white is-small">Baixar</a>
             );
         }
 
     }
 
-    class BtnVisualizar extends React.Component{
+    class BtnVisualizar extends React.Component {
 
         render() {
-            return(
+            return (
                 <a href={this.props.anexo} target="_Blank" className="button is-light is-small">Visualizar</a>
             );
         }
     }
 
-    class BtnEditar extends React.Component{
+    class BtnEditar extends React.Component {
 
         render() {
-            return(
+            return (
                 <a href={this.props.source} className="button is-light is-small">Editar</a>
             );
         }
     }
 
-    class BtnAddLetra extends React.Component{
+    class BtnAddLetra extends React.Component {
 
         render() {
-            return(
+            return (
                 <a href={this.props.source} className="button is-primary is-inverted is-small">Adicionar Letra</a>
             );
         }
     }
 
-    class BtnAddLink extends React.Component{
+    class BtnAddLink extends React.Component {
 
         render() {
-            return(
+            return (
                 <a onClick={this.props.openModal} className="button is-success is-inverted is-small">Adicionar Link</a>
             );
         }
     }
 
-    class BtnLink extends React.Component{
+    class BtnLink extends React.Component {
 
         render() {
-            return(
+            return (
                 <a href={this.props.href} target="_Blank" className="button is-white is-small">Ir para o Link</a>
             );
         }
     }
 
-    class CardLetra extends React.Component{
+    class CardLetra extends React.Component {
 
         render() {
             return (
@@ -480,17 +500,19 @@ $(function () {
                 </div>
             )
         }
-    };
-    
-    class BlockLetra extends React.Component{
-        
+    }
+    ;
+
+    class BlockLetra extends React.Component {
+
         render() {
 
             return (
-                <pre id="content" style={styleCardLetra} data-key={this.props.musica.tom}>{this.props.musica.letra}</pre>
+                <pre id="content" style={styleCardLetra}
+                     data-key={this.props.musica.tom}>{this.props.musica.letra}</pre>
             )
         }
-        
+
     }
 
     class Font extends React.Component {
@@ -514,20 +536,20 @@ $(function () {
 
     var RemoverArquivo = React.createClass({
 
-        handleRemover : function (e) {
+        handleRemover: function (e) {
 
             e.preventDefault();
 
             var id = this.props.anexo.id;
             var _this = this;
 
-            alertify.confirm("Deseja remover este arquivo?", function(){
+            alertify.confirm("Deseja remover este arquivo?", function () {
 
                 block_screen();
 
                 $.ajax({
                     type: "POST",
-                    url: "/user/musica/anexos/"+id+"/remover",
+                    url: "/user/musica/anexos/" + id + "/remover",
                     cache: false,
                     success: function (data) {
                         unblock_screen();
@@ -539,13 +561,13 @@ $(function () {
                         alertify.error("Ocorreu um erro.");
                     }
                 });
-            }).setting("labels",{"ok":"Sim", "cancel": "Cancelar"});
+            }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
 
         },
 
-        render : function() {
+        render: function () {
             return (
-              <BtnRemover acao={this.handleRemover} />
+                <BtnRemover acao={this.handleRemover}/>
             );
         }
 
@@ -553,7 +575,7 @@ $(function () {
 
     var ImagemArquivo = React.createClass({
 
-        render : function () {
+        render: function () {
 
             var image = <i className="fa fa-music">&nbsp;</i>;
 
@@ -575,8 +597,8 @@ $(function () {
     });
 
     var ListArquivos = React.createClass({
-        
-        render : function () {
+
+        render: function () {
 
             var _this = this;
 
@@ -591,31 +613,31 @@ $(function () {
                         var link = '';
 
                         if (!anexo.isExterno) {
-                            visualzar = <BtnVisualizar anexo={arquivo} />;
-                            downLoad = <BtnDownload anexo={arquivo} />;
+                            visualzar = <BtnVisualizar anexo={arquivo}/>;
+                            downLoad = <BtnDownload anexo={arquivo}/>;
                         } else {
-                            link = <BtnLink href={_this.props.sourceVideos} />;
+                            link = <BtnLink href={_this.props.sourceVideos}/>;
                         }
-                        
+
                         return (
                             <div key={anexo.id}>
                                 <div className="media">
-                                    <ImagemArquivo anexo={anexo} />
+                                    <ImagemArquivo anexo={anexo}/>
                                     <div className="media-body">
                                         <h4 className="media-heading">{anexo.nome}
                                             <a className="button is-light is-small is-pulled-right">{anexo.cadastro}</a>
                                         </h4>
-                                            {visualzar}
-                                            {downLoad}
-                                            {link}
-                                            <RemoverArquivo anexo={anexo} reloadArquivos={_this.props.reloadArquivos}/>
+                                        {visualzar}
+                                        {downLoad}
+                                        {link}
+                                        <RemoverArquivo anexo={anexo} reloadArquivos={_this.props.reloadArquivos}/>
                                     </div>
                                 </div>
                             </div>
                         )
                     })}
                 </div>
-            );   
+            );
         }
 
     });
@@ -640,7 +662,7 @@ $(function () {
         closeModal: function () {
             $("#modal-musicas").modal("hide");
         },
-        openModalAddLink :  function () {
+        openModalAddLink: function () {
             $("#modal-add-link").modal("show");
         },
         closeModalAddLink: function () {
@@ -651,22 +673,29 @@ $(function () {
 
             return (
                 <div>
-                <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
-                    <div className="card-content">
-                        <div className="media">
-                            <div className="media-content">
-                                <BtnEditar source={this.props.sourceEditar} />
-                                <BtnAddLetra source={this.props.sourceAddLetra}/>
-                                <BtnAddLink openModal={this.openModalAddLink}/>
-                                <button onClick={this.openModal} className="button is-danger is-inverted is-small">Adicionar Arquivo</button>
-                                <br />
-                                <ListArquivos reloadArquivos={this.load} anexos={this.state.data} sourceArquivos={this.props.sourceArquivos} sourceVideos={this.props.sourceVideos} dirAnexos={this.props.dirAnexos}/>
+                    <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
+                        <div className="card-content">
+                            <div className="media">
+                                <div className="media-content">
+                                    <BtnEditar source={this.props.sourceEditar}/>
+                                    <BtnAddLetra source={this.props.sourceAddLetra}/>
+                                    <BtnAddLink openModal={this.openModalAddLink}/>
+                                    <button onClick={this.openModal} className="button is-danger is-inverted is-small">
+                                        Adicionar Arquivo
+                                    </button>
+                                    <br />
+                                    <ListArquivos reloadArquivos={this.load} anexos={this.state.data}
+                                                  sourceArquivos={this.props.sourceArquivos}
+                                                  sourceVideos={this.props.sourceVideos}
+                                                  dirAnexos={this.props.dirAnexos}/>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                    <UploadArquivo reloadArquivos={this.load} openModal={this.openModal} closeModal={this.closeModal} musica={this.props.musica} />
-                    <AddLink reloadArquivos={this.load} openModal={this.openModalAddLink} closeModal={this.closeModalAddLink} musica={this.props.musica} />
+                    <UploadArquivo reloadArquivos={this.load} openModal={this.openModal} closeModal={this.closeModal}
+                                   musica={this.props.musica}/>
+                    <AddLink reloadArquivos={this.load} openModal={this.openModalAddLink}
+                             closeModal={this.closeModalAddLink} musica={this.props.musica}/>
                     <br />
                 </div>
             );
@@ -675,12 +704,12 @@ $(function () {
 
     var ViewLetra = React.createClass({
 
-        render : function() {
+        render: function () {
             return (
                 <CardLetra>
                     <Font source={this.props.sourceAddLetra}/>
                     <br />
-                    <BlockLetra musica={this.props.dataMusica} />
+                    <BlockLetra musica={this.props.dataMusica}/>
                 </CardLetra>
             )
         }
@@ -700,7 +729,7 @@ $(function () {
             this.load();
         },
 
-        render : function () {
+        render: function () {
             return (
                 <div>
                     <ViewLetra dataMusica={this.state.data}
@@ -725,8 +754,8 @@ $(function () {
     var sourceVideos = $("#comentarios").attr("data-source-videos");
     var sourceEditar = $("#comentarios").attr("data-source-editar");
     var sourceAddLetra = $("#comentarios").attr("data-source-add-letra");
-    var sourceMusica= $("#comentarios").attr("data-source-musica");
-    
+    var sourceMusica = $("#comentarios").attr("data-source-musica");
+
     var musicaId = $("#comentarios").attr("data-musica-id");
     var user = $("#comentarios").attr("data-user");
     var dirAvatar = $("#comentarios").attr("data-dir-avatar");
@@ -734,18 +763,18 @@ $(function () {
 
     ReactDOM.render(
         <div>
-           <Render sourceMusica={sourceMusica}
-                   sourceAddLetra={sourceAddLetra}
-                   sourceArquivos={sourceArquivos}
-                   sourceEditar={sourceEditar}
-                   sourceVideos={sourceVideos}
-                   musica={musicaId}
-                   dirAnexos={dirAnexos}
-                   source={source}
-                   user={user}
-                   dirAvatar={dirAvatar}
-                   musicaId={musicaId}
-           />
+            <Render sourceMusica={sourceMusica}
+                    sourceAddLetra={sourceAddLetra}
+                    sourceArquivos={sourceArquivos}
+                    sourceEditar={sourceEditar}
+                    sourceVideos={sourceVideos}
+                    musica={musicaId}
+                    dirAnexos={dirAnexos}
+                    source={source}
+                    user={user}
+                    dirAvatar={dirAvatar}
+                    musicaId={musicaId}
+            />
         </div>,
         document.getElementById('comentarios')
     );
@@ -767,7 +796,7 @@ $(function () {
             $('.c').css('font-size', curSize2);
     });
     $(function () {
-        $("pre").transpose({ key : 'C' });
+        $("pre").transpose({key: 'C'});
         $('.c').css('font-size', 8);
         $('#content').css('font-size', 8)
     });
