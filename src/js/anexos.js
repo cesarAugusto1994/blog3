@@ -21,7 +21,11 @@ $(function () {
             }
 
             var fd = new FormData();
-            fd.append('files[]', this.refs.arquivo.files[0]);
+            var files = this.refs.arquivo.files;
+
+            $.each(files, function (index, value) {
+                fd.append('files[]', files[index]);
+            });
 
             $("#btn-upload").addClass("is-loading");
             block_screen();
@@ -66,8 +70,7 @@ $(function () {
                                 <div className="modal-body">
                                     <input type="hidden" name="musica" ref="id" defaultValue={this.props.musica}/>
                                     <input className="input" type="file" ref="arquivo" name="files[]" id="filer_input"
-                                           multiple="multiple"
-                                           accept="image/gif, image/jpeg, image/png, image/jpg, audio/mpeg, audio/mp3, application/octet-stream, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                                           multiple/>
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="button is-danger is-outlined is-pulled-left"

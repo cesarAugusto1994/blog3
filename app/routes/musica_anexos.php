@@ -106,7 +106,7 @@ $anexos->get('/comentarios/{musicaId}', function ($musicaId) use ($app) {
 })->bind('api_comentarios');
 
 $anexos->post('/musica/{musicaId}/anexos/upload', function($musicaId, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
-
+    
     try {
 
         if (!$musicaId) {
