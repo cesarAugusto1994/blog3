@@ -124,7 +124,7 @@ $(function () {
                 link : "/login"
             };
 
-            if ($.inArray(user.role, ["ROLE_USER", "ROLE_ADMIN"])) {
+            if ($.inArray(user.role, ["ROLE_USER", "ROLE_ADMIN"]) !== -1) {
                 access = {
                     label : "logout",
                     link : "/admin/logout"
