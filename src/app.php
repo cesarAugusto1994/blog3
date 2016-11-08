@@ -47,12 +47,12 @@ $app['security.firewalls'] = array(
         ),
         'remember_me' => array(
             'secret'   => '%secret%',
-            'lifetime' => 604800, // 1 week in seconds
+            'lifetime' => 10000, // 1 week in seconds
             'path'     => '/user/',
             // by default, the feature is enabled by checking a
             // checkbox in the login form (see below), uncomment
             // the following line to always enable it.
-            'always_remember_me' => true,
+            //'always_remember_me' => true,
         ),
         'users' => function () use ($app) {
             return new Security\UserProvider($app['db'], $app);

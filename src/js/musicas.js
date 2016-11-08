@@ -18,7 +18,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.link} className="button is-light is-small is-pulled-right">Editar</a>
+                <a href={this.props.link} className="button is-info is-inverted is-small is-pulled-right">Editar</a>
             );
         }
 
@@ -28,7 +28,7 @@ $(function () {
 
         render() {
             return (
-                <a onClick={this.props.mudarStatus} className="button is-danger is-outlined is-small is-pulled-right">Inativar</a>
+                <a onClick={this.props.mudarStatus} className="button is-danger is-inverted is-small is-pulled-right">Inativar</a>
             );
         }
     };
@@ -37,7 +37,7 @@ $(function () {
 
         render() {
             return (
-                <a onClick={this.props.mudarStatus} className="button is-success is-outlined is-small is-pulled-right">Ativar</a>
+                <a onClick={this.props.mudarStatus} className="button is-success is-inverted is-small is-pulled-right">Ativar</a>
             );
         }
     };
@@ -128,6 +128,9 @@ $(function () {
 
             var _this = this;
 
+            var btnEditar = "";
+            var btnMudarStatus = "";
+
             return(
                 <div>
                     {
@@ -136,13 +139,18 @@ $(function () {
                             var linkAnexos = "/user/musica/"+ musica.id +"/anexos";
                             var editarMusica = "/user/musicas/" + musica.id + "/" + musica.nome + "/editar";
 
+                            if ("ROLE_ADMIN" == _this.props.user) {
+                                btnEditar = <BtnEditar link={editarMusica}/>;
+                                btnMudarStatus = <MudarStatusMusica musica={musica} reloadMusica={_this.load}/>;
+                            }
+
                             return (
-                                <Card key={musica.id} >
+                                <div key={musica.id}>
                                     <h4 className="media-heading"><a href={linkAnexos}>{musica.nome}</a>
-                                        <BtnEditar link={editarMusica}/>
-                                        <MudarStatusMusica musica={musica} reloadMusica={_this.load}/>
-                                    </h4>
-                                </Card>
+                                        {btnEditar}
+                                        {btnMudarStatus}
+                                    </h4><hr/>
+                                </div>
                             )
                         })
                     }
@@ -165,7 +173,7 @@ $(function () {
                 <div>
                     {addMusica}
                     <hr className="small" />
-                    <ListMusicas source={this.props.source} />
+                    <ListMusicas source={this.props.source} user={this.props.user} />
                 </div>
             )
         }

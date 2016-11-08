@@ -258,7 +258,7 @@ $(function () {
             return (
                 <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
                     <div className="card-content">
-                        <p className="title is-3">Coment&aacute;rios</p>
+                        <p className="title is-5">Coment&aacute;rios</p>
                         <div className="comments">
                             {this.props.children}
                         </div>
@@ -361,8 +361,6 @@ $(function () {
                     alertify.error("Ocorreu um erro.");
                 }
             });
-
-
         },
 
         render: function () {
@@ -375,11 +373,11 @@ $(function () {
                         <div className="form-group">
                             <div className="col-lg-12">
                                 <textarea className="textarea" name="comentario" id="comentario" ref="comentario"
-                                          rows="3" placeholder="Comentar"></textarea>
+                                          rows="2" placeholder="..."></textarea>
                             </div>
                         </div>
                         <p>
-                            <button id="comentar" ref="submit" className="button is-danger" onClick={this.handleSubmit}>
+                            <button id="comentar" ref="submit" className="button is-light" onClick={this.handleSubmit}>
                                 Enviar
                             </button>
                         </p>

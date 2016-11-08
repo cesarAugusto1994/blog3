@@ -246,17 +246,14 @@ $(function () {
             }
 
             return (
-                React.createElement("div", {className: "card wow fadeInUp animated slide", "data-wow-delay": ".3s", style: divStyle}, 
-                    React.createElement("div", {className: "card-content"}, 
-                        React.createElement("div", {className: "media"}, 
-                            React.createElement("div", {className: "media-body"}, 
-                                React.createElement("h4", {className: "media-heading"}, 
-                                    React.createElement("a", {href: this.props.musicasUrl}, this.props.categoria.nome), 
-                                    editar, 
-                                    mudarStatus
-                                )
-                            )
-                        )
+                React.createElement("div", {className: "media fadeInUp animated slide", "data-wow-delay": ".3s"}, 
+                    React.createElement("div", {className: "media-body"}, 
+                        React.createElement("h4", {className: "media-heading"}, 
+                            React.createElement("a", {href: this.props.musicasUrl}, this.props.categoria.nome), 
+                            editar, 
+                            mudarStatus
+                        ), 
+                        React.createElement("hr", null)
                     )
                 )
             )

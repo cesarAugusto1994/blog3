@@ -258,7 +258,7 @@ $(function () {
             return (
                 React.createElement("div", {className: "card wow fadeInUp animated slide", "data-wow-delay": ".3s", style: styleCard}, 
                     React.createElement("div", {className: "card-content"}, 
-                        React.createElement("p", {className: "title is-3"}, "Comentários"), 
+                        React.createElement("p", {className: "title is-5"}, "Comentários"), 
                         React.createElement("div", {className: "comments"}, 
                             this.props.children
                         )
@@ -361,8 +361,6 @@ $(function () {
                     alertify.error("Ocorreu um erro.");
                 }
             });
-
-
         },
 
         render: function () {
@@ -375,11 +373,11 @@ $(function () {
                         React.createElement("div", {className: "form-group"}, 
                             React.createElement("div", {className: "col-lg-12"}, 
                                 React.createElement("textarea", {className: "textarea", name: "comentario", id: "comentario", ref: "comentario", 
-                                          rows: "3", placeholder: "Comentar"})
+                                          rows: "2", placeholder: "..."})
                             )
                         ), 
                         React.createElement("p", null, 
-                            React.createElement("button", {id: "comentar", ref: "submit", className: "button is-danger", onClick: this.handleSubmit}, 
+                            React.createElement("button", {id: "comentar", ref: "submit", className: "button is-light", onClick: this.handleSubmit}, 
                                 "Enviar"
                             )
                         )

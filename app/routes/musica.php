@@ -124,9 +124,7 @@ $app->post('musica/save', function(\Symfony\Component\HttpFoundation\Request $re
             $musica->setNome($request->get('nome'));
         }
 
-        if ($request->get('numero')) {
-            $musica->setNumero($request->get('numero'));
-        }
+        $musica->setNumero($request->get('numero') ?: null);
 
         if ($request->get('tonalidade')) {
             $musica->setTom($request->get('tonalidade'));
@@ -184,7 +182,7 @@ $app->post('musica/save', function(\Symfony\Component\HttpFoundation\Request $re
     $app['musica.repository']->save($musica);
     $app['db']->commit();
 
-    return $app->redirect('/user/musica/' . $musica->getId().'/anexos');
+    return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId() .'/'.$musica->getCategoria()->getNome());
 
 })->bind('save_musica');
 

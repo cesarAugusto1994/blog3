@@ -27,8 +27,8 @@ class Musica implements \JsonSerializable
     private $id;
     
     /**
-     * @ORM\Column(name="numero", type="integer", nullable=true, options={"default:0"})
-     * @var string
+     * @ORM\Column(name="numero", type="integer", nullable=true)
+     * @var integer
      */
     private $numero;
     

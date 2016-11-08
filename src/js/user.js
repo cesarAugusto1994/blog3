@@ -302,7 +302,6 @@ $(function () {
     ReactDOM.render(
       <div>
           <CardHero />
-          <Menu source={menu} dirMenu={dirMenu}/>
           <Colecao source={colecao} dirColecao={dirColecao} defaultBackground={defaultBackground}/>
           <Musica source={musica} />
           <Videos source={videos} />

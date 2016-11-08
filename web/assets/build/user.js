@@ -302,7 +302,6 @@ $(function () {
     ReactDOM.render(
       React.createElement("div", null, 
           React.createElement(CardHero, null), 
-          React.createElement(Menu, {source: menu, dirMenu: dirMenu}), 
           React.createElement(Colecao, {source: colecao, dirColecao: dirColecao, defaultBackground: defaultBackground}), 
           React.createElement(Musica, {source: musica}), 
           React.createElement(Videos, {source: videos})

@@ -246,17 +246,14 @@ $(function () {
             }
 
             return (
-                <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={divStyle}>
-                    <div className="card-content">
-                        <div className="media">
-                            <div className="media-body">
-                                <h4 className="media-heading">
-                                    <a href={this.props.musicasUrl}>{this.props.categoria.nome}</a>
-                                    {editar}
-                                    {mudarStatus}
-                                </h4>
-                            </div>
-                        </div>
+                <div className="media fadeInUp animated slide" data-wow-delay=".3s">
+                    <div className="media-body">
+                        <h4 className="media-heading">
+                            <a href={this.props.musicasUrl}>{this.props.categoria.nome}</a>
+                            {editar}
+                            {mudarStatus}
+                        </h4>
+                        <hr/>
                     </div>
                 </div>
             )

@@ -18,7 +18,7 @@ $(function () {
 
         render() {
             return (
-                React.createElement("a", {href: this.props.link, className: "button is-light is-small is-pulled-right"}, "Editar")
+                React.createElement("a", {href: this.props.link, className: "button is-info is-inverted is-small is-pulled-right"}, "Editar")
             );
         }
 
@@ -28,7 +28,7 @@ $(function () {
 
         render() {
             return (
-                React.createElement("a", {onClick: this.props.mudarStatus, className: "button is-danger is-outlined is-small is-pulled-right"}, "Inativar")
+                React.createElement("a", {onClick: this.props.mudarStatus, className: "button is-danger is-inverted is-small is-pulled-right"}, "Inativar")
             );
         }
     };
@@ -37,7 +37,7 @@ $(function () {
 
         render() {
             return (
-                React.createElement("a", {onClick: this.props.mudarStatus, className: "button is-success is-outlined is-small is-pulled-right"}, "Ativar")
+                React.createElement("a", {onClick: this.props.mudarStatus, className: "button is-success is-inverted is-small is-pulled-right"}, "Ativar")
             );
         }
     };
@@ -128,6 +128,9 @@ $(function () {
 
             var _this = this;
 
+            var btnEditar = "";
+            var btnMudarStatus = "";
+
             return(
                 React.createElement("div", null, 
                     
@@ -136,12 +139,17 @@ $(function () {
                             var linkAnexos = "/user/musica/"+ musica.id +"/anexos";
                             var editarMusica = "/user/musicas/" + musica.id + "/" + musica.nome + "/editar";
 
+                            if ("ROLE_ADMIN" == _this.props.user) {
+                                btnEditar = React.createElement(BtnEditar, {link: editarMusica});
+                                btnMudarStatus = React.createElement(MudarStatusMusica, {musica: musica, reloadMusica: _this.load});
+                            }
+
                             return (
-                                React.createElement(Card, {key: musica.id}, 
+                                React.createElement("div", {key: musica.id}, 
                                     React.createElement("h4", {className: "media-heading"}, React.createElement("a", {href: linkAnexos}, musica.nome), 
-                                        React.createElement(BtnEditar, {link: editarMusica}), 
-                                        React.createElement(MudarStatusMusica, {musica: musica, reloadMusica: _this.load})
-                                    )
+                                        btnEditar, 
+                                        btnMudarStatus
+                                    ), React.createElement("hr", null)
                                 )
                             )
                         })
@@ -165,7 +173,7 @@ $(function () {
                 React.createElement("div", null, 
                     addMusica, 
                     React.createElement("hr", {className: "small"}), 
-                    React.createElement(ListMusicas, {source: this.props.source})
+                    React.createElement(ListMusicas, {source: this.props.source, user: this.props.user})
                 )
             )
         }
