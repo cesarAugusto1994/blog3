@@ -138,20 +138,20 @@ var FormRegister = React.createClass({displayName: "FormRegister",
 
             React.createElement("form", {onSubmit: this.handleForm, method: "post", id: "form"}, 
                 React.createElement("div", {className: "form-group has-feedback"}, 
-                    React.createElement("input", {className: "input", type: "text", name: "nome", placeholder: "Nome Completo", id: "nome", ref: "nome"}), 
+                    React.createElement("input", {className: "input", type: "text", name: "nome", placeholder: "Nome Completo", defaultValue: "cesar", id: "nome", ref: "nome"}), 
                     React.createElement("span", {className: "glyphicon glyphicon-user form-control-feedback"})
                 ), 
                 React.createElement("div", {className: "form-group has-feedback"}, 
-                    React.createElement("input", {className: "input", type: "text", name: "email", placeholder: "E-mail", id: "email", ref: "email"}), 
+                    React.createElement("input", {className: "input", type: "text", name: "email", placeholder: "E-mail", defaultValue: "cezzaar@gmail.com", id: "email", ref: "email"}), 
                     React.createElement("span", {className: "glyphicon glyphicon-envelope form-control-feedback"})
                 ), 
                 React.createElement("div", {className: "form-group has-feedback"}, 
-                    React.createElement("input", {className: "input", type: "password", name: "password", placeholder: "Senha", id: "password", 
+                    React.createElement("input", {className: "input", type: "password", name: "password", placeholder: "Senha", defaultValue: "123", id: "password", 
                            ref: "password"}), 
                     React.createElement("span", {className: "glyphicon glyphicon-log-in form-control-feedback"})
                 ), 
                 React.createElement("div", {className: "form-group has-feedback"}, 
-                    React.createElement("input", {className: "input", type: "password", name: "password_confirm", placeholder: "Confirme a senha", 
+                    React.createElement("input", {className: "input", type: "password", name: "password_confirm", placeholder: "Confirme a senha", defaultValue: "123", 
                            id: "password_confirm", ref: "password_confirm"}), 
                     React.createElement("span", {className: "glyphicon glyphicon-log-in form-control-feedback"})
                 ), 

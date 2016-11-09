@@ -138,20 +138,20 @@ var FormRegister = React.createClass({
 
             <form onSubmit={this.handleForm} method="post" id="form">
                 <div className="form-group has-feedback">
-                    <input className="input" type="text" name="nome" placeholder="Nome Completo" defaultValue="cesar" id="nome" ref="nome"/>
+                    <input className="input" type="text" name="nome" placeholder="Nome Completo" id="nome" ref="nome"/>
                     <span className="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback">
-                    <input className="input" type="text" name="email" placeholder="E-mail" defaultValue="cezzaar@gmail.com" id="email" ref="email"/>
+                    <input className="input" type="text" name="email" placeholder="E-mail" id="email" ref="email"/>
                     <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback">
-                    <input className="input" type="password" name="password" placeholder="Senha" defaultValue="123" id="password"
+                    <input className="input" type="password" name="password" placeholder="Senha" id="password"
                            ref="password"/>
                     <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback">
-                    <input className="input" type="password" name="password_confirm" placeholder="Confirme a senha" defaultValue="123"
+                    <input className="input" type="password" name="password_confirm" placeholder="Confirme a senha"
                            id="password_confirm" ref="password_confirm"/>
                     <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
