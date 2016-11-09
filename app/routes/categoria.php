@@ -23,7 +23,17 @@ $categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) us
 $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
 
     $colecao = $app['colecao.repository']->find($colecaoId);
-    $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao], ['nome' => 'ASC']);
+
+    $paremetros = [
+        'colecao' => $colecao,
+        'ativo' => true
+    ];
+
+    if ("ROLE_ADMIN" == $app["usuario"]->getRoles()) {
+        array_pop($paremetros);
+    }
+
+    $categorias = $app['categoria.repository']->findBy($paremetros, ['nome' => 'ASC']);
     return new \Symfony\Component\HttpFoundation\JsonResponse($categorias);
 
 })->bind('api_categorias');

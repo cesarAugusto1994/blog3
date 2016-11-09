@@ -20,7 +20,17 @@ $musica->get('musicas/adicionadas/recentemente', function() use ($app) {
 
 $musica->get('musicas/{categoria}/data', function($categoria) use ($app) {
     $categoria = $app['categoria.repository']->find($categoria);
-    $musicas = $app['musica.repository']->findBy(['categoria' => $categoria], ['numero' => 'ASC', 'nome' => 'ASC']);
+
+    $paremetros = [
+        'categoria' => $categoria,
+        'ativo' => true
+    ];
+
+    if ("ROLE_ADMIN" == $app["usuario"]->getRoles()) {
+        array_pop($paremetros);
+    }
+
+    $musicas = $app['musica.repository']->findBy($paremetros, ['numero' => 'ASC', 'nome' => 'ASC']);
     return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);
 })->bind('api_musicas');
 
@@ -70,6 +80,10 @@ $musica->get('musicas/{id}/letra/editar/view', function($id) use ($app){
 
 })->bind('view_editar_letra_musica');
 
+$musica->get('tonalidades', function () use ($app) {
+    return new \Symfony\Component\HttpFoundation\JsonResponse($app['tonalidades']);
+});
+
 $musica->post('musicas/{id}/status', function($id) use ($app){
 
     /**
@@ -111,46 +125,15 @@ $app->post('musica/{id}/letra/editar', function($id, \Symfony\Component\HttpFoun
     
 })->bind('api_musica_letra_editar');
 
-$app->post('musica/save', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-
-    if ($request->get('id')) {
-
-        /**
-         * @var \Api\Entities\Musica $musica
-         */
-        $musica = $app['musica.repository']->find($request->get('id'));
-
-        if ($request->get('nome')) {
-            $musica->setNome($request->get('nome'));
-        }
-
-        $musica->setNumero($request->get('numero') ?: null);
-
-        if ($request->get('tonalidade')) {
-            $musica->setTom($request->get('tonalidade'));
-        }
-
-        if ($request->get('letra')) {
-            $musica->setLetra(strip_tags($request->get('letra')));
-            $musica->setLetraOriginal($request->get('letra'));
-        }
-
-        if ($request->get('categoria')) {
-            /**
-             * @var \Api\Entities\Categoria $categoria
-             */
-            $categoria = $app['categoria.repository']->find($request->get('categoria'));
-            $musica->setCategoria($categoria);
-        }
-
-        $app['db']->beginTransaction();
-        $app['musica.repository']->save($musica);
-        $app['db']->commit();
-
-        return $app->redirect('/user/musica/' . $musica->getId().'/anexos');
+$musica->post('/musica/adicionar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    
+    if ($app['musica.repository']->findBy(['nome' => $request->get('nome')])) {
+        return $app->json([
+            "classe" => "error",
+            "message" => "Musica já adicionanda.",
+        ], 200);
     }
-
-    $musica = new \Api\Entities\Musica();
+    
     /**
      * @var \Api\Entities\Categoria $categoria
      */
@@ -160,11 +143,13 @@ $app->post('musica/save', function(\Symfony\Component\HttpFoundation\Request $re
      * @var \Api\Entities\Usuarios $usuario
      */
     $usuario = $app['usuarios.repository']->find($user->getId());
-
-    $musica->setNome($request->get('nome'));
+    
+    $musica = new \Api\Entities\Musica();
+    
+    $musica->setNome(strtoupper($request->get('nome')));
     $musica->setNumero($request->get('numero') ?: null);
     $musica->setTom($request->get('tonalidade'));
-
+    
     if ($request->get('letra')) {
         $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setLetraOriginal($request->get('letra'));
@@ -177,12 +162,55 @@ $app->post('musica/save', function(\Symfony\Component\HttpFoundation\Request $re
         $musica->setNovo($request->get('novo'));
     }
     $musica->setAtivo(true);
+    
+    $app['db']->beginTransaction();
+    $app['musica.repository']->save($musica);
+    $app['db']->commit();
+    
+    return $app->json([
+        "classe" => "success",
+        "message" => "Musica adicionanda com sucesso",
+    ], 201);
+});
+
+$musica->post('musica/{id}/editar', function(\Symfony\Component\HttpFoundation\Request $request, $id) use ($app) {
+
+    /**
+     * @var \Api\Entities\Musica $musica
+     */
+    $musica = $app['musica.repository']->find($id);
+
+    if ($request->get('nome')) {
+        $musica->setNome($request->get('nome'));
+    }
+
+    $musica->setNumero($request->get('numero') ?: null);
+
+    if ($request->get('tonalidade')) {
+        $musica->setTom($request->get('tonalidade'));
+    }
+
+    if ($request->get('letra')) {
+        $musica->setLetra(strip_tags($request->get('letra')));
+        $musica->setLetraOriginal($request->get('letra'));
+    }
+
+    if ($request->get('categoria')) {
+        /**
+         * @var \Api\Entities\Categoria $categoria
+         */
+        $categoria = $app['categoria.repository']->find($request->get('categoria'));
+        $musica->setCategoria($categoria);
+    }
 
     $app['db']->beginTransaction();
     $app['musica.repository']->save($musica);
     $app['db']->commit();
 
-    return $app->redirect('/user/musicas/' . $musica->getCategoria()->getId() .'/'.$musica->getCategoria()->getNome());
+    return $app->json([
+        "classe" => "success",
+        "data" => "Musica editada com sucesso",
+    ]);
 
 })->bind('save_musica');
 

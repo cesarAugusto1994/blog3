@@ -18,7 +18,14 @@ $colecao->get('colecoes', function() use ($app){
 })->bind('colecoes');
 
 $colecao->get('colecoes/all', function() use ($app){
-    $colecoes = $app['colecao.repository']->findBy([], ['nome' => 'ASC']);
+
+    $paremetros['ativo'] = true;
+
+    if ("ROLE_ADMIN" == $app["usuario"]->getRoles()) {
+        array_pop($paremetros);
+    }
+
+    $colecoes = $app['colecao.repository']->findBy($paremetros, ['nome' => 'ASC']);
     return new \Symfony\Component\HttpFoundation\JsonResponse($colecoes);
 })->bind('api_colecoes');
 
