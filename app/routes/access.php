@@ -99,6 +99,7 @@ $app->match(
         $usuario->setNome($request->request->get('nome'));
         $usuario->setEmail($request->request->get('email'));
         $usuario->setPassword($password);
+        $usuario->setAvatar('avatar.png');
         $usuario->setCadastro(new \DateTime('now'));
         $usuario->setRoles('ROLE_USER');
         $usuario->setAtivo(true);

@@ -102,8 +102,27 @@ var FormRegister = React.createClass({displayName: "FormRegister",
             data : $("#form").serialize(),
             cache: false,
             success: function (data) {
-                unblock_screen();
-                window.location.href = '/login';
+
+                $.ajax({
+                    type: 'POST',
+                    url : "/admin/login_check",
+                    data : {
+                        _username : email,
+                        _password : password
+                    },
+                    cache: false,
+                    success: function (data) {
+                        window.location.href = '/user/';
+                        return false;
+                    },
+                    error: function () {
+                        unblock_screen();
+                        $("#btnSubmit").removeClass("is-loading");
+                        alertify.error("opss, algo deu errado...");
+                        return false;
+                    }
+                });
+
             },
             error: function () {
                 unblock_screen();
