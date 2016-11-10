@@ -11,6 +11,13 @@ namespace App\Controllers;
 
 class UploadImages
 {
+    const ORIGIN_POTS = 'post';
+    const ORIGIN_CONFIG = 'config';
+    const ORIGIN_AVATAR = 'avatar';
+    const ORIGIN_MENU = 'menu';
+    const ORIGIN_COLECAO = 'colecao';
+    const ORIGIN_ALBUM = 'album';
+    
     /**
      * @var string
      */
@@ -32,13 +39,13 @@ class UploadImages
     {
         $this->origin = $origin;
 
-        $this->generateNameImage(substr($image['name'], -4));
+        $this->generateNameImage(substr(is_array($image['name']) ? current($image['name']) : $image['name'], -4));
 
         if ($lastImage) {
             $this->removeImage($this->getDirectoryToUpload(), $lastImage);
         }
 
-        move_uploaded_file($image['tmp_name'], $this->getDirectoryToUpload().$this->getNameImage());
+        move_uploaded_file(is_array($image['tmp_name']) ? current($image['tmp_name']) : $image['tmp_name'], $this->getDirectoryToUpload().$this->getNameImage());
 
         return $this->getNameImage();
     }
@@ -48,7 +55,7 @@ class UploadImages
      */
     public function generateNameImage($extension)
     {
-        $this->image = md5(microtime()).$extension;
+        $this->image = md5(microtime()).'.'.$extension;
     }
     
     /**
@@ -75,18 +82,30 @@ class UploadImages
      */
     public function getDirectoryToUpload()
     {
-        if ($this->origin == 'post') {
-            return __DIR__.'/../../../web/assets/blog/img/posts/';
-        } elseif ($this->origin == 'config') {
-            return __DIR__.'/../../../web/assets/blog/img/config/';
-        } elseif ($this->origin == 'avatar') {
-            return __DIR__.'/../../../web/assets/blog/img/avatar/';
-        } elseif ($this->origin == 'menu') {
-            return __DIR__.'/../../../web/assets/blog/img/menu/';
-        } elseif ($this->origin == 'colecao') {
-            return __DIR__.'/../../../web/assets/blog/img/colecoes/';
+        switch ($this->origin) {
+            case 'post':
+                return __DIR__ . '/../../../web/assets/blog/img/posts/';
+                break;
+            case 'config':
+                return __DIR__ . '/../../../web/assets/blog/img/config/';
+                break;
+            case 'avatar':
+                return __DIR__ . '/../../../web/assets/blog/img/avatar/';
+                break;
+            case 'menu':
+                return __DIR__ . '/../../../web/assets/blog/img/menu/';
+                break;
+            case 'colecao':
+                return __DIR__ . '/../../../web/assets/blog/img/colecoes/';
+                break;
+            case self::ORIGIN_ALBUM :
+                return __DIR__ . '/../../../web/assets/blog/img/albuns/';
+                break;
+            default :
+                throw new \Exception('Erro ao salvar imagem.');
+                break;
         }
-        throw new \Exception('Erro ao salvar imagem.');
+        
     }
 
 }

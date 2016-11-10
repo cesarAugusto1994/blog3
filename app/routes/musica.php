@@ -149,18 +149,26 @@ $musica->post('/musica/adicionar', function (\Symfony\Component\HttpFoundation\R
     $musica->setNome(strtoupper($request->get('nome')));
     $musica->setNumero($request->get('numero') ?: null);
     $musica->setTom($request->get('tonalidade'));
-    
+
+    if ($request->get('album')) {
+        $album = $app['album.repository']->find($request->get('album'));
+        $musica->setAlbum($album);
+    }
+
     if ($request->get('letra')) {
         $musica->setLetra(strip_tags($request->get('letra')));
         $musica->setLetraOriginal($request->get('letra'));
     }
+
     $musica->setCategoria($categoria);
     $musica->setUsuario($usuario);
     $musica->setCadastro(new \DateTime('now'));
     $musica->setNovo(false);
+
     if ($request->get('novo')) {
         $musica->setNovo($request->get('novo'));
     }
+
     $musica->setAtivo(true);
     
     $app['db']->beginTransaction();

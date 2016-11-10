@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: cesar
- * Date: 16/09/16
- * Time: 11:34
+ * Date: 10/11/16
+ * Time: 09:05
  */
 
 namespace Api\Entities;
@@ -11,12 +11,12 @@ namespace Api\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Tag
+ * Class Compositor
  * @package Api\Entities
- * @ORM\Entity(repositoryClass="Api\Repositories\TagRepository")
- * @ORM\Table(name="tag")
+ * @ORM\Entity()
+ * @ORM\Table(name="compositor")
  */
-class Tag
+class Compositor implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -31,12 +31,6 @@ class Tag
      * @var string
      */
     private $nome;
-    
-    /**
-     * @ORM\Column(name="ativo", type="boolean")
-     * @var boolean
-     */
-    private $ativo;
     
     /**
      * @return int
@@ -63,18 +57,13 @@ class Tag
     }
     
     /**
-     * @return boolean
+     * @return array
      */
-    public function isAtivo()
+    public function jsonSerialize()
     {
-        return $this->ativo;
-    }
-    
-    /**
-     * @param boolean $ativo
-     */
-    public function setAtivo($ativo)
-    {
-        $this->ativo = $ativo;
+        return [
+            "id" => $this->id,
+            "nome" => $this->nome
+        ];
     }
 }

@@ -54,6 +54,7 @@ $app['widgets.repository'] = function () use ($app) { return $app['orm.em']->get
 $app['email.confirmation.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\EmailConfirmacao::class);};
 $app['log.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Log::class);};
 $app['comentario.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Comentarios::class);};
+$app['album.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Album::class);};
 
 #################################################################################################
 #################################################################################################
@@ -122,6 +123,7 @@ $app['dir.widgets'] = function () use ($app){ return $app['dir.base'].'assets/bl
 $app['dir.menu'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/menu/';};
 $app['dir.colecao'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/colecoes/';};
 $app['dir.anexo'] = function () use ($app){ return $app['dir.base'].'assets/blog/musicas/';};
+$app['dir.album'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/albuns/';};
 
 $app['background.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = $app['dir.base'].'assets/blog/img/wallpaper.jpg';

@@ -38,6 +38,11 @@ $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
 
 })->bind('api_categorias');
 
+$categorias->get('todas-categorias', function() use ($app){
+    $categorias = $app['categoria.repository']->findBy(['ativo' =>true], ['nome' => 'ASC']);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($categorias);
+});
+
 $categorias->get('admin/categorias/grid', function() use ($app){
     return $app['categoria.controller']->categoriasGrid($app);
 })->bind('categorias_grid');

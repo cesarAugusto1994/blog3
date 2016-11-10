@@ -8,6 +8,7 @@
 
 namespace Api\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -62,12 +63,13 @@ class Musica implements \JsonSerializable
      * @var Categoria
      */
     private $categoria;
-    
+
     /**
-     * @ORM\OneToMany(targetEntity="MusicaTags", mappedBy="musica")
-     * @var MusicaTags
+     * @ORM\ManyToOne(targetEntity="Album", inversedBy="Musica")
+     * @ORM\JoinColumn(referencedColumnName="id", name="album_id")
+     * @var Album
      */
-    private $musicaTags;
+    private $album;
     
     /**
      * @ORM\ManyToOne(targetEntity="Usuarios")
@@ -205,19 +207,19 @@ class Musica implements \JsonSerializable
     }
 
     /**
-     * @return mixed
+     * @return Album
      */
-    public function getMusicaTag()
+    public function getAlbum()
     {
-        return $this->musicaTags;
+        return $this->album;
     }
 
     /**
-     * @param mixed $musicaTags
+     * @param Album $album
      */
-    public function setMusicaTag($musicaTags)
+    public function setAlbum($album)
     {
-        $this->musicaTags = $musicaTags;
+        $this->album = $album;
     }
     
     /**
@@ -294,6 +296,7 @@ class Musica implements \JsonSerializable
             "nome" => $this->nome,
             "letra" => $this->letra,
             "letraOriginal" => $this->letraOriginal,
+            "album" => $this->album,
             "tom" => $this->tom,
             "ativo" => $this->ativo
         ];

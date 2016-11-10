@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20161107110448 extends AbstractMigration
+class Version20161110103848 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,8 +18,8 @@ class Version20161107110448 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE usuarios DROP nickname');
-        $this->addSql('ALTER TABLE musica CHANGE numero numero INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE musica DROP FOREIGN KEY FK_7E7344EF1137ABCF');
+        $this->addSql('ALTER TABLE musica ADD CONSTRAINT FK_7E7344EF1137ABCF FOREIGN KEY (album_id) REFERENCES album (id)');
     }
 
     /**
@@ -30,7 +30,7 @@ class Version20161107110448 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE musica CHANGE numero numero INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE usuarios ADD nickname VARCHAR(255) NOT NULL COLLATE utf8_unicode_ci');
+        $this->addSql('ALTER TABLE musica DROP FOREIGN KEY FK_7E7344EF1137ABCF');
+        $this->addSql('ALTER TABLE musica ADD CONSTRAINT FK_7E7344EF1137ABCF FOREIGN KEY (album_id) REFERENCES musica (id)');
     }
 }

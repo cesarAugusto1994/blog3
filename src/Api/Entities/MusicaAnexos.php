@@ -47,12 +47,6 @@ class MusicaAnexos implements \JsonSerializable
     private $tipo;
     
     /**
-     * @ORM\OneToMany(targetEntity="AnexoTags", mappedBy="anexo")
-     * @var AnexoTags
-     */
-    private $anexoTags;
-    
-    /**
      * @ORM\Column(name="link_externo", type="smallint")
      * @var int
      */
@@ -137,22 +131,6 @@ class MusicaAnexos implements \JsonSerializable
     public function setTipo($tipo)
     {
         $this->tipo = $tipo;
-    }
-    
-    /**
-     * @return AnexoTags
-     */
-    public function getAnexoTags()
-    {
-        return $this->anexoTags;
-    }
-    
-    /**
-     * @param AnexoTags $anexoTags
-     */
-    public function setAnexoTags($anexoTags)
-    {
-        $this->anexoTags = $anexoTags;
     }
     
     /**

@@ -238,7 +238,7 @@ $(function () {
     var GerenciarModal = React.createClass({
 
         getInitialState: function () {
-            return {data: [], categorias : []}
+            return {data: [], albuns : []}
         },
 
         load: function () {
@@ -247,8 +247,8 @@ $(function () {
                 this.setState({data: result})
             }.bind(this));
 
-            $.get('/user/categorias/' + colecao, function (result) {
-                this.setState({categorias: result})
+            $.get('/user/albuns', function (result) {
+                this.setState({albuns: result})
             }.bind(this));
 
         },
@@ -266,6 +266,7 @@ $(function () {
             var nome = this.refs.nome.value.trim();
             var numero = this.refs.numero.value.trim();
             var tonalidade = this.refs.tonalidade.value.trim();
+            var album = this.refs.album.value.trim();
             var categoria = $("#musicas").data("categoria");
 
             if (!nome || !categoria) {
@@ -280,6 +281,7 @@ $(function () {
                     nome : nome,
                     numero : numero,
                     tonalidade : tonalidade,
+                    album : album,
                     categoria : categoria
                 },
                 cache: false,
@@ -309,7 +311,16 @@ $(function () {
                     <select className="form-control" name="tonalidade" ref="tonalidade" id="tonalidade">
                         {this.state.data.map(function (tom) {
                             return (
-                                <option key={tom}>{tom}</option>
+                                <option key={tom} value={tom}>{tom}</option>
+                            )
+                        })}
+                    </select>
+                    <label htmlFor="album">Album</label>
+                    <select className="form-control" name="album" ref="album" id="album">
+                        <option value="">Sem Album</option>
+                        {this.state.albuns.map(function (album) {
+                            return (
+                                <option key={album.id} value={album.id}>{album.label}</option>
                             )
                         })}
                     </select>

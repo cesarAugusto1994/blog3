@@ -1,0 +1,56 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Albuns{% endblock %}
+
+{% block headerNome %}Albuns{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <div id="albuns" data-img="{{ app['dir.album'] }}" data-source="{{ path('api_albuns') }}"
+                         data-defaul-image="{{ app['background.default'] }}" data-user="{{ app['usuario'].roles }}"></div>
+                    <script src="{{ asset(app['dir.base'] ~ 'assets/build/albuns.js') }}"></script>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="formColecao" class="form-horizontal" method="POST" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Cole&ccedil;&atilde;o</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="id" id="id">
+                            <input type="hidden" name="role" id="role" value="user">
+                            <label for="nome">Nome</label>
+                            <input class="input is-primary" type="text" placeholder="Nome" name="nome" id="nome" required>
+                            <label for="descricao">Descri&ccedil;&atilde;o</label>
+                            <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o" name="descricao" id="descricao" required>
+                            <label for="background">Imagem de Fundo</label>
+                            <input type="file" class="input is-primary" name="background" id="background" placeholder="Imagem de Fundo">
+                        </div>
+                        <div class="modal-footer">
+                            <p class="control">
+                                <button id="confirmar" class="button is-success" type="submit">
+                                    Salvar
+                                </button>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
