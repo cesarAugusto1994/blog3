@@ -21,12 +21,9 @@ $app->get(
     }
 )->bind('login');
 
-$app->get(
-    '/user/',
-    function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-        return $app['index.controller']->userIndex($app);
-    }
-)->bind('user');
+$app->get('/user/', function () use ($app) {
+    return $app['twig']->render('/user/index.html.twig');
+})->bind('user');
 
 $app->post(
     '/admin/login_check',

@@ -9,8 +9,6 @@
 $app->get('/', 'index.controller:index')->bind('home');
 $app->get('/user/about', 'index.controller:about')->bind('about');
 $app->get('/user/contact', 'index.controller:contact')->bind('contact');
-$app->get('/user/', 'index.controller:userIndex')->bind('user_index');
-$app->get('/events')->bind('events');
 
 $app->get('search', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->search($request->get('q'), $app);

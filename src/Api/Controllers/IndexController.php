@@ -61,28 +61,4 @@ class IndexController
     {
         return $app['twig']->render('/user/contact.html.twig', []);
     }
-    
-    /**
-     * @param Application $app
-     * @return mixed
-     */
-    public function userIndex(Application $app)
-    {
-        $logs = $app['log.repository']->findBy([], ['cadastro' => 'DESC'], 1);
-        $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
-        $musicaAnexos = $app['musica.anexos.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 1);
-        $posts = $app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 1);
-        $colecoes = $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
-        $tipo = $app['tipo.anexo.repository']->find(4);
-        $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo], ['cadastro' => 'DESC'], 3);
-
-        return $app['twig']->render('/user/index.html.twig', [
-            'logs' => $logs,
-            'musicas' => $musicas,
-            'musica_anexos' => $musicaAnexos,
-            'posts' => $posts,
-            'colecoes' => $colecoes,
-            'videos' => $videos
-        ]);
-    }
 }
