@@ -14,9 +14,7 @@ define('GOOGLE_API_SECRET',   'vqCx5mIL6uxLP6X4sNlZIank');
 define('GITHUB_API_KEY',      '');
 define('GITHUB_API_SECRET',   '');
 
-ini_set('display_errors', E_ALL);
-
-$app = new Application(); $app['debug'] = true;
+$app = new Application();
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new AssetServiceProvider());
 $app->register(new Silex\Provider\SecurityServiceProvider());
