@@ -115,7 +115,7 @@ $(function () {
                         React.createElement("span", {className: "caret"})), 
                     React.createElement("div", {className: "dropdown-menu"}, 
                         React.createElement("ul", null, 
-                            React.createElement("li", null, React.createElement("a", {href: "/admin/postForm"}, "Novo Post")), 
+                            React.createElement("li", null, React.createElement("a", {href: "/admin/post/form"}, "Novo Post")), 
                             React.createElement("li", null, React.createElement("a", {href: "/admin/posts/grid"}, "Lista Post")), 
                             React.createElement("li", null, React.createElement("a", {href: "/admin/blog"}, "Configurações")), 
                             React.createElement("li", null, React.createElement("a", {href: "/admin/usuarios/list"}, "Usuários"))

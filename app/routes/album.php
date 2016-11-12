@@ -73,7 +73,7 @@ $album->post('albuns/adicionar', function (\Symfony\Component\HttpFoundation\Req
                 );
 
                 $musicaAnexo = new \Api\Entities\MusicaAnexos();
-                $musicaAnexo->setNome($name);
+                $musicaAnexo->setNome(is_array($_FILES['files']['name']) ? current($_FILES['files']['name']) : $_FILES['files']['name']);
                 $musicaAnexo->setMusica($musica);
                 $musicaAnexo->setTipo($tipo);
                 $musicaAnexo->setLinkExterno(false);
