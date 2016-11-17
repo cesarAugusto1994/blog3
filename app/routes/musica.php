@@ -44,7 +44,7 @@ $musica->get('musicas/{categoriaId}/{nome}', function($categoriaId, $nome) use (
             'musicas' => $app['musica.repository']->findBy(
                 ['categoria' => $categoria, 'ativo' => true],
                 ['numero' => 'ASC', 'nome' => 'ASC']
-            )
+            ), 'categoria' => $categoria
         ]
     );
 

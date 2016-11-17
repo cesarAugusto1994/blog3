@@ -2,8 +2,6 @@
 
 {% block title %}{% endblock %}
 
-{% block header %}{{ parent() }}{% endblock %}
-
 {% block stylesheet %}{{ parent() }}
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet"/>
