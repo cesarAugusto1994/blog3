@@ -10,7 +10,7 @@ $app->get('user/posts', function ($page = 1) use ($app) {
     return $app['post.controller']->posts($page, $app);
 })->bind('posts');
 
-$app->post('admin/post/new', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('/admin/post/new', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->criar($request, $app);
 })->bind('newPost');
 

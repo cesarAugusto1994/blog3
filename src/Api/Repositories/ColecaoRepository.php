@@ -11,6 +11,10 @@ namespace Api\Repositories;
 use Api\Entities\Colecao;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class ColecaoRepository
+ * @package Api\Repositories
+ */
 class ColecaoRepository extends EntityRepository
 {
     public function save(Colecao $colecao)

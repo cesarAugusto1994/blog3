@@ -1,0 +1,26 @@
+version: '2'
+services:
+    apache:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                - http_proxy=$http_proxy
+                - no_proxy=$no_proxy
+        environment:
+            - http_proxy=$http_proxy
+            - no_proxy=$no_proxy
+        volumes:
+            - ./:/var/www/html
+        links:
+            - mysql
+        ports:
+            - "8070:80"
+
+    mysql:
+        image: mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "Yes"
+            MYSQL_DATABASE: "webpdv"
+        ports:
+            - "3300:3306"

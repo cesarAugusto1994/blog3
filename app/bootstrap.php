@@ -26,9 +26,8 @@ $dbParams = array(
     'driver' => 'pdo_mysql',
     'dbname' => 'blog',
     'user' => 'root',
-    'password' => 'mestre',
-    'host' => '127.0.0.1',
-    'port' => 3306
+    'password' => '',
+    'host' => 'mysql',
 );
 $config = Setup::createConfiguration($isDevMode);
 //$config->setResultCacheImpl(new \Doctrine\Common\Cache\MemcacheCache());

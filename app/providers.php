@@ -6,21 +6,17 @@
  * Time: 09:28
  */
 
-$app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
-    'dbs.options' => array(
-        'default' => array(
-            'dbname' => $app['database.blog']['dbname'],
-            'user' => $app['database.blog']['user'],
-            'password' => $app['database.blog']['password'],
-            'host' => $app['database.blog']['host'],
-            'driver' => $app['database.blog']['driver'],
-            'charset'  => 'utf8',
-            'driverOptions' => array(
-                1002 => 'SET NAMES utf8'
-            ),
-        )
-    ),
-));
+$app->register(new \Silex\Provider\DoctrineServiceProvider(), [
+    'db.options' => [
+        'driver' => 'pdo_mysql',
+        'host' => 'mysql',
+        'dbname' => 'blog',
+        'user' => 'root',
+        'password' => '',
+        'charset' => 'utf8mb4',
+    ],
+]);
+
 $app->register(new \Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), array(
     'orm.proxies_dir' => __DIR__.'/../var/cache/doctrine/',
     'orm.em.options' => array(

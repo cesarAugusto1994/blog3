@@ -62,13 +62,18 @@ $app['upload.service'] = function () use ($app) { return new \App\Controllers\Up
 $app['colecoes'] = function () use ($app) { return $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);};
 $app['categories'] = function() use ($app) { return $app['tags.repository']->findAll();};
 $app['menus'] = function () use ($app) { return $app['menu.repository']->findBy(['ativo' => true]);};
+
 $app['config'] = function () use ($app) {
     $configs = $app['config.repository']->findAll();
     return end($configs);
 };
+
 $app['widgets'] = function () use ($app) { return $app['widgets.controller']->getAll($app);};
 
-$app['nome.blog'] = function() use ($app){ $blog = $app['config.repository']->findAll(); return $blog[0] ? $blog[0]->getNome() : 'Blog'; };
+$app['nome.blog'] = function() use ($app){
+    return 'Blog';
+};
+
 $app['tonalidades'] = function () { return ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B',];};
 $app['adress'] = function () {
     return [
@@ -77,12 +82,7 @@ $app['adress'] = function () {
     ];
 };
 $app['dir.base'] = function () use ($app) {
-
-    if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
         return '/';
-    }
-
-    return '/web/';
 };
 $app['dir.base2'] = function () use ($app) {
 
@@ -93,22 +93,15 @@ $app['dir.base2'] = function () use ($app) {
     return '/web';
 };
 $app['database.blog'] = function () use ($app){
-  if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
-    return [
+   return [
         'dbname' => 'blog',
         'user' => 'root',
-        'password' => 'mestre',
+        'password' => '',
         'host' => 'localhost',
+        'port' => 3306,
         'driver' => 'pdo_mysql',
     ];
-  }
-  return [
-      'dbname' => 'basedadoscesar',
-      'user' => 'cezzaar94',
-      'password' => 'elpro1973',
-      'host' => 'mysql873.umbler.com',
-      'driver' => 'pdo_mysql',
-  ];
+
 };
 
 $app['dir.img'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/config/';};
@@ -180,5 +173,5 @@ $app['usuario'] = function () use($app) {
 };
 
 $app['envia.email'] =  function () use ($app) {
-  $config = $app['config.repository']->findAll(); return $config[0] ? $config[0]->isEnviaEmail() : 0;
+  $config = $app['config.repository']->findAll(); return $config ? $config[0]->isEnviaEmail() : 0;
 };

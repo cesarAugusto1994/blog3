@@ -180,12 +180,12 @@ $musica->post('/musica/adicionar', function (\Symfony\Component\HttpFoundation\R
     ], 201);
 });
 
-$musica->post('musica/{id}/editar', function(\Symfony\Component\HttpFoundation\Request $request, $id) use ($app) {
+$musica->post('musica/editar', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
     /**
      * @var \Api\Entities\Musica $musica
      */
-    $musica = $app['musica.repository']->find($id);
+    $musica = $app['musica.repository']->find($request->get('id'));
 
     if ($request->get('nome')) {
         $musica->setNome($request->get('nome'));

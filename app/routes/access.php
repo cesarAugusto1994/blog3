@@ -6,6 +6,10 @@
  * Time: 09:33
  */
 
+$app->get('/test', function () {
+    return 'test';
+});
+
 $app->get(
     '/login',
     function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {

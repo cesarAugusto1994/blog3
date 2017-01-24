@@ -23,8 +23,7 @@ use App\Controllers\PagerController;
 class PostController
 {
     use WorkWithStrings;
-    use UploadImages;
-    
+
     /**
      * @param int $page
      * @param Application $app
@@ -163,7 +162,7 @@ class PostController
         $post->setAtualizado(new \DateTime('now'));
 
         if (!empty($_FILES['background']['size'])) {
-            $post->setBackground($this->upload($_FILES['background'], 'post', $post->getBackground()));
+            $post->setBackground($app['upload.service']->upload($_FILES['background'], 'post', $post->getBackground()));
         }
     
         $app['db']->beginTransaction();
@@ -217,7 +216,7 @@ class PostController
         $post->setAtivo(true);
 
         if (!empty($_FILES['background']['size'])) {
-            $post->setBackground($this->upload($_FILES['background'], 'post', $post->getBackground()));
+            $post->setBackground($app['upload.service']->upload($_FILES['background'], 'post', $post->getBackground()));
         }
     
         $app['db']->beginTransaction();

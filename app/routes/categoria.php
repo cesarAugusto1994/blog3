@@ -29,10 +29,6 @@ $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
         'ativo' => true
     ];
 
-    if ("ROLE_ADMIN" == $app["usuario"]->getRoles()) {
-        array_pop($paremetros);
-    }
-
     $categorias = $app['categoria.repository']->findBy($paremetros, ['nome' => 'ASC']);
     return new \Symfony\Component\HttpFoundation\JsonResponse($categorias);
 
