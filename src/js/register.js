@@ -172,10 +172,12 @@ var FormRegister = React.createClass({
 var background = $("#register").data("background");
 var dirImg = $("#register").data("dir-img");
 
-ReactDOM.render(
-    <div>
-        <Register />
-    </div>,
-    document.getElementById("register")
-);
+if (document.getElementById("register")) {
+    ReactDOM.render(
+        <div>
+            <Register />
+        </div>,
+        document.getElementById("register")
+    );
+}
 

@@ -204,12 +204,12 @@ $(function () {
         }
     });
 
-    var styleCard = {width: '100%'};
+    var styleCard = {width: '100%', minWidth: '150px'};
     var styleImg = {
         minWidth: '64px', maxWidth: '64px', minHeight: '64px', maxHeight: '64px', margin: 'auto'
     };
     var styleCardLetra = {
-        backgroundColor: 'transparent', border: 'none'
+        backgroundColor: 'transparent', border: 'none',
     };
 
     var RemoverComentario = React.createClass({
@@ -246,7 +246,7 @@ $(function () {
         render: function () {
 
             return (
-                <a className="button is-danger is-inverted is-small" onClick={this.handleRemoverComentario}
+                <a className="button is-danger is-small" onClick={this.handleRemoverComentario}
                    data-comentario={this.props.comentario}>Inativar</a>
             )
         }
@@ -272,7 +272,7 @@ $(function () {
     var ListComentarios = React.createClass({
 
         componentDidMount: function () {
-            return setInterval(this.props.reloadComentarios, 10000);
+            return setInterval(this.props.reloadComentarios, 1000);
         },
 
         render: function () {
@@ -285,20 +285,26 @@ $(function () {
 
                         var img = _this.props.dirAvatar + comentario.usuario.avatar;
 
+                        var removerComentario = '';
+
+                        if (_this.props.user == 'ROLE_ADMIN' || comentario.usuario.id == _this.props.userId) {
+                            removerComentario = <RemoverComentario comentario={comentario}
+                                                                   reloadComentarios={_this.props.reloadComentarios}/>
+                        }
+
                         return (
-                                <div key={comentario.id} className="media">
-                                    <ImageComentario avatar={img}/>
-                                    <div className="media-body">
-                                        <h4 className="media-heading">{comentario.usuario.nome}
-                                            <RemoverComentario comentario={comentario}
-                                                               reloadComentarios={_this.props.reloadComentarios}/>
-                                            <a className="button is-light is-small is-pulled-right">{comentario.cadastro}</a>
-                                        </h4>
-                                        <p className="text-muted">
-                                            {comentario.comentario}
-                                        </p>
-                                    </div>
+                            <div key={comentario.id} className="media">
+                                <ImageComentario avatar={img}/>
+                                <div className="media-body">
+                                    <h4 className="media-heading">{comentario.usuario.nome}
+                                        &nbsp;{removerComentario}
+                                        <a className="button is-light is-small is-pulled-right">{comentario.cadastro}</a>
+                                    </h4>
+                                    <p className="text-muted">
+                                        {comentario.comentario}
+                                    </p>
                                 </div>
+                            </div>
                         )
                     })}
                 </div>
@@ -331,7 +337,7 @@ $(function () {
 
             var _this = this;
 
-            if (!comentario) {
+            if ('' == comentario) {
                 $("#comentario").addClass("is-danger");
                 alertify.error('Deve informar um comentario');
                 _this.refs.comentario.focus();
@@ -406,7 +412,8 @@ $(function () {
             return (
                 <div>
                     <CardComentarios>
-                        <ListComentarios data={this.state.data} dirAvatar={this.props.dirAvatar}
+                        <ListComentarios user={this.props.user} userId={this.props.userId} data={this.state.data}
+                                         dirAvatar={this.props.dirAvatar}
                                          reloadComentarios={this.load}/><br/>
                         <FormComentario musicaId={this.props.musicaId} reloadComentarios={this.load}/>
                     </CardComentarios>
@@ -504,7 +511,6 @@ $(function () {
     class BlockLetra extends React.Component {
 
         render() {
-
             return (
                 <pre id="content" style={styleCardLetra}
                      data-key={this.props.musica.tom}>{this.props.musica.letra}</pre>
@@ -680,7 +686,8 @@ $(function () {
                                     <button onClick={this.openModal} className="button is-danger is-inverted is-small">
                                         Adicionar Arquivo
                                     </button>
-                                    <br />
+                                    <br/>
+                                    <br/>
                                     <ListArquivos reloadArquivos={this.load} anexos={this.state.data}
                                                   sourceArquivos={this.props.sourceArquivos}
                                                   sourceVideos={this.props.sourceVideos}
@@ -729,6 +736,8 @@ $(function () {
         render: function () {
             return (
                 <div>
+                    <ViewLetra dataMusica={this.state.data}
+                               sourceAddLetra={this.props.sourceAddLetra}/>
                     <ViewArquivos sourceArquivos={this.props.sourceArquivos}
                                   sourceEditar={this.props.sourceEditar}
                                   sourceAddLetra={this.props.sourceAddLetra}
@@ -737,6 +746,7 @@ $(function () {
                                   dirAnexos={this.props.dirAnexos}/>
                     <ViewCometarios source={this.props.source}
                                     user={this.props.user}
+                                    userId={this.props.userId}
                                     dirAvatar={this.props.dirAvatar}
                                     musicaId={this.props.musicaId}/>
                 </div>
@@ -753,46 +763,57 @@ $(function () {
 
     var musicaId = $("#comentarios").attr("data-musica-id");
     var user = $("#comentarios").attr("data-user");
+    var userId = $("#comentarios").data("user-id");
     var dirAvatar = $("#comentarios").attr("data-dir-avatar");
     var dirAnexos = $("#comentarios").attr("data-dir-anexos");
 
-    ReactDOM.render(
-        <div>
-            <Render sourceMusica={sourceMusica}
-                    sourceAddLetra={sourceAddLetra}
-                    sourceArquivos={sourceArquivos}
-                    sourceEditar={sourceEditar}
-                    sourceVideos={sourceVideos}
-                    musica={musicaId}
-                    dirAnexos={dirAnexos}
-                    source={source}
-                    user={user}
-                    dirAvatar={dirAvatar}
-                    musicaId={musicaId}
-            />
-        </div>,
-        document.getElementById('comentarios')
-    );
 
-    $('#incfont').click(function () {
-        curSize = parseInt($('#content').css('font-size')) + 2;
-        curSize2 = parseInt($('.c').css('font-size')) + 2;
-        if (curSize <= 32)
-            $('#content').css('font-size', curSize);
-        if (curSize2 <= 32)
-            $('.c').css('font-size', curSize2);
-    });
-    $('#decfont').click(function () {
-        curSize = parseInt($('#content').css('font-size')) - 2;
-        curSize2 = parseInt($('.c').css('font-size')) - 2;
-        if (curSize >= 5)
-            $('#content').css('font-size', curSize);
-        if (curSize2 >= 5)
-            $('.c').css('font-size', curSize2);
-    });
-    $(function () {
-        $("pre").transpose({key: 'C'});
+    if (document.getElementById('comentarios')) {
+
+        ReactDOM.render(
+            <div>
+                <Render sourceMusica={sourceMusica}
+                        sourceAddLetra={sourceAddLetra}
+                        sourceArquivos={sourceArquivos}
+                        sourceEditar={sourceEditar}
+                        sourceVideos={sourceVideos}
+                        musica={musicaId}
+                        dirAnexos={dirAnexos}
+                        source={source}
+                        user={user}
+                        userId={userId}
+                        dirAvatar={dirAvatar}
+                        musicaId={musicaId}
+                />
+            </div>,
+            document.getElementById('comentarios')
+        );
+
+        $("#comentario").emojioneArea({
+            autoHideFilters: true,
+            autocomplete: true,
+            useSprite: true,
+        });
+
+        $('#incfont').click(function () {
+            curSize = parseInt($('#content').css('font-size')) + 2;
+            curSize2 = parseInt($('.c').css('font-size')) + 2;
+            if (curSize <= 32)
+                $('#content').css('font-size', curSize);
+            if (curSize2 <= 32)
+                $('.c').css('font-size', curSize2);
+        });
+        $('#decfont').click(function () {
+            curSize = parseInt($('#content').css('font-size')) - 2;
+            curSize2 = parseInt($('.c').css('font-size')) - 2;
+            if (curSize >= 5)
+                $('#content').css('font-size', curSize);
+            if (curSize2 >= 5)
+                $('.c').css('font-size', curSize2);
+        });
+
+        $("#content").transpose({key: 'C'});
         $('.c').css('font-size', 8);
         $('#content').css('font-size', 8)
-    });
+    }
 });

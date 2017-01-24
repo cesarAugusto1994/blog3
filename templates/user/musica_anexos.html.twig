@@ -22,14 +22,13 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
                     <div id="comentarios" data-source="{{ path('api_comentarios', { musicaId : musica.id }) }}"
                          data-source-arquivos="{{ path('api_anexos', { musicaId : musica.id }) }}"
-                         data-user="{{ app['usuario'].roles }}" data-dir-avatar="{{ app['dir.avatar'] }}"
+                         data-user="{{ app['usuario'].roles }}" data-user-id="{{ app.usuario.id }}" data-dir-avatar="{{ app['dir.avatar'] }}"
                          data-dir-anexos="{{ app['dir.anexo'] }}"
                          data-musica-id="{{ musica.id }}" data-source-editar="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome }) }}"
                          data-source-add-letra="{{ path('view_editar_letra_musica', { id : musica.id }) }}"
                          data-source-musica="{{ path('api_musica', { id : musica.id }) }}"
                          data-source-videos="{{ path('videos') }}">
                     </div>
-                    <script src="{{ asset(app['dir.base'] ~ 'assets/build/anexos.js') }}"></script>
                 </div>
             </div>
         </div>

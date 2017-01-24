@@ -299,14 +299,15 @@ $(function () {
     var musica = $("#user").data("musica");
     var videos = $("#user").data("videos");
 
-    ReactDOM.render(
-      <div>
-          <CardHero />
-          <Colecao source={colecao} dirColecao={dirColecao} defaultBackground={defaultBackground}/>
-          <Musica source={musica} />
-          <Videos source={videos} />
-      </div>,
-        document.getElementById('user')
-    );
-    
+    if (document.getElementById("user")) {
+        ReactDOM.render(
+            <div>
+                <CardHero />
+                <Colecao source={colecao} dirColecao={dirColecao} defaultBackground={defaultBackground}/>
+                <Musica source={musica}/>
+                <Videos source={videos}/>
+            </div>,
+            document.getElementById('user')
+        );
+    }
 });

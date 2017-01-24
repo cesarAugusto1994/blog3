@@ -194,11 +194,13 @@ $(function () {
     var dirAvatar = $("#menu").data("dir-avatar");
     var avatarDefault = $("#menu").data("avatar-default");
 
-    ReactDOM.render(
-        <div>
-            <Mount user={user} dirAvatar={dirAvatar} avatarDefault={avatarDefault} pesquisar={pesquisar}
-                   configNome={configNome} configImg={configImg}/>
-        </div>,
-        document.getElementById("menu")
-    )
+    if (document.getElementById("menu")) {
+        ReactDOM.render(
+            <div>
+                <Mount user={user} dirAvatar={dirAvatar} avatarDefault={avatarDefault} pesquisar={pesquisar}
+                       configNome={configNome} configImg={configImg}/>
+            </div>,
+            document.getElementById("menu")
+        )
+    }
 });

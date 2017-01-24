@@ -304,7 +304,7 @@ $(function () {
             modal = (
                 <Modal title="Adicionar Musica" handleSubmit={this.handleSubmit}>
                     <label htmlFor="nome">Nome</label>
-                    <input className="input" type="text" ref="nome" name="nome" ref="nome" id="nome" required/>
+                    <input className="input" type="text" name="nome" ref="nome" id="nome" required/>
                     <label htmlFor="numero">N&uacute;mero</label>
                     <input className="input" type="text" name="numero" id="numero" ref="numero" />
                     <label htmlFor="tonalidade">Tonalidade</label>
@@ -341,11 +341,13 @@ $(function () {
     var colecao = $("#musicas").data("colecao");
     var categoria = $("#musicas").data("categoria");
 
-    ReactDOM.render(
-        <div>
-            <View source={source} link={sourceLink} user={user} colecao={colecao} categoria={categoria}/>
-        </div>,
+    if (document.getElementById("musicas")) {
+        ReactDOM.render(
+            <div>
+                <View source={source} link={sourceLink} user={user} colecao={colecao} categoria={categoria}/>
+            </div>,
             document.getElementById('musicas')
-    );
+        );
+    }
 });
 

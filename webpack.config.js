@@ -1,14 +1,14 @@
 
 module.exports = {
-    entry: {
-        register: "./src/js/register",
-        template: "./src/js/template",
-        user: "./src/js/user",
-        anexos: "./src/js/anexos",
-        categorias: "./src/js/categorias",
-        colecoes: "./src/js/colecoes",
-        musicas: "./src/js/musicas",
-    },
+    entry: [
+        "./src/js/register",
+        "./src/js/template",
+        "./src/js/user",
+        "./src/js/anexos",
+        "./src/js/categorias",
+        "./src/js/colecoes",
+        "./src/js/musicas",
+    ],
     output: {
         filename: "web/assets/build/bundle.js"
     },

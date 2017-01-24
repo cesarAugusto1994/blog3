@@ -409,12 +409,13 @@ $(function () {
     var source = $("#categorias").attr("data-source");
     var user = $("#categorias").attr("data-user");
 
-    ReactDOM.render(
-        <div>
-            <View source={source} user={user}/>
-        </div>,
-        document.getElementById('categorias')
-    );
-
+    if (document.getElementById("categorias")) {
+        ReactDOM.render(
+            <div>
+                <View source={source} user={user}/>
+            </div>,
+            document.getElementById('categorias')
+        );
+    }
 
 });

@@ -241,35 +241,45 @@ $anexos->post('/musica/{musicaId}/anexos/save', function($musicaId, \Symfony\Com
 
 $anexos->post('/musica/{id}/anexos/comentar', function($id, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
-    if (!$request->get('id')) {
-        throw new InvalidArgumentException('Deve ser inrmada a musica.');
+    try {
+
+        if (!$request->get('id')) {
+            throw new InvalidArgumentException('Deve ser inrmada a musica.');
+        }
+        if (empty($request->get('comentario'))) {
+            throw new InvalidArgumentException('O texto não pode estar vazio.');
+        }
+
+        $musica = $app['musica.repository']->find($request->get('id'));
+
+        $user = $app['session']->get('user');
+        $usuario = $app['usuarios.repository']->find($user->getId());
+
+        $comentario = new \Api\Entities\Comentarios();
+        $comentario->setComentario($request->get('comentario'));
+        $comentario->setMusica($musica);
+        $comentario->setUsuario($usuario);
+        $comentario->setCadastro(new \DateTime('now'));
+        $comentario->setAtivo(true);
+
+        $app['db']->beginTransaction();
+        $app['comentario.repository']->save($comentario);
+        $app['db']->commit();
+
+        return $app->json(
+            [
+                'class' => 'success',
+                'message' => 'Comentário enviado com sucesso.'
+            ]
+        );
+    } catch (Exception $e) {
+        return $app->json(
+            [
+                'class' => 'error',
+                'message' => $e->getMessage()
+            ]
+        );
     }
-    if (empty($request->get('comentario'))) {
-        throw new InvalidArgumentException('O texto não pode estar vazio.');
-    }
-
-    $musica = $app['musica.repository']->find($request->get('id'));
-
-    $user = $app['session']->get('user');
-    $usuario = $app['usuarios.repository']->find($user->getId());
-
-    $comentario = new \Api\Entities\Comentarios();
-    $comentario->setComentario($request->get('comentario'));
-    $comentario->setMusica($musica);
-    $comentario->setUsuario($usuario);
-    $comentario->setCadastro(new \DateTime('now'));
-    $comentario->setAtivo(true);
-
-    $app['db']->beginTransaction();
-    $app['comentario.repository']->save($comentario);
-    $app['db']->commit();
-
-    return $app->json(
-        [
-            'class' => 'success',
-            'message' => 'Comentário enviado com sucesso.'
-        ]
-    );
 
 })->bind('comentar_musica');
 
