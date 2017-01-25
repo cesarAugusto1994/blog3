@@ -33,7 +33,9 @@
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/jquery.fancybox.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/main.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/responsive.css') }}" rel="stylesheet">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset(app['dir.base'] ~ 'assets/vendor/emojionearea/dist/emojionearea.css') }}" media="screen">
+
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/react/react.js') }}"></script>
@@ -59,7 +61,6 @@
             }
         });
     </script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/build/bundle.js') }}"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -90,5 +91,6 @@
 </head>
 <body>
 {% block body %}{% endblock %}
+<script src="{{ asset(app['dir.base'] ~ 'assets/build/bundle.js') }}"></script>
 </body>
 </html>

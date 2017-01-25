@@ -6,6 +6,9 @@
  * Time: 09:31
  */
 
+use Api\Entities\Categoria;
+use Symfony\Component\HttpFoundation\Request;
+
 $categorias = $app['controllers_factory'];
 
 $categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) use ($app) {
@@ -20,6 +23,12 @@ $categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) us
 
 })->bind('categorias');
 
+$categorias->get('categoria/adicionar/{colecao}', function ($colecao) use ($app) {
+
+    return $app['twig']->render('/user/categoria-adicionar.html.twig', ['colecao' => $colecao]);
+
+});
+
 $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
 
     $colecao = $app['colecao.repository']->find($colecaoId);
@@ -33,6 +42,45 @@ $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
     return new \Symfony\Component\HttpFoundation\JsonResponse($categorias);
 
 })->bind('api_categorias');
+
+$categorias->get('categorias', function() use ($app){
+
+    $categorias = $app['categoria.repository']->findBy([], ['nome' => 'ASC']);
+
+     $array = [];
+    /**
+     * @var Categoria $categoria
+     */
+    foreach ($categorias as $key => $categoria) {
+
+        $array['colecoes'][$categoria->getColecao()->getNome()]["categorias"][] = [
+            "id" => $categoria->getId(),
+            "nome" => $categoria->getNome()
+        ];
+
+
+
+    }
+
+    /*
+       $array['colecoes'][] =
+            [
+                "nome" => $categoria->getColecao()->getNome(),
+                "categorias" => [
+
+                    [
+                        "id" => $categoria->getId(),
+                        "nome" => $categoria->getNome()
+                    ]
+                ]
+            ];
+     * */
+
+    print_r($array);
+
+    return new \Symfony\Component\HttpFoundation\JsonResponse($array);
+
+})->bind('api_categorias_2');
 
 $categorias->get('todas-categorias', function() use ($app){
     $categorias = $app['categoria.repository']->findBy(['ativo' =>true], ['nome' => 'ASC']);

@@ -162,7 +162,7 @@ $(function () {
                             linkToCategorias = "/user/categorias/" + colecao.id + "/" + colecao.nome;
 
                             return (
-                                <div key={colecao.id} className="col-sm-4 col-xs-12">
+                                <div key={colecao.id} className="col-sm-4 col-xs-6">
                                     <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                                         <div className="img-wrapper">
                                             <a href={linkToCategorias}>
@@ -225,7 +225,7 @@ $(function () {
                                          data-wow-delay="1800ms">
                                         <div className="media-left">
                                             <div className="icon">
-                                                <i className="ion-ios-play"></i>
+                                                <i className="ion-android-arrow-dropright-circle"></i>
                                             </div>
                                         </div>
                                         <div className="media-body">

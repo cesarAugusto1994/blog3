@@ -272,7 +272,7 @@ $(function () {
     var ListComentarios = React.createClass({
 
         componentDidMount: function () {
-            return setInterval(this.props.reloadComentarios, 1000);
+            return setInterval(this.props.reloadComentarios, 10000);
         },
 
         render: function () {
@@ -378,12 +378,11 @@ $(function () {
                                defaultValue={this.props.musicaId}/>
                         <div className="form-group">
                             <div className="col-lg-12">
-                                <textarea className="textarea" name="comentario" id="comentario" ref="comentario"
-                                          rows="2" placeholder="..."></textarea>
+                                <textarea className="textarea" name="comentario" id="comentario" ref="comentario" placeholder="..."></textarea>
                             </div>
                         </div>
                         <p>
-                            <button id="comentar" ref="submit" className="button is-light" onClick={this.handleSubmit}>
+                            <button id="comentar" ref="submit" className="button is-light is-fullwidth is-success" onClick={this.handleSubmit}>
                                 Enviar
                             </button>
                         </p>
@@ -492,7 +491,7 @@ $(function () {
         render() {
             return (
                 <div>
-                    <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
+                    <div className="card" style={styleCard}>
                         <div className="card-content">
                             <div className="media">
                                 <div className="media-content">
@@ -513,7 +512,7 @@ $(function () {
         render() {
             return (
                 <pre id="content" style={styleCardLetra}
-                     data-key={this.props.musica.tom}>{this.props.musica.letra}</pre>
+                     data-key={this.props.sourceMusicaTom}>{this.props.sourceMusicaLetra}</pre>
             )
         }
 
@@ -602,6 +601,10 @@ $(function () {
 
     var ListArquivos = React.createClass({
 
+        componentDidMount: function () {
+            return setInterval(this.props.reloadArquivos, 10000);
+        },
+
         render: function () {
 
             var _this = this;
@@ -610,11 +613,11 @@ $(function () {
                 <div>
                     {this.props.anexos.map(function (anexo) {
 
-                        var arquivo = _this.props.dirAnexos + anexo.nome;
+                        let arquivo = _this.props.dirAnexos + anexo.nome;
 
-                        var visualzar = '';
-                        var downLoad = '';
-                        var link = '';
+                        let visualzar = '';
+                        let downLoad = '';
+                        let link = '';
 
                         if (!anexo.isExterno) {
                             visualzar = <BtnVisualizar anexo={arquivo}/>;
@@ -706,20 +709,22 @@ $(function () {
         }
     });
 
-    var ViewLetra = React.createClass({
+    const ViewLetra = React.createClass({
 
         render: function () {
             return (
                 <CardLetra>
                     <Font source={this.props.sourceAddLetra}/>
                     <br />
-                    <BlockLetra musica={this.props.dataMusica}/>
+                    <BlockLetra musica={this.props.dataMusica}
+                                sourceMusicaLetra={this.props.sourceMusicaLetra}
+                                sourceMusicaTom={this.props.sourceMusicaTom}/>
                 </CardLetra>
             )
         }
     });
 
-    var Render = React.createClass({
+    const Render = React.createClass({
 
         getInitialState: function () {
             return {data: []};
@@ -737,6 +742,8 @@ $(function () {
             return (
                 <div>
                     <ViewLetra dataMusica={this.state.data}
+                               sourceMusicaLetra={this.props.sourceMusicaLetra}
+                               sourceMusicaTom={this.props.sourceMusicaTom}
                                sourceAddLetra={this.props.sourceAddLetra}/>
                     <ViewArquivos sourceArquivos={this.props.sourceArquivos}
                                   sourceEditar={this.props.sourceEditar}
@@ -754,19 +761,20 @@ $(function () {
         }
     });
 
-    var source = $("#comentarios").attr("data-source");
-    var sourceArquivos = $("#comentarios").attr("data-source-arquivos");
-    var sourceVideos = $("#comentarios").attr("data-source-videos");
-    var sourceEditar = $("#comentarios").attr("data-source-editar");
-    var sourceAddLetra = $("#comentarios").attr("data-source-add-letra");
-    var sourceMusica = $("#comentarios").attr("data-source-musica");
+    const source = $("#comentarios").attr("data-source");
+    const sourceArquivos = $("#comentarios").attr("data-source-arquivos");
+    const sourceVideos = $("#comentarios").attr("data-source-videos");
+    const sourceEditar = $("#comentarios").attr("data-source-editar");
+    const sourceAddLetra = $("#comentarios").attr("data-source-add-letra");
+    const sourceMusica = $("#comentarios").attr("data-source-musica");
+    const sourceMusicaLetra = $("#comentarios").attr("data-source-musica-letra");
+    const sourceMusicaTom = $("#comentarios").attr("data-source-musica-tom");
 
-    var musicaId = $("#comentarios").attr("data-musica-id");
-    var user = $("#comentarios").attr("data-user");
-    var userId = $("#comentarios").data("user-id");
-    var dirAvatar = $("#comentarios").attr("data-dir-avatar");
-    var dirAnexos = $("#comentarios").attr("data-dir-anexos");
-
+    const musicaId = $("#comentarios").attr("data-musica-id");
+    const user = $("#comentarios").attr("data-user");
+    const userId = $("#comentarios").data("user-id");
+    const dirAvatar = $("#comentarios").attr("data-dir-avatar");
+    const dirAnexos = $("#comentarios").attr("data-dir-anexos");
 
     if (document.getElementById('comentarios')) {
 
@@ -784,6 +792,8 @@ $(function () {
                         userId={userId}
                         dirAvatar={dirAvatar}
                         musicaId={musicaId}
+                        sourceMusicaLetra={sourceMusicaLetra}
+                        sourceMusicaTom={sourceMusicaTom}
                 />
             </div>,
             document.getElementById('comentarios')
@@ -812,7 +822,7 @@ $(function () {
                 $('.c').css('font-size', curSize2);
         });
 
-        $("#content").transpose({key: 'C'});
+        $("pre").transpose({key: 'C'});
         $('.c').css('font-size', 8);
         $('#content').css('font-size', 8)
     }

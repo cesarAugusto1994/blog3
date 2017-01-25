@@ -22,6 +22,11 @@ $colecao->get('colecoes/all', function() use ($app){
     return new \Symfony\Component\HttpFoundation\JsonResponse($colecoes);
 })->bind('api_colecoes');
 
+$colecao->get('colecao/{colecao}', function($colecao) use ($app){
+    $colecao = $app['colecao.repository']->find($colecao);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($colecao);
+})->bind('api_colecao');
+
 $colecao->get('colecoes/grid', function() use ($app){
 
     return $app['twig']->render(

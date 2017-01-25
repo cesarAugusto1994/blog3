@@ -91,7 +91,7 @@ $(function () {
         render() {
 
             return (
-                <div className="col-sm-4 col-xs-12">
+                <div className="col-sm-4 col-xs-6">
                     <Figure colecao={this.props.colecao} dirImg={this.props.dirImg} categoriasUrl={this.props.categoriasUrl}
                             defaultImage={this.props.defaultImage} reloadColecao={this.props.reloadColecao} user={this.props.user}/>
                 </div>

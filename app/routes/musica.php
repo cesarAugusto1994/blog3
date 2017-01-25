@@ -50,6 +50,12 @@ $musica->get('musicas/{categoriaId}/{nome}', function($categoriaId, $nome) use (
 
 })->bind('view_musicas');
 
+$musica->get('musica/adicionar/{categoria}', function($categoria) use ($app){
+
+    return $app['twig']->render('/user/musica-adicionar.html.twig', ['categoria' => $categoria]);
+
+})->bind('view_adicionar_musica_');
+
 $musica->get('musicas/adicionar/{categoria}/1', function($categoria) use ($app){
 
     $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
@@ -155,7 +161,7 @@ $musica->post('/musica/adicionar', function (\Symfony\Component\HttpFoundation\R
     }
 
     if ($request->get('letra')) {
-        $musica->setLetra(strip_tags($request->get('letra')));
+        $musica->setLetra(strip_tags(htmlspecialchars_decode($request->get('letra'))));
         $musica->setLetraOriginal($request->get('letra'));
     }
 

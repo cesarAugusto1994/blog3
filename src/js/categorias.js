@@ -45,8 +45,11 @@ $(function () {
 
     class BtnAddCategoria extends React.Component{
         render() {
+
+            const url = "/user/categoria/adicionar/" + this.props.colecao;
+
             return (
-                <button onClick={this.props.openModal} className="button is-light is-small">Nova Categoria</button>
+                <a href={url} className="button is-light is-small">Nova Categoria</a>
             );
         }
     };
@@ -72,7 +75,7 @@ $(function () {
 
         render: function() {
             return (
-                <div id="scheduleentry-modal" className="modal fade" tabIndex="-1">
+                <div id="ModalCategorias" className="modal fade" tabIndex="-1">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -98,7 +101,7 @@ $(function () {
         }
     });
 
-    var EditarCategoriaModal = React.createClass({
+    const EditarCategoriaModal = React.createClass({
 
         handleSubmit : function (e) {
           
@@ -134,9 +137,9 @@ $(function () {
         
         render: function() {
 
-            var modal = null;
+            let modal = null;
             modal = (
-                <Modal title="Categoria" handleSubmit={this.handleSubmit}>
+                <Modal title="Editar Categoria" handleSubmit={this.handleSubmit}>
                     <input type="hidden" ref="id" name="id" id="id" defaultValue={this.props.categoria.id}/>
                     <label htmlFor="nome">Nome</label>
                     <input className="input is-primary" type="text" placeholder="Nome" defaultValue={this.props.categoria.nome} ref="nome" name="nome" id="nome" required/>
@@ -159,7 +162,7 @@ $(function () {
         }
     });
 
-    var NovaCategoriaModal = React.createClass({
+    const NovaCategoriaModal = React.createClass({
 
         getInitialState: function() {
             return {data: []};
@@ -211,7 +214,7 @@ $(function () {
 
             var modal = null;
             modal = (
-                <Modal title="Categoria" handleSubmit={this.handleSubmit}>
+                <Modal title="Nova Categoria" handleSubmit={this.handleSubmit}>
                     <label htmlFor="nome">Nome</label>
                     <input className="input is-primary" type="text" placeholder="Nome" ref="nome" name="nome" id="nome" required/>
                     <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
@@ -233,7 +236,7 @@ $(function () {
         }
     });
 
-    var BlockCategorias = React.createClass({
+    const BlockCategorias = React.createClass({
 
         render: function () {
 
@@ -260,7 +263,7 @@ $(function () {
         }
     });
 
-    var MudarStatusCategoria = React.createClass({
+    const MudarStatusCategoria = React.createClass({
 
         loadStatus : function() {
             this.props.reloadCategoria();
@@ -316,7 +319,7 @@ $(function () {
 
     });
 
-    var CategoriasList = React.createClass({
+    const CategoriasList = React.createClass({
 
         getInitialState: function() {
             return {data: []};
@@ -330,6 +333,15 @@ $(function () {
             this.load();
         },
 
+        openModal: function () {
+            $("#ModalCategorias").modal("show");
+        },
+        closeModal: function () {
+            $("#ModalCategorias").modal("hide");
+            $('.modal-body #id').val('');
+            $('.modal-body #nome').val('');
+        },
+
         render: function () {
 
             var _this = this;
@@ -337,11 +349,18 @@ $(function () {
             return (
                 <div>
                 <span>{ _this.props.categoria.map(function (categoria) {
-                    var musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
+                    const musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
                     return (
                         <div key={categoria.id}>
-                            <BlockCategorias categoria={categoria} musicasUrl={musicasUrl} user={_this.props.user} reloadCategoria={_this.props.reloadCategoria} acao={_this.props.acao}/>
-                            <EditarCategoriaModal colecoes={_this.state.data} categoria={categoria} />
+                            <EditarCategoriaModal
+                                colecoes={_this.state.data}
+                                categoria={categoria} />
+                            <BlockCategorias
+                                categoria={categoria}
+                                musicasUrl={musicasUrl}
+                                user={_this.props.user}
+                                reloadCategoria={_this.props.reloadCategoria}
+                                acao={_this.openModal}/>
                         </div>
                     )
                 }) }</span>
@@ -351,13 +370,12 @@ $(function () {
         }
     });
 
-    var OpcoesList = React.createClass({
+    const OpcoesList = React.createClass({
 
         render : function () {
             return (
                 <div>
-                    <BtnAddCategoria openModal={this.props.acao} />
-                    <NovaCategoriaModal reloadCategoria={this.props.reloadCategoria} closeModal={this.props.closeModal}/>
+                    <BtnAddCategoria colecao={this.props.colecao}/>
                     <hr className="small" />
                 </div>
             );
@@ -365,13 +383,13 @@ $(function () {
 
     });
 
-    var View = React.createClass({
+    const View = React.createClass({
 
         getInitialState: function() {
             return {data: []};
         },
         load : function () {
-            var _this = this;
+            const _this = this;
             $.get(_this.props.source, function (result) {
                 _this.setState({ data: result });
             }.bind(_this));
@@ -379,22 +397,13 @@ $(function () {
         componentDidMount: function() {
             this.load();
         },
-        openModal: function () {
-            $("#scheduleentry-modal").modal("show");
-        },
-        closeModal: function () {
-            $("#scheduleentry-modal").modal("hide");
-            $('.modal-body #id').val('');
-            $('.modal-body #nome').val('');
-            $('.modal-body #colecao').val('');
-        },
 
         render : function () {
 
             var opcoes = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
-                opcoes = <OpcoesList reloadCategoria={this.load} acao={this.openModal} closeModal={this.closeModal} />
+                opcoes = <OpcoesList reloadCategoria={this.load} colecao={this.props.colecao}/>
             }
 
             return (
@@ -406,13 +415,14 @@ $(function () {
         }
     });
 
-    var source = $("#categorias").attr("data-source");
-    var user = $("#categorias").attr("data-user");
+    const source = $("#categorias").attr("data-source");
+    const user = $("#categorias").attr("data-user");
+    const colecao = $("#categorias").data("colecao");
 
     if (document.getElementById("categorias")) {
         ReactDOM.render(
             <div>
-                <View source={source} user={user}/>
+                <View source={source} user={user} colecao={colecao}/>
             </div>,
             document.getElementById('categorias')
         );

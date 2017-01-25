@@ -50,7 +50,9 @@
 	__webpack_require__(4);
 	__webpack_require__(5);
 	__webpack_require__(6);
-	module.exports = __webpack_require__(7);
+	__webpack_require__(7);
+	__webpack_require__(8);
+	module.exports = __webpack_require__(9);
 
 
 /***/ },
@@ -862,7 +864,7 @@
 
 	                        return React.createElement(
 	                            "div",
-	                            { key: colecao.id, className: "col-sm-4 col-xs-12" },
+	                            { key: colecao.id, className: "col-sm-4 col-xs-6" },
 	                            React.createElement(
 	                                "figure",
 	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "500ms", "data-wow-delay": "0ms" },
@@ -948,7 +950,7 @@
 	                                    React.createElement(
 	                                        "div",
 	                                        { className: "icon" },
-	                                        React.createElement("i", { className: "ion-ios-play" })
+	                                        React.createElement("i", { className: "ion-android-arrow-dropright-circle" })
 	                                    )
 	                                ),
 	                                React.createElement(
@@ -1419,7 +1421,7 @@
 
 
 	        componentDidMount: function () {
-	            return setInterval(this.props.reloadComentarios, 1000);
+	            return setInterval(this.props.reloadComentarios, 10000);
 	        },
 
 	        render: function () {
@@ -1548,8 +1550,7 @@
 	                        React.createElement(
 	                            "div",
 	                            { className: "col-lg-12" },
-	                            React.createElement("textarea", { className: "textarea", name: "comentario", id: "comentario", ref: "comentario",
-	                                rows: "2", placeholder: "..." })
+	                            React.createElement("textarea", { className: "textarea", name: "comentario", id: "comentario", ref: "comentario", placeholder: "..." })
 	                        )
 	                    ),
 	                    React.createElement(
@@ -1557,7 +1558,7 @@
 	                        null,
 	                        React.createElement(
 	                            "button",
-	                            { id: "comentar", ref: "submit", className: "button is-light", onClick: this.handleSubmit },
+	                            { id: "comentar", ref: "submit", className: "button is-light is-fullwidth is-success", onClick: this.handleSubmit },
 	                            "Enviar"
 	                        )
 	                    )
@@ -1687,7 +1688,7 @@
 	                null,
 	                React.createElement(
 	                    "div",
-	                    { className: "card wow fadeInUp animated slide", "data-wow-delay": ".3s", style: styleCard },
+	                    { className: "card", style: styleCard },
 	                    React.createElement(
 	                        "div",
 	                        { className: "card-content" },
@@ -1714,8 +1715,8 @@
 	            return React.createElement(
 	                "pre",
 	                { id: "content", style: styleCardLetra,
-	                    "data-key": this.props.musica.tom },
-	                this.props.musica.letra
+	                    "data-key": this.props.sourceMusicaTom },
+	                this.props.sourceMusicaLetra
 	            );
 	        }
 
@@ -1826,6 +1827,10 @@
 	        displayName: "ListArquivos",
 
 
+	        componentDidMount: function () {
+	            return setInterval(this.props.reloadArquivos, 10000);
+	        },
+
 	        render: function () {
 
 	            var _this = this;
@@ -1835,11 +1840,11 @@
 	                null,
 	                this.props.anexos.map(function (anexo) {
 
-	                    var arquivo = _this.props.dirAnexos + anexo.nome;
+	                    let arquivo = _this.props.dirAnexos + anexo.nome;
 
-	                    var visualzar = '';
-	                    var downLoad = '';
-	                    var link = '';
+	                    let visualzar = '';
+	                    let downLoad = '';
+	                    let link = '';
 
 	                    if (!anexo.isExterno) {
 	                        visualzar = React.createElement(BtnVisualizar, { anexo: arquivo });
@@ -1953,7 +1958,7 @@
 	        }
 	    });
 
-	    var ViewLetra = React.createClass({
+	    const ViewLetra = React.createClass({
 	        displayName: "ViewLetra",
 
 
@@ -1963,12 +1968,14 @@
 	                null,
 	                React.createElement(Font, { source: this.props.sourceAddLetra }),
 	                React.createElement("br", null),
-	                React.createElement(BlockLetra, { musica: this.props.dataMusica })
+	                React.createElement(BlockLetra, { musica: this.props.dataMusica,
+	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
+	                    sourceMusicaTom: this.props.sourceMusicaTom })
 	            );
 	        }
 	    });
 
-	    var Render = React.createClass({
+	    const Render = React.createClass({
 	        displayName: "Render",
 
 
@@ -1989,6 +1996,8 @@
 	                "div",
 	                null,
 	                React.createElement(ViewLetra, { dataMusica: this.state.data,
+	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
+	                    sourceMusicaTom: this.props.sourceMusicaTom,
 	                    sourceAddLetra: this.props.sourceAddLetra }),
 	                React.createElement(ViewArquivos, { sourceArquivos: this.props.sourceArquivos,
 	                    sourceEditar: this.props.sourceEditar,
@@ -2005,18 +2014,20 @@
 	        }
 	    });
 
-	    var source = $("#comentarios").attr("data-source");
-	    var sourceArquivos = $("#comentarios").attr("data-source-arquivos");
-	    var sourceVideos = $("#comentarios").attr("data-source-videos");
-	    var sourceEditar = $("#comentarios").attr("data-source-editar");
-	    var sourceAddLetra = $("#comentarios").attr("data-source-add-letra");
-	    var sourceMusica = $("#comentarios").attr("data-source-musica");
+	    const source = $("#comentarios").attr("data-source");
+	    const sourceArquivos = $("#comentarios").attr("data-source-arquivos");
+	    const sourceVideos = $("#comentarios").attr("data-source-videos");
+	    const sourceEditar = $("#comentarios").attr("data-source-editar");
+	    const sourceAddLetra = $("#comentarios").attr("data-source-add-letra");
+	    const sourceMusica = $("#comentarios").attr("data-source-musica");
+	    const sourceMusicaLetra = $("#comentarios").attr("data-source-musica-letra");
+	    const sourceMusicaTom = $("#comentarios").attr("data-source-musica-tom");
 
-	    var musicaId = $("#comentarios").attr("data-musica-id");
-	    var user = $("#comentarios").attr("data-user");
-	    var userId = $("#comentarios").data("user-id");
-	    var dirAvatar = $("#comentarios").attr("data-dir-avatar");
-	    var dirAnexos = $("#comentarios").attr("data-dir-anexos");
+	    const musicaId = $("#comentarios").attr("data-musica-id");
+	    const user = $("#comentarios").attr("data-user");
+	    const userId = $("#comentarios").data("user-id");
+	    const dirAvatar = $("#comentarios").attr("data-dir-avatar");
+	    const dirAnexos = $("#comentarios").attr("data-dir-anexos");
 
 	    if (document.getElementById('comentarios')) {
 
@@ -2034,7 +2045,9 @@
 	                user: user,
 	                userId: userId,
 	                dirAvatar: dirAvatar,
-	                musicaId: musicaId
+	                musicaId: musicaId,
+	                sourceMusicaLetra: sourceMusicaLetra,
+	                sourceMusicaTom: sourceMusicaTom
 	            })
 	        ), document.getElementById('comentarios'));
 
@@ -2057,7 +2070,7 @@
 	            if (curSize2 >= 5) $('.c').css('font-size', curSize2);
 	        });
 
-	        $("#content").transpose({ key: 'C' });
+	        $("pre").transpose({ key: 'C' });
 	        $('.c').css('font-size', 8);
 	        $('#content').css('font-size', 8);
 	    }
@@ -2120,9 +2133,12 @@
 
 	    class BtnAddCategoria extends React.Component {
 	        render() {
+
+	            const url = "/user/categoria/adicionar/" + this.props.colecao;
+
 	            return React.createElement(
-	                "button",
-	                { onClick: this.props.openModal, className: "button is-light is-small" },
+	                "a",
+	                { href: url, className: "button is-light is-small" },
 	                "Nova Categoria"
 	            );
 	        }
@@ -2150,7 +2166,7 @@
 	        render: function () {
 	            return React.createElement(
 	                "div",
-	                { id: "scheduleentry-modal", className: "modal fade", tabIndex: "-1" },
+	                { id: "ModalCategorias", className: "modal fade", tabIndex: "-1" },
 	                React.createElement(
 	                    "div",
 	                    { className: "modal-dialog" },
@@ -2204,7 +2220,7 @@
 	        }
 	    });
 
-	    var EditarCategoriaModal = React.createClass({
+	    const EditarCategoriaModal = React.createClass({
 	        displayName: "EditarCategoriaModal",
 
 
@@ -2242,10 +2258,10 @@
 
 	        render: function () {
 
-	            var modal = null;
+	            let modal = null;
 	            modal = React.createElement(
 	                Modal,
-	                { title: "Categoria", handleSubmit: this.handleSubmit },
+	                { title: "Editar Categoria", handleSubmit: this.handleSubmit },
 	                React.createElement("input", { type: "hidden", ref: "id", name: "id", id: "id", defaultValue: this.props.categoria.id }),
 	                React.createElement(
 	                    "label",
@@ -2279,7 +2295,7 @@
 	        }
 	    });
 
-	    var NovaCategoriaModal = React.createClass({
+	    const NovaCategoriaModal = React.createClass({
 	        displayName: "NovaCategoriaModal",
 
 
@@ -2334,7 +2350,7 @@
 	            var modal = null;
 	            modal = React.createElement(
 	                Modal,
-	                { title: "Categoria", handleSubmit: this.handleSubmit },
+	                { title: "Nova Categoria", handleSubmit: this.handleSubmit },
 	                React.createElement(
 	                    "label",
 	                    { htmlFor: "nome" },
@@ -2367,7 +2383,7 @@
 	        }
 	    });
 
-	    var BlockCategorias = React.createClass({
+	    const BlockCategorias = React.createClass({
 	        displayName: "BlockCategorias",
 
 
@@ -2404,7 +2420,7 @@
 	        }
 	    });
 
-	    var MudarStatusCategoria = React.createClass({
+	    const MudarStatusCategoria = React.createClass({
 	        displayName: "MudarStatusCategoria",
 
 
@@ -2463,7 +2479,7 @@
 
 	    });
 
-	    var CategoriasList = React.createClass({
+	    const CategoriasList = React.createClass({
 	        displayName: "CategoriasList",
 
 
@@ -2479,6 +2495,15 @@
 	            this.load();
 	        },
 
+	        openModal: function () {
+	            $("#ModalCategorias").modal("show");
+	        },
+	        closeModal: function () {
+	            $("#ModalCategorias").modal("hide");
+	            $('.modal-body #id').val('');
+	            $('.modal-body #nome').val('');
+	        },
+
 	        render: function () {
 
 	            var _this = this;
@@ -2490,12 +2515,19 @@
 	                    "span",
 	                    null,
 	                    _this.props.categoria.map(function (categoria) {
-	                        var musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
+	                        const musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
 	                        return React.createElement(
 	                            "div",
 	                            { key: categoria.id },
-	                            React.createElement(BlockCategorias, { categoria: categoria, musicasUrl: musicasUrl, user: _this.props.user, reloadCategoria: _this.props.reloadCategoria, acao: _this.props.acao }),
-	                            React.createElement(EditarCategoriaModal, { colecoes: _this.state.data, categoria: categoria })
+	                            React.createElement(EditarCategoriaModal, {
+	                                colecoes: _this.state.data,
+	                                categoria: categoria }),
+	                            React.createElement(BlockCategorias, {
+	                                categoria: categoria,
+	                                musicasUrl: musicasUrl,
+	                                user: _this.props.user,
+	                                reloadCategoria: _this.props.reloadCategoria,
+	                                acao: _this.openModal })
 	                        );
 	                    })
 	                )
@@ -2503,7 +2535,7 @@
 	        }
 	    });
 
-	    var OpcoesList = React.createClass({
+	    const OpcoesList = React.createClass({
 	        displayName: "OpcoesList",
 
 
@@ -2511,15 +2543,14 @@
 	            return React.createElement(
 	                "div",
 	                null,
-	                React.createElement(BtnAddCategoria, { openModal: this.props.acao }),
-	                React.createElement(NovaCategoriaModal, { reloadCategoria: this.props.reloadCategoria, closeModal: this.props.closeModal }),
+	                React.createElement(BtnAddCategoria, { colecao: this.props.colecao }),
 	                React.createElement("hr", { className: "small" })
 	            );
 	        }
 
 	    });
 
-	    var View = React.createClass({
+	    const View = React.createClass({
 	        displayName: "View",
 
 
@@ -2527,7 +2558,7 @@
 	            return { data: [] };
 	        },
 	        load: function () {
-	            var _this = this;
+	            const _this = this;
 	            $.get(_this.props.source, function (result) {
 	                _this.setState({ data: result });
 	            }.bind(_this));
@@ -2535,22 +2566,13 @@
 	        componentDidMount: function () {
 	            this.load();
 	        },
-	        openModal: function () {
-	            $("#scheduleentry-modal").modal("show");
-	        },
-	        closeModal: function () {
-	            $("#scheduleentry-modal").modal("hide");
-	            $('.modal-body #id').val('');
-	            $('.modal-body #nome').val('');
-	            $('.modal-body #colecao').val('');
-	        },
 
 	        render: function () {
 
 	            var opcoes = '';
 
 	            if (this.props.user == 'ROLE_ADMIN') {
-	                opcoes = React.createElement(OpcoesList, { reloadCategoria: this.load, acao: this.openModal, closeModal: this.closeModal });
+	                opcoes = React.createElement(OpcoesList, { reloadCategoria: this.load, colecao: this.props.colecao });
 	            }
 
 	            return React.createElement(
@@ -2562,14 +2584,15 @@
 	        }
 	    });
 
-	    var source = $("#categorias").attr("data-source");
-	    var user = $("#categorias").attr("data-user");
+	    const source = $("#categorias").attr("data-source");
+	    const user = $("#categorias").attr("data-user");
+	    const colecao = $("#categorias").data("colecao");
 
 	    if (document.getElementById("categorias")) {
 	        ReactDOM.render(React.createElement(
 	            "div",
 	            null,
-	            React.createElement(View, { source: source, user: user })
+	            React.createElement(View, { source: source, user: user, colecao: colecao })
 	        ), document.getElementById('categorias'));
 	    }
 	});
@@ -2686,7 +2709,7 @@
 
 	            return React.createElement(
 	                'div',
-	                { className: 'col-sm-4 col-xs-12' },
+	                { className: 'col-sm-4 col-xs-6' },
 	                React.createElement(Figure, { colecao: this.props.colecao, dirImg: this.props.dirImg, categoriasUrl: this.props.categoriasUrl,
 	                    defaultImage: this.props.defaultImage, reloadColecao: this.props.reloadColecao, user: this.props.user })
 	            );
@@ -2821,9 +2844,11 @@
 
 	        render() {
 
+	            const url = "/user/musica/adicionar/" + this.props.categoria;
+
 	            return React.createElement(
 	                "a",
-	                { onClick: this.props.openModal, className: "button is-light is-small" },
+	                { href: url, className: "button is-light is-small" },
 	                "Adicionar Musica"
 	            );
 	        }
@@ -3008,7 +3033,7 @@
 	            var addMusica = '';
 
 	            if ("ROLE_ADMIN" == this.props.user) {
-	                addMusica = React.createElement(BtnAdd, { openModal: this.openModal });
+	                addMusica = React.createElement(BtnAdd, { categoria: this.props.categoria });
 	            }
 
 	            return React.createElement(
@@ -3243,6 +3268,354 @@
 	        ), document.getElementById('musicas'));
 	    }
 	});
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by cesar on 25/01/17.
+	 */
+
+	class Container extends React.Component {
+
+	    render() {
+	        return React.createElement(
+	            "article",
+	            null,
+	            React.createElement(
+	                "div",
+	                { className: "container" },
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" },
+	                        this.props.children
+	                    )
+	                )
+	            )
+	        );
+	    }
+
+	};
+
+	const Render = React.createClass({
+	    displayName: "Render",
+
+
+	    getInitialState: function () {
+	        return { data: [], colecao: [] };
+	    },
+
+	    load: function () {
+	        $.get('/user/colecoes/all', function (result) {
+	            this.setState({ data: result });
+	        }.bind(this));
+	    },
+
+	    loadBeforeSubmit: function () {
+	        $.get('/user/colecao/' + this.refs.colecao.value, function (result) {
+	            this.setState({ colecao: result });
+	        }.bind(this));
+	    },
+
+	    componentDidMount: function () {
+	        this.load();
+	    },
+
+	    handleSubmit: function (e) {
+
+	        e.preventDefault();
+
+	        this.loadBeforeSubmit();
+
+	        let nome = this.refs.nome.value.trim();
+	        let colecao = this.refs.colecao.value.trim();
+
+	        if (!nome || !colecao) {
+	            alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
+	        }
+
+	        const _this = this;
+
+	        $.ajax({
+	            type: "POST",
+	            url: "/user/categoria/adicionar",
+	            data: {
+	                nome: nome,
+	                colecao: colecao
+	            },
+	            cache: false,
+	            success: function (data) {
+	                alertify.success(data.message);
+	                window.location.href = '/user/categorias/' + _this.state.colecao.id + '/' + _this.state.colecao.nome;
+	                unblock_screen();
+	            },
+	            error: function (data) {
+	                unblock_screen();
+	                alertify.error("Ocorreu um erro.");
+	            }
+	        });
+	    },
+
+	    render: function () {
+	        return React.createElement(
+	            Container,
+	            null,
+	            React.createElement(
+	                "form",
+	                { onSubmit: this.handleSubmit },
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "Nome"
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement("input", { className: "input", type: "text", placeholder: "Nome", autoFocus: "autoFocus", ref: "nome", name: "nome", id: "nome", required: true })
+	                ),
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "Cole\xE7\xE3o"
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "select is-fullwidth" },
+	                    React.createElement(
+	                        "select",
+	                        { ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.colecao },
+	                        this.state.data.map(function (colecao) {
+	                            return React.createElement(
+	                                "option",
+	                                { key: colecao.id, value: colecao.id },
+	                                colecao.nome
+	                            );
+	                        })
+	                    )
+	                ),
+	                React.createElement("br", null),
+	                React.createElement("br", null),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement(
+	                        "button",
+	                        { className: "button is-fullwidth is-danger" },
+	                        "Salvar"
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	if (document.getElementById("categoria-adicionar")) {
+
+	    const colecao = $("#categoria-adicionar").data("colecao");
+
+	    ReactDOM.render(React.createElement(
+	        "div",
+	        null,
+	        React.createElement(Render, { colecao: colecao })
+	    ), document.getElementById('categoria-adicionar'));
+	}
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by cesar on 25/01/17.
+	 */
+
+	class Container extends React.Component {
+
+	    render() {
+	        return React.createElement(
+	            "article",
+	            null,
+	            React.createElement(
+	                "div",
+	                { className: "container" },
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" },
+	                        this.props.children
+	                    )
+	                )
+	            )
+	        );
+	    }
+
+	}
+	;
+
+	const Render = React.createClass({
+	    displayName: "Render",
+
+
+	    getInitialState: function () {
+	        return { data: [], categorias: [], tons: [] };
+	    },
+
+	    load: function () {
+	        $.get('/user/categorias', function (result) {
+	            this.setState({ categorias: result });
+	        }.bind(this));
+
+	        $.get('/user/tonalidades', function (result) {
+	            this.setState({ tons: result });
+	        }.bind(this));
+	    },
+
+	    componentDidMount: function () {
+	        this.load();
+	    },
+
+	    handleSubmit: function (e) {
+
+	        e.preventDefault();
+
+	        this.loadBeforeSubmit();
+
+	        let nome = this.refs.nome.value.trim();
+	        let colecao = this.refs.colecao.value.trim();
+
+	        if (!nome || !colecao) {
+	            alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
+	        }
+
+	        const _this = this;
+
+	        $.ajax({
+	            type: "POST",
+	            url: "/user/categoria/adicionar",
+	            data: {
+	                nome: nome,
+	                colecao: colecao
+	            },
+	            cache: false,
+	            success: function (data) {
+	                alertify.success(data.message);
+	                window.location.href = '/user/categorias/' + _this.state.colecao.id + '/' + _this.state.colecao.nome;
+	                unblock_screen();
+	            },
+	            error: function (data) {
+	                unblock_screen();
+	                alertify.error("Ocorreu um erro.");
+	            }
+	        });
+	    },
+
+	    render: function () {
+
+	        const _this = this;
+
+	        return React.createElement(
+	            Container,
+	            null,
+	            React.createElement(
+	                "form",
+	                { className: "form-horizontal", method: "POST", action: "{{ path('save_musica') }}" },
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "Titulo"
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", name: "nome", id: "nome", required: true })
+	                ),
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "N\xFAmero:"
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement("input", { className: "input", type: "text", placeholder: "N\xFAmero", name: "numero", id: "numero", required: "required" })
+	                ),
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "Tonalidade"
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "select is-fullwidth" },
+	                    React.createElement(
+	                        "select",
+	                        { name: "tonalidade", ref: "tonalidade", id: "tonalidade" },
+	                        this.state.tons.map(function (tom) {
+	                            return React.createElement(
+	                                "option",
+	                                { key: tom, defaultValue: tom },
+	                                tom
+	                            );
+	                        })
+	                    )
+	                ),
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "Categoria"
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "select is-fullwidth" },
+	                    React.createElement(
+	                        "select",
+	                        { id: "categoria", name: "categoria", required: true },
+	                        this.state.categorias.map(function (colecao) {
+	                            return React.createElement(
+	                                "span",
+	                                null,
+	                                colecao.colecoes.map(function (categoria) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: categoria.id, defaultValue: categoria.nome },
+	                                        categoria.nome
+	                                    );
+	                                })
+	                            );
+	                        })
+	                    )
+	                ),
+	                React.createElement("br", null),
+	                React.createElement("br", null),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement(
+	                        "button",
+	                        { className: "button is-danger is-fullwidth", type: "submit" },
+	                        "Salvar"
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	if (document.getElementById("musica-adicionar")) {
+
+	    const categoria = $("#musica-adicionar").data("categoria");
+
+	    ReactDOM.render(React.createElement(
+	        "div",
+	        null,
+	        React.createElement(Render, { categoria: categoria })
+	    ), document.getElementById('musica-adicionar'));
+	}
 
 /***/ }
 /******/ ]);

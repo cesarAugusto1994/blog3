@@ -8,6 +8,8 @@ module.exports = {
         "./src/js/categorias",
         "./src/js/colecoes",
         "./src/js/musicas",
+        "./src/js/categoria_adicionar",
+        "./src/js/musica_adicionar",
     ],
     output: {
         filename: "web/assets/build/bundle.js"

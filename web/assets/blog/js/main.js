@@ -62,12 +62,12 @@ alertify.defaults = {
     }
 };
 
-function block_screen() {
+function block_screen(time = 200) {
     //alertify.message('<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>');
     $('<div id="screenBlock"></div>').appendTo('body');
     $('#screenBlock').css( { opacity: 0, background: '#f6f6f6', width: $(document).width(), height: $(document).height() } );
     $('#screenBlock').addClass('blockDiv');
-    $('#screenBlock').animate({opacity: 0.8}, 200);
+    $('#screenBlock').animate({opacity: 0.8}, time);
 }
 
 function unblock_screen() {

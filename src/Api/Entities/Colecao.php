@@ -8,6 +8,7 @@
 
 namespace Api\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,7 +50,9 @@ class Colecao implements \JsonSerializable
      * @var int
      */
     private $ativo;
-    
+
+
+
     /**
      * @return int
      */

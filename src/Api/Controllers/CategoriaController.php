@@ -66,23 +66,38 @@ class CategoriaController
      */
     public function novo(Request $request, Application $app)
     {
-        $categoria = new Categoria();
-        $colecao = $app['colecao.repository']->find($request->get('colecao'));
-        
-        $categoria->setNome($request->get('nome'));
-        $categoria->setColecao($colecao);
-        $categoria->setAtivo(true);
+        try {
 
-        $app['db']->beginTransaction();
-        $app['categoria.repository']->save($categoria);
-        $app['db']->commit();
+            if (empty($request->get('nome'))) {
+                throw new \Exception('O nome da Categoria nao foi informado.');
+            }
 
-        return $app->json(
-            [
-                'class' => 'success',
-                'message' => 'Adicionou nova categoria '.$categoria->getNome()
-            ]
-        );
+            if (empty($request->get('colecao'))) {
+                throw new \Exception('Colecao nao foi informada.');
+            }
+
+            $categoria = new Categoria();
+            $colecao = $app['colecao.repository']->find($request->get('colecao'));
+
+            $categoria->setNome($request->get('nome'));
+            $categoria->setColecao($colecao);
+            $categoria->setAtivo(true);
+
+            $app['db']->beginTransaction();
+            $app['categoria.repository']->save($categoria);
+            $app['db']->commit();
+
+            return $app->json([
+                    'classe' => 'sucesso',
+                    'msg' => 'Adicionou nova categoria ' . $categoria->getNome()
+            ]);
+
+        } catch (\Exception $e) {
+            return $app->json([
+                'classe' => 'erro',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
     
     /**

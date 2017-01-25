@@ -8,8 +8,10 @@ $(function () {
 
         render() {
 
+            const url = "/user/musica/adicionar/" + this.props.categoria;
+
             return (
-                <a onClick={this.props.openModal} className="button is-light is-small">Adicionar Musica</a>
+                <a href={url} className="button is-light is-small">Adicionar Musica</a>
             );
         }
 
@@ -173,7 +175,7 @@ $(function () {
             var addMusica = '';
 
             if ("ROLE_ADMIN" == this.props.user) {
-                addMusica = <BtnAdd openModal={this.openModal}/>
+                addMusica = <BtnAdd categoria={this.props.categoria}/>
             }
 
             return (
