@@ -942,15 +942,14 @@
 	                            { key: musica.id, className: "col-md-4 col-lg-4 col-xs-12" },
 	                            React.createElement(
 	                                "div",
-	                                { className: "media wow fadeInDown animated", "data-wow-duration": "500ms",
-	                                    "data-wow-delay": "1800ms" },
+	                                { className: "media wow fadeInDown animated", "data-wow-duration": "500ms", "data-wow-delay": "1800ms" },
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "media-left" },
 	                                    React.createElement(
 	                                        "div",
 	                                        { className: "icon" },
-	                                        React.createElement("i", { className: "ion-android-arrow-dropright-circle" })
+	                                        React.createElement("i", { className: "ion-ios-play" })
 	                                    )
 	                                ),
 	                                React.createElement(
@@ -3462,7 +3461,7 @@
 
 
 	    getInitialState: function () {
-	        return { data: [], categorias: [], tons: [] };
+	        return { data: [], categorias: [], categoria: [], tons: [] };
 	    },
 
 	    load: function () {
@@ -3472,6 +3471,12 @@
 
 	        $.get('/user/tonalidades', function (result) {
 	            this.setState({ tons: result });
+	        }.bind(this));
+	    },
+
+	    loadBeforeSubmit: function () {
+	        $.get('/api/categoria/' + this.refs.categoria.value, function (result) {
+	            this.setState({ categoria: result });
 	        }.bind(this));
 	    },
 
@@ -3486,44 +3491,48 @@
 	        this.loadBeforeSubmit();
 
 	        let nome = this.refs.nome.value.trim();
-	        let colecao = this.refs.colecao.value.trim();
+	        let numero = this.refs.numero.value.trim();
+	        let tonalidade = this.refs.tonalidade.value.trim();
+	        let categoria = this.refs.categoria.value.trim();
 
-	        if (!nome || !colecao) {
-	            alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
+	        if (!nome || !categoria) {
+	            alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
 	        }
 
 	        const _this = this;
 
 	        $.ajax({
 	            type: "POST",
-	            url: "/user/categoria/adicionar",
+	            url: "/api/musica/adicionar",
 	            data: {
 	                nome: nome,
-	                colecao: colecao
+	                numero: numero,
+	                tonalidade: tonalidade,
+	                categoria: categoria
 	            },
 	            cache: false,
 	            success: function (data) {
 	                alertify.success(data.message);
-	                window.location.href = '/user/categorias/' + _this.state.colecao.id + '/' + _this.state.colecao.nome;
+	                if (data.classe == 'sucess') {
+	                    window.location.href = '/user/musicas/' + _this.state.categoria.id + '/' + _this.state.categoria.nome;
+	                }
 	                unblock_screen();
 	            },
 	            error: function (data) {
+	                alertify.error(data.message);
 	                unblock_screen();
-	                alertify.error("Ocorreu um erro.");
 	            }
 	        });
 	    },
 
 	    render: function () {
 
-	        const _this = this;
-
 	        return React.createElement(
 	            Container,
 	            null,
 	            React.createElement(
 	                "form",
-	                { className: "form-horizontal", method: "POST", action: "{{ path('save_musica') }}" },
+	                { className: "form-horizontal", method: "POST", onSubmit: this.handleSubmit },
 	                React.createElement(
 	                    "label",
 	                    { className: "label text-black" },
@@ -3532,7 +3541,7 @@
 	                React.createElement(
 	                    "p",
 	                    { className: "control" },
-	                    React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", name: "nome", id: "nome", required: true })
+	                    React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome", name: "nome", id: "nome", required: true })
 	                ),
 	                React.createElement(
 	                    "label",
@@ -3542,7 +3551,7 @@
 	                React.createElement(
 	                    "p",
 	                    { className: "control" },
-	                    React.createElement("input", { className: "input", type: "text", placeholder: "N\xFAmero", name: "numero", id: "numero", required: "required" })
+	                    React.createElement("input", { className: "input", type: "text", placeholder: "N\xFAmero", ref: "numero", name: "numero", id: "numero" })
 	                ),
 	                React.createElement(
 	                    "label",
@@ -3574,15 +3583,15 @@
 	                    { className: "select is-fullwidth" },
 	                    React.createElement(
 	                        "select",
-	                        { id: "categoria", name: "categoria", required: true },
+	                        { id: "categoria", name: "categoria", ref: "categoria", defaultValue: this.props.categoria, required: true },
 	                        this.state.categorias.map(function (colecao) {
 	                            return React.createElement(
-	                                "span",
-	                                null,
-	                                colecao.colecoes.map(function (categoria) {
+	                                "optgroup",
+	                                { label: colecao.nome },
+	                                colecao.categorias.map(function (categoria) {
 	                                    return React.createElement(
 	                                        "option",
-	                                        { key: categoria.id, defaultValue: categoria.nome },
+	                                        { key: categoria.id, value: categoria.id },
 	                                        categoria.nome
 	                                    );
 	                                })

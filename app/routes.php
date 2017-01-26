@@ -30,6 +30,9 @@ $app->get('/admin/usuario/{id}/status', function($id) use ($app) {
     return $app['usuarios.controller']->alteraStatus($id, $app);
 })->bind('usuario_status');
 
+$app->mount('/api', include __DIR__ . '/routes/api_categoria.php');
+$app->mount('/api', include __DIR__ . '/routes/api_musica.php');
+
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
 include __DIR__.'/routes/post.php';
 include __DIR__.'/routes/musica_admin.php';

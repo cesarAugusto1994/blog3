@@ -25,7 +25,7 @@ class Container extends React.Component {
 const Render = React.createClass({
 
     getInitialState: function () {
-        return {data: [], categorias: [], tons: []};
+        return {data: [], categorias: [], categoria: [], tons: []};
     },
 
     load: function () {
@@ -36,7 +36,12 @@ const Render = React.createClass({
         $.get('/user/tonalidades', function (result) {
             this.setState({tons: result})
         }.bind(this));
+    },
 
+    loadBeforeSubmit : function () {
+        $.get('/api/categoria/' + this.refs.categoria.value, function (result) {
+            this.setState({categoria: result});
+        }.bind(this));
     },
 
     componentDidMount: function () {
@@ -50,48 +55,52 @@ const Render = React.createClass({
         this.loadBeforeSubmit();
 
         let nome = this.refs.nome.value.trim();
-        let colecao = this.refs.colecao.value.trim();
+        let numero = this.refs.numero.value.trim();
+        let tonalidade = this.refs.tonalidade.value.trim();
+        let categoria = this.refs.categoria.value.trim();
 
-        if (!nome || !colecao) {
-            alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
+        if (!nome || !categoria) {
+            alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
         }
 
         const _this = this;
 
         $.ajax({
             type: "POST",
-            url: "/user/categoria/adicionar",
+            url: "/api/musica/adicionar",
             data: {
                 nome: nome,
-                colecao: colecao
+                numero: numero,
+                tonalidade: tonalidade,
+                categoria: categoria,
             },
             cache: false,
             success: function (data) {
                 alertify.success(data.message);
-                window.location.href = '/user/categorias/' + _this.state.colecao.id + '/' + _this.state.colecao.nome;
+                if (data.classe == 'sucess') {
+                    window.location.href = '/user/musicas/' + _this.state.categoria.id + '/' + _this.state.categoria.nome;
+                }
                 unblock_screen();
             },
             error: function (data) {
+                alertify.error(data.message);
                 unblock_screen();
-                alertify.error("Ocorreu um erro.");
             }
         });
     },
 
     render: function () {
 
-        const _this = this;
-
         return (
             <Container>
-                <form className="form-horizontal" method="POST" action="{{ path('save_musica') }}">
+                <form className="form-horizontal" method="POST" onSubmit={this.handleSubmit}>
                     <label className="label text-black">Titulo</label>
                     <p className="control">
-                        <input className="input" type="text" autoFocus="autoFocus" placeholder="Titulo" name="nome" id="nome" required/>
+                        <input className="input" type="text" autoFocus="autoFocus" placeholder="Titulo" ref="nome" name="nome" id="nome" required/>
                     </p>
                     <label className="label text-black">N&uacute;mero:</label>
                     <p className="control">
-                        <input className="input" type="text" placeholder="N&uacute;mero" name="numero" id="numero" required="required"/>
+                        <input className="input" type="text" placeholder="N&uacute;mero" ref="numero" name="numero" id="numero"/>
                     </p>
                     <label className="label text-black">Tonalidade</label>
                     <div className="select is-fullwidth">
@@ -105,16 +114,16 @@ const Render = React.createClass({
                     </div>
                     <label className="label text-black">Categoria</label>
                     <div className="select is-fullwidth">
-                        <select id="categoria" name="categoria" required>
+                        <select id="categoria" name="categoria" ref="categoria" defaultValue={this.props.categoria} required>
                             {this.state.categorias.map(function (colecao) {
                                 return (
-                                    <span>
-                                        {colecao.colecoes.map(function (categoria) {
+                                    <optgroup label={colecao.nome}>
+                                        {colecao.categorias.map(function (categoria) {
                                             return (
-                                                <option key={categoria.id} defaultValue={categoria.nome}>{categoria.nome}</option>
+                                                <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>
                                             )
                                         })}
-                                    </span>
+                                    </optgroup>
                                 )
                             })}
                         </select>

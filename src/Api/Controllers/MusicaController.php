@@ -20,6 +20,13 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class MusicaController
 {
+    private $app;
+
+    public function __construct(Application $application)
+    {
+        $this->app = $application;
+    }
+
     /**
      * @param Application $app
      * @return mixed
@@ -28,16 +35,75 @@ class MusicaController
     {
 
     }
-    
-    /**
-     * @param int $categoria
-     * @param Application $app
-     * @param bool $roleUser
-     * @return mixed
-     */
-    public function novaMusica($categoria, Application $app, $roleUser = false)
-    {
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     */
+    public function newAction(Request $request)
+    {
+        if (0 == $request->request->count()) {
+            throw new \InvalidArgumentException("Nao foi possivel Adicionar musica: Nenhum dado foi informado.");
+        }
+
+        if ($this->app['musica.repository']->findBy(['nome' => $request->get('nome')])) {
+            throw new \Exception("Não foi possivel Adicionar musica: Música já adiconada.");
+        }
+
+        if (empty($request->get('nome'))) {
+            throw new \Exception("Não foi possivel Adicionar musica: O nome nao foi informado.");
+        }
+
+        if (empty($request->get('categoria'))) {
+            throw new \Exception("Não foi possivel Adicionar musica: A Categoria nao foi informada.");
+        }
+
+        /**
+         * @var \Api\Entities\Categoria $categoria
+         */
+        $categoria = $this->app['categoria.repository']->find($request->get('categoria'));
+        $user = $this->app['session']->get('user');
+        /**
+         * @var \Api\Entities\Usuarios $usuario
+         */
+        $usuario = $this->app['usuarios.repository']->find(2);
+
+        $musica = new Musica();
+
+        $musica->setNome(strtoupper($request->get('nome')));
+        $musica->setNumero($request->get('numero') ?: null);
+        $musica->setTom($request->get('tonalidade'));
+
+        if ($request->get('album')) {
+            $album = $this->app['album.repository']->find($request->get('album'));
+            $musica->setAlbum($album);
+        }
+
+        if ($request->get('letra')) {
+            $musica->setLetra(strip_tags(htmlspecialchars_decode($request->get('letra'))));
+            $musica->setLetraOriginal($request->get('letra'));
+        }
+
+        $musica->setCategoria($categoria);
+        $musica->setUsuario($usuario);
+        $musica->setCadastro(new \DateTime('now'));
+        $musica->setNovo(false);
+
+        if ($request->get('novo')) {
+            $musica->setNovo($request->get('novo'));
+        }
+
+        $musica->setAtivo(true);
+
+        $this->app['db']->beginTransaction();
+        $this->app['musica.repository']->save($musica);
+        $this->app['db']->commit();
+
+        return $this->app->json([
+            "classe" => "sucess",
+            "message" => "Musica adicionanda com sucesso.",
+        ], 201);
     }
     
     /**

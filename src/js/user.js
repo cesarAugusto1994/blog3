@@ -221,11 +221,10 @@ $(function () {
                             return (
 
                                 <div key={musica.id} className="col-md-4 col-lg-4 col-xs-12">
-                                    <div className="media wow fadeInDown animated" data-wow-duration="500ms"
-                                         data-wow-delay="1800ms">
+                                    <div className="media wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="1800ms">
                                         <div className="media-left">
                                             <div className="icon">
-                                                <i className="ion-android-arrow-dropright-circle"></i>
+                                                <i className="ion-ios-play"></i>
                                             </div>
                                         </div>
                                         <div className="media-body">

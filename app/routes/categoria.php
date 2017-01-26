@@ -24,9 +24,7 @@ $categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) us
 })->bind('categorias');
 
 $categorias->get('categoria/adicionar/{colecao}', function ($colecao) use ($app) {
-
     return $app['twig']->render('/user/categoria-adicionar.html.twig', ['colecao' => $colecao]);
-
 });
 
 $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
@@ -51,34 +49,26 @@ $categorias->get('categorias', function() use ($app){
     /**
      * @var Categoria $categoria
      */
-    foreach ($categorias as $key => $categoria) {
+    foreach ($categorias as $categoria) {
 
-        $array['colecoes'][$categoria->getColecao()->getNome()]["categorias"][] = [
-            "id" => $categoria->getId(),
-            "nome" => $categoria->getNome()
-        ];
+        $key = $categoria->getColecao()->getId();
 
+        if (!isset($array[$key]['nome'])) {
+            $array[$key]['nome'] = $categoria->getColecao()->getNome();
+        }
 
+        if ($categoria->getColecao()->getNome() == $array[$key]['nome']) {
 
+            $array[$key]['nome'] = $categoria->getColecao()->getNome();
+
+            $array[$key]['categorias'][] = [
+                "id" => $categoria->getId(),
+                "nome" => $categoria->getNome()
+            ];
+        }
     }
 
-    /*
-       $array['colecoes'][] =
-            [
-                "nome" => $categoria->getColecao()->getNome(),
-                "categorias" => [
-
-                    [
-                        "id" => $categoria->getId(),
-                        "nome" => $categoria->getNome()
-                    ]
-                ]
-            ];
-     * */
-
-    print_r($array);
-
-    return new \Symfony\Component\HttpFoundation\JsonResponse($array);
+    return new \Symfony\Component\HttpFoundation\JsonResponse(array_merge($array));
 
 })->bind('api_categorias_2');
 

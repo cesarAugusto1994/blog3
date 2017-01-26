@@ -12,6 +12,8 @@
 #################################################################################################
 #################################################################################################
 
+use Silex\Application;
+
 $app['index.controller'] = function() use ($app) { return new \Api\Controllers\IndexController();};
 $app['post.controller'] = function() use ($app) { return new \Api\Controllers\PostController();};
 $app['tag.controller'] = function() use ($app) { return new \Api\Controllers\TagsController();};
@@ -20,7 +22,7 @@ $app['usuarios.controller'] = function() use ($app) { return new \Api\Controller
 $app['config.controller'] = function () use($app) { return new \App\Controllers\ConfigController();};
 $app['categoria.controller'] = function () use($app) { return new \Api\Controllers\CategoriaController();};
 $app['colecao.controller'] = function () use($app) { return new \Api\Controllers\ColecaoController();};
-$app['musica.controller'] = function () use($app) { return new \Api\Controllers\MusicaController();};
+$app['musica.controller'] = function () use($app) { return new \Api\Controllers\MusicaController($app);};
 $app['musica.anexos.controller'] = function () use($app) { return new \Api\Controllers\MusicaAnexosController();};
 $app['tipo.anexo.controller'] = function () use($app) { return new \Api\Controllers\MusicaAnexosController();};
 $app['pager.Controller'] = function () { return new \App\Controllers\PagerController();};
