@@ -23,7 +23,6 @@
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/iCheck/all.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/bulma.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/main.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/ionicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/animate.css') }}" rel="stylesheet">
@@ -33,8 +32,14 @@
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/jquery.fancybox.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/main.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/responsive.css') }}" rel="stylesheet">
-    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/main.css') }}" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="{{ asset(app['dir.base'] ~ 'assets/vendor/emojionearea/dist/emojionearea.css') }}" media="screen">
+
+    <style type="text/css">
+        #hero-area {
+            background: url('{{ app['background'] }}') no-repeat 50%;
+        }
+    </style>
 
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

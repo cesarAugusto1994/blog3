@@ -46,7 +46,7 @@ $(function () {
     class BtnAddCategoria extends React.Component{
         render() {
 
-            const url = "/user/categoria/adicionar/" + this.props.colecao;
+            const url = "/user/categoria/nova?colecao_id=" + this.props.colecao;
 
             return (
                 <a href={url} className="button is-light is-small">Nova Categoria</a>
@@ -325,7 +325,7 @@ $(function () {
             return {data: []};
         },
         load : function () {
-            $.get('/user/colecoes/all', function (result) {
+            $.get('/api/colecoes', function (result) {
                 this.setState({ data: result });
             }.bind(this));
         },
@@ -375,7 +375,10 @@ $(function () {
         render : function () {
             return (
                 <div>
-                    <BtnAddCategoria colecao={this.props.colecao}/>
+                    <BtnAddCategoria
+                        colecao={this.props.colecao}
+                        colecaoNome={this.props.colecaoNome}
+                    />
                     <hr className="small" />
                 </div>
             );
@@ -403,7 +406,11 @@ $(function () {
             var opcoes = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
-                opcoes = <OpcoesList reloadCategoria={this.load} colecao={this.props.colecao}/>
+                opcoes = <OpcoesList
+                    reloadCategoria={this.load}
+                    colecao={this.props.colecao}
+                    colecaoNome={this.props.colecaoNome}
+                />
             }
 
             return (
@@ -417,12 +424,19 @@ $(function () {
 
     const source = $("#categorias").attr("data-source");
     const user = $("#categorias").attr("data-user");
+
     const colecao = $("#categorias").data("colecao");
+    const colecaoNome = $("#categorias").data("colecao-nome");
 
     if (document.getElementById("categorias")) {
         ReactDOM.render(
             <div>
-                <View source={source} user={user} colecao={colecao}/>
+                <View
+                    source={source}
+                    user={user}
+                    colecao={colecao}
+                    colecaoNome={colecaoNome}
+                />
             </div>,
             document.getElementById('categorias')
         );

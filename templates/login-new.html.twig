@@ -3,8 +3,7 @@
 {% block title %}Login{% endblock %}
 
 {% block header %}
-    <section id="hero-area"
-    >
+    <section id="hero-area" style="padding: 0 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -36,7 +35,7 @@
 
                                     <form method="post" action="{{ path('login_check') }}">
                                         <div class="form-group has-feedback">
-                                            <input type="text" name="_username" value="{{ last_username }}"
+                                            <input type="text" name="_username" autofocus value="{{ last_username }}"
                                                    class="input" placeholder="Email" required>
                                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         </div>

@@ -92,7 +92,7 @@ $(function () {
         },
 
         load: function () {
-            $.get('/admin/menus', function (result) {
+            $.get('/api/menus', function (result) {
                 this.setState({data: result})
             }.bind(this))
         },

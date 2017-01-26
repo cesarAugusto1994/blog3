@@ -17,11 +17,6 @@ $colecao->get('colecoes', function() use ($app){
 
 })->bind('colecoes');
 
-$colecao->get('colecoes/all', function() use ($app){
-    $colecoes = $app['colecao.repository']->findBy([], ['nome' => 'ASC']);
-    return new \Symfony\Component\HttpFoundation\JsonResponse($colecoes);
-})->bind('api_colecoes');
-
 $colecao->get('colecao/{colecao}', function($colecao) use ($app){
     $colecao = $app['colecao.repository']->find($colecao);
     return new \Symfony\Component\HttpFoundation\JsonResponse($colecao);

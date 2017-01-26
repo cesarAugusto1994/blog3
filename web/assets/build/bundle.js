@@ -426,7 +426,7 @@
 	        },
 
 	        load: function () {
-	            $.get('/admin/menus', function (result) {
+	            $.get('/api/menus', function (result) {
 	                this.setState({ data: result });
 	            }.bind(this));
 	        },
@@ -640,11 +640,16 @@
 
 	$(function () {
 
+	    const styleHero = {
+	        //padding: '0 0',
+
+	    };
+
 	    class CardHero extends React.Component {
 	        render() {
 	            return React.createElement(
 	                "section",
-	                { id: "hero-area" },
+	                { id: "hero-area", style: styleHero },
 	                React.createElement(
 	                    "div",
 	                    { className: "row" },
@@ -1046,7 +1051,7 @@
 	        ReactDOM.render(React.createElement(
 	            "div",
 	            null,
-	            React.createElement(CardHero, null),
+	            React.createElement(CardHero, { defaultBackground: defaultBackground }),
 	            React.createElement(Colecao, { source: colecao, dirColecao: dirColecao, defaultBackground: defaultBackground }),
 	            React.createElement(Musica, { source: musica }),
 	            React.createElement(Videos, { source: videos })
@@ -2133,7 +2138,7 @@
 	    class BtnAddCategoria extends React.Component {
 	        render() {
 
-	            const url = "/user/categoria/adicionar/" + this.props.colecao;
+	            const url = "/user/categoria/nova?colecao_id=" + this.props.colecao;
 
 	            return React.createElement(
 	                "a",
@@ -2486,7 +2491,7 @@
 	            return { data: [] };
 	        },
 	        load: function () {
-	            $.get('/user/colecoes/all', function (result) {
+	            $.get('/api/colecoes', function (result) {
 	                this.setState({ data: result });
 	            }.bind(this));
 	        },
@@ -2542,7 +2547,10 @@
 	            return React.createElement(
 	                "div",
 	                null,
-	                React.createElement(BtnAddCategoria, { colecao: this.props.colecao }),
+	                React.createElement(BtnAddCategoria, {
+	                    colecao: this.props.colecao,
+	                    colecaoNome: this.props.colecaoNome
+	                }),
 	                React.createElement("hr", { className: "small" })
 	            );
 	        }
@@ -2571,7 +2579,11 @@
 	            var opcoes = '';
 
 	            if (this.props.user == 'ROLE_ADMIN') {
-	                opcoes = React.createElement(OpcoesList, { reloadCategoria: this.load, colecao: this.props.colecao });
+	                opcoes = React.createElement(OpcoesList, {
+	                    reloadCategoria: this.load,
+	                    colecao: this.props.colecao,
+	                    colecaoNome: this.props.colecaoNome
+	                });
 	            }
 
 	            return React.createElement(
@@ -2585,13 +2597,20 @@
 
 	    const source = $("#categorias").attr("data-source");
 	    const user = $("#categorias").attr("data-user");
+
 	    const colecao = $("#categorias").data("colecao");
+	    const colecaoNome = $("#categorias").data("colecao-nome");
 
 	    if (document.getElementById("categorias")) {
 	        ReactDOM.render(React.createElement(
 	            "div",
 	            null,
-	            React.createElement(View, { source: source, user: user, colecao: colecao })
+	            React.createElement(View, {
+	                source: source,
+	                user: user,
+	                colecao: colecao,
+	                colecaoNome: colecaoNome
+	            })
 	        ), document.getElementById('categorias'));
 	    }
 	});
@@ -3309,14 +3328,8 @@
 	    },
 
 	    load: function () {
-	        $.get('/user/colecoes/all', function (result) {
+	        $.get('/api/colecoes', function (result) {
 	            this.setState({ data: result });
-	        }.bind(this));
-	    },
-
-	    loadBeforeSubmit: function () {
-	        $.get('/user/colecao/' + this.refs.colecao.value, function (result) {
-	            this.setState({ colecao: result });
 	        }.bind(this));
 	    },
 
@@ -3324,11 +3337,13 @@
 	        this.load();
 	    },
 
+	    redirect: function () {
+	        window.location.href = '/user/categorias/' + this.props.colecaoId + '/' + this.props.colecaoNome;
+	    },
+
 	    handleSubmit: function (e) {
 
 	        e.preventDefault();
-
-	        this.loadBeforeSubmit();
 
 	        let nome = this.refs.nome.value.trim();
 	        let colecao = this.refs.colecao.value.trim();
@@ -3338,6 +3353,8 @@
 	        }
 
 	        const _this = this;
+
+	        console.log(_this.state.colecao.id);
 
 	        $.ajax({
 	            type: "POST",
@@ -3349,8 +3366,8 @@
 	            cache: false,
 	            success: function (data) {
 	                alertify.success(data.message);
-	                window.location.href = '/user/categorias/' + _this.state.colecao.id + '/' + _this.state.colecao.nome;
 	                unblock_screen();
+	                this.redirect();
 	            },
 	            error: function (data) {
 	                unblock_screen();
@@ -3386,7 +3403,7 @@
 	                    { className: "select is-fullwidth" },
 	                    React.createElement(
 	                        "select",
-	                        { ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.colecao },
+	                        { ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.colecaoId },
 	                        this.state.data.map(function (colecao) {
 	                            return React.createElement(
 	                                "option",
@@ -3414,13 +3431,13 @@
 
 	if (document.getElementById("categoria-adicionar")) {
 
-	    const colecao = $("#categoria-adicionar").data("colecao");
+	    const colecaoId = $("#categoria-adicionar").data("colecao-id");
+	    const colecaoNome = $("#categoria-adicionar").data("colecao-nome");
 
-	    ReactDOM.render(React.createElement(
-	        "div",
-	        null,
-	        React.createElement(Render, { colecao: colecao })
-	    ), document.getElementById('categoria-adicionar'));
+	    ReactDOM.render(React.createElement(Render, {
+	        colecaoId: colecaoId,
+	        colecaoNome: colecaoNome
+	    }), document.getElementById('categoria-adicionar'));
 	}
 
 /***/ },

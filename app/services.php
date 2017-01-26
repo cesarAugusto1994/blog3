@@ -12,6 +12,7 @@
 #################################################################################################
 #################################################################################################
 
+use App\Entities\Config;
 use Silex\Application;
 
 $app['index.controller'] = function() use ($app) { return new \Api\Controllers\IndexController();};
@@ -73,7 +74,21 @@ $app['config'] = function () use ($app) {
 $app['widgets'] = function () use ($app) { return $app['widgets.controller']->getAll($app);};
 
 $app['nome.blog'] = function() use ($app){
-    return 'Blog';
+    $default = $app['config.repository']->findAll();
+    return $default[0]->getNome() ?: 'Blog';
+};
+
+$app['background'] = function () use ($app) {
+
+    /**
+     * @var Config $default
+     */
+    $default = $app['config.repository']->findOneBy([]);
+
+    $img = $default->getBackground() ?: $app['background.default'];
+
+    return $app['dir.img'] . $img;
+
 };
 
 $app['tonalidades'] = function () { return ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B',];};

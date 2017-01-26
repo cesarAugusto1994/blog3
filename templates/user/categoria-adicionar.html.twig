@@ -5,5 +5,8 @@
 {% block headerNome %}Nova Categoria{% endblock %}
 
 {% block content %}
-    <div id="categoria-adicionar" data-colecao="{{ colecao }}"></div>
+    <div id="categoria-adicionar"
+         data-colecao-id="{{ colecao.id }}"
+         data-colecao-nome="{{ colecao.id }}">
+    </div>
 {% endblock %}

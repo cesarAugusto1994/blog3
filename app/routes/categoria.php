@@ -23,8 +23,14 @@ $categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) us
 
 })->bind('categorias');
 
-$categorias->get('categoria/adicionar/{colecao}', function ($colecao) use ($app) {
-    return $app['twig']->render('/user/categoria-adicionar.html.twig', ['colecao' => $colecao]);
+$categorias->get('categoria/nova', function (Request $request) use ($app) {
+
+    $colecao = $app['colecao.repository']->find($request->get('colecao_id'));
+
+    return $app['twig']->render('/user/categoria-adicionar.html.twig',
+        [
+            'colecao' => $colecao
+        ]);
 });
 
 $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){

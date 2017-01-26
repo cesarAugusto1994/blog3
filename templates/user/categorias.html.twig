@@ -12,7 +12,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div id="categorias" data-colecao="{{ colecao.id }}" data-source="{{ path('api_categorias', { colecaoId : colecao.id }) }}"
+                    <div id="categorias"
+                         data-colecao="{{ colecao.id }}"
+                         data-colecao-nome="{{ colecao.nome }}"
+                         data-source="{{ path('api_categorias', { colecaoId : colecao.id }) }}"
                          data-user="{{ app['usuario'].roles }}"></div>
                 </div>
             </div>

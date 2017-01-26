@@ -28,14 +28,8 @@ const Render = React.createClass({
     },
 
     load: function () {
-        $.get('/user/colecoes/all', function (result) {
+        $.get('/api/colecoes', function (result) {
             this.setState({data: result});
-        }.bind(this));
-    },
-
-    loadBeforeSubmit : function () {
-        $.get('/user/colecao/' + this.refs.colecao.value, function (result) {
-            this.setState({colecao: result});
         }.bind(this));
     },
 
@@ -43,11 +37,13 @@ const Render = React.createClass({
         this.load();
     },
 
+    redirect : function () {
+        window.location.href = '/user/categorias/' + this.props.colecaoId + '/' + this.props.colecaoNome;
+    },
+
     handleSubmit : function (e) {
 
         e.preventDefault();
-
-        this.loadBeforeSubmit();
 
         let nome = this.refs.nome.value.trim();
         let colecao = this.refs.colecao.value.trim();
@@ -57,6 +53,8 @@ const Render = React.createClass({
         }
 
         const _this = this;
+
+        console.log( _this.state.colecao.id);
 
         $.ajax({
             type: "POST",
@@ -68,8 +66,8 @@ const Render = React.createClass({
             cache: false,
             success: function (data) {
                 alertify.success(data.message);
-                window.location.href = '/user/categorias/' + _this.state.colecao.id + '/' + _this.state.colecao.nome;
                 unblock_screen();
+                this.redirect();
             },
             error: function (data) {
                 unblock_screen();
@@ -89,7 +87,7 @@ const Render = React.createClass({
 
                     <label className="label text-black">Cole&ccedil;&atilde;o</label>
                     <div className="select is-fullwidth">
-                        <select ref="colecao" name="colecao" id="colecao" defaultValue={this.props.colecao}>
+                        <select ref="colecao" name="colecao" id="colecao" defaultValue={this.props.colecaoId}>
                             { this.state.data.map(function (colecao) {
                                 return (
                                     <option key={colecao.id} value={colecao.id}>{colecao.nome}</option>
@@ -110,7 +108,11 @@ const Render = React.createClass({
 
 if (document.getElementById("categoria-adicionar")) {
 
-    const colecao = $("#categoria-adicionar").data("colecao");
+    const colecaoId = $("#categoria-adicionar").data("colecao-id");
+    const colecaoNome = $("#categoria-adicionar").data("colecao-nome");
 
-    ReactDOM.render(<div><Render colecao={colecao}/></div>, document.getElementById('categoria-adicionar'));
+    ReactDOM.render(<Render
+        colecaoId={colecaoId}
+        colecaoNome={colecaoNome}
+    />, document.getElementById('categoria-adicionar'));
 }

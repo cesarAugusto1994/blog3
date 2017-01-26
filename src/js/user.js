@@ -5,10 +5,15 @@
 
 $(function () {
 
+    const styleHero = {
+        //padding: '0 0',
+
+    };
+
     class CardHero extends React.Component{
         render() {
             return (
-                <section id="hero-area">
+                <section id="hero-area" style={styleHero}>
                     <div className="row">
                         <div className="col-md-12 text-center">
                             <div className="block wow fadeInUp" data-wow-delay=".3s">
@@ -301,7 +306,7 @@ $(function () {
     if (document.getElementById("user")) {
         ReactDOM.render(
             <div>
-                <CardHero />
+                <CardHero defaultBackground={defaultBackground}/>
                 <Colecao source={colecao} dirColecao={dirColecao} defaultBackground={defaultBackground}/>
                 <Musica source={musica}/>
                 <Videos source={videos}/>

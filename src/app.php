@@ -51,14 +51,16 @@ $app['security.firewalls'] = array(
     ),
 );
 $app['security.access_rules'] = array(
-    array('^/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-    array('^/admin/$', 'ROLE_ADMIN'),
-    array('^/users/$', 'ROLE_ADMIN'),
-    array('^/users/$', 'ROLE_USER'),
-    array('^/auth', 'ROLE_USER')
+    array('^/users', 'ROLE_USER'),
+    array('^/users', 'ROLE_ADMIN'),
+    array('^/admin', 'ROLE_ADMIN'),
+    array('^.*$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
 );
 $app['security.role_hierarchy'] = array(
-    'ROLE_ADMIN' => array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
+    'ROLE_ADMIN' => [
+        'ROLE_USER',
+        'ROLE_ALLOWED_TO_SWITCH'
+    ],
 );
 $app->register(new \Silex\Provider\SessionServiceProvider());
 $app['session.storage.save_path'] = __DIR__ . '/../var/cache/sessions/';

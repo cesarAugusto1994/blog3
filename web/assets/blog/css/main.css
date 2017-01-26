@@ -65,9 +65,15 @@
     font-size: 27px;
 }
 
-.label-info {
-    background-color: #5bc0de;
+.global-page-header{
+    background-color: #DC143C;
 }
+
+.label-info {
+    background-color: #DC143C;
+}
+
+/*5bc0de*/
 
 .blockDiv {
     position: absolute;
