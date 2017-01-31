@@ -37,16 +37,9 @@ $musica->get('musicas/{categoria}/data', function($categoria) use ($app) {
 $musica->get('musicas/{categoriaId}/{nome}', function($categoriaId, $nome) use ($app) {
 
     $categoria = $app['categoria.repository']->find($categoriaId);
+    $musicas = $app['musica.repository']->findBy(['categoria' => $categoria, 'ativo' => true], ['numero' => 'ASC', 'nome' => 'ASC']);
 
-    return $app['twig']->render(
-        '/user/musicas.html.twig',
-        [
-            'musicas' => $app['musica.repository']->findBy(
-                ['categoria' => $categoria, 'ativo' => true],
-                ['numero' => 'ASC', 'nome' => 'ASC']
-            ), 'categoria' => $categoria
-        ]
-    );
+    return $app['twig']->render('/user/musicas.html.twig', ['musicas' => $musicas, 'categoria' => $categoria]);
 
 })->bind('view_musicas');
 

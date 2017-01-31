@@ -486,12 +486,20 @@ $(function () {
         }
     }
 
+    class BtnFavoritos extends React.Component {
+        render() {
+            return (
+                <a className="button is-small is-success">Adicionar aos Favoritos</a>
+            );
+        }
+    }
+
     class CardLetra extends React.Component {
 
         render() {
             return (
                 <div>
-                    <div className="card" style={styleCard}>
+                    <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
                         <div className="card-content">
                             <div className="media">
                                 <div className="media-content">
@@ -709,6 +717,21 @@ $(function () {
         }
     });
 
+    const ViewOpcoes = React.createClass({
+
+        handleSubmit : function () {
+
+        },
+
+        render: function () {
+            return (
+                <CardLetra>
+                    <BtnFavoritos dataMusica={this.props.dataMusica}/>
+                </CardLetra>
+            )
+        }
+    });
+
     const ViewLetra = React.createClass({
 
         render: function () {
@@ -741,6 +764,7 @@ $(function () {
         render: function () {
             return (
                 <div>
+                    <ViewOpcoes dataMusica={this.state.data}/>
                     <ViewLetra dataMusica={this.state.data}
                                sourceMusicaLetra={this.props.sourceMusicaLetra}
                                sourceMusicaTom={this.props.sourceMusicaTom}

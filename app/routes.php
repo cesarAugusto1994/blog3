@@ -6,6 +6,8 @@
  * Time: 10:02
  */
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 $app->get('/', 'index.controller:index')->bind('home');
 $app->get('/user/about', 'index.controller:about')->bind('about');
 $app->get('/user/contact', 'index.controller:contact')->bind('contact');
@@ -13,6 +15,10 @@ $app->get('/user/contact', 'index.controller:contact')->bind('contact');
 $app->get('search', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->search($request->get('q'), $app);
 })->bind('search');
+
+$app->get('usuario', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return new JsonResponse($app['musica.repository']->find(3));
+});
 
 $app->get('/user/pesquisar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['search.controller']->search($request->get('q'), $app);
@@ -34,6 +40,7 @@ $app->mount('/api', include __DIR__ . '/routes/api_categoria.php');
 $app->mount('/api', include __DIR__ . '/routes/api_musica.php');
 $app->mount('/api', include __DIR__ . '/routes/api_colecao.php');
 $app->mount('/api', include __DIR__ . '/routes/api_menu.php');
+$app->mount('/api', include __DIR__ . '/routes/api_users.php');
 
 $app->mount('/user', include __DIR__ . '/routes/musica.php');
 $app->mount('/user', include __DIR__ . '/routes/album.php');

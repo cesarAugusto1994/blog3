@@ -16,7 +16,7 @@ var Register = React.createClass({
     render: function () {
 
         return (
-            <section id="hero-area" style={style}>
+            <section id="hero-area">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12 text-center">
@@ -25,7 +25,7 @@ var Register = React.createClass({
                                     <div className="login-box">
 
                                         <div className="login-logo">
-                                            <a href="#"><b>B</b>log</a>
+                                            <a href="/"><b>{this.props.app}</b></a>
                                         </div>
 
                                         <div className="register-box-body" style={StyleForm}>
@@ -157,7 +157,7 @@ var FormRegister = React.createClass({
                 </div>
                 <div className="row">
                     <div className="col-xs-6">
-                        <a href="#" className="button is-light is-fullwidth">Entrar</a>
+                        <a href="login" className="button is-light is-fullwidth">Entrar</a>
                     </div>
                     <div className="col-xs-6">
                         <button type="submit" id="btnSubmit" className="button is-success is-fullwidth">Salvar</button>
@@ -171,11 +171,12 @@ var FormRegister = React.createClass({
 
 var background = $("#register").data("background");
 var dirImg = $("#register").data("dir-img");
+var app = $("#register").data("app");
 
 if (document.getElementById("register")) {
     ReactDOM.render(
         <div>
-            <Register />
+            <Register app={app}/>
         </div>,
         document.getElementById("register")
     );

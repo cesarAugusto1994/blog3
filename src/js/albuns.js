@@ -121,7 +121,7 @@ $(function () {
             modal = (
                 <Modal title="Adicionar Album" handleSubmit={this.handleSubmit}>
                     <label htmlFor="nome">Nome</label>
-                    <input className="input" type="text" ref="nome" name="nome" ref="nome" id="nome" required/>
+                    <input className="input" type="text" ref="nome" name="nome" id="nome" required/>
                     <label htmlFor="imagem">Imagem</label>
                     <input className="input" type="file" name="imagem" id="imagem" ref="imagem" />
                     <label htmlFor="categoria">Categoria</label>

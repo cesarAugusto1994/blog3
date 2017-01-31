@@ -17,6 +17,18 @@ $colecao->get('colecoes', function() use ($app){
 
 })->bind('colecoes');
 
+
+$colecao->get('/colecao/{id}/{nome}/categorias', function ($id, $nome) use ($app) {
+
+    $colecao = $app['colecao.repository']->find($id);
+    $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao, 'ativo' => true], ['nome' => 'ASC']);
+
+    return $app['twig']->render(
+        '/user/categorias.html.twig',
+        ['categorias' => $categorias, 'colecao' => $colecao]
+    );
+});
+
 $colecao->get('colecao/{colecao}', function($colecao) use ($app){
     $colecao = $app['colecao.repository']->find($colecao);
     return new \Symfony\Component\HttpFoundation\JsonResponse($colecao);

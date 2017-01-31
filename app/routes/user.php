@@ -8,9 +8,9 @@
 
 $user = $app['controllers_factory'];
 
-$user->get('perfil/{user}', function($user) use($app) {
+$user->get('/{id}/{nome}/perfil', function($id, $nome) use($app) {
 
-    $user = $app['usuarios.repository']->find($user);
+    $user = $app['usuarios.repository']->find($id);
 
     if(!$user) {
         return $app->redirect('/admin/usuarios/list');
@@ -24,11 +24,6 @@ $user->get('/email/{email}', function($email) use($app) {
     $user = $app['usuarios.repository']->findBy(['email' => $email]);
     return new \Symfony\Component\HttpFoundation\JsonResponse($user);
 });
-
-$user->get('perfil/{user}', function($user) use($app) {
-    $user = $app['usuarios.repository']->find($user);
-    return new \Symfony\Component\HttpFoundation\JsonResponse($user);
-})->bind('api_user');
 
 $user->get('/{user}/atividades', function($user) use($app) {
     return $app['usuarios.controller']->getAtividadesUsuario($user, $app);

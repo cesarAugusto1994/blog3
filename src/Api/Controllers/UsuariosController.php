@@ -83,7 +83,7 @@ class UsuariosController
         $app['usuarios.repository']->save($usuario);
         $app['db']->commit();
 
-        return $app->redirect('/user/perfil/'.$usuario->getId());
+        return $app->redirect('/user/'.$usuario->getId() .'/'. $usuario->getNome() .'/perfil');
     }
 
     /**

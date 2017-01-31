@@ -104,7 +104,7 @@ $(function () {
         render: function () {
 
             var rootAvatar = this.props.dirAvatar + this.props.user.avatar;
-            var linkToPerfil = "/user/perfil/" + this.props.user.id;
+            var linkToPerfil = "/user/" + this.props.user.id + '/' + this.props.user.nome.toLowerCase().replace(/ /g, '_') + '/perfil';
             var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
             var admin = "";
             var userProfile = "";
@@ -171,7 +171,7 @@ $(function () {
             return (
                 <CardMenu>
                     <NavbarHeader configNome={this.props.configNome} configImg={this.props.configImg}/>
-                    <Menu user={this.props.user} dirAvatar={this.props.dirAvatar} pesquisar={this.props.pesquisar}/>
+                    <Menu user={this.props.user} dirAvatar={this.props.dirAvatar} avatarDefault={this.props.avatarDefault} pesquisar={this.props.pesquisar}/>
                 </CardMenu>
             )
         }

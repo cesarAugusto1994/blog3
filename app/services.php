@@ -53,6 +53,7 @@ $app['widgets.repository'] = function () use ($app) { return $app['orm.em']->get
 $app['log.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Log::class);};
 $app['comentario.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Comentarios::class);};
 $app['album.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Album::class);};
+$app['favoritos.repository'] = function () use ($app) { return $app['orm.em']->getRepository(\Api\Entities\Favoritos::class);};
 
 #################################################################################################
 #################################################################################################
@@ -76,6 +77,11 @@ $app['widgets'] = function () use ($app) { return $app['widgets.controller']->ge
 $app['nome.blog'] = function() use ($app){
     $default = $app['config.repository']->findAll();
     return $default[0]->getNome() ?: 'Blog';
+};
+
+$app['blog'] = function() use ($app){
+    $default = $app['config.repository']->findAll();
+    return $default[0] ?: [];
 };
 
 $app['background'] = function () use ($app) {

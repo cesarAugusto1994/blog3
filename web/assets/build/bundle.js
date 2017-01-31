@@ -80,7 +80,7 @@
 
 	        return React.createElement(
 	            "section",
-	            { id: "hero-area", style: style },
+	            { id: "hero-area" },
 	            React.createElement(
 	                "div",
 	                { className: "container" },
@@ -104,13 +104,12 @@
 	                                        { className: "login-logo" },
 	                                        React.createElement(
 	                                            "a",
-	                                            { href: "#" },
+	                                            { href: "/" },
 	                                            React.createElement(
 	                                                "b",
 	                                                null,
-	                                                "B"
-	                                            ),
-	                                            "log"
+	                                                this.props.app
+	                                            )
 	                                        )
 	                                    ),
 	                                    React.createElement(
@@ -261,7 +260,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "#", className: "button is-light is-fullwidth" },
+	                        { href: "login", className: "button is-light is-fullwidth" },
 	                        "Entrar"
 	                    )
 	                ),
@@ -282,12 +281,13 @@
 
 	var background = $("#register").data("background");
 	var dirImg = $("#register").data("dir-img");
+	var app = $("#register").data("app");
 
 	if (document.getElementById("register")) {
 	    ReactDOM.render(React.createElement(
 	        "div",
 	        null,
-	        React.createElement(Register, null)
+	        React.createElement(Register, { app: app })
 	    ), document.getElementById("register"));
 	}
 
@@ -438,7 +438,7 @@
 	        render: function () {
 
 	            var rootAvatar = this.props.dirAvatar + this.props.user.avatar;
-	            var linkToPerfil = "/user/perfil/" + this.props.user.id;
+	            var linkToPerfil = "/user/" + this.props.user.id + '/' + this.props.user.nome.toLowerCase().replace(/ /g, '_') + '/perfil';
 	            var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
 	            var admin = "";
 	            var userProfile = "";
@@ -598,7 +598,7 @@
 	                CardMenu,
 	                null,
 	                React.createElement(NavbarHeader, { configNome: this.props.configNome, configImg: this.props.configImg }),
-	                React.createElement(Menu, { user: this.props.user, dirAvatar: this.props.dirAvatar, pesquisar: this.props.pesquisar })
+	                React.createElement(Menu, { user: this.props.user, dirAvatar: this.props.dirAvatar, avatarDefault: this.props.avatarDefault, pesquisar: this.props.pesquisar })
 	            );
 	        }
 
@@ -640,16 +640,11 @@
 
 	$(function () {
 
-	    const styleHero = {
-	        //padding: '0 0',
-
-	    };
-
 	    class CardHero extends React.Component {
 	        render() {
 	            return React.createElement(
 	                "section",
-	                { id: "hero-area", style: styleHero },
+	                { id: "hero-area" },
 	                React.createElement(
 	                    "div",
 	                    { className: "row" },
@@ -668,7 +663,9 @@
 	                                    React.createElement(
 	                                        "span",
 	                                        null,
-	                                        "Ol\xE1, ."
+	                                        "Ol\xE1, ",
+	                                        this.props.user,
+	                                        "."
 	                                    ),
 	                                    React.createElement("br", null)
 	                                )
@@ -676,7 +673,8 @@
 	                            React.createElement(
 	                                "h2",
 	                                { className: "wow fadeInUp animated", "data-wow-delay": ".6s" },
-	                                "Bem vindo ao"
+	                                "Bem vindo ao ",
+	                                this.props.app
 	                            ),
 	                            React.createElement(
 	                                "a",
@@ -865,7 +863,7 @@
 	                    this.state.data.map(function (colecao) {
 
 	                        root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
-	                        linkToCategorias = "/user/categorias/" + colecao.id + "/" + colecao.nome;
+	                        linkToCategorias = "/user/colecao/" + colecao.id + "/" + colecao.nome + "/categorias";
 
 	                        return React.createElement(
 	                            "div",
@@ -1046,12 +1044,14 @@
 	    var defaultBackground = $("#user").data("default-background");
 	    var musica = $("#user").data("musica");
 	    var videos = $("#user").data("videos");
+	    var user = $("#user").data("user");
+	    var app = $("#user").data("app");
 
 	    if (document.getElementById("user")) {
 	        ReactDOM.render(React.createElement(
 	            "div",
 	            null,
-	            React.createElement(CardHero, { defaultBackground: defaultBackground }),
+	            React.createElement(CardHero, { defaultBackground: defaultBackground, user: user, app: app }),
 	            React.createElement(Colecao, { source: colecao, dirColecao: dirColecao, defaultBackground: defaultBackground }),
 	            React.createElement(Musica, { source: musica }),
 	            React.createElement(Videos, { source: videos })
@@ -1684,6 +1684,16 @@
 	        }
 	    }
 
+	    class BtnFavoritos extends React.Component {
+	        render() {
+	            return React.createElement(
+	                "a",
+	                { className: "button is-small is-success" },
+	                "Adicionar aos Favoritos"
+	            );
+	        }
+	    }
+
 	    class CardLetra extends React.Component {
 
 	        render() {
@@ -1692,7 +1702,7 @@
 	                null,
 	                React.createElement(
 	                    "div",
-	                    { className: "card", style: styleCard },
+	                    { className: "card wow fadeInUp animated slide", "data-wow-delay": ".3s", style: styleCard },
 	                    React.createElement(
 	                        "div",
 	                        { className: "card-content" },
@@ -1962,6 +1972,21 @@
 	        }
 	    });
 
+	    const ViewOpcoes = React.createClass({
+	        displayName: "ViewOpcoes",
+
+
+	        handleSubmit: function () {},
+
+	        render: function () {
+	            return React.createElement(
+	                CardLetra,
+	                null,
+	                React.createElement(BtnFavoritos, { dataMusica: this.props.dataMusica })
+	            );
+	        }
+	    });
+
 	    const ViewLetra = React.createClass({
 	        displayName: "ViewLetra",
 
@@ -1999,6 +2024,7 @@
 	            return React.createElement(
 	                "div",
 	                null,
+	                React.createElement(ViewOpcoes, { dataMusica: this.state.data }),
 	                React.createElement(ViewLetra, { dataMusica: this.state.data,
 	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
 	                    sourceMusicaTom: this.props.sourceMusicaTom,
@@ -2519,7 +2545,7 @@
 	                    "span",
 	                    null,
 	                    _this.props.categoria.map(function (categoria) {
-	                        const musicasUrl = "/user/musicas/" + categoria.id + "/" + categoria.nome;
+	                        const musicasUrl = "/user/categoria/" + categoria.id + "/" + categoria.nome + "/musicas";
 	                        return React.createElement(
 	                            "div",
 	                            { key: categoria.id },

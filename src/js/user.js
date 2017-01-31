@@ -5,25 +5,20 @@
 
 $(function () {
 
-    const styleHero = {
-        //padding: '0 0',
-
-    };
-
     class CardHero extends React.Component{
         render() {
             return (
-                <section id="hero-area" style={styleHero}>
+                <section id="hero-area">
                     <div className="row">
                         <div className="col-md-12 text-center">
                             <div className="block wow fadeInUp" data-wow-delay=".3s">
                                 <section className="cd-intro">
                                     <h1 className="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
-                                        <span>Ol&aacute;, .</span><br />
+                                        <span>Ol&aacute;, {this.props.user}.</span><br />
                                     </h1>
                                 </section>
                                 <h2 className="wow fadeInUp animated" data-wow-delay=".6s">
-                                    Bem vindo ao
+                                    Bem vindo ao {this.props.app}
                                 </h2>
                                 <a className="btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green"
                                    data-wow-delay=".9s" href="#works" data-section="#works">Iniciar</a>
@@ -164,7 +159,7 @@ $(function () {
                         { this.state.data.map(function (colecao) {
 
                             root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
-                            linkToCategorias = "/user/categorias/" + colecao.id + "/" + colecao.nome;
+                            linkToCategorias = "/user/colecao/" + colecao.id + "/" + colecao.nome + "/categorias";
 
                             return (
                                 <div key={colecao.id} className="col-sm-4 col-xs-6">
@@ -302,11 +297,13 @@ $(function () {
     var defaultBackground = $("#user").data("default-background");
     var musica = $("#user").data("musica");
     var videos = $("#user").data("videos");
+    var user = $("#user").data("user");
+    var app = $("#user").data("app");
 
     if (document.getElementById("user")) {
         ReactDOM.render(
             <div>
-                <CardHero defaultBackground={defaultBackground}/>
+                <CardHero defaultBackground={defaultBackground} user={user} app={app}/>
                 <Colecao source={colecao} dirColecao={dirColecao} defaultBackground={defaultBackground}/>
                 <Musica source={musica}/>
                 <Videos source={videos}/>

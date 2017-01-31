@@ -23,6 +23,21 @@ $categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) us
 
 })->bind('categorias');
 
+$categorias->get('/categoria/{id}/{nome}/musicas', function ($id, $nome) use ($app) {
+
+    $categoria = $app['categoria.repository']->find($id);
+
+    return $app['twig']->render(
+        '/user/musicas.html.twig',
+        [
+            'musicas' => $app['musica.repository']->findBy(
+                ['categoria' => $categoria, 'ativo' => true],
+                ['numero' => 'ASC', 'nome' => 'ASC']
+            ), 'categoria' => $categoria
+        ]
+    );
+});
+
 $categorias->get('categoria/nova', function (Request $request) use ($app) {
 
     $colecao = $app['colecao.repository']->find($request->get('colecao_id'));
@@ -49,7 +64,7 @@ $categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
 
 $categorias->get('categorias', function() use ($app){
 
-    $categorias = $app['categoria.repository']->findBy([], ['nome' => 'ASC']);
+    $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
 
      $array = [];
     /**
