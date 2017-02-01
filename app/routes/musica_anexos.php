@@ -10,11 +10,11 @@ use App\Controllers\Uploader;
 
 $anexos = $app['controllers_factory'];
 
-$anexos->get('/musica/{musicaId}/anexos', function($musicaId) use ($app) {
+$anexos->get('/praise/{id}-{name}/attachments', function($id, $name) use ($app) {
     /**
      * @var \Api\Entities\Musica $musica
      */
-    $musica = $app['musica.repository']->find($musicaId);
+    $musica = $app['musica.repository']->find($id);
     $tipos = $app['tipo.anexo.repository']->findBy(['ativo' => true]);
 
     return $app['twig']->render(

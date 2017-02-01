@@ -132,6 +132,30 @@ var FormRegister = React.createClass({
         })
     },
 
+    handlePassLength : function () {
+
+        if (0 < this.refs.password.value.length && 6 > this.refs.password.value.length) {
+            $("#password").addClass("is-danger");
+            $("#div-password > .help").text("Sua Senha deve conter mais de 6 caracteres.");
+        } else {
+            $("#password").removeClass("is-danger");
+            $("#password").addClass("is-success");
+            $("#div-password > .help").text("");
+        }
+
+    },
+
+    handleConfirmPass : function () {
+
+        if (this.refs.password_confirm.value != this.refs.password.value) {
+            $("#password_confirm").addClass("is-danger");
+        } else {
+            $("#password_confirm").removeClass("is-danger");
+            $("#password_confirm").addClass("is-success");
+        }
+
+    },
+
     render: function () {
 
         return (
@@ -145,13 +169,14 @@ var FormRegister = React.createClass({
                     <input className="input" type="text" name="email" placeholder="E-mail" id="email" ref="email"/>
                     <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
-                <div className="form-group has-feedback">
-                    <input className="input" type="password" name="password" placeholder="Senha" id="password"
+                <div className="form-group has-feedback" id="div-password">
+                    <input className="input" type="password" name="password" onChange={this.handlePassLength} placeholder="Senha" id="password"
                            ref="password"/>
+                    <span className="help is-danger"></span>
                     <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
-                <div className="form-group has-feedback">
-                    <input className="input" type="password" name="password_confirm" placeholder="Confirme a senha"
+                <div className="form-group has-feedback" id="div-password-confirm">
+                    <input className="input" type="password" name="password_confirm" onChange={this.handleConfirmPass} placeholder="Confirme a senha"
                            id="password_confirm" ref="password_confirm"/>
                     <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>

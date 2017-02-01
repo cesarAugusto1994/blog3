@@ -123,7 +123,7 @@ $(function () {
                     {
                         this.props.data.map(function (musica) {
 
-                            var linkAnexos = "/user/musica/"+ musica.id +"/anexos";
+                            var linkAnexos = "/user/praise/"+ musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') +"/attachments";
                             var editarMusica = "/user/musicas/" + musica.id + "/" + musica.nome + "/editar";
 
                             if ("ROLE_ADMIN" == _this.props.user) {

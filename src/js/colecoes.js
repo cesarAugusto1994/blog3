@@ -175,7 +175,7 @@ $(function () {
             
             return (
                 <span>{ this.state.data.map(function (colecao) {
-                    var categoriasUrl = "/user/categorias/" + colecao.id + "/" + colecao.nome;
+                    var categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
                     return (
                         <div key={colecao.id}>
                             <BlockColecoes colecao={colecao}

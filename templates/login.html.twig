@@ -1,6 +1,9 @@
 {% extends 'base-access.twig' %}
     {% block title %}Login{% endblock %}
 {% block content %}
+
+    <div id="login"></div>
+
     <div class="login-box">
         <div class="login-logo">
             <a style="color: white" href="{{ path('home') }}"><b>{{ app['nome.blog'] }}</b></a>
@@ -20,10 +23,6 @@
                 {% if error == 'Bad credentials.' %}Usu&aacute;rio ou Senha s&atilde;o in&aacute;lidos.{% else %}{{ error }}{% endif %}
             </div>
         {% endif %}
-
-        {% for alert in app.session.flashbag.get('mensagem') %}
-            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
-        {% endfor %}
 
         <div class="login-box-body" style="background-color: transparent">
             <p class="login-box-msg" style="color: white">Entre para iniciar a sess&atilde;o</p>
@@ -47,7 +46,7 @@
                         <br>
                     </div>
                     <div class="col-xs-6">
-                        <a href="{{ path('register') }}" class="btn btn-danger btn-block btn-flat">Registrar</a>
+                        <a href="{{ path('register') }}" class="btn btn-link btn-primary btn-block btn-flat">Registrar</a>
                     </div>
                     <div class="col-xs-6">
                         <button type="submit" class="btn btn-success btn-block btn-flat">Entrar</button>

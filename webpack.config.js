@@ -1,6 +1,7 @@
 
 module.exports = {
     entry: [
+        "./src/js/login",
         "./src/js/register",
         "./src/js/template",
         "./src/js/user",

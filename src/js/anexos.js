@@ -4,6 +4,9 @@
 
 $(function () {
 
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_USER = 'ROLE_USER';
+
     var UploadArquivo = React.createClass({
 
         handleSubmit: function (e) {
@@ -287,7 +290,7 @@ $(function () {
 
                         var removerComentario = '';
 
-                        if (_this.props.user == 'ROLE_ADMIN' || comentario.usuario.id == _this.props.userId) {
+                        if (_this.props.user == ROLE_ADMIN || comentario.usuario.id == _this.props.userId) {
                             removerComentario = <RemoverComentario comentario={comentario}
                                                                    reloadComentarios={_this.props.reloadComentarios}/>
                         }
@@ -358,6 +361,7 @@ $(function () {
                 success: function (data) {
                     $("#comentar").removeClass("is-loading");
                     unblock_screen();
+                    $(".emojionearea-editor").text("");
                     _this.refs.comentario.value = '';
                     _this.props.reloadComentarios();
                 },
@@ -455,6 +459,16 @@ $(function () {
         render() {
             return (
                 <a href={this.props.source} className="button is-light is-small">Editar</a>
+            );
+        }
+    }
+
+    class BtnAdicionarArquivo extends React.Component {
+
+        render() {
+            return (
+                <button onClick={this.props.openModal} className="button is-danger is-inverted is-small">
+                Adicionar Arquivo</button>
             );
         }
     }
@@ -657,7 +671,7 @@ $(function () {
 
     });
 
-    var ViewArquivos = React.createClass({
+    var ViewArquivosMain = React.createClass({
 
         getInitialState: function () {
             return {data: []};
@@ -686,32 +700,49 @@ $(function () {
 
         render: function () {
 
-            return (
+            let menu = '';
+            let card = '';
+
+            if (this.props.user == ROLE_ADMIN) {
+                menu = (
                 <div>
-                    <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
-                        <div className="card-content">
-                            <div className="media">
-                                <div className="media-content">
-                                    <BtnEditar source={this.props.sourceEditar}/>
-                                    <BtnAddLink openModal={this.openModalAddLink}/>
-                                    <button onClick={this.openModal} className="button is-danger is-inverted is-small">
-                                        Adicionar Arquivo
-                                    </button>
-                                    <br/>
-                                    <br/>
-                                    <ListArquivos reloadArquivos={this.load} anexos={this.state.data}
-                                                  sourceArquivos={this.props.sourceArquivos}
-                                                  sourceVideos={this.props.sourceVideos}
-                                                  dirAnexos={this.props.dirAnexos}/>
+                    <BtnEditar source={this.props.sourceEditar}/>
+                    <BtnAddLink openModal={this.openModalAddLink}/>
+                    <BtnAdicionarArquivo openModal={this.openModal}/>
+                </div>
+                )
+            }
+
+            if (this.props.user == ROLE_ADMIN || this.state.data.length > 0) {
+
+                card = (
+                    <div>
+                        <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
+                            <div className="card-content">
+                                <div className="media">
+                                    <div className="media-content">
+                                        {menu}
+                                        <ListArquivos reloadArquivos={this.load} anexos={this.state.data}
+                                                      sourceArquivos={this.props.sourceArquivos}
+                                                      sourceVideos={this.props.sourceVideos}
+                                                      dirAnexos={this.props.dirAnexos}/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <UploadArquivo reloadArquivos={this.load} openModal={this.openModal}
+                                       closeModal={this.closeModal}
+                                       musica={this.props.musica}/>
+                        <AddLink reloadArquivos={this.load} openModal={this.openModalAddLink}
+                                 closeModal={this.closeModalAddLink} musica={this.props.musica}/>
+                        <br />
                     </div>
-                    <UploadArquivo reloadArquivos={this.load} openModal={this.openModal} closeModal={this.closeModal}
-                                   musica={this.props.musica}/>
-                    <AddLink reloadArquivos={this.load} openModal={this.openModalAddLink}
-                             closeModal={this.closeModalAddLink} musica={this.props.musica}/>
-                    <br />
+                );
+            }
+
+            return (
+                <div>
+                    {card}
                 </div>
             );
         }
@@ -769,12 +800,13 @@ $(function () {
                                sourceMusicaLetra={this.props.sourceMusicaLetra}
                                sourceMusicaTom={this.props.sourceMusicaTom}
                                sourceAddLetra={this.props.sourceAddLetra}/>
-                    <ViewArquivos sourceArquivos={this.props.sourceArquivos}
+                    <ViewArquivosMain sourceArquivos={this.props.sourceArquivos}
                                   sourceEditar={this.props.sourceEditar}
                                   sourceAddLetra={this.props.sourceAddLetra}
                                   sourceVideos={this.props.sourceVideos}
                                   musica={this.props.musicaId}
-                                  dirAnexos={this.props.dirAnexos}/>
+                                  dirAnexos={this.props.dirAnexos}
+                                  user={this.props.user}/>
                     <ViewCometarios source={this.props.source}
                                     user={this.props.user}
                                     userId={this.props.userId}

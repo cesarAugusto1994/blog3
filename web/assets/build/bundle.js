@@ -52,11 +52,205 @@
 	__webpack_require__(6);
 	__webpack_require__(7);
 	__webpack_require__(8);
-	module.exports = __webpack_require__(9);
+	__webpack_require__(9);
+	module.exports = __webpack_require__(10);
 
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by cesar on 01/02/17.
+	 */
+
+	class BASE extends React.Component {
+	    render() {
+	        return React.createElement(
+	            "section",
+	            { id: "hero-area" },
+	            React.createElement(
+	                "div",
+	                { className: "container" },
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-md-12 text-center" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "block wow fadeInUp", "data-wow-delay": ".3s" },
+	                            React.createElement(
+	                                "section",
+	                                { className: "cd-intro" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "login-box" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "login-logo" },
+	                                        React.createElement(
+	                                            "a",
+	                                            { href: "/" },
+	                                            React.createElement(
+	                                                "b",
+	                                                null,
+	                                                "Cesar"
+	                                            )
+	                                        )
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "login-box-body" },
+	                                        React.createElement(
+	                                            "p",
+	                                            { className: "login-box-msg" },
+	                                            "Entre para iniciar a sess\xE3o"
+	                                        ),
+	                                        this.props.children
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}
+	;
+
+	const Form = React.createClass({
+	    displayName: "Form",
+
+
+	    handleSubmit: function (e) {
+
+	        e.preventDefault();
+
+	        var email = this.refs._username.value;
+	        var password = this.refs._password.value;
+
+	        if (!email) {
+	            $("#email").focus();
+	            $("#email").addClass("is-danger");
+	            alertify.error("Deve Informar o E-mail");
+	            return false;
+	        }
+
+	        $("#email").removeClass("is-danger");
+
+	        if (!password) {
+	            $("#password").focus();
+	            $("#password").addClass("is-danger");
+	            alertify.error("Deve Informar uma senha");
+	            return false;
+	        }
+
+	        $("#password").removeClass("is-danger");
+	        $("#btnSubmit").addClass("is-loading");
+
+	        block_screen();
+
+	        $.ajax({
+	            type: 'POST',
+	            url: "/admin/login_check",
+	            data: {
+	                _username: email,
+	                _password: password
+	            },
+	            cache: false,
+	            success: function (data) {
+	                window.location.href = '/user/';
+	                return false;
+	            },
+	            error: function (data) {
+	                unblock_screen();
+	                $("#btnSubmit").removeClass("is-loading");
+	                alertify.error("opss, algo deu errado...");
+	                return false;
+	            }
+	        });
+	    },
+
+	    render: function () {
+	        return React.createElement(
+	            "form",
+	            { method: "post", onSubmit: this.handleSubmit },
+	            React.createElement(
+	                "div",
+	                { className: "form-group has-feedback" },
+	                React.createElement("input", { type: "text", name: "_username", autoFocus: "autoFocus",
+	                    className: "form-control", placeholder: "E-mail", ref: "_username" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "form-group has-feedback" },
+	                React.createElement("input", { type: "password", name: "_password", className: "form-control",
+	                    placeholder: "Password", required: "required", title: "Informe a Senha", ref: "_password" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-lock form-control-feedback" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "row" },
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-6" },
+	                    React.createElement(
+	                        "a",
+	                        { href: "register", className: "button is-primary is-outlined is-fullwidth" },
+	                        "Registrar"
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-6" },
+	                    React.createElement(
+	                        "button",
+	                        { type: "submit", className: "button is-success is-outlined is-fullwidth" },
+	                        "Entrar"
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "row" },
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-12" },
+	                    React.createElement("br", null),
+	                    React.createElement(
+	                        "a",
+	                        { href: "/", id: "btnSubmit", className: "button is-link is-white is-fullwidth" },
+	                        "P\xE1gina Inicial."
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	const Render = React.createClass({
+	    displayName: "Render",
+
+
+	    render: function () {
+	        return React.createElement(
+	            BASE,
+	            null,
+	            React.createElement(Form, null)
+	        );
+	    }
+	});
+
+	if (document.getElementById('login')) {
+	    ReactDOM.render(React.createElement(Render, null), document.getElementById('login'));
+	}
+
+/***/ },
+/* 2 */
 /***/ function(module, exports) {
 
 	/**
@@ -221,6 +415,28 @@
 	        });
 	    },
 
+	    handlePassLength: function () {
+
+	        if (0 < this.refs.password.value.length && 6 > this.refs.password.value.length) {
+	            $("#password").addClass("is-danger");
+	            $("#div-password > .help").text("Sua Senha deve conter mais de 6 caracteres.");
+	        } else {
+	            $("#password").removeClass("is-danger");
+	            $("#password").addClass("is-success");
+	            $("#div-password > .help").text("");
+	        }
+	    },
+
+	    handleConfirmPass: function () {
+
+	        if (this.refs.password_confirm.value != this.refs.password.value) {
+	            $("#password_confirm").addClass("is-danger");
+	        } else {
+	            $("#password_confirm").removeClass("is-danger");
+	            $("#password_confirm").addClass("is-success");
+	        }
+	    },
+
 	    render: function () {
 
 	        return React.createElement(
@@ -240,15 +456,16 @@
 	            ),
 	            React.createElement(
 	                "div",
-	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input", type: "password", name: "password", placeholder: "Senha", id: "password",
+	                { className: "form-group has-feedback", id: "div-password" },
+	                React.createElement("input", { className: "input", type: "password", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
 	                    ref: "password" }),
+	                React.createElement("span", { className: "help is-danger" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
 	            ),
 	            React.createElement(
 	                "div",
-	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input", type: "password", name: "password_confirm", placeholder: "Confirme a senha",
+	                { className: "form-group has-feedback", id: "div-password-confirm" },
+	                React.createElement("input", { className: "input", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
 	                    id: "password_confirm", ref: "password_confirm" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
 	            ),
@@ -292,7 +509,7 @@
 	}
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -631,7 +848,7 @@
 	});
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	/**
@@ -863,7 +1080,7 @@
 	                    this.state.data.map(function (colecao) {
 
 	                        root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
-	                        linkToCategorias = "/user/colecao/" + colecao.id + "/" + colecao.nome + "/categorias";
+	                        linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
 
 	                        return React.createElement(
 	                            "div",
@@ -1060,7 +1277,7 @@
 	});
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
@@ -1069,8 +1286,11 @@
 
 	$(function () {
 
+	    const ROLE_ADMIN = 'ROLE_ADMIN';
+	    const ROLE_USER = 'ROLE_USER';
+
 	    var UploadArquivo = React.createClass({
-	        displayName: "UploadArquivo",
+	        displayName: 'UploadArquivo',
 
 
 	        handleSubmit: function (e) {
@@ -1123,55 +1343,55 @@
 
 	            var modal = null;
 	            modal = React.createElement(
-	                "div",
-	                { id: "modal-musicas", className: "modal fade", tabIndex: "-1" },
+	                'div',
+	                { id: 'modal-musicas', className: 'modal fade', tabIndex: '-1' },
 	                React.createElement(
-	                    "div",
-	                    { className: "modal-dialog" },
+	                    'div',
+	                    { className: 'modal-dialog' },
 	                    React.createElement(
-	                        "div",
-	                        { className: "modal-content" },
+	                        'div',
+	                        { className: 'modal-content' },
 	                        React.createElement(
-	                            "div",
-	                            { className: "modal-header" },
+	                            'div',
+	                            { className: 'modal-header' },
 	                            React.createElement(
-	                                "button",
-	                                { type: "button", className: "close", "data-dismiss": "modal" },
+	                                'button',
+	                                { type: 'button', className: 'close', 'data-dismiss': 'modal' },
 	                                React.createElement(
-	                                    "span",
+	                                    'span',
 	                                    null,
-	                                    "\xD7"
+	                                    '\xD7'
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "h4",
-	                                { className: "modal-title" },
+	                                'h4',
+	                                { className: 'modal-title' },
 	                                this.props.title
 	                            )
 	                        ),
 	                        React.createElement(
-	                            "form",
-	                            { className: "form-horizontal", ref: "uploadForm", onSubmit: this.handleSubmit },
+	                            'form',
+	                            { className: 'form-horizontal', ref: 'uploadForm', onSubmit: this.handleSubmit },
 	                            React.createElement(
-	                                "div",
-	                                { className: "modal-body" },
-	                                React.createElement("input", { type: "hidden", name: "musica", ref: "id", defaultValue: this.props.musica }),
-	                                React.createElement("input", { className: "input", type: "file", ref: "arquivo", name: "files[]", id: "filer_input",
+	                                'div',
+	                                { className: 'modal-body' },
+	                                React.createElement('input', { type: 'hidden', name: 'musica', ref: 'id', defaultValue: this.props.musica }),
+	                                React.createElement('input', { className: 'input', type: 'file', ref: 'arquivo', name: 'files[]', id: 'filer_input',
 	                                    multiple: true })
 	                            ),
 	                            React.createElement(
-	                                "div",
-	                                { className: "modal-footer" },
+	                                'div',
+	                                { className: 'modal-footer' },
 	                                React.createElement(
-	                                    "button",
-	                                    { type: "button", className: "button is-danger is-outlined is-pulled-left",
-	                                        "data-dismiss": "modal" },
-	                                    "Cancelar"
+	                                    'button',
+	                                    { type: 'button', className: 'button is-danger is-outlined is-pulled-left',
+	                                        'data-dismiss': 'modal' },
+	                                    'Cancelar'
 	                                ),
 	                                React.createElement(
-	                                    "button",
-	                                    { type: "submit", className: "button is-success" },
-	                                    "Salvar"
+	                                    'button',
+	                                    { type: 'submit', className: 'button is-success' },
+	                                    'Salvar'
 	                                )
 	                            )
 	                        )
@@ -1180,7 +1400,7 @@
 	            );
 
 	            return React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                modal
 	            );
@@ -1188,7 +1408,7 @@
 	    });
 
 	    var AddLink = React.createClass({
-	        displayName: "AddLink",
+	        displayName: 'AddLink',
 
 
 	        handleSubmit: function (e) {
@@ -1248,54 +1468,54 @@
 
 	            var modal = null;
 	            modal = React.createElement(
-	                "div",
-	                { id: "modal-add-link", className: "modal fade", tabIndex: "-1" },
+	                'div',
+	                { id: 'modal-add-link', className: 'modal fade', tabIndex: '-1' },
 	                React.createElement(
-	                    "div",
-	                    { className: "modal-dialog" },
+	                    'div',
+	                    { className: 'modal-dialog' },
 	                    React.createElement(
-	                        "div",
-	                        { className: "modal-content" },
+	                        'div',
+	                        { className: 'modal-content' },
 	                        React.createElement(
-	                            "div",
-	                            { className: "modal-header" },
+	                            'div',
+	                            { className: 'modal-header' },
 	                            React.createElement(
-	                                "button",
-	                                { type: "button", className: "close", "data-dismiss": "modal" },
+	                                'button',
+	                                { type: 'button', className: 'close', 'data-dismiss': 'modal' },
 	                                React.createElement(
-	                                    "span",
+	                                    'span',
 	                                    null,
-	                                    "\xD7"
+	                                    '\xD7'
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "h4",
-	                                { className: "modal-title" },
+	                                'h4',
+	                                { className: 'modal-title' },
 	                                this.props.title
 	                            )
 	                        ),
 	                        React.createElement(
-	                            "form",
-	                            { className: "form-horizontal", onSubmit: this.handleSubmit },
+	                            'form',
+	                            { className: 'form-horizontal', onSubmit: this.handleSubmit },
 	                            React.createElement(
-	                                "div",
-	                                { className: "modal-body" },
-	                                React.createElement("input", { type: "hidden", name: "musica", id: "musica", ref: "musica",
+	                                'div',
+	                                { className: 'modal-body' },
+	                                React.createElement('input', { type: 'hidden', name: 'musica', id: 'musica', ref: 'musica',
 	                                    defaultValue: this.props.musica }),
 	                                React.createElement(
-	                                    "p",
-	                                    { className: "control" },
+	                                    'p',
+	                                    { className: 'control' },
 	                                    React.createElement(
-	                                        "label",
+	                                        'label',
 	                                        null,
-	                                        "Tipo Arquivo"
+	                                        'Tipo Arquivo'
 	                                    ),
 	                                    React.createElement(
-	                                        "select",
-	                                        { name: "tipo", id: "tipo", ref: "tipo", className: "input" },
+	                                        'select',
+	                                        { name: 'tipo', id: 'tipo', ref: 'tipo', className: 'input' },
 	                                        this.state.data.map(function (tipo) {
 	                                            return React.createElement(
-	                                                "option",
+	                                                'option',
 	                                                { key: tipo.id, value: tipo.id },
 	                                                tipo.nome
 	                                            );
@@ -1303,31 +1523,31 @@
 	                                    )
 	                                ),
 	                                React.createElement(
-	                                    "p",
-	                                    { className: "control" },
+	                                    'p',
+	                                    { className: 'control' },
 	                                    React.createElement(
-	                                        "label",
+	                                        'label',
 	                                        null,
-	                                        "Link"
+	                                        'Link'
 	                                    ),
-	                                    React.createElement("input", { className: "input", type: "text", placeholder: "Link", name: "link", id: "link",
-	                                        ref: "link",
+	                                    React.createElement('input', { className: 'input', type: 'text', placeholder: 'Link', name: 'link', id: 'link',
+	                                        ref: 'link',
 	                                        required: true })
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "div",
-	                                { className: "modal-footer" },
+	                                'div',
+	                                { className: 'modal-footer' },
 	                                React.createElement(
-	                                    "button",
-	                                    { type: "button", className: "button is-danger is-outlined is-pulled-left",
-	                                        "data-dismiss": "modal" },
-	                                    "Cancelar"
+	                                    'button',
+	                                    { type: 'button', className: 'button is-danger is-outlined is-pulled-left',
+	                                        'data-dismiss': 'modal' },
+	                                    'Cancelar'
 	                                ),
 	                                React.createElement(
-	                                    "button",
-	                                    { type: "submit", className: "button is-success" },
-	                                    "Salvar"
+	                                    'button',
+	                                    { type: 'submit', className: 'button is-success' },
+	                                    'Salvar'
 	                                )
 	                            )
 	                        )
@@ -1336,7 +1556,7 @@
 	            );
 
 	            return React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                modal
 	            );
@@ -1352,7 +1572,7 @@
 	    };
 
 	    var RemoverComentario = React.createClass({
-	        displayName: "RemoverComentario",
+	        displayName: 'RemoverComentario',
 
 
 	        handleRemoverComentario: function (e) {
@@ -1385,33 +1605,33 @@
 	        render: function () {
 
 	            return React.createElement(
-	                "a",
-	                { className: "button is-danger is-small", onClick: this.handleRemoverComentario,
-	                    "data-comentario": this.props.comentario },
-	                "Inativar"
+	                'a',
+	                { className: 'button is-danger is-small', onClick: this.handleRemoverComentario,
+	                    'data-comentario': this.props.comentario },
+	                'Inativar'
 	            );
 	        }
 	    });
 
 	    var CardComentarios = React.createClass({
-	        displayName: "CardComentarios",
+	        displayName: 'CardComentarios',
 
 
 	        render: function () {
 	            return React.createElement(
-	                "div",
-	                { className: "card wow fadeInUp animated slide", "data-wow-delay": ".3s", style: styleCard },
+	                'div',
+	                { className: 'card wow fadeInUp animated slide', 'data-wow-delay': '.3s', style: styleCard },
 	                React.createElement(
-	                    "div",
-	                    { className: "card-content" },
+	                    'div',
+	                    { className: 'card-content' },
 	                    React.createElement(
-	                        "p",
-	                        { className: "title is-5" },
-	                        "Coment\xE1rios"
+	                        'p',
+	                        { className: 'title is-5' },
+	                        'Coment\xE1rios'
 	                    ),
 	                    React.createElement(
-	                        "div",
-	                        { className: "comments" },
+	                        'div',
+	                        { className: 'comments' },
 	                        this.props.children
 	                    )
 	                )
@@ -1421,7 +1641,7 @@
 	    });
 
 	    var ListComentarios = React.createClass({
-	        displayName: "ListComentarios",
+	        displayName: 'ListComentarios',
 
 
 	        componentDidMount: function () {
@@ -1433,7 +1653,7 @@
 	            var _this = this;
 
 	            return React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                this.props.data.map(function (comentario) {
 
@@ -1441,33 +1661,33 @@
 
 	                    var removerComentario = '';
 
-	                    if (_this.props.user == 'ROLE_ADMIN' || comentario.usuario.id == _this.props.userId) {
+	                    if (_this.props.user == ROLE_ADMIN || comentario.usuario.id == _this.props.userId) {
 	                        removerComentario = React.createElement(RemoverComentario, { comentario: comentario,
 	                            reloadComentarios: _this.props.reloadComentarios });
 	                    }
 
 	                    return React.createElement(
-	                        "div",
-	                        { key: comentario.id, className: "media" },
+	                        'div',
+	                        { key: comentario.id, className: 'media' },
 	                        React.createElement(ImageComentario, { avatar: img }),
 	                        React.createElement(
-	                            "div",
-	                            { className: "media-body" },
+	                            'div',
+	                            { className: 'media-body' },
 	                            React.createElement(
-	                                "h4",
-	                                { className: "media-heading" },
+	                                'h4',
+	                                { className: 'media-heading' },
 	                                comentario.usuario.nome,
-	                                "\xA0",
+	                                '\xA0',
 	                                removerComentario,
 	                                React.createElement(
-	                                    "a",
-	                                    { className: "button is-light is-small is-pulled-right" },
+	                                    'a',
+	                                    { className: 'button is-light is-small is-pulled-right' },
 	                                    comentario.cadastro
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "p",
-	                                { className: "text-muted" },
+	                                'p',
+	                                { className: 'text-muted' },
 	                                comentario.comentario
 	                            )
 	                        )
@@ -1478,23 +1698,23 @@
 	    });
 
 	    var ImageComentario = React.createClass({
-	        displayName: "ImageComentario",
+	        displayName: 'ImageComentario',
 
 
 	        render: function () {
 	            return React.createElement(
-	                "a",
-	                { className: "pull-left" },
-	                React.createElement("img", { style: styleImg,
-	                    alt: "user",
+	                'a',
+	                { className: 'pull-left' },
+	                React.createElement('img', { style: styleImg,
+	                    alt: 'user',
 	                    src: this.props.avatar,
-	                    className: "media-object  img img-circle" })
+	                    className: 'media-object  img img-circle' })
 	            );
 	        }
 	    });
 
 	    var FormComentario = React.createClass({
-	        displayName: "FormComentario",
+	        displayName: 'FormComentario',
 
 
 	        handleSubmit: function (e) {
@@ -1527,6 +1747,7 @@
 	                success: function (data) {
 	                    $("#comentar").removeClass("is-loading");
 	                    unblock_screen();
+	                    $(".emojionearea-editor").text("");
 	                    _this.refs.comentario.value = '';
 	                    _this.props.reloadComentarios();
 	                },
@@ -1541,29 +1762,29 @@
 	        render: function () {
 
 	            return React.createElement(
-	                "div",
-	                { className: "post-comment" },
+	                'div',
+	                { className: 'post-comment' },
 	                React.createElement(
-	                    "form",
-	                    { className: "form-horizontal" },
-	                    React.createElement("input", { type: "hidden", name: "musica_id", id: "musica_id", ref: "id",
+	                    'form',
+	                    { className: 'form-horizontal' },
+	                    React.createElement('input', { type: 'hidden', name: 'musica_id', id: 'musica_id', ref: 'id',
 	                        defaultValue: this.props.musicaId }),
 	                    React.createElement(
-	                        "div",
-	                        { className: "form-group" },
+	                        'div',
+	                        { className: 'form-group' },
 	                        React.createElement(
-	                            "div",
-	                            { className: "col-lg-12" },
-	                            React.createElement("textarea", { className: "textarea", name: "comentario", id: "comentario", ref: "comentario", placeholder: "..." })
+	                            'div',
+	                            { className: 'col-lg-12' },
+	                            React.createElement('textarea', { className: 'textarea', name: 'comentario', id: 'comentario', ref: 'comentario', placeholder: '...' })
 	                        )
 	                    ),
 	                    React.createElement(
-	                        "p",
+	                        'p',
 	                        null,
 	                        React.createElement(
-	                            "button",
-	                            { id: "comentar", ref: "submit", className: "button is-light is-fullwidth is-success", onClick: this.handleSubmit },
-	                            "Enviar"
+	                            'button',
+	                            { id: 'comentar', ref: 'submit', className: 'button is-light is-fullwidth is-success', onClick: this.handleSubmit },
+	                            'Enviar'
 	                        )
 	                    )
 	                )
@@ -1572,7 +1793,7 @@
 	    });
 
 	    var ViewCometarios = React.createClass({
-	        displayName: "ViewCometarios",
+	        displayName: 'ViewCometarios',
 
 
 	        getInitialState: function () {
@@ -1590,7 +1811,7 @@
 
 	        render: function () {
 	            return React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                React.createElement(
 	                    CardComentarios,
@@ -1598,7 +1819,7 @@
 	                    React.createElement(ListComentarios, { user: this.props.user, userId: this.props.userId, data: this.state.data,
 	                        dirAvatar: this.props.dirAvatar,
 	                        reloadComentarios: this.load }),
-	                    React.createElement("br", null),
+	                    React.createElement('br', null),
 	                    React.createElement(FormComentario, { musicaId: this.props.musicaId, reloadComentarios: this.load })
 	                )
 	            );
@@ -1609,9 +1830,9 @@
 
 	        render() {
 	            return React.createElement(
-	                "a",
-	                { className: "button is-danger is-inverted is-small", onClick: this.props.acao },
-	                "Remover"
+	                'a',
+	                { className: 'button is-danger is-inverted is-small', onClick: this.props.acao },
+	                'Remover'
 	            );
 	        }
 
@@ -1621,9 +1842,9 @@
 
 	        render() {
 	            return React.createElement(
-	                "a",
-	                { href: this.props.anexo, download: "download", className: "button is-white is-small" },
-	                "Baixar"
+	                'a',
+	                { href: this.props.anexo, download: 'download', className: 'button is-white is-small' },
+	                'Baixar'
 	            );
 	        }
 
@@ -1633,9 +1854,9 @@
 
 	        render() {
 	            return React.createElement(
-	                "a",
-	                { href: this.props.anexo, target: "_Blank", className: "button is-light is-small" },
-	                "Visualizar"
+	                'a',
+	                { href: this.props.anexo, target: '_Blank', className: 'button is-light is-small' },
+	                'Visualizar'
 	            );
 	        }
 	    }
@@ -1644,9 +1865,20 @@
 
 	        render() {
 	            return React.createElement(
-	                "a",
-	                { href: this.props.source, className: "button is-light is-small" },
-	                "Editar"
+	                'a',
+	                { href: this.props.source, className: 'button is-light is-small' },
+	                'Editar'
+	            );
+	        }
+	    }
+
+	    class BtnAdicionarArquivo extends React.Component {
+
+	        render() {
+	            return React.createElement(
+	                'button',
+	                { onClick: this.props.openModal, className: 'button is-danger is-inverted is-small' },
+	                'Adicionar Arquivo'
 	            );
 	        }
 	    }
@@ -1655,9 +1887,9 @@
 
 	        render() {
 	            return React.createElement(
-	                "a",
-	                { href: this.props.source, className: "button is-primary is-inverted is-small" },
-	                "Adicionar Letra"
+	                'a',
+	                { href: this.props.source, className: 'button is-primary is-inverted is-small' },
+	                'Adicionar Letra'
 	            );
 	        }
 	    }
@@ -1666,9 +1898,9 @@
 
 	        render() {
 	            return React.createElement(
-	                "a",
-	                { onClick: this.props.openModal, className: "button is-success is-inverted is-small" },
-	                "Adicionar Link"
+	                'a',
+	                { onClick: this.props.openModal, className: 'button is-success is-inverted is-small' },
+	                'Adicionar Link'
 	            );
 	        }
 	    }
@@ -1677,9 +1909,9 @@
 
 	        render() {
 	            return React.createElement(
-	                "a",
-	                { href: this.props.href, target: "_Blank", className: "button is-white is-small" },
-	                "Ir para o Link"
+	                'a',
+	                { href: this.props.href, target: '_Blank', className: 'button is-white is-small' },
+	                'Ir para o Link'
 	            );
 	        }
 	    }
@@ -1687,9 +1919,9 @@
 	    class BtnFavoritos extends React.Component {
 	        render() {
 	            return React.createElement(
-	                "a",
-	                { className: "button is-small is-success" },
-	                "Adicionar aos Favoritos"
+	                'a',
+	                { className: 'button is-small is-success' },
+	                'Adicionar aos Favoritos'
 	            );
 	        }
 	    }
@@ -1698,26 +1930,26 @@
 
 	        render() {
 	            return React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                React.createElement(
-	                    "div",
-	                    { className: "card wow fadeInUp animated slide", "data-wow-delay": ".3s", style: styleCard },
+	                    'div',
+	                    { className: 'card wow fadeInUp animated slide', 'data-wow-delay': '.3s', style: styleCard },
 	                    React.createElement(
-	                        "div",
-	                        { className: "card-content" },
+	                        'div',
+	                        { className: 'card-content' },
 	                        React.createElement(
-	                            "div",
-	                            { className: "media" },
+	                            'div',
+	                            { className: 'media' },
 	                            React.createElement(
-	                                "div",
-	                                { className: "media-content" },
+	                                'div',
+	                                { className: 'media-content' },
 	                                this.props.children
 	                            )
 	                        )
 	                    )
 	                ),
-	                React.createElement("br", null)
+	                React.createElement('br', null)
 	            );
 	        }
 	    }
@@ -1727,9 +1959,9 @@
 
 	        render() {
 	            return React.createElement(
-	                "pre",
-	                { id: "content", style: styleCardLetra,
-	                    "data-key": this.props.sourceMusicaTom },
+	                'pre',
+	                { id: 'content', style: styleCardLetra,
+	                    'data-key': this.props.sourceMusicaTom },
 	                this.props.sourceMusicaLetra
 	            );
 	        }
@@ -1740,17 +1972,17 @@
 
 	        render() {
 	            return React.createElement(
-	                "div",
-	                { id: "fontlinks" },
+	                'div',
+	                { id: 'fontlinks' },
 	                React.createElement(
-	                    "button",
-	                    { id: "incfont", className: "button is-dark is-outlined is-small buttonfont" },
-	                    "A+"
+	                    'button',
+	                    { id: 'incfont', className: 'button is-dark is-outlined is-small buttonfont' },
+	                    'A+'
 	                ),
 	                React.createElement(
-	                    "button",
-	                    { id: "decfont", className: "button is-dark is-outlined is-small buttonfont" },
-	                    "A-"
+	                    'button',
+	                    { id: 'decfont', className: 'button is-dark is-outlined is-small buttonfont' },
+	                    'A-'
 	                ),
 	                React.createElement(BtnEditar, { source: this.props.source })
 	            );
@@ -1759,7 +1991,7 @@
 	    }
 
 	    var RemoverArquivo = React.createClass({
-	        displayName: "RemoverArquivo",
+	        displayName: 'RemoverArquivo',
 
 
 	        handleRemover: function (e) {
@@ -1797,40 +2029,40 @@
 	    });
 
 	    var ImagemArquivo = React.createClass({
-	        displayName: "ImagemArquivo",
+	        displayName: 'ImagemArquivo',
 
 
 	        render: function () {
 
 	            var image = React.createElement(
-	                "i",
-	                { className: "fa fa-music" },
-	                "\xA0"
+	                'i',
+	                { className: 'fa fa-music' },
+	                '\xA0'
 	            );
 
 	            if (2 == this.props.anexo.tipo.id) {
 	                image = React.createElement(
-	                    "i",
-	                    { className: "fa fa-picture-o" },
-	                    "\xA0"
+	                    'i',
+	                    { className: 'fa fa-picture-o' },
+	                    '\xA0'
 	                );
 	            } else if (3 == this.props.anexo.tipo.id) {
 	                image = React.createElement(
-	                    "i",
-	                    { className: "fa file-pdf-o" },
-	                    "\xA0"
+	                    'i',
+	                    { className: 'fa file-pdf-o' },
+	                    '\xA0'
 	                );
 	            } else if (4 == this.props.anexo.tipo.id) {
 	                image = React.createElement(
-	                    "i",
-	                    { className: "fa fa-video-camera" },
-	                    "\xA0"
+	                    'i',
+	                    { className: 'fa fa-video-camera' },
+	                    '\xA0'
 	                );
 	            }
 
 	            return React.createElement(
-	                "div",
-	                { className: "media-left media-middle" },
+	                'div',
+	                { className: 'media-left media-middle' },
 	                image
 	            );
 	        }
@@ -1838,7 +2070,7 @@
 	    });
 
 	    var ListArquivos = React.createClass({
-	        displayName: "ListArquivos",
+	        displayName: 'ListArquivos',
 
 
 	        componentDidMount: function () {
@@ -1850,7 +2082,7 @@
 	            var _this = this;
 
 	            return React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                this.props.anexos.map(function (anexo) {
 
@@ -1868,22 +2100,22 @@
 	                    }
 
 	                    return React.createElement(
-	                        "div",
+	                        'div',
 	                        { key: anexo.id },
 	                        React.createElement(
-	                            "div",
-	                            { className: "media" },
+	                            'div',
+	                            { className: 'media' },
 	                            React.createElement(ImagemArquivo, { anexo: anexo }),
 	                            React.createElement(
-	                                "div",
-	                                { className: "media-body" },
+	                                'div',
+	                                { className: 'media-body' },
 	                                React.createElement(
-	                                    "h4",
-	                                    { className: "media-heading" },
+	                                    'h4',
+	                                    { className: 'media-heading' },
 	                                    anexo.nome,
 	                                    React.createElement(
-	                                        "a",
-	                                        { className: "button is-light is-small is-pulled-right" },
+	                                        'a',
+	                                        { className: 'button is-light is-small is-pulled-right' },
 	                                        anexo.cadastro
 	                                    )
 	                                ),
@@ -1900,8 +2132,8 @@
 
 	    });
 
-	    var ViewArquivos = React.createClass({
-	        displayName: "ViewArquivos",
+	    var ViewArquivosMain = React.createClass({
+	        displayName: 'ViewArquivosMain',
 
 
 	        getInitialState: function () {
@@ -1931,49 +2163,64 @@
 
 	        render: function () {
 
-	            return React.createElement(
-	                "div",
-	                null,
-	                React.createElement(
-	                    "div",
-	                    { className: "card wow fadeInUp animated slide", "data-wow-delay": ".3s", style: styleCard },
+	            let menu = '';
+	            let card = '';
+
+	            if (this.props.user == ROLE_ADMIN) {
+	                menu = React.createElement(
+	                    'div',
+	                    null,
+	                    React.createElement(BtnEditar, { source: this.props.sourceEditar }),
+	                    React.createElement(BtnAddLink, { openModal: this.openModalAddLink }),
+	                    React.createElement(BtnAdicionarArquivo, { openModal: this.openModal })
+	                );
+	            }
+
+	            if (this.props.user == ROLE_ADMIN || this.state.data.length > 0) {
+
+	                card = React.createElement(
+	                    'div',
+	                    null,
 	                    React.createElement(
-	                        "div",
-	                        { className: "card-content" },
+	                        'div',
+	                        { className: 'card wow fadeInUp animated slide', 'data-wow-delay': '.3s', style: styleCard },
 	                        React.createElement(
-	                            "div",
-	                            { className: "media" },
+	                            'div',
+	                            { className: 'card-content' },
 	                            React.createElement(
-	                                "div",
-	                                { className: "media-content" },
-	                                React.createElement(BtnEditar, { source: this.props.sourceEditar }),
-	                                React.createElement(BtnAddLink, { openModal: this.openModalAddLink }),
+	                                'div',
+	                                { className: 'media' },
 	                                React.createElement(
-	                                    "button",
-	                                    { onClick: this.openModal, className: "button is-danger is-inverted is-small" },
-	                                    "Adicionar Arquivo"
-	                                ),
-	                                React.createElement("br", null),
-	                                React.createElement("br", null),
-	                                React.createElement(ListArquivos, { reloadArquivos: this.load, anexos: this.state.data,
-	                                    sourceArquivos: this.props.sourceArquivos,
-	                                    sourceVideos: this.props.sourceVideos,
-	                                    dirAnexos: this.props.dirAnexos })
+	                                    'div',
+	                                    { className: 'media-content' },
+	                                    menu,
+	                                    React.createElement(ListArquivos, { reloadArquivos: this.load, anexos: this.state.data,
+	                                        sourceArquivos: this.props.sourceArquivos,
+	                                        sourceVideos: this.props.sourceVideos,
+	                                        dirAnexos: this.props.dirAnexos })
+	                                )
 	                            )
 	                        )
-	                    )
-	                ),
-	                React.createElement(UploadArquivo, { reloadArquivos: this.load, openModal: this.openModal, closeModal: this.closeModal,
-	                    musica: this.props.musica }),
-	                React.createElement(AddLink, { reloadArquivos: this.load, openModal: this.openModalAddLink,
-	                    closeModal: this.closeModalAddLink, musica: this.props.musica }),
-	                React.createElement("br", null)
+	                    ),
+	                    React.createElement(UploadArquivo, { reloadArquivos: this.load, openModal: this.openModal,
+	                        closeModal: this.closeModal,
+	                        musica: this.props.musica }),
+	                    React.createElement(AddLink, { reloadArquivos: this.load, openModal: this.openModalAddLink,
+	                        closeModal: this.closeModalAddLink, musica: this.props.musica }),
+	                    React.createElement('br', null)
+	                );
+	            }
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                card
 	            );
 	        }
 	    });
 
 	    const ViewOpcoes = React.createClass({
-	        displayName: "ViewOpcoes",
+	        displayName: 'ViewOpcoes',
 
 
 	        handleSubmit: function () {},
@@ -1988,7 +2235,7 @@
 	    });
 
 	    const ViewLetra = React.createClass({
-	        displayName: "ViewLetra",
+	        displayName: 'ViewLetra',
 
 
 	        render: function () {
@@ -1996,7 +2243,7 @@
 	                CardLetra,
 	                null,
 	                React.createElement(Font, { source: this.props.sourceAddLetra }),
-	                React.createElement("br", null),
+	                React.createElement('br', null),
 	                React.createElement(BlockLetra, { musica: this.props.dataMusica,
 	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
 	                    sourceMusicaTom: this.props.sourceMusicaTom })
@@ -2005,7 +2252,7 @@
 	    });
 
 	    const Render = React.createClass({
-	        displayName: "Render",
+	        displayName: 'Render',
 
 
 	        getInitialState: function () {
@@ -2022,19 +2269,20 @@
 
 	        render: function () {
 	            return React.createElement(
-	                "div",
+	                'div',
 	                null,
 	                React.createElement(ViewOpcoes, { dataMusica: this.state.data }),
 	                React.createElement(ViewLetra, { dataMusica: this.state.data,
 	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
 	                    sourceMusicaTom: this.props.sourceMusicaTom,
 	                    sourceAddLetra: this.props.sourceAddLetra }),
-	                React.createElement(ViewArquivos, { sourceArquivos: this.props.sourceArquivos,
+	                React.createElement(ViewArquivosMain, { sourceArquivos: this.props.sourceArquivos,
 	                    sourceEditar: this.props.sourceEditar,
 	                    sourceAddLetra: this.props.sourceAddLetra,
 	                    sourceVideos: this.props.sourceVideos,
 	                    musica: this.props.musicaId,
-	                    dirAnexos: this.props.dirAnexos }),
+	                    dirAnexos: this.props.dirAnexos,
+	                    user: this.props.user }),
 	                React.createElement(ViewCometarios, { source: this.props.source,
 	                    user: this.props.user,
 	                    userId: this.props.userId,
@@ -2062,7 +2310,7 @@
 	    if (document.getElementById('comentarios')) {
 
 	        ReactDOM.render(React.createElement(
-	            "div",
+	            'div',
 	            null,
 	            React.createElement(Render, { sourceMusica: sourceMusica,
 	                sourceAddLetra: sourceAddLetra,
@@ -2107,7 +2355,7 @@
 	});
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/**
@@ -2545,7 +2793,7 @@
 	                    "span",
 	                    null,
 	                    _this.props.categoria.map(function (categoria) {
-	                        const musicasUrl = "/user/categoria/" + categoria.id + "/" + categoria.nome + "/musicas";
+	                        const musicasUrl = "/user/categories/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_') + "/praises";
 	                        return React.createElement(
 	                            "div",
 	                            { key: categoria.id },
@@ -2642,7 +2890,7 @@
 	});
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/**
@@ -2843,7 +3091,7 @@
 	                'span',
 	                null,
 	                this.state.data.map(function (colecao) {
-	                    var categoriasUrl = "/user/categorias/" + colecao.id + "/" + colecao.nome;
+	                    var categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
 	                    return React.createElement(
 	                        'div',
 	                        { key: colecao.id },
@@ -2875,7 +3123,7 @@
 	});
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -3017,7 +3265,7 @@
 	                null,
 	                this.props.data.map(function (musica) {
 
-	                    var linkAnexos = "/user/musica/" + musica.id + "/anexos";
+	                    var linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
 	                    var editarMusica = "/user/musicas/" + musica.id + "/" + musica.nome + "/editar";
 
 	                    if ("ROLE_ADMIN" == _this.props.user) {
@@ -3314,7 +3562,7 @@
 	});
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -3467,7 +3715,7 @@
 	}
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**

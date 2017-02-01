@@ -349,7 +349,7 @@ $(function () {
             return (
                 <div>
                 <span>{ _this.props.categoria.map(function (categoria) {
-                    const musicasUrl = "/user/categoria/" + categoria.id + "/" + categoria.nome + "/musicas";
+                    const musicasUrl = "/user/categories/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_') + "/praises";
                     return (
                         <div key={categoria.id}>
                             <EditarCategoriaModal
