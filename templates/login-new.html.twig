@@ -4,6 +4,11 @@
 
 {% block header %}
 
-    <div id="login"></div>
+    <div id="login"
+         data-app="{{ app.blog.nome }}"
+         data-post="{{ path('login_check') }}"
+         data-error="{{ error }}"
+         data-last-user-name="{{ last_username }}"
+    ></div>
 
 {% endblock %}

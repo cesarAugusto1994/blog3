@@ -89,13 +89,13 @@ class CategoriaController
 
             return $app->json([
                     'classe' => 'sucesso',
-                    'msg' => 'Adicionou nova categoria ' . $categoria->getNome()
+                    'mensagem' => 'Adicionou nova categoria ' . $categoria->getNome()
             ]);
 
         } catch (\Exception $e) {
             return $app->json([
                 'classe' => 'erro',
-                'msg' => $e->getMessage()
+                'mensagem' => $e->getMessage()
             ]);
         }
     }

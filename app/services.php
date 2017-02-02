@@ -12,6 +12,7 @@
 #################################################################################################
 #################################################################################################
 
+use Api\Entities\Usuarios;
 use App\Entities\Config;
 use Silex\Application;
 
@@ -173,22 +174,25 @@ $app['usuario.email.service'] = function() use ($app){
 };
 
 $app['usuario.sessao'] = function () use ($app) {
-    
-  $user = $app['session']->get('user');
-  
-  if(empty($user)) {
+
+    /**
+     * @var Usuarios $user
+     */
+    $user = $app['session']->get('user');
+
+    if (empty($user)) {
+        return [
+            'id' => 2,
+            'nome' => "Anonimous",
+            'email' => "usuario@usuario.com"
+        ];
+    }
+
     return [
-        'id' => 0,
-        'nome' => "Usuario",
-        'email' => "usuario@usuario.com.br"
+        'id' => $user->getId(),
+        'nome' => $user->getNome(),
+        'email' => $user->getUsername()
     ];
-  }
-  
-  return [
-    'id' => $user->getId(),
-    'nome' => $user->getNome(),
-    'email' => $user->getUsername()
-  ];
 };
 
 $app['usuario'] = function () use($app) {

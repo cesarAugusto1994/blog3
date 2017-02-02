@@ -12,10 +12,6 @@
         <div class="container wow fadeInUp animated slide" data-wow-delay=".3s">
             <div class="row">
 
-                {% for alert in app.session.flashbag.get('mensagem') %}
-                    <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
-                {% endfor %}
-
                 {% for usuario in usuarios %}
                     <div class="col-sm-4 col-xs-12">
                         <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
@@ -25,7 +21,7 @@
                             </div>
                             <figcaption>
                                 <h4>
-                                    <a href="{{ path('perfil', { user : usuario.id }) }}">{{ usuario.nome }}</a>
+                                    <a href="{{ path('perfil', { id : usuario.id, nome : usuario.nome }) }}">{{ usuario.nome }}</a>
                                     <a class="button is-light is-small is-pulled-right"
                                        href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
                                     {% if usuario.id != app['usuario.sessao'].id %}

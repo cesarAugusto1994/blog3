@@ -12,27 +12,22 @@
 
 {% block content %}
 
-    <article>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12">
-                    <div id="comentarios" data-source="{{ path('api_comentarios', { musicaId : musica.id }) }}"
-                         data-source-arquivos="{{ path('api_anexos', { musicaId : musica.id }) }}"
-                         data-user="{{ app['usuario'].roles }}" data-user-id="{{ app.usuario.id }}" data-dir-avatar="{{ app['dir.avatar'] }}"
-                         data-dir-anexos="{{ app['dir.anexo'] }}"
-                         data-musica-id="{{ musica.id }}" data-source-editar="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome }) }}"
-                         data-source-add-letra="{{ path('view_editar_letra_musica', { id : musica.id }) }}"
-                         data-source-musica="{{ path('api_musica', { id : musica.id }) }}"
-                         data-source-musica-letra="{{ musica.letra }}"
-                         data-source-musica-tom="{{ musica.tom }}"
-                         data-source-videos="{{ path('videos') }}">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </article>
+    <div id="comentarios"
+         data-source="{{ path('api_comentarios', { musicaId : musica.id }) }}"
+         data-source-arquivos="{{ path('api_attachments_from_praise', { id : musica.id, nome : musica.nome|lower|replace(' ', '_') }) }}"
+         data-user="{{ app.usuario.roles }}"
+         data-user-id="{{ app.usuario.id }}"
+         data-dir-avatar="{{ app['dir.avatar'] }}"
+         data-dir-anexos="{{ app['dir.anexo'] }}"
+         data-musica-id="{{ musica.id }}"
+         data-source-editar="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome|lower|replace(' ', '_') }) }}"
+         data-source-add-letra="{{ path('view_editar_letra_musica', { id : musica.id }) }}"
+         data-source-musica="{{ path('api_praise', { id : musica.id, nome : musica.nome|lower|replace(' ', '_') }) }}"
+         data-source-musica-letra="{{ musica.letra }}"
+         data-source-musica-tom="{{ musica.tom }}"
+         data-source-videos="{{ path('videos') }}">
+    </div>
 
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/pages/musica_anexos.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>

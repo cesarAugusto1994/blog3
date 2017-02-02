@@ -6,60 +6,52 @@
  * Time: 09:33
  */
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 $app->get('/test', function () {
-    return 'test';
+    return 'Esta Funcionando!!!!!!!!!!!!!!';
 });
 
-$app->get(
-    '/login',
-    function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-        
-        return $app['twig']->render('login-new.html.twig',
-            array(
-                'error' => $app['security.last_error']($request),
-                'last_username' => $app['session']->get('_security.last_username'),
-            )
-        );
-        
-    }
-)->bind('login');
+$app->get('/login', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['twig']->render('login-new.html.twig',
+        array(
+            'error' => $app['security.last_error']($request),
+            'last_username' => $app['session']->get('_security.last_username'),
+        )
+    );
+})->bind('login');
 
 $app->get('/user/', function () use ($app) {
     return $app['twig']->render('/user/index.html.twig');
 })->bind('user');
-
-$app->post(
-    '/admin/login_check',
-    function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
-        
-    }
-)->bind('login_check');
-
-$app->get(
-    '/admin/logout',
-    function () use ($app) {
-        
-    }
-)->bind('logout')->after(
-    function () use ($app) {
-        $app['session']->clear();
-        return $app->redirect('/login');
-    }
-);
-
-$app->get(
-    '/redirect',
-    function () use ($app) {
+/*
+$app->get('/', function () use ($app) {
+    if (isset($app['user'])) {
         return $app->redirect('/user/');
     }
-)->bind('redirect')->before(
-    function () use ($app) {
-        if (isset($app['user'])) {
-            $app['session']->set('user', $app['user']);
-            $app['session']->save();
-        }
+    return $app['twig']->render('index.html.twig');
+})->bind('user');
+*/
+$app->post('/admin/login_check', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+})->bind('login_check');
+
+
+$app->get('/admin/logout', function () use ($app) {}
+
+)->bind('logout')->after(function () use ($app) {
+    $app['session']->clear();
+    return $app->redirect('/login');
+});
+
+$app->get('/redirect', function () use ($app) {
+        return $app->redirect('/user/');
+})->bind('redirect')->before(function () use ($app) {
+    if (isset($app['user'])) {
+        $app['session']->set('user', $app['user']);
+        $app['session']->save();
     }
-);
+});
 
 $app->get(
     '/admin/',
@@ -75,12 +67,9 @@ $app->get(
     }
 );
 
-$app->get(
-    'register',
-    function () use ($app) {
-        return $app['twig']->render('register.html.twig');
-    }
-)->bind('register');
+$app->get('register', function () use ($app) {
+    return $app['twig']->render('register.html.twig');
+})->bind('register');
 
 $app->match(
     'register/save',

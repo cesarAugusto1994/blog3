@@ -2,6 +2,9 @@
  * Created by cesar on 01/02/17.
  */
 
+const StyleForm = {
+    backgroundColor: "transparent"
+};
 
 class BASE extends React.Component {
     render() {
@@ -13,11 +16,11 @@ class BASE extends React.Component {
                             <div className="block wow fadeInUp" data-wow-delay=".3s">
                                 <section className="cd-intro">
                                     <div className="login-box">
-                                        <div className="login-logo">
-                                            <a href="/"><b>Cesar</b></a>
+                                        <div className="login-logo text-black">
+                                            <a href="/"><b>{this.props.app}</b></a>
                                         </div>
 
-                                        <div className="login-box-body">
+                                        <div className="login-box-body" style={StyleForm}>
                                             <p className="login-box-msg">Entre para iniciar a sess&atilde;o</p>
                                             {this.props.children}
                                         </div>
@@ -38,7 +41,9 @@ const Form = React.createClass({
 
     handleSubmit: function (e) {
 
-        e.preventDefault();
+        //e.preventDefault();
+
+        console.log(this.props.error);
 
         var email = this.refs._username.value;
         var password = this.refs._password.value;
@@ -62,6 +67,8 @@ const Form = React.createClass({
         $("#password").removeClass("is-danger");
         $("#btnSubmit").addClass("is-loading");
 
+        return true;
+/*
         block_screen();
 
         $.ajax({
@@ -73,24 +80,41 @@ const Form = React.createClass({
             },
             cache: false,
             success: function (data) {
-                window.location.href = '/user/';
+                console.log(data);
+                //window.location.href = '/user/';
                 return false;
             },
             error: function (data) {
+                console.log(data)
                 unblock_screen();
                 $("#btnSubmit").removeClass("is-loading");
                 alertify.error("opss, algo deu errado...");
                 return false;
             }
         });
+
+        */
     },
 
     render: function () {
+
+        let error = '';
+
+        if (this.props.error) {
+            error = (
+                <div className="notification is-danger">
+                    <button className="delete"></button>
+                    {this.props.error}
+                </div>
+            );
+        }
+
         return (
-            <form method="post" onSubmit={this.handleSubmit}>
+            <form method="post" action={this.props.post} onSubmit={this.handleSubmit}>
+                {error}
                 <div className="form-group has-feedback">
                     <input type="text" name="_username" autoFocus="autoFocus"
-                           className="form-control" placeholder="E-mail" ref="_username"/>
+                           className="form-control" placeholder="E-mail" ref="_username" defaultValue={this.props.lastUserName}/>
                     <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback">
@@ -120,15 +144,26 @@ const Render = React.createClass({
 
     render: function () {
         return (
-            <BASE>
-                <Form />
+            <BASE app={this.props.app}>
+                <Form post={this.props.post} error={this.props.error} lastUserName={this.props.lastUserName}/>
             </BASE>
         )
     }
 });
 
 if (document.getElementById('login')) {
+
+    const app = $("#login").data("app");
+    const post = $("#login").data("post");
+    const error = $("#login").data("error");
+    const lastUserName = $("#login").data("last-user-name");
+
+    $(document).on('click', '.notification > button.delete', function() {
+        $(this).parent().addClass('is-hidden');
+        return false;
+    });
+
     ReactDOM.render(
-        <Render/>, document.getElementById('login')
+        <Render app={app} post={post} error={error} lastUserName={lastUserName}/>, document.getElementById('login')
     );
 }

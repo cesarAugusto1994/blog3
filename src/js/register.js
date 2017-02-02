@@ -182,10 +182,10 @@ var FormRegister = React.createClass({
                 </div>
                 <div className="row">
                     <div className="col-xs-6">
-                        <a href="login" className="button is-light is-fullwidth">Entrar</a>
+                        <a href="login" className="button is-primary is-link is-fullwidth">Já possuo Conta!</a>
                     </div>
                     <div className="col-xs-6">
-                        <button type="submit" id="btnSubmit" className="button is-success is-fullwidth">Salvar</button>
+                        <button type="submit" id="btnSubmit" className="button is-success is-outlined is-fullwidth">Salvar</button>
                     </div>
                 </div>
             </form>

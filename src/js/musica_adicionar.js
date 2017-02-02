@@ -78,7 +78,7 @@ const Render = React.createClass({
             success: function (data) {
                 alertify.success(data.message);
                 if (data.classe == 'sucess') {
-                    window.location.href = '/user/musicas/' + _this.state.categoria.id + '/' + _this.state.categoria.nome;
+                    window.location.href = '/user/category/' + _this.state.categoria.id + '-' + _this.state.categoria.nome + '/praises';
                 }
                 unblock_screen();
             },
@@ -143,5 +143,5 @@ if (document.getElementById("musica-adicionar")) {
 
     const categoria = $("#musica-adicionar").data("categoria");
 
-    ReactDOM.render(<div><Render categoria={categoria}/></div>, document.getElementById('musica-adicionar'));
+    ReactDOM.render(<Render categoria={categoria}/>, document.getElementById('musica-adicionar'));
 }

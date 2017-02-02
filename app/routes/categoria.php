@@ -23,7 +23,7 @@ $categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) us
 
 })->bind('categorias');
 
-$categorias->get('/categories/{id}-{nome}/praises', function ($id, $nome) use ($app) {
+$categorias->get('/category/{id}-{nome}/praises', function ($id, $nome) use ($app) {
 
     $categoria = $app['categoria.repository']->find($id);
 
@@ -48,19 +48,15 @@ $categorias->get('categoria/nova', function (Request $request) use ($app) {
         ]);
 });
 
-$categorias->get('categorias/{colecaoId}', function($colecaoId) use ($app){
+$categorias->get('category/new', function (Request $request) use ($app) {
 
-    $colecao = $app['colecao.repository']->find($colecaoId);
+    $colecao = $app['colecao.repository']->find($request->get('collection_id'));
 
-    $paremetros = [
-        'colecao' => $colecao,
-        'ativo' => true
-    ];
-
-    $categorias = $app['categoria.repository']->findBy($paremetros, ['nome' => 'ASC']);
-    return new \Symfony\Component\HttpFoundation\JsonResponse($categorias);
-
-})->bind('api_categorias');
+    return $app['twig']->render('/user/categoria-adicionar.html.twig',
+        [
+            'colecao' => $colecao
+        ]);
+});
 
 $categorias->get('categorias', function() use ($app){
 

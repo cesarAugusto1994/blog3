@@ -27,21 +27,11 @@ class IndexController
      */
     public function index($page = 1, Application $app)
     {
-        $pager = $app['pager.Controller'];
-        $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
-        $tipo = $app['tipo.anexo.repository']->find(4);
-        $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo], ['cadastro' => 'DESC'], 3);
-        $pager->pager($app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']), $page);
+        if (isset($app['session'])) {
+            return $app->redirect('/user/');
+        }
 
-        return $app['twig']->render('index.html.twig', [
-            'posts' => $app['posts.repository']->getAll($pager->getOffset(), $pager->getLimit()),
-            'firstPage' => $pager->getFirstPage(),
-            'nextPage' => $pager->getNextPage(),
-            'limitPerPage' => $pager->getLimit(),
-            'records' => $pager->getCountData(),
-            'musicas' => $musicas,
-            'videos' => $videos
-        ]);
+        return $app['twig']->render('index.html.twig');
     }
 
     /**

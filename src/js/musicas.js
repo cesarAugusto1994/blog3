@@ -8,7 +8,7 @@ $(function () {
 
         render() {
 
-            const url = "/user/musica/adicionar/" + this.props.categoria;
+            const url = "/user/praise/new?category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
 
             return (
                 <a href={url} className="button is-light is-small">Adicionar Musica</a>
@@ -131,9 +131,15 @@ $(function () {
                                 btnMudarStatus = <MudarStatusMusica musica={musica} reloadMusica={_this.props.reloadMusicas}/>;
                             }
 
+                            let musicaStr = musica.nome;
+
+                            if (musica.numero) {
+                                musicaStr = musica.numero + ' - ' + musica.nome;
+                            }
+
                             return (
                                 <div key={musica.id}>
-                                    <h4 className="media-heading"><a href={linkAnexos}>{musica.nome}</a>
+                                    <h4 className="media-heading"><a href={linkAnexos}>{musicaStr}</a>
                                         {btnEditar}
                                         {btnMudarStatus}
                                     </h4><hr/>
@@ -175,16 +181,16 @@ $(function () {
             var addMusica = '';
 
             if ("ROLE_ADMIN" == this.props.user) {
-                addMusica = <BtnAdd categoria={this.props.categoria}/>
+                addMusica = <BtnAdd categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>
             }
 
             return (
-                <div>
+                <Base>
                     {addMusica}
                     <GerenciarModal closeModal={this.closeModal} reloadMusicas={this.load} colecao={this.props.colecao} categoria={this.props.categoria}/>
                     <hr className="small" />
                     <ListMusicas data={this.state.data} user={this.props.user} reloadMusicas={this.load}/>
-                </div>
+                </Base>
             )
         }
 
@@ -337,16 +343,33 @@ $(function () {
         }
     });
 
+    class Base extends React.Component {
+        render() {
+            return (
+                <article>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                                {this.props.children}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            )
+        }
+    }
+
     var source = $("#musicas").attr("data-source");
     var sourceLink = $("#musicas").attr("data-add-musica");
     var user = $("#musicas").attr("data-user");
     var colecao = $("#musicas").data("colecao");
     var categoria = $("#musicas").data("categoria");
+    var categoriaNome = $("#musicas").data("categoria-nome");
 
     if (document.getElementById("musicas")) {
         ReactDOM.render(
             <div>
-                <View source={source} link={sourceLink} user={user} colecao={colecao} categoria={categoria}/>
+                <View source={source} link={sourceLink} user={user} colecao={colecao} categoria={categoria} categoriaNome={categoriaNome}/>
             </div>,
             document.getElementById('musicas')
         );

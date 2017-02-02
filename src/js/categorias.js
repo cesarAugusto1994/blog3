@@ -4,6 +4,8 @@
 
 $(function () {
 
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
     var divStyle = {
         width: '100%'
     };
@@ -46,7 +48,7 @@ $(function () {
     class BtnAddCategoria extends React.Component{
         render() {
 
-            const url = "/user/categoria/nova?colecao_id=" + this.props.colecao;
+            const url = "/user/category/new?collection_id=" + this.props.colecao + "collection_name=" + this.props.colecaoNome.toLowerCase().replace(/ /g, '_');
 
             return (
                 <a href={url} className="button is-light is-small">Nova Categoria</a>
@@ -243,7 +245,7 @@ $(function () {
             var mudarStatus = '';
             var editar = '';
 
-            if (this.props.user == 'ROLE_ADMIN') {
+            if (this.props.user == ROLE_ADMIN) {
                 mudarStatus = <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
                 editar = <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
             }
@@ -349,7 +351,7 @@ $(function () {
             return (
                 <div>
                 <span>{ _this.props.categoria.map(function (categoria) {
-                    const musicasUrl = "/user/categories/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_') + "/praises";
+                    const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_') + "/praises";
                     return (
                         <div key={categoria.id}>
                             <EditarCategoriaModal
@@ -405,7 +407,7 @@ $(function () {
 
             var opcoes = '';
 
-            if (this.props.user == 'ROLE_ADMIN') {
+            if (this.props.user == ROLE_ADMIN) {
                 opcoes = <OpcoesList
                     reloadCategoria={this.load}
                     colecao={this.props.colecao}
@@ -414,13 +416,29 @@ $(function () {
             }
 
             return (
-                <div>
+                <Base>
                     {opcoes}
                     <CategoriasList categoria={this.state.data} source={this.props.source} user={this.props.user} reloadCategoria={this.load} acao={this.openModal}/>
-                </div>
+                </Base>
             );
         }
     });
+
+    class Base extends React.Component {
+        render() {
+            return (
+                <article>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                                {this.props.children}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            )
+        }
+    }
 
     const source = $("#categorias").attr("data-source");
     const user = $("#categorias").attr("data-user");

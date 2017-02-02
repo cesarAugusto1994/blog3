@@ -38,7 +38,7 @@ const Render = React.createClass({
     },
 
     redirect : function () {
-        window.location.href = '/user/categorias/' + this.props.colecaoId + '/' + this.props.colecaoNome;
+        return window.location.href = '/user/collection/' + this.props.colecaoId + '-' + this.props.colecaoNome + '/categories';
     },
 
     handleSubmit : function (e) {
@@ -54,24 +54,22 @@ const Render = React.createClass({
 
         const _this = this;
 
-        console.log( _this.state.colecao.id);
-
         $.ajax({
             type: "POST",
-            url: "/user/categoria/adicionar",
+            url: "/api/categoria/adicionar",
             data : {
                 nome : nome,
                 colecao : colecao
             },
             cache: false,
             success: function (data) {
-                alertify.success(data.message);
+                alertify.success(data.mensagem);
                 unblock_screen();
-                this.redirect();
+                _this.redirect();
             },
             error: function (data) {
                 unblock_screen();
-                alertify.error("Ocorreu um erro.");
+                alertify.error(data.mensagem);
             }
         });
     },

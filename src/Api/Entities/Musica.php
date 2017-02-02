@@ -294,6 +294,7 @@ class Musica implements \JsonSerializable
         return [
             "id" => $this->id,
             "nome" => $this->nome,
+            "numero" => $this->numero,
             "letra" => $this->letra,
             "letraOriginal" => $this->letraOriginal,
             "album" => $this->album,

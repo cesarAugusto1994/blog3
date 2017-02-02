@@ -13,4 +13,19 @@ $colecao->get('colecoes', function() use ($app){
     return new \Symfony\Component\HttpFoundation\JsonResponse($colecoes);
 })->bind('api_colecoes');
 
+
+$colecao->get('collection/{id}-{nome}/categories', function($id, $nome) use ($app){
+
+    $colecao = $app['colecao.repository']->find($id);
+
+    $paremetros = [
+        'colecao' => $colecao,
+        'ativo' => true
+    ];
+
+    $categorias = $app['categoria.repository']->findBy($paremetros, ['nome' => 'ASC']);
+    return new \Symfony\Component\HttpFoundation\JsonResponse($categorias);
+
+})->bind('api_categorias');
+
 return $colecao;

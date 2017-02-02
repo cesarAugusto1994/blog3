@@ -5,5 +5,8 @@
 {% block headerNome %}Nova Musica{% endblock %}
 
 {% block content %}
-    <div id="musica-adicionar" data-categoria="{{ categoria }}"></div>
+    <div id="musica-adicionar"
+         data-categoria="{{ categoria.id }}"
+         data-categoria-nome="{{ categoria.nome }}"
+    ></div>
 {% endblock %}

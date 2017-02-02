@@ -38,7 +38,7 @@ $app['security.firewalls'] = array(
         ),
         'remember_me' => array(
             'secret'   => '%secret%',
-            'lifetime' => 10000, // 1 week in seconds
+            'lifetime' => 10000,
             'path'     => '/user/',
             // by default, the feature is enabled by checking a
             // checkbox in the login form (see below), uncomment
@@ -51,10 +51,10 @@ $app['security.firewalls'] = array(
     ),
 );
 $app['security.access_rules'] = array(
+    array('^.*$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
     array('^/users', 'ROLE_USER'),
     array('^/users', 'ROLE_ADMIN'),
     array('^/admin', 'ROLE_ADMIN'),
-    array('^.*$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
 );
 $app['security.role_hierarchy'] = array(
     'ROLE_ADMIN' => [

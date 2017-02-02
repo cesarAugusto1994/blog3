@@ -17,7 +17,6 @@ $colecao->get('collections', function() use ($app){
 
 })->bind('colecoes');
 
-
 $colecao->get('/collection/{id}-{nome}/categories', function ($id, $nome) use ($app) {
 
     $colecao = $app['colecao.repository']->find($id);
@@ -30,8 +29,10 @@ $colecao->get('/collection/{id}-{nome}/categories', function ($id, $nome) use ($
 });
 
 $colecao->get('colecao/{colecao}', function($colecao) use ($app){
+
     $colecao = $app['colecao.repository']->find($colecao);
     return new \Symfony\Component\HttpFoundation\JsonResponse($colecao);
+
 })->bind('api_colecao');
 
 $colecao->get('colecoes/grid', function() use ($app){

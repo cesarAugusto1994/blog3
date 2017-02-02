@@ -18,6 +18,7 @@ $musica->get('musicas/adicionadas/recentemente', function() use ($app) {
     return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);
 })->bind('api_musicas_recentes');
 
+
 $musica->get('musicas/{categoria}/data', function($categoria) use ($app) {
     $categoria = $app['categoria.repository']->find($categoria);
 
@@ -48,6 +49,14 @@ $musica->get('musica/adicionar/{categoria}', function($categoria) use ($app){
     return $app['twig']->render('/user/musica-adicionar.html.twig', ['categoria' => $categoria]);
 
 })->bind('view_adicionar_musica_');
+
+$musica->get('praise/new', function(\Symfony\Component\HttpFoundation\Request $request) use ($app){
+
+    $categoria = $app['categoria.repository']->find($request->get('category_id'));
+
+    return $app['twig']->render('/user/musica-adicionar.html.twig', ['categoria' => $categoria]);
+
+});
 
 $musica->get('musicas/adicionar/{categoria}/1', function($categoria) use ($app){
 

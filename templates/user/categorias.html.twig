@@ -15,8 +15,8 @@
                     <div id="categorias"
                          data-colecao="{{ colecao.id }}"
                          data-colecao-nome="{{ colecao.nome }}"
-                         data-source="{{ path('api_categorias', { colecaoId : colecao.id }) }}"
-                         data-user="{{ app['usuario'].roles }}"></div>
+                         data-source="{{ path('api_categorias', { id : colecao.id, nome : colecao.nome }) }}"
+                         data-user="{{ app.usuario.roles }}"></div>
                 </div>
             </div>
         </div>

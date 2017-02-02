@@ -43,7 +43,7 @@ $(function () {
                 cache: false,
                 success: function (data) {
                     alertify.success(data.message);
-                    _this.props.reloadArquivos();
+                    window.location.reload();
                     _this.props.closeModal();
                     unblock_screen();
                 },
@@ -221,7 +221,7 @@ $(function () {
 
             e.preventDefault();
 
-            var _this = this;
+            const _this = this;
 
             alertify.confirm("Deseja remover este Coment&aacute;rio?", function () {
 
@@ -249,8 +249,8 @@ $(function () {
         render: function () {
 
             return (
-                <a className="button is-danger is-small" onClick={this.handleRemoverComentario}
-                   data-comentario={this.props.comentario}>Inativar</a>
+                <button className="button is-light is-small" onClick={this.handleRemoverComentario}
+                   data-comentario={this.props.comentario}>Remover</button>
             )
         }
     });
@@ -300,13 +300,14 @@ $(function () {
                                 <ImageComentario avatar={img}/>
                                 <div className="media-body">
                                     <h4 className="media-heading">{comentario.usuario.nome}
-                                        &nbsp;{removerComentario}
-                                        <a className="button is-light is-small is-pulled-right">{comentario.cadastro}</a>
+                                        &nbsp;
+                                        <a className="button is-white is-small">{comentario.cadastro}</a>
                                     </h4>
                                     <p className="text-muted">
                                         {comentario.comentario}
                                     </p>
                                 </div>
+                                {removerComentario}
                             </div>
                         )
                     })}
@@ -458,7 +459,16 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.source} className="button is-light is-small">Editar</a>
+                <a href={this.props.source} className="button is-white is-small is-pulled-right">Editar Letra</a>
+            );
+        }
+    }
+
+    class BtnEditarMusica extends React.Component {
+
+        render() {
+            return (
+                <a href={this.props.source} className="button is-light is-small">Editar Música</a>
             );
         }
     }
@@ -467,7 +477,7 @@ $(function () {
 
         render() {
             return (
-                <button onClick={this.props.openModal} className="button is-danger is-inverted is-small">
+                <button onClick={this.props.openModal} className="button is-white is-small">
                 Adicionar Arquivo</button>
             );
         }
@@ -477,7 +487,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.source} className="button is-primary is-inverted is-small">Adicionar Letra</a>
+                <a href={this.props.source} className="button is-white is-small">Adicionar Letra</a>
             );
         }
     }
@@ -486,7 +496,7 @@ $(function () {
 
         render() {
             return (
-                <a onClick={this.props.openModal} className="button is-success is-inverted is-small">Adicionar Link</a>
+                <a onClick={this.props.openModal} className="button is-white  is-small">Adicionar Link</a>
             );
         }
     }
@@ -544,12 +554,11 @@ $(function () {
 
         render() {
             return (
-
                 <div id="fontlinks">
-                    <button id="incfont" className="button is-dark is-outlined is-small buttonfont">
+                    <button id="incfont" className="button is-light is-small buttonfont">
                         A+
                     </button>
-                    <button id="decfont" className="button is-dark is-outlined is-small buttonfont">
+                    <button id="decfont" className="button is-light is-small buttonfont">
                         A-
                     </button>
                     <BtnEditar source={this.props.source}/>
@@ -629,7 +638,7 @@ $(function () {
 
         render: function () {
 
-            var _this = this;
+            const _this = this;
 
             return (
                 <div>
@@ -671,7 +680,44 @@ $(function () {
 
     });
 
-    var ViewArquivosMain = React.createClass({
+    const ViewArquivosMain = React.createClass({
+
+        getInitialState: function () {
+            return {data: []};
+        },
+        load: function () {
+            $.get(this.props.sourceArquivos, function (result) {
+                this.setState({data: result});
+            }.bind(this));
+        },
+        componentDidMount: function () {
+            this.load();
+        },
+
+        render: function () {
+
+            let card = '';
+
+            if (this.state.data.length > 0) {
+                card = (
+                    <CardLetra>
+                        <ListArquivos reloadArquivos={this.load} anexos={this.state.data}
+                                      sourceArquivos={this.props.sourceArquivos}
+                                      sourceVideos={this.props.sourceVideos}
+                                      dirAnexos={this.props.dirAnexos}/>
+                    </CardLetra>
+                )
+            }
+
+            return (
+                <div>
+                    {card}
+                </div>
+            );
+        }
+    });
+
+    const ViewOpcoes = React.createClass({
 
         getInitialState: function () {
             return {data: []};
@@ -702,14 +748,23 @@ $(function () {
 
             let menu = '';
             let card = '';
+            let letra = '';
+
+            if (!this.props.dataMusica.letra) {
+                letra = (
+                    <BtnAddLetra source={this.props.sourceAddLetra}/>
+                )
+            }
 
             if (this.props.user == ROLE_ADMIN) {
                 menu = (
-                <div>
-                    <BtnEditar source={this.props.sourceEditar}/>
-                    <BtnAddLink openModal={this.openModalAddLink}/>
-                    <BtnAdicionarArquivo openModal={this.openModal}/>
-                </div>
+                    <div>
+                        <BtnFavoritos dataMusica={this.props.dataMusica}/>
+                        <BtnEditarMusica source={this.props.sourceEditar}/>
+                        <BtnAddLink openModal={this.openModalAddLink}/>
+                        <BtnAdicionarArquivo openModal={this.openModal}/>
+                        {letra}
+                    </div>
                 )
             }
 
@@ -717,25 +772,14 @@ $(function () {
 
                 card = (
                     <div>
-                        <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
-                            <div className="card-content">
-                                <div className="media">
-                                    <div className="media-content">
-                                        {menu}
-                                        <ListArquivos reloadArquivos={this.load} anexos={this.state.data}
-                                                      sourceArquivos={this.props.sourceArquivos}
-                                                      sourceVideos={this.props.sourceVideos}
-                                                      dirAnexos={this.props.dirAnexos}/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <CardLetra>
+                            {menu}
+                        </CardLetra>
                         <UploadArquivo reloadArquivos={this.load} openModal={this.openModal}
                                        closeModal={this.closeModal}
                                        musica={this.props.musica}/>
                         <AddLink reloadArquivos={this.load} openModal={this.openModalAddLink}
                                  closeModal={this.closeModalAddLink} musica={this.props.musica}/>
-                        <br />
                     </div>
                 );
             }
@@ -744,21 +788,6 @@ $(function () {
                 <div>
                     {card}
                 </div>
-            );
-        }
-    });
-
-    const ViewOpcoes = React.createClass({
-
-        handleSubmit : function () {
-
-        },
-
-        render: function () {
-            return (
-                <CardLetra>
-                    <BtnFavoritos dataMusica={this.props.dataMusica}/>
-                </CardLetra>
             )
         }
     });
@@ -766,14 +795,22 @@ $(function () {
     const ViewLetra = React.createClass({
 
         render: function () {
+
+            let card = '';
+
+            if (this.props.sourceMusicaLetra) {
+                card = (
+                    <CardLetra>
+                        <Font source={this.props.sourceAddLetra}/>
+                        <BlockLetra musica={this.props.dataMusica}
+                                    sourceMusicaLetra={this.props.sourceMusicaLetra}
+                                    sourceMusicaTom={this.props.sourceMusicaTom}/>
+                    </CardLetra>
+                )
+            }
+
             return (
-                <CardLetra>
-                    <Font source={this.props.sourceAddLetra}/>
-                    <br />
-                    <BlockLetra musica={this.props.dataMusica}
-                                sourceMusicaLetra={this.props.sourceMusicaLetra}
-                                sourceMusicaTom={this.props.sourceMusicaTom}/>
-                </CardLetra>
+                <div>{card}</div>
             )
         }
     });
@@ -794,28 +831,58 @@ $(function () {
 
         render: function () {
             return (
-                <div>
-                    <ViewOpcoes dataMusica={this.state.data}/>
-                    <ViewLetra dataMusica={this.state.data}
-                               sourceMusicaLetra={this.props.sourceMusicaLetra}
-                               sourceMusicaTom={this.props.sourceMusicaTom}
-                               sourceAddLetra={this.props.sourceAddLetra}/>
-                    <ViewArquivosMain sourceArquivos={this.props.sourceArquivos}
-                                  sourceEditar={this.props.sourceEditar}
-                                  sourceAddLetra={this.props.sourceAddLetra}
-                                  sourceVideos={this.props.sourceVideos}
-                                  musica={this.props.musicaId}
-                                  dirAnexos={this.props.dirAnexos}
-                                  user={this.props.user}/>
-                    <ViewCometarios source={this.props.source}
-                                    user={this.props.user}
-                                    userId={this.props.userId}
-                                    dirAvatar={this.props.dirAvatar}
-                                    musicaId={this.props.musicaId}/>
-                </div>
+                <Base>
+                    <ViewOpcoes
+                        dataMusica={this.state.data}
+                        sourceArquivos={this.props.sourceArquivos}
+                        sourceEditar={this.props.sourceEditar}
+                        sourceMusicaLetra={this.props.sourceMusicaLetra}
+                        sourceAddLetra={this.props.sourceAddLetra}
+                        sourceVideos={this.props.sourceVideos}
+                        musica={this.props.musicaId}
+                        dirAnexos={this.props.dirAnexos}
+                        user={this.props.user}/>
+                    <ViewLetra
+                        dataMusica={this.state.data}
+                        sourceMusicaLetra={this.props.sourceMusicaLetra}
+                        sourceMusicaTom={this.props.sourceMusicaTom}
+                        sourceAddLetra={this.props.sourceAddLetra}/>
+                    <ViewArquivosMain
+                        dataMusica={this.state.data}
+                        sourceArquivos={this.props.sourceArquivos}
+                        sourceEditar={this.props.sourceEditar}
+                        sourceMusicaLetra={this.props.sourceMusicaLetra}
+                        sourceAddLetra={this.props.sourceAddLetra}
+                        sourceVideos={this.props.sourceVideos}
+                        musica={this.props.musicaId}
+                        dirAnexos={this.props.dirAnexos}
+                        user={this.props.user}/>
+                    <ViewCometarios
+                        source={this.props.source}
+                        user={this.props.user}
+                        userId={this.props.userId}
+                        dirAvatar={this.props.dirAvatar}
+                        musicaId={this.props.musicaId}/>
+                </Base>
             )
         }
     });
+
+    class Base extends React.Component {
+        render() {
+            return (
+                <article>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                                {this.props.children}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            )
+        }
+    }
 
     const source = $("#comentarios").attr("data-source");
     const sourceArquivos = $("#comentarios").attr("data-source-arquivos");
@@ -835,7 +902,6 @@ $(function () {
     if (document.getElementById('comentarios')) {
 
         ReactDOM.render(
-            <div>
                 <Render sourceMusica={sourceMusica}
                         sourceAddLetra={sourceAddLetra}
                         sourceArquivos={sourceArquivos}
@@ -850,8 +916,7 @@ $(function () {
                         musicaId={musicaId}
                         sourceMusicaLetra={sourceMusicaLetra}
                         sourceMusicaTom={sourceMusicaTom}
-                />
-            </div>,
+                />,
             document.getElementById('comentarios')
         );
 
