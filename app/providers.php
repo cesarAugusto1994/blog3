@@ -9,10 +9,10 @@
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
     'db.options' => [
         'driver' => 'pdo_mysql',
-        'host' => 'mysql',
-        'dbname' => 'blog',
-        'user' => 'root',
-        'password' => '',
+        'host' => $app['database']['host'],
+        'dbname' => $app['database']['dbname'],
+        'user' => $app['database']['user'],
+        'password' => $app['database']['password'],
         'charset' => 'utf8mb4',
     ],
 ]);

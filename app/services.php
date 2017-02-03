@@ -116,16 +116,25 @@ $app['dir.base2'] = function () use ($app) {
 
     return '/web';
 };
-$app['database.blog'] = function () use ($app){
-   return [
-        'dbname' => 'blog',
-        'user' => 'root',
-        'password' => '',
-        'host' => 'localhost',
-        'port' => 3306,
+
+$app['database'] = function () use ($app){
+    if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
+        return [
+            'dbname' => 'blog',
+            'user' => 'root',
+            'password' => '',
+            'host' => 'localhost',
+            'port' => 3306,
+            'driver' => 'pdo_mysql',
+        ];
+    }
+    return [
+        'dbname' => 'blogcezzaar',
+        'user' => 'cezzaar94',
+        'password' => 'elpro1973',
+        'host' => 'mysql857.umbler.com:41890',
         'driver' => 'pdo_mysql',
     ];
-
 };
 
 $app['dir.img'] = function () use ($app){ return $app['dir.base'].'assets/blog/img/config/';};
