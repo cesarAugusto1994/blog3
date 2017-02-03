@@ -4,6 +4,8 @@
 
 $(function () {
 
+    const ROLE_ADMIN = "ROLE_ADMIN";
+
     class BtnAdd extends React.Component{
 
         render() {
@@ -72,7 +74,7 @@ $(function () {
 
             e.preventDefault();
 
-            var _this = this;
+            const _this = this;
 
             alertify.confirm("Deseja " + (this.state.ativo ? 'inativar' : 'ativar') + " esta musica?", function () {
 
@@ -97,7 +99,7 @@ $(function () {
 
         render : function () {
 
-            var btn = <BtnAtivar mudarStatus={this.handleMudarStatus} />;
+            let btn = <BtnAtivar mudarStatus={this.handleMudarStatus} />;
 
             if (this.props.musica.ativo) {
                 btn = <BtnInativar mudarStatus={this.handleMudarStatus} />;
@@ -114,19 +116,19 @@ $(function () {
 
         render : function () {
 
-            var btnEditar = "";
-            var btnMudarStatus = "";
-            var _this = this;
+            let btnEditar = "";
+            let btnMudarStatus = "";
+            const _this = this;
 
             return(
                 <div>
                     {
                         this.props.data.map(function (musica) {
 
-                            var linkAnexos = "/user/praise/"+ musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') +"/attachments";
-                            var editarMusica = "/user/musicas/" + musica.id + "/" + musica.nome + "/editar";
+                            let linkAnexos = "/user/praise/"+ musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') +"/attachments";
+                            let editarMusica = "/user/praises/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
-                            if ("ROLE_ADMIN" == _this.props.user) {
+                            if (ROLE_ADMIN == _this.props.user) {
                                 btnEditar = <BtnEditar link={editarMusica}/>;
                                 btnMudarStatus = <MudarStatusMusica musica={musica} reloadMusica={_this.props.reloadMusicas}/>;
                             }
@@ -178,9 +180,9 @@ $(function () {
 
         render : function () {
 
-            var addMusica = '';
+            let addMusica = '';
 
-            if ("ROLE_ADMIN" == this.props.user) {
+            if (ROLE_ADMIN == this.props.user) {
                 addMusica = <BtnAdd categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>
             }
 
@@ -196,7 +198,7 @@ $(function () {
 
     });
 
-    var Modal = React.createClass({
+    const Modal = React.createClass({
 
         componentDidMount: function() {
             $(this.getDOMNode)
@@ -243,7 +245,7 @@ $(function () {
         }
     });
 
-    var GerenciarModal = React.createClass({
+    const GerenciarModal = React.createClass({
 
         getInitialState: function () {
             return {data: [], albuns : []}

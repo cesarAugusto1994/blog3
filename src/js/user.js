@@ -216,7 +216,7 @@ $(function () {
                     <Card sectionName="Adicionadas Recentemente">
                         { this.state.data.map(function (musica) {
 
-                            linkToAnexos = "/user/musica/"+musica.id+"/anexos";
+                            linkToAnexos = "/user/praise/"+musica.id+"-"+musica.nome.toLowerCase().replace(/ /g, '_')+"/attachments";
 
                             return (
 

@@ -1191,7 +1191,7 @@
 	                    { sectionName: "Adicionadas Recentemente" },
 	                    this.state.data.map(function (musica) {
 
-	                        linkToAnexos = "/user/musica/" + musica.id + "/anexos";
+	                        linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
 
 	                        return React.createElement(
 	                            "div",
@@ -1902,7 +1902,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { href: this.props.source, className: 'button is-white is-small is-pulled-right' },
+	                { href: this.props.source, className: 'button is-light is-small is-pulled-right' },
 	                'Editar Letra'
 	            );
 	        }
@@ -1913,7 +1913,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { href: this.props.source, className: 'button is-light is-small' },
+	                { href: this.props.source, className: 'button is-primary is-small' },
 	                'Editar M\xFAsica'
 	            );
 	        }
@@ -1924,7 +1924,7 @@
 	        render() {
 	            return React.createElement(
 	                'button',
-	                { onClick: this.props.openModal, className: 'button is-white is-small' },
+	                { onClick: this.props.openModal, className: 'button is-danger is-small' },
 	                'Adicionar Arquivo'
 	            );
 	        }
@@ -1946,7 +1946,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { onClick: this.props.openModal, className: 'button is-white  is-small' },
+	                { onClick: this.props.openModal, className: 'button is-small' },
 	                'Adicionar Link'
 	            );
 	        }
@@ -2020,21 +2020,32 @@
 	        render() {
 	            return React.createElement(
 	                'div',
-	                { id: 'fontlinks' },
+	                { className: 'control is-grouped', id: 'fontlinks' },
 	                React.createElement(
-	                    'button',
-	                    { id: 'incfont', className: 'button is-light is-small buttonfont' },
-	                    'A+'
+	                    'p',
+	                    { className: 'control has-addon' },
+	                    React.createElement(
+	                        'button',
+	                        { id: 'incfont', className: 'button is-light is-small buttonfont' },
+	                        'A+'
+	                    )
 	                ),
 	                React.createElement(
-	                    'button',
-	                    { id: 'decfont', className: 'button is-light is-small buttonfont' },
-	                    'A-'
+	                    'p',
+	                    { className: 'control' },
+	                    React.createElement(
+	                        'button',
+	                        { id: 'decfont', className: 'button is-light is-small buttonfont' },
+	                        'A-'
+	                    )
 	                ),
-	                React.createElement(BtnEditar, { source: this.props.source })
+	                React.createElement(
+	                    'p',
+	                    { className: 'control' },
+	                    React.createElement(BtnEditar, { source: this.props.source })
+	                )
 	            );
 	        }
-
 	    }
 
 	    var RemoverArquivo = React.createClass({
@@ -2080,6 +2091,11 @@
 
 
 	        render: function () {
+
+	            if (!this.props.anexo.tipo) {
+	                alertify.error("Nenhum tipo foi cadastrado para o arquivo.");
+	                return false;
+	            }
 
 	            var image = React.createElement(
 	                'i',
@@ -2254,17 +2270,37 @@
 	            let letra = '';
 
 	            if (!this.props.dataMusica.letra) {
-	                letra = React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra });
+	                letra = React.createElement(
+	                    'p',
+	                    { className: 'control' },
+	                    React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra })
+	                );
 	            }
 
 	            if (this.props.user == ROLE_ADMIN) {
 	                menu = React.createElement(
 	                    'div',
-	                    null,
-	                    React.createElement(BtnFavoritos, { dataMusica: this.props.dataMusica }),
-	                    React.createElement(BtnEditarMusica, { source: this.props.sourceEditar }),
-	                    React.createElement(BtnAddLink, { openModal: this.openModalAddLink }),
-	                    React.createElement(BtnAdicionarArquivo, { openModal: this.openModal }),
+	                    { className: 'control is-grouped' },
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(BtnFavoritos, { dataMusica: this.props.dataMusica })
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(BtnEditarMusica, { source: this.props.sourceEditar })
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(BtnAddLink, { openModal: this.openModalAddLink })
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(BtnAdicionarArquivo, { openModal: this.openModal })
+	                    ),
 	                    letra
 	                );
 	            }
@@ -2829,7 +2865,7 @@
 
 	                $.ajax({
 	                    type: 'POST',
-	                    url: '/user/categoria/' + categoria.categoria.id + '/status',
+	                    url: '/api/category/' + categoria.categoria.id + '-' + categoria.categoria.nome + '/change-status',
 	                    cache: false,
 	                    success: function (data) {
 	                        alertify.success(data.message);
@@ -3128,7 +3164,7 @@
 
 	            return React.createElement(
 	                'div',
-	                { className: 'col-sm-4 col-xs-6' },
+	                { className: 'col-sm-4 col-xs-12' },
 	                React.createElement(Figure, { colecao: this.props.colecao, dirImg: this.props.dirImg, categoriasUrl: this.props.categoriasUrl,
 	                    defaultImage: this.props.defaultImage, reloadColecao: this.props.reloadColecao, user: this.props.user })
 	            );
@@ -3259,6 +3295,8 @@
 
 	$(function () {
 
+	    const ROLE_ADMIN = "ROLE_ADMIN";
+
 	    class BtnAdd extends React.Component {
 
 	        render() {
@@ -3339,7 +3377,7 @@
 
 	            e.preventDefault();
 
-	            var _this = this;
+	            const _this = this;
 
 	            alertify.confirm("Deseja " + (this.state.ativo ? 'inativar' : 'ativar') + " esta musica?", function () {
 
@@ -3362,7 +3400,7 @@
 
 	        render: function () {
 
-	            var btn = React.createElement(BtnAtivar, { mudarStatus: this.handleMudarStatus });
+	            let btn = React.createElement(BtnAtivar, { mudarStatus: this.handleMudarStatus });
 
 	            if (this.props.musica.ativo) {
 	                btn = React.createElement(BtnInativar, { mudarStatus: this.handleMudarStatus });
@@ -3383,19 +3421,19 @@
 
 	        render: function () {
 
-	            var btnEditar = "";
-	            var btnMudarStatus = "";
-	            var _this = this;
+	            let btnEditar = "";
+	            let btnMudarStatus = "";
+	            const _this = this;
 
 	            return React.createElement(
 	                "div",
 	                null,
 	                this.props.data.map(function (musica) {
 
-	                    var linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
-	                    var editarMusica = "/user/musicas/" + musica.id + "/" + musica.nome + "/editar";
+	                    let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
+	                    let editarMusica = "/user/praises/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
-	                    if ("ROLE_ADMIN" == _this.props.user) {
+	                    if (ROLE_ADMIN == _this.props.user) {
 	                        btnEditar = React.createElement(BtnEditar, { link: editarMusica });
 	                        btnMudarStatus = React.createElement(MudarStatusMusica, { musica: musica, reloadMusica: _this.props.reloadMusicas });
 	                    }
@@ -3455,9 +3493,9 @@
 
 	        render: function () {
 
-	            var addMusica = '';
+	            let addMusica = '';
 
-	            if ("ROLE_ADMIN" == this.props.user) {
+	            if (ROLE_ADMIN == this.props.user) {
 	                addMusica = React.createElement(BtnAdd, { categoria: this.props.categoria, categoriaNome: this.props.categoriaNome });
 	            }
 
@@ -3473,7 +3511,7 @@
 
 	    });
 
-	    var Modal = React.createClass({
+	    const Modal = React.createClass({
 	        displayName: "Modal",
 
 
@@ -3550,7 +3588,7 @@
 	        }
 	    });
 
-	    var GerenciarModal = React.createClass({
+	    const GerenciarModal = React.createClass({
 	        displayName: "GerenciarModal",
 
 
@@ -3919,12 +3957,6 @@
 	        }.bind(this));
 	    },
 
-	    loadBeforeSubmit: function () {
-	        $.get('/api/categoria/' + this.refs.categoria.value, function (result) {
-	            this.setState({ categoria: result });
-	        }.bind(this));
-	    },
-
 	    componentDidMount: function () {
 	        this.load();
 	    },
@@ -3932,8 +3964,6 @@
 	    handleSubmit: function (e) {
 
 	        e.preventDefault();
-
-	        this.loadBeforeSubmit();
 
 	        let nome = this.refs.nome.value.trim();
 	        let numero = this.refs.numero.value.trim();
@@ -3944,7 +3974,9 @@
 	            alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
 	        }
 
-	        const _this = this;
+	        let categoriaID = this.refs.categoria.value;
+	        let categoriaNome = "category";
+	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome + '/praises';
 
 	        $.ajax({
 	            type: "POST",
@@ -3959,7 +3991,7 @@
 	            success: function (data) {
 	                alertify.success(data.message);
 	                if (data.classe == 'sucess') {
-	                    window.location.href = '/user/category/' + _this.state.categoria.id + '-' + _this.state.categoria.nome + '/praises';
+	                    window.location.href = PRAISES;
 	                }
 	                unblock_screen();
 	            },

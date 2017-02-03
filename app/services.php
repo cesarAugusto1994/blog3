@@ -101,12 +101,18 @@ $app['background'] = function () use ($app) {
 $app['tonalidades'] = function () { return ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B',];};
 $app['adress'] = function () {
     return [
+        '172.23.0.1',
         '127.0.0.1',
         '::1'
     ];
 };
 $app['dir.base'] = function () use ($app) {
+
+    if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
         return '/';
+    }
+
+    return '/web/';
 };
 $app['dir.base2'] = function () use ($app) {
 

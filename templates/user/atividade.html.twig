@@ -40,7 +40,7 @@
                         {% for musica in musicas %}
                             <div class="media">
                                 <div class="media-body">
-                                    <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.numero }} - {{ musica.nome }}</a></h4>
+                                    <h4 class="media-heading"><a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome }) }}">{{ musica.numero }} - {{ musica.nome }}</a></h4>
                                     <a class="button is-light is-small is-pulled-right">{{ musica.cadastro|date('j, F, y H:i:s') }}</a>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                             <div class="media">
                                 <div class="media-body">
                                     <h4 class="media-heading">{{ anexo.nome }}</h4>
-                                    <a href="{{ path('musica_anexos', { musicaId : anexo.musica.id }) }}">
+                                    <a href="{{ path('musica_anexos', { id : anexo.musica.id, name : anexo.musica.nome }) }}">
                                         <button class="button is-small is-light">
                                             Ir para musica
                                         </button>

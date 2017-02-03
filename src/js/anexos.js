@@ -459,7 +459,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.source} className="button is-white is-small is-pulled-right">Editar Letra</a>
+                <a href={this.props.source} className="button is-light is-small is-pulled-right">Editar Letra</a>
             );
         }
     }
@@ -468,7 +468,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.source} className="button is-light is-small">Editar Música</a>
+                <a href={this.props.source} className="button is-primary is-small">Editar Música</a>
             );
         }
     }
@@ -477,7 +477,7 @@ $(function () {
 
         render() {
             return (
-                <button onClick={this.props.openModal} className="button is-white is-small">
+                <button onClick={this.props.openModal} className="button is-danger is-small">
                 Adicionar Arquivo</button>
             );
         }
@@ -496,7 +496,7 @@ $(function () {
 
         render() {
             return (
-                <a onClick={this.props.openModal} className="button is-white  is-small">Adicionar Link</a>
+                <a onClick={this.props.openModal} className="button is-small">Adicionar Link</a>
             );
         }
     }
@@ -554,18 +554,23 @@ $(function () {
 
         render() {
             return (
-                <div id="fontlinks">
+            <div className="control is-grouped" id="fontlinks">
+                <p className="control has-addon">
                     <button id="incfont" className="button is-light is-small buttonfont">
                         A+
                     </button>
+                </p>
+                <p className="control">
                     <button id="decfont" className="button is-light is-small buttonfont">
                         A-
                     </button>
+                </p>
+                <p className="control">
                     <BtnEditar source={this.props.source}/>
-                </div>
+                </p>
+            </div>
             )
         }
-
     }
 
     var RemoverArquivo = React.createClass({
@@ -610,6 +615,11 @@ $(function () {
     var ImagemArquivo = React.createClass({
 
         render: function () {
+
+            if (!this.props.anexo.tipo) {
+                alertify.error("Nenhum tipo foi cadastrado para o arquivo.");
+                return false;
+            }
 
             var image = <i className="fa fa-music">&nbsp;</i>;
 
@@ -752,17 +762,27 @@ $(function () {
 
             if (!this.props.dataMusica.letra) {
                 letra = (
-                    <BtnAddLetra source={this.props.sourceAddLetra}/>
+                    <p className="control">
+                        <BtnAddLetra source={this.props.sourceAddLetra}/>
+                    </p>
                 )
             }
 
             if (this.props.user == ROLE_ADMIN) {
                 menu = (
-                    <div>
-                        <BtnFavoritos dataMusica={this.props.dataMusica}/>
-                        <BtnEditarMusica source={this.props.sourceEditar}/>
-                        <BtnAddLink openModal={this.openModalAddLink}/>
-                        <BtnAdicionarArquivo openModal={this.openModal}/>
+                    <div className="control is-grouped">
+                        <p className="control">
+                            <BtnFavoritos dataMusica={this.props.dataMusica}/>
+                        </p>
+                        <p className="control">
+                            <BtnEditarMusica source={this.props.sourceEditar}/>
+                        </p>
+                        <p className="control">
+                            <BtnAddLink openModal={this.openModalAddLink}/>
+                        </p>
+                        <p className="control">
+                            <BtnAdicionarArquivo openModal={this.openModal}/>
+                        </p>
                         {letra}
                     </div>
                 )

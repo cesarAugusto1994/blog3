@@ -38,4 +38,18 @@ $categorias->get('category/{id}-{nome}/praises', function($id, $nome) use ($app)
 
 })->bind('api_praises_form_category');
 
+$categorias->post('category/{id}-{nome}/change-status', function($id, $nome) use ($app) {
+
+    try {
+        return $app['categoria.controller']->alteraStatus($id, $app);
+    } catch (Exception $e) {
+        return $app->json(
+            [
+                'class' => 'error',
+                'message' => $e->getMessage()
+            ]
+        );
+    }
+})->bind('change_category_status');
+
 return $categorias;

@@ -38,12 +38,6 @@ const Render = React.createClass({
         }.bind(this));
     },
 
-    loadBeforeSubmit : function () {
-        $.get('/api/categoria/' + this.refs.categoria.value, function (result) {
-            this.setState({categoria: result});
-        }.bind(this));
-    },
-
     componentDidMount: function () {
         this.load();
     },
@@ -51,8 +45,6 @@ const Render = React.createClass({
     handleSubmit: function (e) {
 
         e.preventDefault();
-
-        this.loadBeforeSubmit();
 
         let nome = this.refs.nome.value.trim();
         let numero = this.refs.numero.value.trim();
@@ -63,7 +55,9 @@ const Render = React.createClass({
             alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
         }
 
-        const _this = this;
+        let categoriaID = this.refs.categoria.value;
+        let categoriaNome = "category";
+        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome + '/praises';
 
         $.ajax({
             type: "POST",
@@ -78,7 +72,7 @@ const Render = React.createClass({
             success: function (data) {
                 alertify.success(data.message);
                 if (data.classe == 'sucess') {
-                    window.location.href = '/user/category/' + _this.state.categoria.id + '-' + _this.state.categoria.nome + '/praises';
+                    window.location.href = PRAISES;
                 }
                 unblock_screen();
             },

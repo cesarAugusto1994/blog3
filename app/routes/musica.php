@@ -68,7 +68,7 @@ $musica->get('musicas/adicionar/{categoria}/1', function($categoria) use ($app){
 
 })->bind('view_adicionar_musica');
 
-$musica->get('musicas/{id}/{nome}/editar', function($id, $nome) use ($app){
+$musica->get('praises/{id}-{nome}/edit', function($id, $nome) use ($app){
 
     $musica = $app['musica.repository']->find($id);
     $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
@@ -128,7 +128,7 @@ $app->post('musica/{id}/letra/editar', function($id, \Symfony\Component\HttpFoun
     $app['musica.repository']->save($musica);
     $app['db']->commit();
     
-    return $app->redirect('/user/musica/'.$musica->getId().'/anexos');
+    return $app->redirect('/user/praise/'.$musica->getId().'-'.$musica->getId().'/attachments');
     
 })->bind('api_musica_letra_editar');
 
@@ -166,10 +166,7 @@ $musica->post('musica/editar', function(\Symfony\Component\HttpFoundation\Reques
     $app['musica.repository']->save($musica);
     $app['db']->commit();
 
-    return $app->json([
-        "classe" => "success",
-        "data" => "Musica editada com sucesso",
-    ]);
+    return $app->redirect('/user/praise/'.$musica->getId().'-'.$musica->getId().'/attachments');
 
 })->bind('save_musica');
 

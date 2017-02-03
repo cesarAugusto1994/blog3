@@ -289,7 +289,7 @@ $(function () {
 
                 $.ajax({
                     type: 'POST',
-                    url: '/user/categoria/' + categoria.categoria.id + '/status',
+                    url: '/api/category/' + categoria.categoria.id + '-' + categoria.categoria.nome + '/change-status',
                     cache: false,
                     success: function (data) {
                         alertify.success(data.message);
