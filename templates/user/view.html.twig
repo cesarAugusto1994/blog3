@@ -1,0 +1,13 @@
+{% extends 'base-new.html.twig' %}
+
+{% block stylesheet %}
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <div id="view" data-praise="{{ path('api_praise', { id : musica.id, nome : musica.nome}) }}"></div>
+
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
+
+{% endblock %}

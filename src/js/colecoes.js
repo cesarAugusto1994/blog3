@@ -172,7 +172,7 @@ $(function () {
         render: function () {
 
             var _this = this;
-            
+
             return (
                 <span>{ this.state.data.map(function (colecao) {
                     var categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";

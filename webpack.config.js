@@ -6,6 +6,7 @@ module.exports = {
         "./src/js/template",
         "./src/js/user",
         "./src/js/anexos",
+        "./src/js/view",
         "./src/js/categorias",
         "./src/js/colecoes",
         "./src/js/musicas",

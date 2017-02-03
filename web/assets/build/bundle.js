@@ -53,7 +53,8 @@
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9);
-	module.exports = __webpack_require__(10);
+	__webpack_require__(10);
+	module.exports = __webpack_require__(11);
 
 
 /***/ },
@@ -1908,6 +1909,17 @@
 	        }
 	    }
 
+	    class BtnView extends React.Component {
+
+	        render() {
+	            return React.createElement(
+	                'a',
+	                { href: this.props.sourceView, className: 'button is-light is-small is-pulled-right' },
+	                'Tela Cheia'
+	            );
+	        }
+	    }
+
 	    class BtnEditarMusica extends React.Component {
 
 	        render() {
@@ -2038,6 +2050,11 @@
 	                        { id: 'decfont', className: 'button is-light is-small buttonfont' },
 	                        'A-'
 	                    )
+	                ),
+	                React.createElement(
+	                    'p',
+	                    { className: 'control' },
+	                    React.createElement(BtnView, { sourceView: this.props.sourceView })
 	                ),
 	                React.createElement(
 	                    'p',
@@ -2343,8 +2360,11 @@
 	                card = React.createElement(
 	                    CardLetra,
 	                    null,
-	                    React.createElement(Font, { source: this.props.sourceAddLetra }),
-	                    React.createElement(BlockLetra, { musica: this.props.dataMusica,
+	                    React.createElement(Font, {
+	                        source: this.props.sourceAddLetra,
+	                        sourceView: this.props.sourceView }),
+	                    React.createElement(BlockLetra, {
+	                        musica: this.props.dataMusica,
 	                        sourceMusicaLetra: this.props.sourceMusicaLetra,
 	                        sourceMusicaTom: this.props.sourceMusicaTom })
 	                );
@@ -2390,6 +2410,7 @@
 	                    user: this.props.user }),
 	                React.createElement(ViewLetra, {
 	                    dataMusica: this.state.data,
+	                    sourceView: this.props.sourceView,
 	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
 	                    sourceMusicaTom: this.props.sourceMusicaTom,
 	                    sourceAddLetra: this.props.sourceAddLetra }),
@@ -2436,6 +2457,7 @@
 	    }
 
 	    const source = $("#comentarios").attr("data-source");
+	    const sourceView = $("#comentarios").data("source-view");
 	    const sourceArquivos = $("#comentarios").attr("data-source-arquivos");
 	    const sourceVideos = $("#comentarios").attr("data-source-videos");
 	    const sourceEditar = $("#comentarios").attr("data-source-editar");
@@ -2454,6 +2476,7 @@
 
 	        ReactDOM.render(React.createElement(Render, { sourceMusica: sourceMusica,
 	            sourceAddLetra: sourceAddLetra,
+	            sourceView: sourceView,
 	            sourceArquivos: sourceArquivos,
 	            sourceEditar: sourceEditar,
 	            sourceVideos: sourceVideos,
@@ -2495,6 +2518,163 @@
 
 /***/ },
 /* 6 */
+/***/ function(module, exports) {
+
+	
+	const styleCard = { width: '100%', minWidth: '150px' };
+	const styleCardLetra = { backgroundColor: 'transparent', border: 'none' };
+
+	const VIEW = React.createClass({
+	    displayName: 'VIEW',
+
+
+	    getInitialState: function () {
+	        return {
+	            data: []
+	        };
+	    },
+
+	    load: function () {
+
+	        $.get(this.props.source, function (result) {
+	            this.setState({ data: result });
+	        }.bind(this));
+	    },
+
+	    componentDidMount: function () {
+	        this.load();
+	    },
+
+	    render: function () {
+	        return React.createElement(
+	            Base,
+	            null,
+	            React.createElement(
+	                Card,
+	                null,
+	                React.createElement(
+	                    'h2',
+	                    null,
+	                    this.state.data.nome
+	                ),
+	                React.createElement(FontControl, null),
+	                React.createElement(
+	                    'pre',
+	                    { id: 'content', style: styleCardLetra,
+	                        'data-key': this.state.data.tom },
+	                    this.state.data.letra
+	                )
+	            )
+	        );
+	    }
+
+	});
+
+	class FontControl extends React.Component {
+
+	    render() {
+	        return React.createElement(
+	            'div',
+	            { className: 'control is-grouped', id: 'fontlinks' },
+	            React.createElement(
+	                'p',
+	                { className: 'control has-addon' },
+	                React.createElement(
+	                    'button',
+	                    { id: 'incfont', className: 'button is-light is-small buttonfont' },
+	                    'A+'
+	                )
+	            ),
+	            React.createElement(
+	                'p',
+	                { className: 'control' },
+	                React.createElement(
+	                    'button',
+	                    { id: 'decfont', className: 'button is-light is-small buttonfont' },
+	                    'A-'
+	                )
+	            )
+	        );
+	    }
+	}
+
+	class Card extends React.Component {
+
+	    render() {
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'div',
+	                { className: 'card wow fadeInUp animated slide', 'data-wow-delay': '.3s', style: styleCard },
+	                React.createElement(
+	                    'div',
+	                    { className: 'card-content' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'media' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'media-content' },
+	                            this.props.children
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement('br', null)
+	        );
+	    }
+	}
+	;
+
+	class Base extends React.Component {
+	    render() {
+	        return React.createElement(
+	            'article',
+	            null,
+	            React.createElement(
+	                'div',
+	                { className: 'container' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1' },
+	                        this.props.children
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}
+
+	if (document.getElementById("view")) {
+
+	    const MUSICA_SOURCE = $("#view").data("praise");
+
+	    ReactDOM.render(React.createElement(VIEW, { source: MUSICA_SOURCE }), document.getElementById("view"));
+
+	    $("#content").transpose({ key: 'C' });
+	    $('.c').css('font-size', 8);
+	    $('#content').css('font-size', 8);
+
+	    $('#incfont').click(function () {
+	        curSize = parseInt($('#content').css('font-size')) + 2;
+	        curSize2 = parseInt($('.c').css('font-size')) + 2;
+	        if (curSize <= 32) $('#content').css('font-size', curSize);
+	        if (curSize2 <= 32) $('.c').css('font-size', curSize2);
+	    });
+	    $('#decfont').click(function () {
+	        curSize = parseInt($('#content').css('font-size')) - 2;
+	        curSize2 = parseInt($('.c').css('font-size')) - 2;
+	        if (curSize >= 5) $('#content').css('font-size', curSize);
+	        if (curSize2 >= 5) $('.c').css('font-size', curSize2);
+	    });
+	}
+
+/***/ },
+/* 7 */
 /***/ function(module, exports) {
 
 	/**
@@ -3053,7 +3233,7 @@
 	});
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -3286,7 +3466,7 @@
 	});
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -3756,7 +3936,7 @@
 	});
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -3907,7 +4087,7 @@
 	}
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**

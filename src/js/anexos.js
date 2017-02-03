@@ -464,6 +464,15 @@ $(function () {
         }
     }
 
+    class BtnView extends React.Component {
+
+        render() {
+            return (
+                <a href={this.props.sourceView} className="button is-light is-small is-pulled-right">Tela Cheia</a>
+            );
+        }
+    }
+
     class BtnEditarMusica extends React.Component {
 
         render() {
@@ -564,6 +573,9 @@ $(function () {
                     <button id="decfont" className="button is-light is-small buttonfont">
                         A-
                     </button>
+                </p>
+                <p className="control">
+                    <BtnView sourceView={this.props.sourceView}/>
                 </p>
                 <p className="control">
                     <BtnEditar source={this.props.source}/>
@@ -821,10 +833,13 @@ $(function () {
             if (this.props.sourceMusicaLetra) {
                 card = (
                     <CardLetra>
-                        <Font source={this.props.sourceAddLetra}/>
-                        <BlockLetra musica={this.props.dataMusica}
-                                    sourceMusicaLetra={this.props.sourceMusicaLetra}
-                                    sourceMusicaTom={this.props.sourceMusicaTom}/>
+                        <Font
+                            source={this.props.sourceAddLetra}
+                            sourceView={this.props.sourceView}/>
+                        <BlockLetra
+                            musica={this.props.dataMusica}
+                            sourceMusicaLetra={this.props.sourceMusicaLetra}
+                            sourceMusicaTom={this.props.sourceMusicaTom}/>
                     </CardLetra>
                 )
             }
@@ -864,6 +879,7 @@ $(function () {
                         user={this.props.user}/>
                     <ViewLetra
                         dataMusica={this.state.data}
+                        sourceView={this.props.sourceView}
                         sourceMusicaLetra={this.props.sourceMusicaLetra}
                         sourceMusicaTom={this.props.sourceMusicaTom}
                         sourceAddLetra={this.props.sourceAddLetra}/>
@@ -905,6 +921,7 @@ $(function () {
     }
 
     const source = $("#comentarios").attr("data-source");
+    const sourceView = $("#comentarios").data("source-view");
     const sourceArquivos = $("#comentarios").attr("data-source-arquivos");
     const sourceVideos = $("#comentarios").attr("data-source-videos");
     const sourceEditar = $("#comentarios").attr("data-source-editar");
@@ -924,6 +941,7 @@ $(function () {
         ReactDOM.render(
                 <Render sourceMusica={sourceMusica}
                         sourceAddLetra={sourceAddLetra}
+                        sourceView={sourceView}
                         sourceArquivos={sourceArquivos}
                         sourceEditar={sourceEditar}
                         sourceVideos={sourceVideos}
