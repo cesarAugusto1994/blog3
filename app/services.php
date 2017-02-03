@@ -118,16 +118,6 @@ $app['dir.base2'] = function () use ($app) {
 };
 
 $app['database'] = function () use ($app){
-    if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
-        return [
-            'dbname' => 'blog',
-            'user' => 'root',
-            'password' => '',
-            'host' => 'localhost',
-            'port' => 3306,
-            'driver' => 'pdo_mysql',
-        ];
-    }
     return [
         'dbname' => 'blogcezzaar',
         'user' => 'cezzaar94',
