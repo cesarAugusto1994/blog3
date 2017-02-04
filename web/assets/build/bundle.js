@@ -132,10 +132,6 @@
 
 	    handleSubmit: function (e) {
 
-	        //e.preventDefault();
-
-	        console.log(this.props.error);
-
 	        var email = this.refs._username.value;
 	        var password = this.refs._password.value;
 
@@ -159,32 +155,6 @@
 	        $("#btnSubmit").addClass("is-loading");
 
 	        return true;
-	        /*
-	                block_screen();
-	        
-	                $.ajax({
-	                    type: 'POST',
-	                    url : "/admin/login_check",
-	                    data : {
-	                        _username : email,
-	                        _password : password
-	                    },
-	                    cache: false,
-	                    success: function (data) {
-	                        console.log(data);
-	                        //window.location.href = '/user/';
-	                        return false;
-	                    },
-	                    error: function (data) {
-	                        console.log(data)
-	                        unblock_screen();
-	                        $("#btnSubmit").removeClass("is-loading");
-	                        alertify.error("opss, algo deu errado...");
-	                        return false;
-	                    }
-	                });
-	        
-	                */
 	    },
 
 	    render: function () {
@@ -237,20 +207,6 @@
 	                        "button",
 	                        { type: "submit", className: "button is-success is-outlined is-fullwidth" },
 	                        "Entrar"
-	                    )
-	                )
-	            ),
-	            React.createElement(
-	                "div",
-	                { className: "row" },
-	                React.createElement(
-	                    "div",
-	                    { className: "col-xs-12" },
-	                    React.createElement("br", null),
-	                    React.createElement(
-	                        "a",
-	                        { href: "/", id: "btnSubmit", className: "button is-link is-white is-fullwidth" },
-	                        "P\xE1gina Inicial."
 	                    )
 	                )
 	            )
@@ -1121,7 +1077,7 @@
 
 	                        return React.createElement(
 	                            "div",
-	                            { key: colecao.id, className: "col-sm-4 col-xs-6" },
+	                            { key: colecao.id, className: "col-sm-4 col-xs-12" },
 	                            React.createElement(
 	                                "figure",
 	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "500ms", "data-wow-delay": "0ms" },
@@ -1998,6 +1954,11 @@
 	                        'div',
 	                        { className: 'card-content' },
 	                        React.createElement(
+	                            'p',
+	                            { className: 'title is-5' },
+	                            this.props.label
+	                        ),
+	                        React.createElement(
 	                            'div',
 	                            { className: 'media' },
 	                            React.createElement(
@@ -2235,7 +2196,7 @@
 	            if (this.state.data.length > 0) {
 	                card = React.createElement(
 	                    CardLetra,
-	                    null,
+	                    { label: 'Arquivos' },
 	                    React.createElement(ListArquivos, { reloadArquivos: this.load, anexos: this.state.data,
 	                        sourceArquivos: this.props.sourceArquivos,
 	                        sourceVideos: this.props.sourceVideos,
@@ -2329,7 +2290,7 @@
 	                    null,
 	                    React.createElement(
 	                        CardLetra,
-	                        null,
+	                        { label: 'Menu' },
 	                        menu
 	                    ),
 	                    React.createElement(UploadArquivo, { reloadArquivos: this.load, openModal: this.openModal,
@@ -2359,7 +2320,7 @@
 	            if (this.props.sourceMusicaLetra) {
 	                card = React.createElement(
 	                    CardLetra,
-	                    null,
+	                    { label: 'Letra' },
 	                    React.createElement(Font, {
 	                        source: this.props.sourceAddLetra,
 	                        sourceView: this.props.sourceView }),
@@ -2835,9 +2796,11 @@
 	                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
 	            }
 
+	            const _this = this;
+
 	            $.ajax({
 	                type: "POST",
-	                url: "/user/categoria/" + id + "/editar",
+	                url: "/user/category/" + id + "-" + nome + "/edit",
 	                data: {
 	                    id: id,
 	                    nome: nome,
@@ -2846,6 +2809,8 @@
 	                cache: false,
 	                success: function (data) {
 	                    alertify.success(data.message);
+	                    _this.props.reloadCategoria();
+	                    _this.props.closeModal();
 	                    unblock_screen();
 	                },
 	                error: function () {
@@ -2879,94 +2844,6 @@
 	                    this.props.colecoes.map(function (colecao) {
 	                        return React.createElement(
 	                            'option',
-	                            { key: colecao.id, defaultValue: colecao.id },
-	                            colecao.nome
-	                        );
-	                    })
-	                )
-	            );
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                modal
-	            );
-	        }
-	    });
-
-	    const NovaCategoriaModal = React.createClass({
-	        displayName: 'NovaCategoriaModal',
-
-
-	        getInitialState: function () {
-	            return { data: [] };
-	        },
-	        load: function () {
-	            $.get('/user/colecoes/all', function (result) {
-	                this.setState({ data: result });
-	            }.bind(this));
-	        },
-	        componentDidMount: function () {
-	            this.load();
-	        },
-
-	        handleSubmit: function (e) {
-
-	            e.preventDefault();
-
-	            var nome = this.refs.nome.value.trim();
-	            var colecao = this.refs.colecao.value.trim();
-
-	            if (!nome || !colecao) {
-	                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
-	            }
-
-	            var _this = this;
-
-	            $.ajax({
-	                type: "POST",
-	                url: "/user/categoria/adicionar",
-	                data: {
-	                    nome: nome,
-	                    colecao: colecao
-	                },
-	                cache: false,
-	                success: function (data) {
-	                    alertify.success(data.message);
-	                    unblock_screen();
-	                    _this.props.closeModal();
-	                    _this.props.reloadCategoria();
-	                },
-	                error: function () {
-	                    unblock_screen();
-	                    alertify.error("Ocorreu um erro.");
-	                }
-	            });
-	        },
-
-	        render: function () {
-
-	            var modal = null;
-	            modal = React.createElement(
-	                Modal,
-	                { title: 'Nova Categoria', handleSubmit: this.handleSubmit },
-	                React.createElement(
-	                    'label',
-	                    { htmlFor: 'nome' },
-	                    'Nome'
-	                ),
-	                React.createElement('input', { className: 'input is-primary', type: 'text', placeholder: 'Nome', ref: 'nome', name: 'nome', id: 'nome', required: true }),
-	                React.createElement(
-	                    'label',
-	                    { htmlFor: 'colecao' },
-	                    'Cole\xE7\xE3o'
-	                ),
-	                React.createElement(
-	                    'select',
-	                    { className: 'input is-primary', ref: 'colecao', name: 'colecao', id: 'colecao' },
-	                    this.state.data.map(function (colecao) {
-	                        return React.createElement(
-	                            'option',
 	                            { key: colecao.id, value: colecao.id },
 	                            colecao.nome
 	                        );
@@ -2988,8 +2865,8 @@
 
 	        render: function () {
 
-	            var mudarStatus = '';
-	            var editar = '';
+	            let mudarStatus = '';
+	            let editar = '';
 
 	            if (this.props.user == ROLE_ADMIN) {
 	                mudarStatus = React.createElement(MudarStatusCategoria, { categoria: this.props.categoria, reloadCategoria: this.props.reloadCategoria });
@@ -3008,7 +2885,13 @@
 	                        React.createElement(
 	                            'a',
 	                            { href: this.props.musicasUrl },
-	                            this.props.categoria.nome
+	                            this.props.categoria.nome,
+	                            ' ',
+	                            React.createElement(
+	                                'span',
+	                                { className: 'tag is-light' },
+	                                this.props.categoria.qtde_musicas
+	                            )
 	                        ),
 	                        editar,
 	                        mudarStatus
@@ -3101,11 +2984,12 @@
 	            $("#ModalCategorias").modal("hide");
 	            $('.modal-body #id').val('');
 	            $('.modal-body #nome').val('');
+	            $('.modal-body #colecao').val('');
 	        },
 
 	        render: function () {
 
-	            var _this = this;
+	            const _this = this;
 
 	            return React.createElement(
 	                'div',
@@ -3118,15 +3002,17 @@
 	                        return React.createElement(
 	                            'div',
 	                            { key: categoria.id },
-	                            React.createElement(EditarCategoriaModal, {
-	                                colecoes: _this.state.data,
-	                                categoria: categoria }),
 	                            React.createElement(BlockCategorias, {
 	                                categoria: categoria,
 	                                musicasUrl: musicasUrl,
 	                                user: _this.props.user,
 	                                reloadCategoria: _this.props.reloadCategoria,
-	                                acao: _this.openModal })
+	                                acao: _this.openModal }),
+	                            React.createElement(EditarCategoriaModal, {
+	                                closeModal: _this.closeModal,
+	                                reloadCategoria: _this.props.reloadCategoria,
+	                                colecoes: _this.state.data,
+	                                categoria: categoria })
 	                        );
 	                    })
 	                )
@@ -3248,12 +3134,16 @@
 	        margin: 'auto'
 	    };
 
+	    const styleFloat = {
+	        float: "right"
+	    };
+
 	    class BtnEditar extends React.Component {
 
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-light is-pulled-right is-small openMenu',
+	                { className: 'button is-light is-small is-fullwidth openMenu',
 	                    'data-toggle': 'modal',
 	                    'data-target': '#myModal',
 	                    'data-id': this.props.colecao.id,
@@ -3270,7 +3160,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-danger is-outlined is-pulled-right is-small mudarStatus', onClick: this.props.acao, 'data-colecao': this.props.colecao.id },
+	                { className: 'button is-danger is-outlined is-fullwidth is-small mudarStatus', onClick: this.props.acao, 'data-colecao': this.props.colecao.id },
 	                'Inativar'
 	            );
 	        }
@@ -3282,7 +3172,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-success is-outlined is-pulled-right is-small mudarStatus', onClick: this.props.acao, 'data-colecao': this.props.colecao.id },
+	                { className: 'button is-success is-outlined is-fullwidth is-small mudarStatus', onClick: this.props.acao, 'data-colecao': this.props.colecao.id },
 	                'Ativar'
 	            );
 	        }
@@ -3305,10 +3195,37 @@
 
 	            var mudarStatus = '';
 	            var editar = '';
+	            let menu = '';
 
 	            if (this.props.user == 'ROLE_ADMIN') {
+
 	                mudarStatus = React.createElement(MudarStatusColecao, { colecao: this.props.colecao, reloadColecao: this.props.reloadColecao });
 	                editar = React.createElement(BtnEditar, { colecao: this.props.colecao });
+
+	                menu = React.createElement(
+	                    'div',
+	                    { className: 'btn-group', style: styleFloat },
+	                    React.createElement(
+	                        'button',
+	                        { type: 'button', className: 'button is-light is-small is-pulled-left dropdown-toggle ', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
+	                        React.createElement('span', { className: 'caret' })
+	                    ),
+	                    React.createElement(
+	                        'ul',
+	                        { className: 'dropdown-menu' },
+	                        React.createElement(
+	                            'li',
+	                            null,
+	                            editar
+	                        ),
+	                        React.createElement('li', { role: 'separator', className: 'divider' }),
+	                        React.createElement(
+	                            'li',
+	                            null,
+	                            mudarStatus
+	                        )
+	                    )
+	                );
 	            }
 
 	            return React.createElement(
@@ -3328,10 +3245,14 @@
 	                        React.createElement(
 	                            'a',
 	                            { href: this.props.categoriasUrl },
-	                            this.props.colecao.nome
+	                            this.props.colecao.nome,
+	                            React.createElement(
+	                                'span',
+	                                { className: 'tag is-light' },
+	                                this.props.colecao.qtde_categorias
+	                            )
 	                        ),
-	                        editar,
-	                        mudarStatus
+	                        menu
 	                    )
 	                )
 	            );

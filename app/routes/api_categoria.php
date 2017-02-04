@@ -7,6 +7,7 @@
  */
 
 use Api\Entities\Categoria;
+use Api\Entities\Usuarios;
 use Symfony\Component\HttpFoundation\Request;
 
 $categorias = $app['controllers_factory'];
@@ -25,12 +26,11 @@ $categorias->get('category/{id}-{nome}/praises', function($id, $nome) use ($app)
     $categoria = $app['categoria.repository']->find($id);
 
     $paremetros = [
-        'categoria' => $categoria,
-        'ativo' => true
+        'categoria' => $categoria
     ];
 
-    if ("ROLE_ADMIN" == $app["usuario"]->getRoles()) {
-        array_pop($paremetros);
+    if (Usuarios::ROLE_ADMIN != $app["usuario"]->getRoles()) {
+        $paremetros['ativo'] = true;
     }
 
     $musicas = $app['musica.repository']->findBy($paremetros, ['numero' => 'ASC', 'nome' => 'ASC']);

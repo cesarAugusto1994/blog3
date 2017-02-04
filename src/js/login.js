@@ -41,10 +41,6 @@ const Form = React.createClass({
 
     handleSubmit: function (e) {
 
-        //e.preventDefault();
-
-        console.log(this.props.error);
-
         var email = this.refs._username.value;
         var password = this.refs._password.value;
 
@@ -68,32 +64,6 @@ const Form = React.createClass({
         $("#btnSubmit").addClass("is-loading");
 
         return true;
-/*
-        block_screen();
-
-        $.ajax({
-            type: 'POST',
-            url : "/admin/login_check",
-            data : {
-                _username : email,
-                _password : password
-            },
-            cache: false,
-            success: function (data) {
-                console.log(data);
-                //window.location.href = '/user/';
-                return false;
-            },
-            error: function (data) {
-                console.log(data)
-                unblock_screen();
-                $("#btnSubmit").removeClass("is-loading");
-                alertify.error("opss, algo deu errado...");
-                return false;
-            }
-        });
-
-        */
     },
 
     render: function () {
@@ -128,11 +98,6 @@ const Form = React.createClass({
                     </div>
                     <div className="col-xs-6">
                         <button type="submit" className="button is-success is-outlined is-fullwidth">Entrar</button>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-12"><br/>
-                        <a href="/" id="btnSubmit" className="button is-link is-white is-fullwidth">P&aacute;gina Inicial.</a>
                     </div>
                 </div>
             </form>

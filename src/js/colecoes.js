@@ -10,11 +10,15 @@ $(function () {
         margin: 'auto'
     };
 
+    const styleFloat = {
+        float : "right"
+    };
+
     class BtnEditar extends React.Component {
 
         render() {
             return (
-                <a className="button is-light is-pulled-right is-small openMenu"
+                <a className="button is-light is-small is-fullwidth openMenu"
                    data-toggle="modal"
                    data-target="#myModal"
                    data-id={ this.props.colecao.id }
@@ -29,7 +33,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-danger is-outlined is-pulled-right is-small mudarStatus"  onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Inativar</a>
+                <a className="button is-danger is-outlined is-fullwidth is-small mudarStatus"  onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Inativar</a>
             )
         }
 
@@ -39,7 +43,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-success is-outlined is-pulled-right is-small mudarStatus" onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Ativar</a>
+                <a className="button is-success is-outlined is-fullwidth is-small mudarStatus" onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Ativar</a>
             )
         }
 
@@ -61,10 +65,25 @@ $(function () {
 
             var mudarStatus = '';
             var editar = '';
+            let menu = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
+
                 mudarStatus = <MudarStatusColecao colecao={this.props.colecao} reloadColecao={this.props.reloadColecao}/>
                 editar = <BtnEditar colecao={this.props.colecao} />
+
+                menu = (
+                <div className="btn-group" style={styleFloat}>
+                    <button type="button" className="button is-light is-small is-pulled-left dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span className="caret"></span>
+                    </button>
+                    <ul className="dropdown-menu">
+                        <li>{editar}</li>
+                        <li role="separator" className="divider"></li>
+                        <li>{mudarStatus}</li>
+                    </ul>
+                </div>
+                );
             }
 
             return (
@@ -76,9 +95,9 @@ $(function () {
                         <h4>
                             <a href={this.props.categoriasUrl}>
                                 {this.props.colecao.nome}
+                                <span className="tag is-light">{this.props.colecao.qtde_categorias}</span>
                             </a>
-                            {editar}
-                            {mudarStatus}
+                            {menu}
                         </h4>
                     </figcaption>
                 </figure>

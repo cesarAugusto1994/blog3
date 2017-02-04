@@ -106,8 +106,19 @@ $categorias->post('admin/categoria/nova', function(\Symfony\Component\HttpFounda
     return $app['categoria.controller']->novo($request, $app);
 })->bind('nova_categoria');
 
-$categorias->post('categoria/{id}/editar', function ($id, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    return $app['categoria.controller']->editar($request, $app);
+$categorias->post('category/{id}-{nome}/edit', function ($id, $nome, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    try {
+        return $app['categoria.controller']->editar($request, $app);
+    } catch (Exception $exception) {
+        return $app->json(
+            [
+                'class' => 'error',
+                'message' => $exception->getMessage()
+            ]
+        );
+    }
+
 })->bind('save_categoria');
 
 $categorias->post('categoria/adicionar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {

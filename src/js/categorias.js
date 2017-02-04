@@ -117,9 +117,11 @@ $(function () {
                 alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
             }
 
+            const _this = this;
+
             $.ajax({
                 type: "POST",
-                url: "/user/categoria/"+id+"/editar",
+                url: "/user/category/"+id+"-"+nome+"/edit",
                 data : {
                     id : id,
                     nome : nome,
@@ -128,6 +130,8 @@ $(function () {
                 cache: false,
                 success: function (data) {
                     alertify.success(data.message);
+                    _this.props.reloadCategoria();
+                    _this.props.closeModal();
                     unblock_screen();
                 },
                 error: function () {
@@ -149,80 +153,6 @@ $(function () {
                     <select className="input is-primary" ref="colecao" name="colecao" id="colecao" defaultValue={this.props.categoria.colecao.id}>
                         { this.props.colecoes.map(function (colecao) {
                             return (
-                                <option key={colecao.id} defaultValue={colecao.id}>{colecao.nome}</option>
-                            )
-                        })}
-                    </select>
-                </Modal>
-            );
-
-            return (
-                <div>
-                    {modal}
-                </div>
-            );
-        }
-    });
-
-    const NovaCategoriaModal = React.createClass({
-
-        getInitialState: function() {
-            return {data: []};
-        },
-        load : function () {
-            $.get('/user/colecoes/all', function (result) {
-                this.setState({ data: result });
-            }.bind(this));
-        },
-        componentDidMount: function() {
-            this.load();
-        },
-
-        handleSubmit : function (e) {
-
-            e.preventDefault();
-
-            var nome = this.refs.nome.value.trim();
-            var colecao = this.refs.colecao.value.trim();
-
-            if (!nome || !colecao) {
-                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
-            }
-
-            var _this = this;
-
-            $.ajax({
-                type: "POST",
-                url: "/user/categoria/adicionar",
-                data : {
-                    nome : nome,
-                    colecao : colecao
-                },
-                cache: false,
-                success: function (data) {
-                    alertify.success(data.message);
-                    unblock_screen();
-                    _this.props.closeModal();
-                    _this.props.reloadCategoria();
-                },
-                error: function () {
-                    unblock_screen();
-                    alertify.error("Ocorreu um erro.");
-                }
-            });
-        },
-
-        render: function() {
-
-            var modal = null;
-            modal = (
-                <Modal title="Nova Categoria" handleSubmit={this.handleSubmit}>
-                    <label htmlFor="nome">Nome</label>
-                    <input className="input is-primary" type="text" placeholder="Nome" ref="nome" name="nome" id="nome" required/>
-                    <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
-                    <select className="input is-primary" ref="colecao" name="colecao" id="colecao">
-                        { this.state.data.map(function (colecao) {
-                            return (
                                 <option key={colecao.id} value={colecao.id}>{colecao.nome}</option>
                             )
                         })}
@@ -242,8 +172,8 @@ $(function () {
 
         render: function () {
 
-            var mudarStatus = '';
-            var editar = '';
+            let mudarStatus = '';
+            let editar = '';
 
             if (this.props.user == ROLE_ADMIN) {
                 mudarStatus = <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
@@ -254,7 +184,7 @@ $(function () {
                 <div className="media fadeInUp animated slide" data-wow-delay=".3s">
                     <div className="media-body">
                         <h4 className="media-heading">
-                            <a href={this.props.musicasUrl}>{this.props.categoria.nome}</a>
+                            <a href={this.props.musicasUrl}>{this.props.categoria.nome} <span className="tag is-light">{this.props.categoria.qtde_musicas}</span></a>
                             {editar}
                             {mudarStatus}
                         </h4>
@@ -342,11 +272,12 @@ $(function () {
             $("#ModalCategorias").modal("hide");
             $('.modal-body #id').val('');
             $('.modal-body #nome').val('');
+            $('.modal-body #colecao').val('');
         },
 
         render: function () {
 
-            var _this = this;
+            const _this = this;
 
             return (
                 <div>
@@ -354,15 +285,19 @@ $(function () {
                     const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_') + "/praises";
                     return (
                         <div key={categoria.id}>
-                            <EditarCategoriaModal
-                                colecoes={_this.state.data}
-                                categoria={categoria} />
+
                             <BlockCategorias
                                 categoria={categoria}
                                 musicasUrl={musicasUrl}
                                 user={_this.props.user}
                                 reloadCategoria={_this.props.reloadCategoria}
                                 acao={_this.openModal}/>
+
+                            <EditarCategoriaModal
+                                closeModal={_this.closeModal}
+                                reloadCategoria={_this.props.reloadCategoria}
+                                colecoes={_this.state.data}
+                                categoria={categoria} />
                         </div>
                     )
                 }) }</span>

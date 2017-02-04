@@ -6,6 +6,8 @@
  * Time: 11:55
  */
 
+use Api\Entities\Usuarios;
+
 $colecao = $app['controllers_factory'];
 
 $colecao->get('colecoes', function() use ($app){
@@ -18,10 +20,11 @@ $colecao->get('collection/{id}-{nome}/categories', function($id, $nome) use ($ap
 
     $colecao = $app['colecao.repository']->find($id);
 
-    $paremetros = [
-        'colecao' => $colecao,
-        'ativo' => true
-    ];
+    $paremetros['colecao'] = $colecao;
+
+    if (Usuarios::ROLE_ADMIN != $app["usuario"]->getRoles()) {
+        $paremetros['ativo'] = true;
+    }
 
     $categorias = $app['categoria.repository']->findBy($paremetros, ['nome' => 'ASC']);
     return new \Symfony\Component\HttpFoundation\JsonResponse($categorias);

@@ -21,17 +21,12 @@ use Symfony\Component\HttpFoundation\Request;
 class IndexController
 {
     /**
-     * @param int $page
      * @param Application $app
      * @return mixed
      */
-    public function index($page = 1, Application $app)
+    public function index(Application $app)
     {
-        if (isset($app['session'])) {
-            return $app->redirect('/user/');
-        }
-
-        return $app['twig']->render('index.html.twig');
+        return $app->redirect('/login');
     }
 
     /**

@@ -18,6 +18,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Usuarios implements \JsonSerializable
 {
+
+    const ROLE_USER = "ROLE_USER";
+    const ROLE_ADMIN = "ROLE_ADMIN";
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id()

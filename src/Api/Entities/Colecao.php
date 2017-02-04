@@ -44,6 +44,12 @@ class Colecao implements \JsonSerializable
      * @var string
      */
     private $imagem;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Categoria", mappedBy="colecao")
+     * @var Categoria
+     */
+    private $categorias;
     
     /**
      * @ORM\Column(name="ativo", type="smallint")
@@ -51,7 +57,13 @@ class Colecao implements \JsonSerializable
      */
     private $ativo;
 
-
+    /**
+     * Colecao constructor.
+     */
+    public function __construct()
+    {
+        $this->categorias = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -125,12 +137,22 @@ class Colecao implements \JsonSerializable
         $this->ativo = $ativo;
     }
 
+    /**
+     * @return int
+     */
+    public function getCountCategorias()
+    {
+        return count($this->categorias);
+    }
+
+
     public function jsonSerialize()
     {
         return [
             "id" => $this->id,
             "nome" => $this->nome,
             "imagem" => $this->imagem,
+            "qtde_categorias" => $this->getCountCategorias(),
             "ativo" => $this->ativo
         ];
     }

@@ -162,7 +162,7 @@ $(function () {
                             linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
 
                             return (
-                                <div key={colecao.id} className="col-sm-4 col-xs-6">
+                                <div key={colecao.id} className="col-sm-4 col-xs-12">
                                     <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                                         <div className="img-wrapper">
                                             <a href={linkToCategorias}>

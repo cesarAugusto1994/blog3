@@ -120,15 +120,10 @@ class CategoriaController
         $app['categoria.repository']->save($categoria);
         $app['db']->commit();
     
-        $mensagem = 'Categoria '.$categoria->getNome().' editada com sucesso.';
-        
-        $app['log.controller']->criar($mensagem);
-        $app['session']->getFlashBag()->add('mensagem', $mensagem);
-    
         return $app->json(
             [
                 'class' => 'success',
-                'message' => $mensagem
+                'message' => 'Categoria '.$categoria->getNome().' editada com sucesso.'
             ]
         );
     }

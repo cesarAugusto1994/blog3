@@ -534,6 +534,7 @@ $(function () {
                 <div>
                     <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
                         <div className="card-content">
+                            <p className="title is-5">{this.props.label}</p>
                             <div className="media">
                                 <div className="media-content">
                                     {this.props.children}
@@ -722,7 +723,7 @@ $(function () {
 
             if (this.state.data.length > 0) {
                 card = (
-                    <CardLetra>
+                    <CardLetra label="Arquivos">
                         <ListArquivos reloadArquivos={this.load} anexos={this.state.data}
                                       sourceArquivos={this.props.sourceArquivos}
                                       sourceVideos={this.props.sourceVideos}
@@ -804,7 +805,7 @@ $(function () {
 
                 card = (
                     <div>
-                        <CardLetra>
+                        <CardLetra label="Menu">
                             {menu}
                         </CardLetra>
                         <UploadArquivo reloadArquivos={this.load} openModal={this.openModal}
@@ -832,7 +833,7 @@ $(function () {
 
             if (this.props.sourceMusicaLetra) {
                 card = (
-                    <CardLetra>
+                    <CardLetra label="Letra">
                         <Font
                             source={this.props.sourceAddLetra}
                             sourceView={this.props.sourceView}/>

@@ -8,6 +8,7 @@
 
 namespace Api\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,10 +41,24 @@ class Categoria implements \JsonSerializable
     private $nome;
 
     /**
+     * @ORM\OneToMany(targetEntity="Musica", mappedBy="categoria")
+     * @var Musica
+     */
+    private $musicas;
+
+    /**
      * @ORM\Column(name="ativo", type="smallint")
      * @var int
      */
     private $ativo;
+
+    /**
+     * Categoria constructor.
+     */
+    public function __construct()
+    {
+        $this->musicas = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -108,6 +123,14 @@ class Categoria implements \JsonSerializable
     {
         $this->ativo = $ativo;
     }
+
+    /**
+     * @return int
+     */
+    public function getCountMusicas()
+    {
+       return count($this->musicas);
+    }
     
     /**
      * @return array
@@ -117,6 +140,7 @@ class Categoria implements \JsonSerializable
         return [
             "id" => $this->id,
             "nome" => $this->nome,
+            "qtde_musicas" => $this->getCountMusicas(),
             "colecao" => $this->colecao,
             "ativo" => $this->ativo
         ];
