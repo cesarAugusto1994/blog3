@@ -2,8 +2,6 @@
 
 {% block title %}Musicas{% endblock %}
 
-{% block header %}{{ parent() }}{% endblock %}
-
 {% block headerNome %}{{ musica.nome }}{% endblock %}
 
 {% block content %}
@@ -15,19 +13,38 @@
                     <form class="form-horizontal" method="POST" action="{{ path('save_musica') }}">
                         <input type="hidden" name="id" id="id" value="{{ musica.id }}">
                         <input type="hidden" name="rota" id="rota" value="edicao_usuario">
-                        <p class="control">Titulo:
-                            <input class="input" autofocus type="text" value="{{ musica.nome }}" placeholder="Titulo" name="nome" id="nome" required>
+                        <label class="label text-black">Titulo:</label>
+                        <p class="control">
+                            <input class="input" autofocus type="text" value="{{ musica.nome }}" placeholder="Titulo"
+                                   name="nome" id="nome" required>
                         </p>
-                        <p class="control">N&uacute;mero:
-                            <input class="input" type="text" value="{{ musica.numero }}" placeholder="Numero" name="numero" id="numero">
+                        <label class="label text-black">N&uacute;mero:</label>
+                        <p class="control">
+                            <input class="input" type="text" value="{{ musica.numero }}" placeholder="Numero"
+                                   name="numero" id="numero">
                         </p>
-                        <p class="control">Tonalidade:
-                            <select id="tonalidade" class="input" name="tonalidade" required>
-                                {% for tom in app['tonalidades'] %}
+                        <label class="label text-black">Tonalidade:</label>
+                        <div class="select is-fullwidth">
+                            <select id="tonalidade" name="tonalidade" required>
+                                {% for tom in app.tonalidades %}
                                     <option value="{{ tom }}" {% if musica.tom == tom %} selected="selected" {% endif %}>{{ tom }}</option>
                                 {% endfor %}
                             </select>
-                        </p>
+                        </div>
+                        <label class="label text-black">Categoria:</label>
+                        <div class="select is-fullwidth">
+                            <select id="categoria" name="categoria" required>
+                                {% for colecao in categorias %}
+                                    <optgroup label="{{ colecao.nome }}">
+                                        {% for categoria in colecao.categorias %}
+                                            <option value="{{ categoria.id }}" {% if musica.categoria.id == categoria.id %} selected="selected" {% endif %}>{{ categoria.nome }}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <br/>
+                        <br/>
                         <p class="control">
                             <button class="button is-primary is-fullwidth" type="submit">Salvar</button>
                         </p>
@@ -39,10 +56,4 @@
     </article>
     <br>
 
-{% endblock %}
-
-{% block javascript %}
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script>tinymce.init($('#letra'));</script>
-    {{ parent() }}
 {% endblock %}

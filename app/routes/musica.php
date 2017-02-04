@@ -6,6 +6,8 @@
  * Time: 08:41
  */
 
+use Api\Entities\Categoria;
+
 $musica = $app['controllers_factory'];
 
 $musica->get('musicas/{id}', function($id) use ($app) {
@@ -82,7 +84,31 @@ $musica->get('praises/{id}-{nome}/edit', function($id, $nome) use ($app){
 
     $musica = $app['musica.repository']->find($id);
     $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
-    return $app['twig']->render('/user/musica_editar.html.twig', ['musica' => $musica, 'categorias' => $categorias]);
+
+    $array = [];
+    /**
+     * @var Categoria $categoria
+     */
+    foreach ($categorias as $categoria) {
+
+        $key = $categoria->getColecao()->getId();
+
+        if (!isset($array[$key]['nome'])) {
+            $array[$key]['nome'] = $categoria->getColecao()->getNome();
+        }
+
+        if ($categoria->getColecao()->getNome() == $array[$key]['nome']) {
+
+            $array[$key]['nome'] = $categoria->getColecao()->getNome();
+
+            $array[$key]['categorias'][] = [
+                "id" => $categoria->getId(),
+                "nome" => $categoria->getNome()
+            ];
+        }
+    }
+
+    return $app['twig']->render('/user/musica_editar.html.twig', ['musica' => $musica, 'categorias' => array_merge($array)]);
 
 })->bind('view_editar_musica');
 
