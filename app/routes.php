@@ -36,6 +36,10 @@ $app->get('/admin/usuario/{id}/status', function($id) use ($app) {
     return $app['usuarios.controller']->alteraStatus($id, $app);
 })->bind('usuario_status');
 
+$app->get('/user/mail', function() use ($app) {
+    return $app['usuario.email.service'];
+});
+
 $app->mount('/api', include __DIR__ . '/routes/api_categoria.php');
 $app->mount('/api', include __DIR__ . '/routes/api_musica.php');
 $app->mount('/api', include __DIR__ . '/routes/api_colecao.php');

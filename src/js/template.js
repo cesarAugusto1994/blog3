@@ -27,8 +27,7 @@ $(function () {
                 </header>
             )
         }
-    }
-    ;
+    };
 
     class NavbarHeader extends React.Component {
 

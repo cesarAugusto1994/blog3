@@ -58,17 +58,7 @@ $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'locale_fallbacks' => array('en'),
 ));
-$app->register(new Silex\Provider\SwiftmailerServiceProvider());
-$app['swiftmailer.options'] = array(
-    'driver' => 'smtp',
-    'host' => 'smtp.gmail.com',
-    'port' => 465,
-    'username' => 'cezzaar@gmail.com',
-    'password' => 'Cesar1507',
-    'encryption' => 'ssl',
-    'auth_mode' => null,
-    'pretend' =>false
-);
+
 $app->register(new \Silex\Provider\HttpCacheServiceProvider(), array(
     'http.cache.cache_dir' => __DIR__.'/../var/cache/http/'
 ));

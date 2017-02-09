@@ -267,11 +267,12 @@ $(function () {
                     <CardBlue sectionName="Videos">
                         { this.state.data.map(function (video) {
                             linkToVideos = "/user/videos";
+                            let url = "https://www.youtube.com/embed/" + video.link;
                             return (
                                 <div key={video.id} className="col-md-4 col-lg-4 col-xs-12">
                                     <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
                                         <div className="img-wrapper">
-                                            <iframe  width="100%" height="100%" src="https://www.youtube.com/embed/{video.link}"
+                                            <iframe  width="100%" height="100%" src={url}
                                                      frameBorder="0" allowFullScreen></iframe>
                                         </div>
                                         <figcaption>

@@ -536,8 +536,7 @@
 	                )
 	            );
 	        }
-	    }
-	    ;
+	    };
 
 	    class NavbarHeader extends React.Component {
 
@@ -1217,6 +1216,7 @@
 	                    { sectionName: "Videos" },
 	                    this.state.data.map(function (video) {
 	                        linkToVideos = "/user/videos";
+	                        let url = "https://www.youtube.com/embed/" + video.link;
 	                        return React.createElement(
 	                            "div",
 	                            { key: video.id, className: "col-md-4 col-lg-4 col-xs-12" },
@@ -1226,7 +1226,7 @@
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "img-wrapper" },
-	                                    React.createElement("iframe", { width: "100%", height: "100%", src: "https://www.youtube.com/embed/{video.link}",
+	                                    React.createElement("iframe", { width: "100%", height: "100%", src: url,
 	                                        frameBorder: "0", allowFullScreen: true })
 	                                ),
 	                                React.createElement(
@@ -1881,7 +1881,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { href: this.props.source, className: 'button is-primary is-small' },
+	                { href: this.props.source, className: 'button is-light is-small' },
 	                'Editar M\xFAsica'
 	            );
 	        }
@@ -1892,7 +1892,7 @@
 	        render() {
 	            return React.createElement(
 	                'button',
-	                { onClick: this.props.openModal, className: 'button is-danger is-small' },
+	                { onClick: this.props.openModal, className: 'button is-light is-small' },
 	                'Adicionar Arquivo'
 	            );
 	        }
@@ -1903,7 +1903,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { href: this.props.source, className: 'button is-white is-small' },
+	                { href: this.props.source, className: 'button is-light is-small' },
 	                'Adicionar Letra'
 	            );
 	        }
@@ -1914,7 +1914,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { onClick: this.props.openModal, className: 'button is-small' },
+	                { onClick: this.props.openModal, className: 'button is-light is-small' },
 	                'Adicionar Link'
 	            );
 	        }
@@ -1935,7 +1935,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-small is-success' },
+	                { className: 'button is-small is-light' },
 	                'Adicionar aos Favoritos'
 	            );
 	        }
@@ -2075,31 +2075,17 @@
 	                return false;
 	            }
 
-	            var image = React.createElement(
+	            let icone = 'fa fa-music';
+
+	            if (this.props.anexo.tipo.icone.length > 0) {
+	                icone = this.props.anexo.tipo.icone;
+	            }
+
+	            let image = React.createElement(
 	                'i',
-	                { className: 'fa fa-music' },
+	                { className: icone },
 	                '\xA0'
 	            );
-
-	            if (2 == this.props.anexo.tipo.id) {
-	                image = React.createElement(
-	                    'i',
-	                    { className: 'fa fa-picture-o' },
-	                    '\xA0'
-	                );
-	            } else if (3 == this.props.anexo.tipo.id) {
-	                image = React.createElement(
-	                    'i',
-	                    { className: 'fa file-pdf-o' },
-	                    '\xA0'
-	                );
-	            } else if (4 == this.props.anexo.tipo.id) {
-	                image = React.createElement(
-	                    'i',
-	                    { className: 'fa fa-video-camera' },
-	                    '\xA0'
-	                );
-	            }
 
 	            return React.createElement(
 	                'div',
@@ -2165,7 +2151,8 @@
 	                                link,
 	                                React.createElement(RemoverArquivo, { anexo: anexo, reloadArquivos: _this.props.reloadArquivos })
 	                            )
-	                        )
+	                        ),
+	                        React.createElement('br', null)
 	                    );
 	                })
 	            );

@@ -477,7 +477,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.source} className="button is-primary is-small">Editar Música</a>
+                <a href={this.props.source} className="button is-light is-small">Editar Música</a>
             );
         }
     }
@@ -486,7 +486,7 @@ $(function () {
 
         render() {
             return (
-                <button onClick={this.props.openModal} className="button is-danger is-small">
+                <button onClick={this.props.openModal} className="button is-light is-small">
                 Adicionar Arquivo</button>
             );
         }
@@ -496,7 +496,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.source} className="button is-white is-small">Adicionar Letra</a>
+                <a href={this.props.source} className="button is-light is-small">Adicionar Letra</a>
             );
         }
     }
@@ -505,7 +505,7 @@ $(function () {
 
         render() {
             return (
-                <a onClick={this.props.openModal} className="button is-small">Adicionar Link</a>
+                <a onClick={this.props.openModal} className="button is-light is-small">Adicionar Link</a>
             );
         }
     }
@@ -522,7 +522,7 @@ $(function () {
     class BtnFavoritos extends React.Component {
         render() {
             return (
-                <a className="button is-small is-success">Adicionar aos Favoritos</a>
+                <a className="button is-small is-light">Adicionar aos Favoritos</a>
             );
         }
     }
@@ -634,15 +634,13 @@ $(function () {
                 return false;
             }
 
-            var image = <i className="fa fa-music">&nbsp;</i>;
+            let icone = 'fa fa-music';
 
-            if (2 == this.props.anexo.tipo.id) {
-                image = <i className="fa fa-picture-o">&nbsp;</i>;
-            } else if (3 == this.props.anexo.tipo.id) {
-                image = <i className="fa file-pdf-o">&nbsp;</i>;
-            } else if (4 == this.props.anexo.tipo.id) {
-                image = <i className="fa fa-video-camera">&nbsp;</i>;
+            if (this.props.anexo.tipo.icone.length > 0) {
+                icone = this.props.anexo.tipo.icone;
             }
+
+            let image = <i className={icone}>&nbsp;</i>;
 
             return (
                 <div className="media-left media-middle">
@@ -694,6 +692,7 @@ $(function () {
                                         <RemoverArquivo anexo={anexo} reloadArquivos={_this.props.reloadArquivos}/>
                                     </div>
                                 </div>
+                                <br/>
                             </div>
                         )
                     })}

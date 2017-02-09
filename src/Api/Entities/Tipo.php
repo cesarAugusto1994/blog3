@@ -37,6 +37,12 @@ class Tipo implements \JsonSerializable
      * @var string
      */
     private $imagem;
+
+    /**
+     * @ORM\Column(name="icone", type="string", length=20)
+     * @var string
+     */
+    private $icone;
     
     /**
      * @ORM\Column(name="ativo", type="boolean")
@@ -83,7 +89,15 @@ class Tipo implements \JsonSerializable
     {
         $this->imagem = $imagem;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getIcone()
+    {
+        return $this->icone;
+    }
+
     /**
      * @return boolean
      */
@@ -104,7 +118,8 @@ class Tipo implements \JsonSerializable
     {
         return [
             "id" => $this->id,
-            "nome" => $this->nome
+            "nome" => $this->nome,
+            "icone" => $this->icone,
         ];
     }
 }

@@ -21,7 +21,7 @@ $isDevMode = false;
 //caminho das entidades
 $paths = array(__DIR__ . '/../src/Api/Entities',
     __DIR__ . '/../src/App/Entities');
-// configurações do banco de dados
+// configuraï¿½ï¿½es do banco de dados
 $dbParams = array(
     'driver' => 'pdo_mysql',
     'dbname' => 'blog',

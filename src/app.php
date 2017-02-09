@@ -85,6 +85,18 @@ $app->register(new \Silex\Provider\FormServiceProvider());
 $app->register(new HttpFragmentServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
+$app->register(new Silex\Provider\SwiftmailerServiceProvider());
+$app['swiftmailer.options'] = array(
+    'driver' => 'smtp',
+    'host' => 'smtp.gmail.com',
+    'port' => 465,
+    'username' => 'cezzaar@gmail.com',
+    'password' => 'Cesar1507',
+    'encryption' => 'ssl',
+    'auth_mode' => null,
+    'pretend' =>false
+);
+
 include_once __DIR__ . '/../app/services.php';
 include_once __DIR__ . '/../app/providers.php';
 include_once __DIR__ . '/../app/routes.php';
