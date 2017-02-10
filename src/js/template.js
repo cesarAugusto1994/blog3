@@ -114,6 +114,7 @@ $(function () {
                         <span className="caret"></span></a>
                     <div className="dropdown-menu">
                         <ul>
+                            <li><a href="/admin/praises/added">Musicas Adicionadas</a></li>
                             <li><a href="/admin/post/form">Novo Post</a></li>
                             <li><a href="/admin/posts/grid">Lista Post</a></li>
                             <li><a href="/admin/blog">Configura&ccedil;&otilde;es</a></li>

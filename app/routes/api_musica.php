@@ -19,6 +19,15 @@ $musica->get('praise/{id}-{nome}', function($id, $nome) use ($app) {
 
 })->bind('api_praise');
 
+
+$musica->get('/praises/added', function() use ($app) {
+
+    $musica = $app['musica.repository']->findBy(['ativo' => 0]);
+
+    return new \Symfony\Component\HttpFoundation\JsonResponse($musica);
+
+})->bind('api_praises_added');
+
 /**
  *
  */

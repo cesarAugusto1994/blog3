@@ -15,18 +15,14 @@ $musica->get('musicas/{id}', function($id) use ($app) {
     return new \Symfony\Component\HttpFoundation\JsonResponse($musica);
 })->bind('api_musica');
 
-
-
 $musica->get('view/{id}', function($id) use ($app) {
-
     $musica = $app['musica.repository']->find($id);
     return $app['twig']->render('/user/view.html.twig', ['musica' => $musica]);
-
 })->bind('musica_view');
 
 
 $musica->get('musicas/adicionadas/recentemente', function() use ($app) {
-    $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
+    $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 12);
     return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);
 })->bind('api_musicas_recentes');
 

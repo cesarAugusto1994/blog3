@@ -1,0 +1,13 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}{% if categoria.nome is defined %}{{ categoria.nome }}{% else %}Musicas{% endif %}{% endblock %}
+
+{% block headerNome %}{% if categoria.nome is defined %}{{ categoria.nome }}{% else %}Musicas{% endif %}{% endblock %}
+
+{% block content %}
+
+    <div id="musicas-adicionadas"
+         data-source="{{ path('api_praises_added') }}"
+         data-user="{{ app.usuario.roles }}"></div>
+
+{% endblock %}

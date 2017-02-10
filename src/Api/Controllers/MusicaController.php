@@ -67,7 +67,7 @@ class MusicaController
         /**
          * @var \Api\Entities\Usuarios $usuario
          */
-        $usuario = $this->app['usuarios.repository']->find(2);
+        $usuario = $this->app['usuarios.repository']->find($user->getId());
 
         $musica = new Musica();
 
@@ -94,7 +94,13 @@ class MusicaController
             $musica->setNovo($request->get('novo'));
         }
 
-        $musica->setAtivo(true);
+        $ativo = false;
+
+        if (Usuarios::ROLE_ADMIN == $usuario->getRoles()) {
+            $ativo = true;
+        }
+
+        $musica->setAtivo($ativo);
 
         $this->app['db']->beginTransaction();
         $this->app['musica.repository']->save($musica);
@@ -137,7 +143,7 @@ class MusicaController
         /**
          * @var \Api\Entities\Usuarios $usuario
          */
-        $usuario = $this->app['usuarios.repository']->find(2);
+        $usuario = $this->app['usuarios.repository']->find($user->getId());
 
         $musica = new Musica();
 
@@ -164,7 +170,13 @@ class MusicaController
             $musica->setNovo($request['novo']);
         }
 
-        $musica->setAtivo(true);
+        $ativo = false;
+
+        if (Usuarios::ROLE_ADMIN == $usuario->getRoles()) {
+            $ativo = true;
+        }
+
+        $musica->setAtivo($ativo);
 
         $this->app['db']->beginTransaction();
         $this->app['musica.repository']->save($musica);

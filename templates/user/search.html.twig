@@ -3,7 +3,8 @@
 {% block title %}Pesquisar{% endblock %}
 
 {% block header %}
-    <section id="hero-area" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+    <section id="hero-area"
+             style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -14,11 +15,14 @@
                                   enctype="multipart/form-data">
                                 <input type="hidden" name="search_form" value="1">
                                 <p class="control has-icon">
-                                    <input class="input is-large wow fadeInUp" type="text" data-wow-delay=".4s" autofocus placeholder="..." name="q" required>
+                                    <input class="input is-large wow fadeInUp" type="text" data-wow-delay=".4s"
+                                           autofocus placeholder="..." name="q" required>
                                     <i class="fa fa-search"></i>
                                 </p>
                                 <p class="control is-fullwidth">
-                                    <button class="button is-danger is-large is-fullwidth wow fadeInUp" data-wow-delay=".5s" type="submit">Pesquisar</button>
+                                    <button class="button is-danger is-large is-fullwidth wow fadeInUp"
+                                            data-wow-delay=".5s" type="submit">Pesquisar
+                                    </button>
                                 </p>
                             </form>
                         </section> <!-- cd-intro -->
@@ -31,66 +35,69 @@
 
 {% block content %}
 
-    {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
-    <article>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0%}
-                    {% if musicas|length > 0 %}
-                    <div class="card" style="width: 100%">
-                        <div class="card-content">
-                        <h4>Musicas</h4>
-                        {% for musica in musicas %}
-                            <div class="media">
-                                <div class="media-body">
-                                    <h4 class="media-heading"><a href="{{ path('musica_anexos', { musicaId : musica.id }) }}">{{ musica.numero }} - {{ musica.nome }}</a><small> {{ musica.categoria.nome }}</small></h4>
+    {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0 %}
+        <article>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0 %}
+                            {% if musicas|length > 0 %}
+                                <div class="card" style="width: 100%">
+                                    <div class="card-content">
+                                        <h4>Musicas</h4>
+                                        {% for musica in musicas %}
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="media-heading"><a
+                                                                href="{{ path('musica_anexos', { id : musica.id, name : musica.nome }) }}">{% if musica.numero|length > 0 %}{{ musica.numero }} - {% endif %}{{ musica.nome }}</a>
+                                                        <small> {{ musica.categoria.nome }}</small>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                            </div>
-                            </div>
-                        <br>
-                    {% endif %}
-                    {% if musica_anexos|length > 0 %}
-                    <div class="card" style="width: 100%">
-                        <div class="card-content">
-                        <h4>Arquivos</h4>
-                        {% for anexo in musica_anexos %}
-                            <div class="media">
-                                <div class="media-body">
-                                    <h4 class="media-heading">{{ anexo.nome }}</h4>
-                                    <a href="{{ path('musica_anexos', { musicaId : anexo.musica.id }) }}">
-                                        <button class="button is-small is-white">
-                                            Ir para musica
-                                        </button>
-                                    </a>
-                                    <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
-                                       target="_blank">
-                                        <button class="button is-small is-success is-outlined">
-                                            Visualizar
-                                        </button>
-                                    </a>
-                                    <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
-                                       download>
-                                        <button class="button is-small is-primary is-outlined">
-                                            Baixar
-                                        </button>
-                                    </a>
+                                <br>
+                            {% endif %}
+                            {% if musica_anexos|length > 0 %}
+                                <div class="card" style="width: 100%">
+                                    <div class="card-content">
+                                        <h4>Arquivos</h4>
+                                        {% for anexo in musica_anexos %}
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">{{ anexo.nome }}</h4>
+                                                    <a href="{{ path('musica_anexos', { id : anexo.musica.id, name : anexo.musica.nome }) }}">
+                                                        <button class="button is-small is-white">
+                                                            Ir para musica
+                                                        </button>
+                                                    </a>
+                                                    <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                                       target="_blank">
+                                                        <button class="button is-small is-success is-outlined">
+                                                            Visualizar
+                                                        </button>
+                                                    </a>
+                                                    <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                                       download>
+                                                        <button class="button is-small is-primary is-outlined">
+                                                            Baixar
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                            </div>
-                            </div>
-                        <br>
-                    {% endif %}
-                 {% else %}
-                     Nenhum registro Encontrado.
-                 {% endif %}
+                                <br>
+                            {% endif %}
+                        {% else %}
+                            Nenhum registro Encontrado.
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-    </article>
+        </article>
     {% endif %}
 
 {% endblock %}

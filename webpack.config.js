@@ -13,6 +13,7 @@ module.exports = {
         "./src/js/categoria_adicionar",
         "./src/js/musica_adicionar",
         "./src/js/musica_adicionar_2",
+        "./src/js/musicas_adicionadas",
     ],
     output: {
         filename: "web/assets/build/bundle.js"

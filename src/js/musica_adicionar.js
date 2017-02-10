@@ -111,7 +111,7 @@ const Render = React.createClass({
                         <select id="categoria" name="categoria" ref="categoria" defaultValue={this.props.categoria} required>
                             {this.state.categorias.map(function (colecao) {
                                 return (
-                                    <optgroup label={colecao.nome}>
+                                    <optgroup key={colecao.nome} label={colecao.nome}>
                                         {colecao.categorias.map(function (categoria) {
                                             return (
                                                 <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>

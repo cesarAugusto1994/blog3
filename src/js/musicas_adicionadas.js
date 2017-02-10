@@ -10,7 +10,7 @@ $(function () {
 
         render() {
 
-            const url = "/user/praise/new?category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
+            const url = "/user/praise/new";
 
             return (
                 <a href={url} className="button is-light is-small">Adicionar Musica</a>
@@ -23,7 +23,7 @@ $(function () {
 
         render() {
 
-            const url = "/user/praise/new?various=1&category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
+            const url = "/user/praise/new?various=1";
 
             return (
                 <a href={url} className="button is-light is-small">Adicionar V&aacute;rias Musica</a>
@@ -32,7 +32,7 @@ $(function () {
 
     }
 
-    class BtnEditar extends React.Component{
+    class BtnEditarMusicasAdicionadas extends React.Component{
 
         render() {
             return (
@@ -72,7 +72,7 @@ $(function () {
         }
     }
 
-    var MudarStatusMusica = React.createClass({
+    var MudarStatusMusicasAdicionadas = React.createClass({
 
         getInitialState : function () {
             return { ativo : this.props.musica.ativo }
@@ -125,12 +125,12 @@ $(function () {
 
     });
 
-    var ListMusicas = React.createClass({
+    var ListMusicasAdicionadas = React.createClass({
 
         render : function () {
 
             let btnEditar = "";
-            let btnMudarStatus = "";
+            let btnMudarStatusMusicasAdicionadas = "";
             const _this = this;
 
             return(
@@ -142,8 +142,8 @@ $(function () {
                             let editarMusica = "/user/praises/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
                             if (ROLE_ADMIN == _this.props.user) {
-                                btnEditar = <BtnEditar link={editarMusica}/>;
-                                btnMudarStatus = <MudarStatusMusica musica={musica} reloadMusica={_this.props.reloadMusicas}/>;
+                                btnEditar = <BtnEditarMusicasAdicionadas link={editarMusica}/>;
+                                btnMudarStatusMusicasAdicionadas = <MudarStatusMusicasAdicionadas musica={musica} reloadMusica={_this.props.reloadMusicas}/>;
                             }
 
                             let musicaStr = musica.nome;
@@ -156,7 +156,7 @@ $(function () {
                                 <div key={musica.id}>
                                     <h4 className="media-heading"><a href={linkAnexos}>{musicaStr}</a>
                                         {btnEditar}
-                                        {btnMudarStatus}
+                                        {btnMudarStatusMusicasAdicionadas}
                                     </h4><hr/>
                                 </div>
                             )
@@ -174,7 +174,7 @@ $(function () {
         },
 
         load : function () {
-            $.get(this.props.source, function (result) {
+            $.get("/api/praises/added", function (result) {
                 this.setState({data: result});
             }.bind(this))
         },
@@ -193,20 +193,22 @@ $(function () {
 
         render : function () {
 
-            let addMusica = (<BtnAdd categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>);
+            let addMusica = '';
             let addMusica2 = '';
-
+            
+            
             if (ROLE_ADMIN == this.props.user) {
-                addMusica2 = <BtnAdd2 categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>;
+                addMusica = <BtnAdd/>;
+                addMusica2 = <BtnAdd2/>;
             }
 
             return (
                 <Base>
                     {addMusica}
                     {addMusica2}
-                    <GerenciarModal closeModal={this.closeModal} reloadMusicas={this.load} colecao={this.props.colecao} categoria={this.props.categoria}/>
+                    <GerenciarModalMusicasAdicionadas closeModal={this.closeModal} reloadMusicas={this.load} colecao={this.props.colecao} categoria={this.props.categoria}/>
                     <hr className="small" />
-                    <ListMusicas data={this.state.data} user={this.props.user} reloadMusicas={this.load}/>
+                    <ListMusicasAdicionadas data={this.state.data} user={this.props.user} reloadMusicas={this.load}/>
                 </Base>
             )
         }
@@ -260,7 +262,7 @@ $(function () {
         }
     });
 
-    const GerenciarModal = React.createClass({
+    const GerenciarModalMusicasAdicionadas = React.createClass({
 
         getInitialState: function () {
             return {data: [], albuns : []}
@@ -376,19 +378,15 @@ $(function () {
         }
     }
 
-    var source = $("#musicas").attr("data-source");
-    var sourceLink = $("#musicas").attr("data-add-musica");
-    var user = $("#musicas").attr("data-user");
-    var colecao = $("#musicas").data("colecao");
-    var categoria = $("#musicas").data("categoria");
-    var categoriaNome = $("#musicas").data("categoria-nome");
+    var source = $("#musicas-adicionadas").attr("data-source");
+    var user = $("#musicas-adicionadas").attr("data-user");
 
-    if (document.getElementById("musicas")) {
+    if (document.getElementById("musicas-adicionadas")) {
         ReactDOM.render(
             <div>
-                <View source={source} link={sourceLink} user={user} colecao={colecao} categoria={categoria} categoriaNome={categoriaNome}/>
+                <View source={source} user={user}/>
             </div>,
-            document.getElementById('musicas')
+            document.getElementById('musicas-adicionadas')
         );
     }
 });

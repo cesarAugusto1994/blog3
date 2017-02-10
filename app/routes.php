@@ -56,6 +56,7 @@ $app->mount('/user', include __DIR__ . '/routes/user.php');
 $app->mount('/user', include __DIR__ . '/routes/tipos_anexos.php');
 
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
+$app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
 
 include __DIR__.'/routes/post.php';
 include __DIR__.'/routes/musica_admin.php';
