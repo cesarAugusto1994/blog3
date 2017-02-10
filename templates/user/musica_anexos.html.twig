@@ -1,6 +1,6 @@
 {% extends 'template-new.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
 
 {% block stylesheet %}{{ parent() }}
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
