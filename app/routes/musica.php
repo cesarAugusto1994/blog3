@@ -66,6 +66,10 @@ $musica->get('praise/new', function(\Symfony\Component\HttpFoundation\Request $r
 
     $categoria = $app['categoria.repository']->find($request->get('category_id'));
 
+    if ($request->get('various')) {
+        return $app['twig']->render('/user/musica-adicionar-2.html.twig', ['categoria' => $categoria]);
+    }
+
     return $app['twig']->render('/user/musica-adicionar.html.twig', ['categoria' => $categoria]);
 
 });

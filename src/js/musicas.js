@@ -19,6 +19,19 @@ $(function () {
 
     }
 
+    class BtnAdd2 extends React.Component{
+
+        render() {
+
+            const url = "/user/praise/new?various=1&category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
+
+            return (
+                <a href={url} className="button is-light is-small">Adicionar V&aacute;rias Musica</a>
+            );
+        }
+
+    }
+
     class BtnEditar extends React.Component{
 
         render() {
@@ -181,14 +194,17 @@ $(function () {
         render : function () {
 
             let addMusica = '';
+            let addMusica2 = '';
 
             if (ROLE_ADMIN == this.props.user) {
-                addMusica = <BtnAdd categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>
+                addMusica = <BtnAdd categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>;
+                addMusica2 = <BtnAdd2 categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>;
             }
 
             return (
                 <Base>
                     {addMusica}
+                    {addMusica2}
                     <GerenciarModal closeModal={this.closeModal} reloadMusicas={this.load} colecao={this.props.colecao} categoria={this.props.categoria}/>
                     <hr className="small" />
                     <ListMusicas data={this.state.data} user={this.props.user} reloadMusicas={this.load}/>

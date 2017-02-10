@@ -105,6 +105,76 @@ class MusicaController
             "message" => "Musica adicionanda com sucesso.",
         ], 201);
     }
+
+    /**
+     * @param array $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     */
+    public function newFromArrayAction(array $request)
+    {
+        if (empty($request)) {
+            throw new \InvalidArgumentException("Nao foi possivel Adicionar musica: Nenhum dado foi informado.");
+        }
+
+        if ($this->app['musica.repository']->findBy(['nome' => $request['nome']])) {
+            throw new \Exception("Não foi possivel Adicionar musica: Música já adiconada.");
+        }
+
+        if (empty($request['nome'])) {
+            throw new \Exception("Não foi possivel Adicionar musica: O nome nao foi informado.");
+        }
+
+        if (empty($request['categoria'])) {
+            throw new \Exception("Não foi possivel Adicionar musica: A Categoria nao foi informada.");
+        }
+
+        /**
+         * @var \Api\Entities\Categoria $categoria
+         */
+        $categoria = $this->app['categoria.repository']->find($request['categoria']);
+        $user = $this->app['session']->get('user');
+        /**
+         * @var \Api\Entities\Usuarios $usuario
+         */
+        $usuario = $this->app['usuarios.repository']->find(2);
+
+        $musica = new Musica();
+
+        $musica->setNome(strtoupper($request['nome']));
+        $musica->setNumero($request['numero'] ?: null);
+        $musica->setTom($request['tonalidade']);
+
+        if ($request['album']) {
+            $album = $this->app['album.repository']->find($request['album']);
+            $musica->setAlbum($album);
+        }
+
+        if ($request['letra']) {
+            $musica->setLetra(strip_tags(htmlspecialchars_decode($request['letra'])));
+            $musica->setLetraOriginal($request['letra']);
+        }
+
+        $musica->setCategoria($categoria);
+        $musica->setUsuario($usuario);
+        $musica->setCadastro(new \DateTime('now'));
+        $musica->setNovo(false);
+
+        if ($request['novo']) {
+            $musica->setNovo($request['novo']);
+        }
+
+        $musica->setAtivo(true);
+
+        $this->app['db']->beginTransaction();
+        $this->app['musica.repository']->save($musica);
+        $this->app['db']->commit();
+
+        return $this->app->json([
+            "classe" => "sucess",
+            "message" => "Musica adicionanda com sucesso.",
+        ], 201);
+    }
     
     /**
      * @param $id

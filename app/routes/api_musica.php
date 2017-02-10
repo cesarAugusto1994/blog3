@@ -37,4 +37,38 @@ $musica->post('/musica/adicionar', function (\Symfony\Component\HttpFoundation\R
     }
 });
 
+
+$musica->post('/musica/adicionar/varios', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    try {
+
+        $arrayItens = $request->request->all();
+
+        foreach ($arrayItens as $itens) {
+
+            foreach ($itens as $item) {
+
+                if (empty($item['nome'])) {
+                    continue;
+                }
+
+                $app['musica.controller']->newFromArrayAction($item);
+            }
+
+        }
+
+        return new JsonResponse([
+            "classe" => "success",
+            "message" => "Itens Cadastrados",
+        ], 201);
+
+    } catch (Exception $e) {
+
+        return new JsonResponse([
+            "classe" => "error",
+            "message" => $e->getMessage(),
+        ], 400);
+    }
+});
+
 return $musica;
