@@ -15,6 +15,10 @@ $musica->get('musicas/{id}', function($id) use ($app) {
     return new \Symfony\Component\HttpFoundation\JsonResponse($musica);
 })->bind('api_musica');
 
+$musica->get('praise-success', function() use ($app) {
+    return $app['twig']->render('/user/musica-sucesso.html.twig');;
+})->bind('praise_success');
+
 $musica->get('view/{id}', function($id) use ($app) {
     $musica = $app['musica.repository']->find($id);
     return $app['twig']->render('/user/view.html.twig', ['musica' => $musica]);
@@ -60,10 +64,14 @@ $musica->get('musica/adicionar/{categoria}', function($categoria) use ($app){
 
 $musica->get('praise/new', function(\Symfony\Component\HttpFoundation\Request $request) use ($app){
 
-    $categoria = [];
+    $categoria = ["id" => 0, "nome" => "categoria"];
 
     if ($request->get('category_id')) {
         $categoria = $app['categoria.repository']->find($request->get('category_id'));
+    }
+
+    if ($request->get('same_category')) {
+        return $app['twig']->render('/user/musica-adicionar-mesma-categoria.html.twig', ['categoria' => $categoria]);
     }
 
     if ($request->get('various')) {

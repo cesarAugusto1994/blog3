@@ -32,11 +32,24 @@ $(function () {
 
     }
 
+    class BtnAdd3 extends React.Component{
+
+        render() {
+
+            const url = "/user/praise/new?various=1&same_category=1&category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
+
+            return (
+                <a href={url} className="button is-light is-small">Adicionar V&aacute;rias Musica</a>
+            );
+        }
+
+    }
+
     class BtnEditar extends React.Component{
 
         render() {
             return (
-                <a href={this.props.link} className="button is-info is-inverted is-small is-pulled-right">Editar</a>
+                <a href={this.props.link} className="button is-info is-inverted is-small">Editar</a>
             );
         }
 
@@ -46,7 +59,7 @@ $(function () {
 
         render() {
             return (
-                <a onClick={this.props.mudarStatus} className="button is-danger is-inverted is-small is-pulled-right">Inativar</a>
+                <a onClick={this.props.mudarStatus} className="button is-danger is-inverted is-small">Inativar</a>
             );
         }
     };
@@ -55,7 +68,7 @@ $(function () {
 
         render() {
             return (
-                <a onClick={this.props.mudarStatus} className="button is-success is-inverted is-small is-pulled-right">Ativar</a>
+                <a onClick={this.props.mudarStatus} className="button is-success is-inverted is-small">Ativar</a>
             );
         }
     };
@@ -154,9 +167,10 @@ $(function () {
 
                             return (
                                 <div key={musica.id}>
-                                    <h4 className="media-heading"><a href={linkAnexos}>{musicaStr}</a>
+                                    <h4 className="media-heading">
                                         {btnEditar}
                                         {btnMudarStatus}
+                                        <a href={linkAnexos}>{musicaStr} <span className="tag is-light is-pulled-right">{musica.qtde_anexos}</span></a>
                                     </h4><hr/>
                                 </div>
                             )
@@ -195,15 +209,18 @@ $(function () {
 
             let addMusica = (<BtnAdd categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>);
             let addMusica2 = '';
+            let addMusica3 = '';
 
             if (ROLE_ADMIN == this.props.user) {
                 addMusica2 = <BtnAdd2 categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>;
+                addMusica3 = <BtnAdd3 categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>;
             }
 
             return (
                 <Base>
                     {addMusica}
                     {addMusica2}
+                    {addMusica3}
                     <GerenciarModal closeModal={this.closeModal} reloadMusicas={this.load} colecao={this.props.colecao} categoria={this.props.categoria}/>
                     <hr className="small" />
                     <ListMusicas data={this.state.data} user={this.props.user} reloadMusicas={this.load}/>

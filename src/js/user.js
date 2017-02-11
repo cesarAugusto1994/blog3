@@ -18,7 +18,7 @@ $(function () {
                                     </h1>
                                 </section>
                                 <h2 className="wow fadeInUp animated" data-wow-delay=".6s">
-                                    Bem vindo ao {this.props.app}
+                                    {this.props.app}
                                 </h2>
                                 <a className="btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green"
                                    data-wow-delay=".9s" href="#works" data-section="#works">Iniciar</a>

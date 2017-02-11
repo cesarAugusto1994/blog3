@@ -42,7 +42,7 @@ $musica->post('/musica/adicionar', function (\Symfony\Component\HttpFoundation\R
         return new JsonResponse([
             "classe" => "error",
             "message" => $e->getMessage(),
-        ], 400);
+        ]);
     }
 });
 

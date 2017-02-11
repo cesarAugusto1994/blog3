@@ -70,8 +70,17 @@ const Render = React.createClass({
             },
             cache: false,
             success: function (data) {
-                alertify.success(data.message);
-                if (data.classe == 'sucess') {
+
+                if (data.classe == 'success') {
+                    alertify.success(data.message);
+                } else {
+                    alertify.error(data.message);
+                }
+
+                if (data.redirect == true) {
+                    window.location.href = '/user/praise-success';
+                }
+                else if (data.classe == 'sucess') {
                     window.location.href = PRAISES;
                 }
                 unblock_screen();

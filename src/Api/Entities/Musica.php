@@ -79,6 +79,12 @@ class Musica implements \JsonSerializable
     private $usuario;
 
     /**
+     * @ORM\OneToMany(targetEntity="MusicaAnexos", mappedBy="musica")
+     * @var MusicaAnexos
+     */
+    private $anexos;
+
+    /**
      * @ORM\OneToMany(targetEntity="Comentarios", mappedBy="Musica")
      * @var Comentarios
      */
@@ -101,7 +107,16 @@ class Musica implements \JsonSerializable
      * @var boolean
      */
     private $ativo;
-    
+
+    /**
+     * Musica constructor.
+     */
+    public function __construct()
+    {
+        $this->anexos = new ArrayCollection();
+    }
+
+
     /**
      * @return int
      */
@@ -287,6 +302,14 @@ class Musica implements \JsonSerializable
     }
 
     /**
+     * @return int
+     */
+    public function getCountAnexos()
+    {
+        return count($this->anexos);
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()
@@ -299,6 +322,7 @@ class Musica implements \JsonSerializable
             "letraOriginal" => $this->letraOriginal,
             "album" => $this->album,
             "tom" => $this->tom,
+            "qtde_anexos" => $this->getCountAnexos(),
             "ativo" => $this->ativo
         ];
     }

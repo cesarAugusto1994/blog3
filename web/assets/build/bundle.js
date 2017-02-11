@@ -56,7 +56,8 @@
 	__webpack_require__(10);
 	__webpack_require__(11);
 	__webpack_require__(12);
-	module.exports = __webpack_require__(13);
+	__webpack_require__(13);
+	module.exports = __webpack_require__(14);
 
 
 /***/ },
@@ -893,7 +894,6 @@
 	                            React.createElement(
 	                                "h2",
 	                                { className: "wow fadeInUp animated", "data-wow-delay": ".6s" },
-	                                "Bem vindo ao ",
 	                                this.props.app
 	                            ),
 	                            React.createElement(
@@ -2654,7 +2654,7 @@
 
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-white is-pulled-right is-small',
+	                { className: 'button is-white is-small',
 	                    onClick: this.props.acao,
 	                    'data-id': this.props.categoria.id,
 	                    'data-nome': this.props.categoria.nome,
@@ -2670,7 +2670,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-danger is-inverted is-pulled-right is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
+	                { className: 'button is-danger is-inverted is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
 	                'Inativar'
 	            );
 	        }
@@ -2682,7 +2682,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-success is-inverted is-pulled-right is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
+	                { className: 'button is-success is-inverted is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
 	                'Ativar'
 	            );
 	        }
@@ -2880,6 +2880,8 @@
 	                    React.createElement(
 	                        'h4',
 	                        { className: 'media-heading' },
+	                        editar,
+	                        mudarStatus,
 	                        React.createElement(
 	                            'a',
 	                            { href: this.props.musicasUrl },
@@ -2887,12 +2889,10 @@
 	                            ' ',
 	                            React.createElement(
 	                                'span',
-	                                { className: 'tag is-light' },
+	                                { className: 'tag is-light is-pulled-right' },
 	                                this.props.categoria.qtde_musicas
 	                            )
-	                        ),
-	                        editar,
-	                        mudarStatus
+	                        )
 	                    ),
 	                    React.createElement('hr', null)
 	                )
@@ -3132,16 +3132,12 @@
 	        margin: 'auto'
 	    };
 
-	    const styleFloat = {
-	        float: "right"
-	    };
-
 	    class BtnEditar extends React.Component {
 
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-light is-small is-fullwidth openMenu',
+	                { className: 'button is-primary is-small openMenu',
 	                    'data-toggle': 'modal',
 	                    'data-target': '#myModal',
 	                    'data-id': this.props.colecao.id,
@@ -3158,7 +3154,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-danger is-outlined is-fullwidth is-small mudarStatus', onClick: this.props.acao, 'data-colecao': this.props.colecao.id },
+	                { className: 'button is-danger is-fullwidth is-small mudarStatus', onClick: this.props.acao, 'data-colecao': this.props.colecao.id },
 	                'Inativar'
 	            );
 	        }
@@ -3170,7 +3166,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-success is-outlined is-fullwidth is-small mudarStatus', onClick: this.props.acao, 'data-colecao': this.props.colecao.id },
+	                { className: 'button is-success is-fullwidth is-small mudarStatus', onClick: this.props.acao, 'data-colecao': this.props.colecao.id },
 	                'Ativar'
 	            );
 	        }
@@ -3202,7 +3198,7 @@
 
 	                menu = React.createElement(
 	                    'div',
-	                    { className: 'btn-group', style: styleFloat },
+	                    { className: 'btn-group' },
 	                    React.createElement(
 	                        'button',
 	                        { type: 'button', className: 'button is-light is-small is-pulled-left dropdown-toggle ', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
@@ -3214,12 +3210,7 @@
 	                        React.createElement(
 	                            'li',
 	                            null,
-	                            editar
-	                        ),
-	                        React.createElement('li', { role: 'separator', className: 'divider' }),
-	                        React.createElement(
-	                            'li',
-	                            null,
+	                            editar,
 	                            mudarStatus
 	                        )
 	                    )
@@ -3240,6 +3231,7 @@
 	                    React.createElement(
 	                        'h4',
 	                        null,
+	                        menu,
 	                        React.createElement(
 	                            'a',
 	                            { href: this.props.categoriasUrl },
@@ -3249,8 +3241,7 @@
 	                                { className: 'tag is-light' },
 	                                this.props.colecao.qtde_categorias
 	                            )
-	                        ),
-	                        menu
+	                        )
 	                    )
 	                )
 	            );
@@ -3426,12 +3417,27 @@
 
 	    }
 
+	    class BtnAdd3 extends React.Component {
+
+	        render() {
+
+	            const url = "/user/praise/new?various=1&same_category=1&category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
+
+	            return React.createElement(
+	                "a",
+	                { href: url, className: "button is-light is-small" },
+	                "Adicionar V\xE1rias Musica"
+	            );
+	        }
+
+	    }
+
 	    class BtnEditar extends React.Component {
 
 	        render() {
 	            return React.createElement(
 	                "a",
-	                { href: this.props.link, className: "button is-info is-inverted is-small is-pulled-right" },
+	                { href: this.props.link, className: "button is-info is-inverted is-small" },
 	                "Editar"
 	            );
 	        }
@@ -3443,7 +3449,7 @@
 	        render() {
 	            return React.createElement(
 	                "a",
-	                { onClick: this.props.mudarStatus, className: "button is-danger is-inverted is-small is-pulled-right" },
+	                { onClick: this.props.mudarStatus, className: "button is-danger is-inverted is-small" },
 	                "Inativar"
 	            );
 	        }
@@ -3454,7 +3460,7 @@
 	        render() {
 	            return React.createElement(
 	                "a",
-	                { onClick: this.props.mudarStatus, className: "button is-success is-inverted is-small is-pulled-right" },
+	                { onClick: this.props.mudarStatus, className: "button is-success is-inverted is-small" },
 	                "Ativar"
 	            );
 	        }
@@ -3564,13 +3570,19 @@
 	                        React.createElement(
 	                            "h4",
 	                            { className: "media-heading" },
+	                            btnEditar,
+	                            btnMudarStatus,
 	                            React.createElement(
 	                                "a",
 	                                { href: linkAnexos },
-	                                musicaStr
-	                            ),
-	                            btnEditar,
-	                            btnMudarStatus
+	                                musicaStr,
+	                                " ",
+	                                React.createElement(
+	                                    "span",
+	                                    { className: "tag is-light is-pulled-right" },
+	                                    musica.qtde_anexos
+	                                )
+	                            )
 	                        ),
 	                        React.createElement("hr", null)
 	                    );
@@ -3609,9 +3621,11 @@
 
 	            let addMusica = React.createElement(BtnAdd, { categoria: this.props.categoria, categoriaNome: this.props.categoriaNome });
 	            let addMusica2 = '';
+	            let addMusica3 = '';
 
 	            if (ROLE_ADMIN == this.props.user) {
 	                addMusica2 = React.createElement(BtnAdd2, { categoria: this.props.categoria, categoriaNome: this.props.categoriaNome });
+	                addMusica3 = React.createElement(BtnAdd3, { categoria: this.props.categoria, categoriaNome: this.props.categoriaNome });
 	            }
 
 	            return React.createElement(
@@ -3619,6 +3633,7 @@
 	                null,
 	                addMusica,
 	                addMusica2,
+	                addMusica3,
 	                React.createElement(GerenciarModal, { closeModal: this.closeModal, reloadMusicas: this.load, colecao: this.props.colecao, categoria: this.props.categoria }),
 	                React.createElement("hr", { className: "small" }),
 	                React.createElement(ListMusicas, { data: this.state.data, user: this.props.user, reloadMusicas: this.load })
@@ -4105,8 +4120,16 @@
 	            },
 	            cache: false,
 	            success: function (data) {
-	                alertify.success(data.message);
-	                if (data.classe == 'sucess') {
+
+	                if (data.classe == 'success') {
+	                    alertify.success(data.message);
+	                } else {
+	                    alertify.error(data.message);
+	                }
+
+	                if (data.redirect == true) {
+	                    window.location.href = '/user/praise-success';
+	                } else if (data.classe == 'sucess') {
 	                    window.location.href = PRAISES;
 	                }
 	                unblock_screen();
@@ -5447,6 +5470,522 @@
 	        ), document.getElementById('musicas-adicionadas'));
 	    }
 	});
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by cesar on 25/01/17.
+	 */
+
+	class Container extends React.Component {
+
+	    render() {
+	        return React.createElement(
+	            "article",
+	            null,
+	            React.createElement(
+	                "div",
+	                { className: "container" },
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" },
+	                        this.props.children
+	                    )
+	                )
+	            )
+	        );
+	    }
+
+	}
+	;
+
+	const Render = React.createClass({
+	    displayName: "Render",
+
+
+	    getInitialState: function () {
+	        return { data: [], categorias: [], categoria: [], tons: [] };
+	    },
+
+	    load: function () {
+	        $.get('/user/categorias', function (result) {
+	            this.setState({ categorias: result });
+	        }.bind(this));
+
+	        $.get('/user/tonalidades', function (result) {
+	            this.setState({ tons: result });
+	        }.bind(this));
+	    },
+
+	    componentDidMount: function () {
+	        this.load();
+	    },
+
+	    handleSubmit: function (e) {
+
+	        e.preventDefault();
+
+	        let categoria = this.refs.categoria.value.trim();
+
+	        let nome1 = this.refs.nome1.value.trim();
+	        let numero1 = this.refs.numero1.value.trim();
+	        let tonalidade1 = this.refs.tonalidade1.value.trim();
+
+	        let nome2 = this.refs.nome2.value.trim();
+	        let numero2 = this.refs.numero2.value.trim();
+	        let tonalidade2 = this.refs.tonalidade2.value.trim();
+
+	        let nome3 = this.refs.nome3.value.trim();
+	        let numero3 = this.refs.numero3.value.trim();
+	        let tonalidade3 = this.refs.tonalidade3.value.trim();
+
+	        let nome4 = this.refs.nome4.value.trim();
+	        let numero4 = this.refs.numero4.value.trim();
+	        let tonalidade4 = this.refs.tonalidade4.value.trim();
+
+	        let nome5 = this.refs.nome5.value.trim();
+	        let numero5 = this.refs.numero5.value.trim();
+	        let tonalidade5 = this.refs.tonalidade5.value.trim();
+
+	        let nome6 = this.refs.nome6.value.trim();
+	        let numero6 = this.refs.numero6.value.trim();
+	        let tonalidade6 = this.refs.tonalidade6.value.trim();
+
+	        let nome7 = this.refs.nome7.value.trim();
+	        let numero7 = this.refs.numero7.value.trim();
+	        let tonalidade7 = this.refs.tonalidade7.value.trim();
+
+	        let nome8 = this.refs.nome8.value.trim();
+	        let numero8 = this.refs.numero8.value.trim();
+	        let tonalidade8 = this.refs.tonalidade8.value.trim();
+
+	        let nome9 = this.refs.nome9.value.trim();
+	        let numero9 = this.refs.numero9.value.trim();
+	        let tonalidade9 = this.refs.tonalidade9.value.trim();
+
+	        let nome10 = this.refs.nome10.value.trim();
+	        let numero10 = this.refs.numero10.value.trim();
+	        let tonalidade10 = this.refs.tonalidade10.value.trim();
+
+	        /*
+	        if (!nome || !categoria) {
+	            alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
+	        }
+	        */
+
+	        let categoriaID = this.refs.categoria.value;
+	        let categoriaNome = "category";
+	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome + '/praises';
+
+	        $.ajax({
+	            type: "POST",
+	            url: "/api/musica/adicionar/varios",
+	            data: {
+	                itens: [{ nome: nome1, numero: numero1, tonalidade: tonalidade1, categoria: categoria }, { nome: nome2, numero: numero2, tonalidade: tonalidade2, categoria: categoria }, { nome: nome3, numero: numero3, tonalidade: tonalidade3, categoria: categoria }, { nome: nome4, numero: numero4, tonalidade: tonalidade4, categoria: categoria }, { nome: nome5, numero: numero5, tonalidade: tonalidade5, categoria: categoria }, { nome: nome6, numero: numero6, tonalidade: tonalidade6, categoria: categoria }, { nome: nome7, numero: numero7, tonalidade: tonalidade7, categoria: categoria }, { nome: nome8, numero: numero8, tonalidade: tonalidade8, categoria: categoria }, { nome: nome9, numero: numero9, tonalidade: tonalidade9, categoria: categoria }, { nome: nome10, numero: numero10, tonalidade: tonalidade10, categoria: categoria }]
+	            },
+	            cache: false,
+	            success: function (data) {
+	                alertify.success(data.message);
+	                if (data.classe == 'sucess') {
+	                    window.location.href = PRAISES;
+	                }
+	                unblock_screen();
+	            },
+	            error: function (data) {
+	                alertify.error(data.message);
+	                unblock_screen();
+	            }
+	        });
+	    },
+
+	    render: function () {
+
+	        return React.createElement(
+	            Container,
+	            null,
+	            React.createElement(
+	                "form",
+	                { className: "form-horizontal", method: "POST", onSubmit: this.handleSubmit },
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome1", name: "nome1", id: "nome1" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero1", name: "numero1", id: "numero1" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade1", ref: "tonalidade1", id: "tonalidade1" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome2", name: "nome2", id: "nome2" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero2", name: "numero2", id: "numero2" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade2", ref: "tonalidade2", id: "tonalidade2" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome3", name: "nome3", id: "nome3" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero3", name: "numero3", id: "numero3" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade3", ref: "tonalidade3", id: "tonalidade3" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome4", name: "nome4", id: "nome4" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero4", name: "numero4", id: "numero4" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade4", ref: "tonalidade4", id: "tonalidade4" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome5", name: "nome5", id: "nome5" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero5", name: "numero5", id: "numero5" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade5", ref: "tonalidade5", id: "tonalidade5" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome6", name: "nome6", id: "nome6" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero6", name: "numero6", id: "numero6" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade6", ref: "tonalidade6", id: "tonalidade6" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome7", name: "nome7", id: "nome7" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero7", name: "numero7", id: "numero7" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade7", ref: "tonalidade7", id: "tonalidade7" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome8", name: "nome8", id: "nome8" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero8", name: "numero8", id: "numero8" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade8", ref: "tonalidade8", id: "tonalidade8" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome9", name: "nome9", id: "nome9" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero9", name: "numero9", id: "numero9" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade9", ref: "tonalidade9", id: "tonalidade9" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "control is-grouped" },
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", autoFocus: "autoFocus", placeholder: "Titulo", ref: "nome10", name: "nome10", id: "nome10" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement("input", { className: "input", type: "text", size: "20", placeholder: "N\xFAmero", ref: "numero10", name: "numero10", id: "numero10" })
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "control is-expanded" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "select is-fullwidth" },
+	                            React.createElement(
+	                                "select",
+	                                { name: "tonalidade10", ref: "tonalidade10", id: "tonalidade10" },
+	                                this.state.tons.map(function (tom) {
+	                                    return React.createElement(
+	                                        "option",
+	                                        { key: tom, defaultValue: tom },
+	                                        tom
+	                                    );
+	                                })
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control is-expanded" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "select is-fullwidth" },
+	                        React.createElement(
+	                            "select",
+	                            { id: "categoria", name: "categoria", ref: "categoria", defaultValue: this.props.categoria },
+	                            this.state.categorias.map(function (colecao) {
+	                                return React.createElement(
+	                                    "optgroup",
+	                                    { label: colecao.nome },
+	                                    colecao.categorias.map(function (categoria) {
+	                                        return React.createElement(
+	                                            "option",
+	                                            { key: categoria.id, value: categoria.id },
+	                                            categoria.nome
+	                                        );
+	                                    })
+	                                );
+	                            })
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement(
+	                        "button",
+	                        { className: "button is-danger is-fullwidth", type: "submit" },
+	                        "Salvar"
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	if (document.getElementById("musica-adicionar-mesma-categoria")) {
+
+	    const categoria = $("#musica-adicionar-mesma-categoria").data("categoria");
+
+	    ReactDOM.render(React.createElement(Render, { categoria: categoria }), document.getElementById('musica-adicionar-mesma-categoria'));
+	}
 
 /***/ }
 /******/ ]);

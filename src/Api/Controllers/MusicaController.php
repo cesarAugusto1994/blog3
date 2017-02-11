@@ -44,11 +44,11 @@ class MusicaController
     public function newAction(Request $request)
     {
         if (0 == $request->request->count()) {
-            throw new \InvalidArgumentException("Nao foi possivel Adicionar musica: Nenhum dado foi informado.");
+            throw new \InvalidArgumentException("Nao foi possivel adicionar esta m&uacute;sica: Nenhum dado foi informado.");
         }
 
         if ($this->app['musica.repository']->findBy(['nome' => $request->get('nome')])) {
-            throw new \Exception("Não foi possivel Adicionar musica: Música já adiconada.");
+            throw new \Exception("Não foi poss&iacute;vel adicionar m&uacute;sica: M&uacute;sica já adiconada.");
         }
 
         if (empty($request->get('nome'))) {
@@ -106,8 +106,17 @@ class MusicaController
         $this->app['musica.repository']->save($musica);
         $this->app['db']->commit();
 
+        if (Usuarios::ROLE_ADMIN != $usuario->getRoles()) {
+            return $this->app->json([
+                "classe" => "success",
+                "redirect" => true,
+                "message" => "Sua Sugestão Foi enviada, embre ele será publicada.",
+            ], 201);
+        }
+
         return $this->app->json([
             "classe" => "sucess",
+            "redirect" => false,
             "message" => "Musica adicionanda com sucesso.",
         ], 201);
     }

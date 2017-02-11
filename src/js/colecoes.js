@@ -10,15 +10,13 @@ $(function () {
         margin: 'auto'
     };
 
-    const styleFloat = {
-        float : "right"
-    };
+
 
     class BtnEditar extends React.Component {
 
         render() {
             return (
-                <a className="button is-light is-small is-fullwidth openMenu"
+                <a className="button is-primary is-small openMenu"
                    data-toggle="modal"
                    data-target="#myModal"
                    data-id={ this.props.colecao.id }
@@ -33,7 +31,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-danger is-outlined is-fullwidth is-small mudarStatus"  onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Inativar</a>
+                <a className="button is-danger is-fullwidth is-small mudarStatus"  onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Inativar</a>
             )
         }
 
@@ -43,7 +41,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-success is-outlined is-fullwidth is-small mudarStatus" onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Ativar</a>
+                <a className="button is-success is-fullwidth is-small mudarStatus" onClick={this.props.acao} data-colecao={ this.props.colecao.id }>Ativar</a>
             )
         }
 
@@ -73,14 +71,12 @@ $(function () {
                 editar = <BtnEditar colecao={this.props.colecao} />
 
                 menu = (
-                <div className="btn-group" style={styleFloat}>
+                <div className="btn-group">
                     <button type="button" className="button is-light is-small is-pulled-left dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span className="caret"></span>
                     </button>
                     <ul className="dropdown-menu">
-                        <li>{editar}</li>
-                        <li role="separator" className="divider"></li>
-                        <li>{mudarStatus}</li>
+                        <li>{editar}{mudarStatus}</li>
                     </ul>
                 </div>
                 );
@@ -93,11 +89,11 @@ $(function () {
                     </div>
                     <figcaption>
                         <h4>
+                            {menu}
                             <a href={this.props.categoriasUrl}>
                                 {this.props.colecao.nome}
                                 <span className="tag is-light">{this.props.colecao.qtde_categorias}</span>
                             </a>
-                            {menu}
                         </h4>
                     </figcaption>
                 </figure>

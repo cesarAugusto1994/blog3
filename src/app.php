@@ -38,7 +38,7 @@ $app['security.firewalls'] = array(
         ),
         'remember_me' => array(
             'secret'   => '%secret%',
-            'lifetime' => 10000,
+            'lifetime' => 50000,
             'path'     => '/user/',
             // by default, the feature is enabled by checking a
             // checkbox in the login form (see below), uncomment

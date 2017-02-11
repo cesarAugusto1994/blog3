@@ -15,7 +15,7 @@ $(function () {
         render() {
 
             return (
-                <a className="button is-white is-pulled-right is-small"
+                <a className="button is-white is-small"
                    onClick={ this.props.acao }
                    data-id={ this.props.categoria.id }
                    data-nome={ this.props.categoria.nome }
@@ -29,7 +29,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-danger is-inverted is-pulled-right is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
+                <a className="button is-danger is-inverted is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
             )
         }
 
@@ -39,7 +39,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-success is-inverted is-pulled-right is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Ativar</a>
+                <a className="button is-success is-inverted is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Ativar</a>
             )
         }
 
@@ -184,9 +184,9 @@ $(function () {
                 <div className="media fadeInUp animated slide" data-wow-delay=".3s">
                     <div className="media-body">
                         <h4 className="media-heading">
-                            <a href={this.props.musicasUrl}>{this.props.categoria.nome} <span className="tag is-light">{this.props.categoria.qtde_musicas}</span></a>
                             {editar}
                             {mudarStatus}
+                            <a href={this.props.musicasUrl}>{this.props.categoria.nome} <span className="tag is-light is-pulled-right">{this.props.categoria.qtde_musicas}</span></a>
                         </h4>
                         <hr/>
                     </div>

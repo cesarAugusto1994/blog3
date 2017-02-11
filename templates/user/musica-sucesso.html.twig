@@ -1,0 +1,24 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Sucesso{% endblock %}
+
+{% block header %}{{ parent() }}{% endblock %}
+
+{% block headerNome %}Sucesso{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <p class="lead">A musica foi adicionada, o Administrador será notificado e a musica será publicada.</p>
+                    <p>
+                        <a href="/user/praise/new" class="button is-primary">Adicionar mais</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

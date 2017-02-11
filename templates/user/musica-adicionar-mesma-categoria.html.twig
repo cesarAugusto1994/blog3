@@ -1,0 +1,12 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Musica{% endblock %}
+
+{% block headerNome %}Nova Musica{% endblock %}
+
+{% block content %}
+    <div id="musica-adicionar-mesma-categoria"
+         data-categoria="{{ categoria.id }}"
+         data-categoria-nome="{{ categoria.nome }}"
+    ></div>
+{% endblock %}
