@@ -14,8 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Favoritos
  * @package Api\Entities
- * @ORM\Entity(repositoryClass="Api\Entities\FavoritosRepository")
- * @ORM\Table(name="Favoritos")
+ * @ORM\Entity(repositoryClass="Api\Repositories\FavoritosRepository")
+ * @ORM\Table(name="favoritos")
  */
 class Favoritos implements \JsonSerializable
 {

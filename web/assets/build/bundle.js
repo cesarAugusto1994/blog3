@@ -1338,12 +1338,13 @@
 	                    alertify.success(data.message);
 	                    _this.props.reloadArquivos();
 	                    _this.props.closeModal();
+	                    $("#btn-upload").removeClass("is-loading");
 	                    unblock_screen();
 	                },
 	                error: function (data) {
-	                    unblock_screen();
 	                    $("#btn-upload").removeClass("is-loading");
 	                    alertify.error(data.message);
+	                    unblock_screen();
 	                }
 	            });
 	        },
@@ -1393,13 +1394,13 @@
 	                                { className: 'modal-footer' },
 	                                React.createElement(
 	                                    'button',
-	                                    { type: 'button', className: 'button is-danger is-outlined is-pulled-left',
+	                                    { type: 'button', className: 'button is-danger is-pulled-left',
 	                                        'data-dismiss': 'modal' },
 	                                    'Cancelar'
 	                                ),
 	                                React.createElement(
 	                                    'button',
-	                                    { type: 'submit', className: 'button is-success' },
+	                                    { id: 'btn-upload', type: 'submit', className: 'button is-success' },
 	                                    'Salvar'
 	                                )
 	                            )
@@ -1664,7 +1665,7 @@
 	            return React.createElement(
 	                'div',
 	                null,
-	                this.props.data.map(function (comentario) {
+	                _this.props.data.map(function (comentario) {
 
 	                    let img = _this.props.dirAvatar + comentario.usuario.avatar;
 
@@ -1948,11 +1949,29 @@
 	    }
 
 	    class BtnFavoritos extends React.Component {
+
 	        render() {
+
+	            let btn = '';
+
+	            if (this.props.isFavorito === true) {
+	                btn = React.createElement(
+	                    'a',
+	                    { className: 'button is-small is-danger is-inverted add-remove', onClick: this.props.handle },
+	                    'Remover dos Favoritos'
+	                );
+	            } else {
+	                btn = React.createElement(
+	                    'a',
+	                    { className: 'button is-small is-light add-remove', onClick: this.props.handle },
+	                    'Adicionar aos Favoritos'
+	                );
+	            }
+
 	            return React.createElement(
-	                'a',
-	                { className: 'button is-small is-light' },
-	                'Adicionar aos Favoritos'
+	                'span',
+	                null,
+	                btn
 	            );
 	        }
 	    }
@@ -2186,15 +2205,23 @@
 
 
 	        getInitialState: function () {
-	            return { data: [] };
+	            return { data: [], favorito: false };
 	        },
 	        load: function () {
 	            $.get(this.props.sourceArquivos, function (result) {
 	                this.setState({ data: result });
 	            }.bind(this));
 	        },
+
+	        loadFavoritos: function () {
+	            $.get('/api/favorites/praise/' + this.props.musica, function (result) {
+	                this.setState({ favorito: result.length > 0 });
+	            }.bind(this));
+	        },
+
 	        componentDidMount: function () {
 	            this.load();
+	            this.loadFavoritos();
 	        },
 
 	        openModal: function () {
@@ -2208,6 +2235,35 @@
 	        },
 	        closeModalAddLink: function () {
 	            $("#modal-add-link").modal("hide");
+	        },
+
+	        handleFavoritos: function () {
+
+	            const _this = this;
+	            let id = this.props.musica;
+	            $("#add-remove").addClass("is-loading");
+
+	            block_screen(500);
+
+	            $.ajax({
+	                type: "POST",
+	                url: "/api/favoritos/add-remove",
+	                data: {
+	                    "id": id
+	                },
+	                cache: false,
+	                success: function (data) {
+	                    $("#add-remove").removeClass("is-loading");
+	                    unblock_screen();
+	                    alertify.success(data.mensagem);
+	                    _this.loadFavoritos();
+	                },
+	                error: function () {
+	                    $("#add-remove").removeClass("is-loading");
+	                    unblock_screen();
+	                    alertify.error("Ocorreu um erro.");
+	                }
+	            });
 	        },
 
 	        render: function () {
@@ -2232,7 +2288,7 @@
 	                    React.createElement(
 	                        'p',
 	                        { className: 'control' },
-	                        React.createElement(BtnFavoritos, { dataMusica: this.props.dataMusica })
+	                        React.createElement(BtnFavoritos, { handle: this.handleFavoritos, isFavorito: this.state.favorito, dataMusica: this.props.dataMusica })
 	                    ),
 	                    React.createElement(
 	                        'p',
@@ -2448,8 +2504,8 @@
 	        });
 
 	        $("pre").transpose({ key: 'C' });
-	        $('.c').css('font-size', 8);
-	        $('#content').css('font-size', 8);
+	        $('.c').css('font-size', 12);
+	        $('#content').css('font-size', 12);
 	    }
 	});
 
@@ -2497,8 +2553,7 @@
 	                React.createElement(FontControl, null),
 	                React.createElement(
 	                    'pre',
-	                    { id: 'content', style: styleCardLetra,
-	                        'data-key': this.state.data.tom },
+	                    { id: 'content', 'data-key': this.state.data.tom, style: styleCardLetra },
 	                    this.state.data.letra
 	                )
 	            )
@@ -2592,10 +2647,6 @@
 
 	    ReactDOM.render(React.createElement(VIEW, { source: MUSICA_SOURCE }), document.getElementById("view"));
 
-	    $("#content").transpose({ key: 'C' });
-	    $('.c').css('font-size', 8);
-	    $('#content').css('font-size', 8);
-
 	    $('#incfont').click(function () {
 	        curSize = parseInt($('#content').css('font-size')) + 2;
 	        curSize2 = parseInt($('.c').css('font-size')) + 2;
@@ -2608,6 +2659,10 @@
 	        if (curSize >= 5) $('#content').css('font-size', curSize);
 	        if (curSize2 >= 5) $('.c').css('font-size', curSize2);
 	    });
+
+	    $("#content").transpose({ key: 'C' });
+	    $('.c').css('font-size', 12);
+	    $('#content').css('font-size', 12);
 	}
 
 /***/ },

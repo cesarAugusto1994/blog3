@@ -28,8 +28,7 @@ const VIEW = React.createClass({
                 <Card>
                     <h2>{this.state.data.nome}</h2>
                     <FontControl />
-                    <pre id="content" style={styleCardLetra}
-                         data-key={this.state.data.tom}>{this.state.data.letra}</pre>
+                    <pre id="content"  data-key={this.state.data.tom} style={styleCardLetra}>{this.state.data.letra}</pre>
                 </Card>
             </Base>
         )
@@ -100,10 +99,6 @@ if (document.getElementById("view")) {
 
     ReactDOM.render(<VIEW source={MUSICA_SOURCE}/>, document.getElementById("view"));
 
-    $("#content").transpose({key: 'C'});
-    $('.c').css('font-size', 8);
-    $('#content').css('font-size', 8);
-
     $('#incfont').click(function () {
         curSize = parseInt($('#content').css('font-size')) + 2;
         curSize2 = parseInt($('.c').css('font-size')) + 2;
@@ -120,5 +115,9 @@ if (document.getElementById("view")) {
         if (curSize2 >= 5)
             $('.c').css('font-size', curSize2);
     });
+
+    $("#content").transpose({key: 'C'});
+    $('.c').css('font-size', 12);
+    $('#content').css('font-size', 12);
 
 }

@@ -45,12 +45,13 @@ $(function () {
                     alertify.success(data.message);
                     _this.props.reloadArquivos();
                     _this.props.closeModal();
+                    $("#btn-upload").removeClass("is-loading");
                     unblock_screen();
                 },
                 error: function (data) {
-                    unblock_screen();
                     $("#btn-upload").removeClass("is-loading");
                     alertify.error(data.message);
+                    unblock_screen();
                 }
             });
 
@@ -76,10 +77,10 @@ $(function () {
                                            multiple/>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="button is-danger is-outlined is-pulled-left"
+                                    <button type="button" className="button is-danger is-pulled-left"
                                             data-dismiss="modal">Cancelar
                                     </button>
-                                    <button type="submit" className="button is-success">Salvar</button>
+                                    <button id="btn-upload" type="submit" className="button is-success">Salvar</button>
                                 </div>
                             </form>
                         </div>
@@ -284,7 +285,7 @@ $(function () {
 
             return (
                 <div>
-                    {this.props.data.map(function (comentario) {
+                    {_this.props.data.map(function (comentario) {
 
                         let img = _this.props.dirAvatar + comentario.usuario.avatar;
 
@@ -520,9 +521,19 @@ $(function () {
     }
 
     class BtnFavoritos extends React.Component {
+
         render() {
+
+            let btn = '';
+
+            if (this.props.isFavorito === true) {
+                btn = (<a className="button is-small is-danger is-inverted add-remove" onClick={this.props.handle}>Remover dos Favoritos</a>);
+            } else {
+                btn = (<a className="button is-small is-light add-remove"  onClick={this.props.handle}>Adicionar aos Favoritos</a>);
+            }
+
             return (
-                <a className="button is-small is-light">Adicionar aos Favoritos</a>
+                <span>{btn}</span>
             );
         }
     }
@@ -710,15 +721,23 @@ $(function () {
     const ViewOpcoes = React.createClass({
 
         getInitialState: function () {
-            return {data: []};
+            return {data: [], favorito : false};
         },
         load: function () {
             $.get(this.props.sourceArquivos, function (result) {
                 this.setState({data: result});
             }.bind(this));
         },
+
+        loadFavoritos : function () {
+            $.get('/api/favorites/praise/' + this.props.musica, function (result) {
+                this.setState({favorito: result.length > 0});
+            }.bind(this));
+        },
+
         componentDidMount: function () {
             this.load();
+            this.loadFavoritos();
         },
 
         openModal: function () {
@@ -732,6 +751,35 @@ $(function () {
         },
         closeModalAddLink: function () {
             $("#modal-add-link").modal("hide");
+        },
+
+        handleFavoritos : function () {
+
+            const _this = this;
+            let id = this.props.musica;
+            $("#add-remove").addClass("is-loading");
+
+            block_screen(500);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/favoritos/add-remove",
+                data: {
+                    "id": id,
+                },
+                cache: false,
+                success: function (data) {
+                    $("#add-remove").removeClass("is-loading");
+                    unblock_screen();
+                    alertify.success(data.mensagem);
+                    _this.loadFavoritos();
+                },
+                error: function () {
+                    $("#add-remove").removeClass("is-loading");
+                    unblock_screen();
+                    alertify.error("Ocorreu um erro.");
+                }
+            });
         },
 
         render: function () {
@@ -753,7 +801,7 @@ $(function () {
                 menu = (
                     <div className="control is-grouped">
                         <p className="control">
-                            <BtnFavoritos dataMusica={this.props.dataMusica}/>
+                            <BtnFavoritos handle={this.handleFavoritos} isFavorito={this.state.favorito} dataMusica={this.props.dataMusica}/>
                         </p>
                         <p className="control">
                             <BtnEditarMusica source={this.props.sourceEditar}/>
@@ -957,7 +1005,7 @@ $(function () {
         });
 
         $("pre").transpose({key: 'C'});
-        $('.c').css('font-size', 8);
-        $('#content').css('font-size', 8)
+        $('.c').css('font-size', 12);
+        $('#content').css('font-size', 12)
     }
 });
