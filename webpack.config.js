@@ -10,6 +10,7 @@ module.exports = {
         "./src/js/categorias",
         "./src/js/colecoes",
         "./src/js/musicas",
+        "./src/js/favoritos",
         "./src/js/categoria_adicionar",
         "./src/js/categoria_editar",
         "./src/js/musica_adicionar",

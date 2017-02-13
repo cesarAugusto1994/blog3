@@ -187,7 +187,7 @@ $app['adress'] = function () {
 $app['dir.base'] = function () use ($app) {
 
     if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
-        return '/';
+        return 'http://coletaneaicm.com/web/';
     }
 
     return '/web/';

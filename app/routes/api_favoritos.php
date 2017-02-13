@@ -24,6 +24,17 @@ $favoritos->get('favorites/praise/{id}', function($id) use ($app) {
 
 })->bind('api_favorites');
 
+$favoritos->get('favorites', function() use ($app) {
+
+    $userSession = $app['session']->get('user');
+    $usuario = $app['usuarios.repository']->find($userSession->getId());
+
+    $favorito = $app['favoritos.repository']->findBy(['usuario' => $usuario]);
+
+    return new \Symfony\Component\HttpFoundation\JsonResponse($favorito);
+
+})->bind('api_user_favorites');
+
 $favoritos->post('favoritos/add-remove', function (Request $request) use ($app) {
 
     if (0 == $request->request->count()) {

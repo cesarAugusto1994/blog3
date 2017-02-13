@@ -58,7 +58,8 @@
 	__webpack_require__(12);
 	__webpack_require__(13);
 	__webpack_require__(14);
-	module.exports = __webpack_require__(15);
+	__webpack_require__(15);
+	module.exports = __webpack_require__(16);
 
 
 /***/ },
@@ -653,6 +654,7 @@
 	            var rootAvatar = this.props.dirAvatar + this.props.user.avatar;
 	            var linkToPerfil = "/user/" + this.props.user.id + '/' + this.props.user.nome.toLowerCase().replace(/ /g, '_') + '/perfil';
 	            var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
+	            const favoritos = "/user/favorites";
 	            var admin = "";
 	            var userProfile = "";
 
@@ -756,6 +758,15 @@
 	                                    'a',
 	                                    { href: linkToPerfil },
 	                                    'Perfil'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
+	                                    { href: favoritos },
+	                                    'Favoritos'
 	                                )
 	                            ),
 	                            React.createElement(
@@ -2307,6 +2318,16 @@
 	                    ),
 	                    letra
 	                );
+	            } else {
+	                menu = React.createElement(
+	                    'div',
+	                    { className: 'control is-grouped' },
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(BtnFavoritos, { handle: this.handleFavoritos, isFavorito: this.state.favorito, dataMusica: this.props.dataMusica })
+	                    )
+	                );
 	            }
 
 	            if (this.props.user == ROLE_ADMIN) {
@@ -2314,11 +2335,6 @@
 	                card = React.createElement(
 	                    'div',
 	                    null,
-	                    React.createElement(
-	                        CardLetra,
-	                        { label: 'Menu' },
-	                        menu
-	                    ),
 	                    React.createElement(UploadArquivo, { reloadArquivos: this.load, openModal: this.openModal,
 	                        closeModal: this.closeModal,
 	                        musica: this.props.musica }),
@@ -2344,6 +2360,11 @@
 	            return React.createElement(
 	                'div',
 	                null,
+	                React.createElement(
+	                    CardLetra,
+	                    { label: 'Menu' },
+	                    menu
+	                ),
 	                card,
 	                cardArquivos
 	            );
@@ -3937,6 +3958,344 @@
 /***/ function(module, exports) {
 
 	/**
+	 * Created by cesar on 28/10/16.
+	 */
+
+	$(function () {
+
+	    const ROLE_ADMIN = "ROLE_ADMIN";
+
+	    class BtnAdd extends React.Component {
+
+	        render() {
+
+	            const url = "/user/praise/new?category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
+
+	            return React.createElement(
+	                "a",
+	                { href: url, className: "button is-light is-small" },
+	                "Adicionar Musica"
+	            );
+	        }
+
+	    }
+
+	    class BtnAdd2 extends React.Component {
+
+	        render() {
+
+	            const url = "/user/praise/new?various=1&category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
+
+	            return React.createElement(
+	                "a",
+	                { href: url, className: "button is-light is-small" },
+	                "Adicionar V\xE1rias Musica"
+	            );
+	        }
+
+	    }
+
+	    class BtnAdd3 extends React.Component {
+
+	        render() {
+
+	            const url = "/user/praise/new?various=1&same_category=1&category_id=" + this.props.categoria + "&category_name=" + this.props.categoriaNome.toLowerCase().replace(/ /g, '_');
+
+	            return React.createElement(
+	                "a",
+	                { href: url, className: "button is-light is-small" },
+	                "Adicionar V\xE1rias Musica"
+	            );
+	        }
+
+	    }
+
+	    class BtnEditar extends React.Component {
+
+	        render() {
+	            return React.createElement(
+	                "a",
+	                { href: this.props.link, className: "button is-info is-inverted is-small" },
+	                "Editar"
+	            );
+	        }
+
+	    }
+
+	    class BtnInativar extends React.Component {
+
+	        render() {
+	            return React.createElement(
+	                "a",
+	                { onClick: this.props.mudarStatus, className: "button is-danger is-inverted is-small" },
+	                "Inativar"
+	            );
+	        }
+	    };
+
+	    class BtnAtivar extends React.Component {
+
+	        render() {
+	            return React.createElement(
+	                "a",
+	                { onClick: this.props.mudarStatus, className: "button is-success is-inverted is-small" },
+	                "Ativar"
+	            );
+	        }
+	    };
+
+	    class Card extends React.Component {
+	        render() {
+	            return React.createElement(
+	                "div",
+	                { className: "media wow fadeInUp animated slide", "data-wow-delay": ".3s" },
+	                React.createElement(
+	                    "div",
+	                    { className: "media-body" },
+	                    this.props.children
+	                )
+	            );
+	        }
+	    }
+
+	    var MudarStatusMusica = React.createClass({
+	        displayName: "MudarStatusMusica",
+
+
+	        getInitialState: function () {
+	            return { ativo: this.props.musica.ativo };
+	        },
+
+	        loadStatus: function () {
+	            this.props.reloadMusica();
+	            this.setState({ ativo: !this.props.musica.ativo });
+	        },
+
+	        handleMudarStatus: function (e) {
+
+	            e.preventDefault();
+
+	            const _this = this;
+
+	            alertify.confirm("Deseja " + (this.state.ativo ? 'inativar' : 'ativar') + " esta musica?", function () {
+
+	                $.ajax({
+	                    type: 'POST',
+	                    url: '/user/musicas/' + _this.props.musica.id + '/status',
+	                    cache: false,
+	                    success: function (data) {
+	                        alertify.success(data.message);
+	                        unblock_screen();
+	                        _this.loadStatus();
+	                    },
+	                    error: function () {
+	                        unblock_screen();
+	                        alertify.error("Ocorreu um erro.");
+	                    }
+	                });
+	            }).setting("labels", { "ok": "Sim", "cancel": "Cancelar" });
+	        },
+
+	        render: function () {
+
+	            let btn = React.createElement(BtnAtivar, { mudarStatus: this.handleMudarStatus });
+
+	            if (this.props.musica.ativo) {
+	                btn = React.createElement(BtnInativar, { mudarStatus: this.handleMudarStatus });
+	            }
+
+	            return React.createElement(
+	                "span",
+	                null,
+	                btn
+	            );
+	        }
+
+	    });
+
+	    class BtnFavoritos extends React.Component {
+
+	        render() {
+
+	            let btn = React.createElement(
+	                "a",
+	                { className: "button is-small is-danger is-inverted add-remove",
+	                    onClick: this.props.handleFavoritos
+	                },
+	                "Remover dos Favoritos"
+	            );
+
+	            return React.createElement(
+	                "span",
+	                null,
+	                btn
+	            );
+	        }
+	    }
+
+	    const ListMusicas = React.createClass({
+	        displayName: "ListMusicas",
+
+
+	        handleFavoritos: function (e) {
+
+	            e.preventDefault();
+
+	            alert(e.target.musica);
+
+	            const _this = this;
+
+	            let id = this.props.musica;
+
+	            $("#add-remove").addClass("is-loading");
+
+	            block_screen(500);
+
+	            $.ajax({
+	                type: "POST",
+	                url: "/api/favoritos/add-remove",
+	                data: {
+	                    "id": id
+	                },
+	                cache: false,
+	                success: function (data) {
+	                    $("#add-remove").removeClass("is-loading");
+	                    unblock_screen();
+	                    alertify.success(data.mensagem);
+	                    _this.loadFavoritos();
+	                },
+	                error: function () {
+	                    $("#add-remove").removeClass("is-loading");
+	                    unblock_screen();
+	                    alertify.error("Ocorreu um erro.");
+	                }
+	            });
+	        },
+
+	        render: function () {
+
+	            let btnEditar = "";
+	            let btnMudarStatus = "";
+	            let btnRemoverDosFavoritos = "";
+	            const _this = this;
+
+	            return React.createElement(
+	                "div",
+	                null,
+	                this.props.data.map(function (favorito) {
+
+	                    let linkAnexos = "/user/praise/" + favorito.musica.id + '-' + favorito.musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
+	                    let editarMusica = "/user/praises/" + favorito.musica.id + "-" + favorito.musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
+
+	                    if (ROLE_ADMIN == _this.props.user) {
+	                        btnEditar = React.createElement(BtnEditar, { link: editarMusica });
+	                        btnMudarStatus = React.createElement(MudarStatusMusica, { musica: favorito.musica, reloadMusica: _this.props.reloadMusicas });
+	                    }
+	                    /*
+	                                                btnRemoverDosFavoritos = (
+	                                                    <BtnFavoritos musica={favorito.musica} handleFavoritos={_this.handleFavoritos}/>
+	                                                );
+	                    */
+	                    let musicaStr = favorito.musica.nome;
+
+	                    if (favorito.musica.numero) {
+	                        musicaStr = favorito.musica.numero + ' - ' + favorito.musica.nome;
+	                    }
+
+	                    return React.createElement(
+	                        "div",
+	                        { key: favorito.musica.id },
+	                        React.createElement(
+	                            "h4",
+	                            { className: "media-heading" },
+	                            React.createElement(
+	                                "a",
+	                                { href: linkAnexos },
+	                                musicaStr,
+	                                " ",
+	                                React.createElement(
+	                                    "span",
+	                                    { className: "tag is-light is-pulled-right" },
+	                                    favorito.musica.qtde_anexos
+	                                )
+	                            )
+	                        ),
+	                        btnRemoverDosFavoritos,
+	                        btnEditar,
+	                        btnMudarStatus,
+	                        React.createElement("hr", null)
+	                    );
+	                })
+	            );
+	        }
+	    });
+
+	    const View = React.createClass({
+	        displayName: "View",
+
+
+	        getInitialState: function () {
+	            return { data: [] };
+	        },
+
+	        load: function () {
+	            $.get(this.props.source, function (result) {
+	                this.setState({ data: result });
+	            }.bind(this));
+	        },
+
+	        componentDidMount: function () {
+	            this.load();
+	        },
+
+	        render: function () {
+	            return React.createElement(
+	                Base,
+	                null,
+	                React.createElement(ListMusicas, { data: this.state.data, user: this.props.user, reloadMusicas: this.load })
+	            );
+	        }
+	    });
+
+	    class Base extends React.Component {
+	        render() {
+	            return React.createElement(
+	                "article",
+	                null,
+	                React.createElement(
+	                    "div",
+	                    { className: "container" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "row" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" },
+	                            this.props.children
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }
+
+	    const source = $("#favoritos").attr("data-source");
+	    const user = $("#favoritos").attr("data-user");
+
+	    if (document.getElementById("favoritos")) {
+	        ReactDOM.render(React.createElement(
+	            "div",
+	            null,
+	            React.createElement(View, { source: source, user: user })
+	        ), document.getElementById('favoritos'));
+	    }
+	});
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	/**
 	 * Created by cesar on 25/01/17.
 	 */
 
@@ -4084,7 +4443,7 @@
 	}
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -4246,7 +4605,7 @@
 	}
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -4447,7 +4806,7 @@
 	}
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -5196,7 +5555,7 @@
 	}
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -5680,7 +6039,7 @@
 	});
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**

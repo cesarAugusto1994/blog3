@@ -105,6 +105,7 @@ $(function () {
             var rootAvatar = this.props.dirAvatar + this.props.user.avatar;
             var linkToPerfil = "/user/" + this.props.user.id + '/' + this.props.user.nome.toLowerCase().replace(/ /g, '_') + '/perfil';
             var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
+            const favoritos = "/user/favorites";
             var admin = "";
             var userProfile = "";
 
@@ -142,6 +143,7 @@ $(function () {
                     <div className="dropdown-menu">
                         <ul>
                             <li><a href={linkToPerfil}>Perfil</a></li>
+                            <li><a href={favoritos}>Favoritos</a></li>
                             <li><a href={linkToAtividades}>Atividades</a></li>
                         </ul>
                     </div>

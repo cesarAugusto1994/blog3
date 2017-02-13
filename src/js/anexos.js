@@ -815,15 +815,20 @@ $(function () {
                         {letra}
                     </div>
                 )
+            } else {
+                menu = (
+                    <div className="control is-grouped">
+                        <p className="control">
+                            <BtnFavoritos handle={this.handleFavoritos} isFavorito={this.state.favorito} dataMusica={this.props.dataMusica}/>
+                        </p>
+                    </div>
+                )
             }
 
             if (this.props.user == ROLE_ADMIN) {
 
                 card = (
                     <div>
-                        <CardLetra label="Menu">
-                            {menu}
-                        </CardLetra>
                         <UploadArquivo reloadArquivos={this.load} openModal={this.openModal}
                                        closeModal={this.closeModal}
                                        musica={this.props.musica}/>
@@ -849,6 +854,9 @@ $(function () {
 
             return (
                 <div>
+                    <CardLetra label="Menu">
+                        {menu}
+                    </CardLetra>
                     {card}
                     {cardArquivos}
                 </div>
