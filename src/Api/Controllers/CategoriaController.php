@@ -122,8 +122,8 @@ class CategoriaController
     
         return $app->json(
             [
-                'class' => 'success',
-                'message' => 'Categoria '.$categoria->getNome().' editada com sucesso.'
+                'classe' => 'success',
+                'mensagem' => 'Categoria '.$categoria->getNome().' editada com sucesso.'
             ]
         );
     }

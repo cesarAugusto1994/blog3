@@ -14,12 +14,10 @@ $(function () {
 
         render() {
 
+            let url = "/user/category/" + this.props.categoria.id + "-" + this.props.categoria.nome.toLowerCase().replace(/ /g, '_') + "/edit";
+
             return (
-                <a className="button is-white is-small"
-                   onClick={ this.props.acao }
-                   data-id={ this.props.categoria.id }
-                   data-nome={ this.props.categoria.nome }
-                   data-colecao={ this.props.categoria.colecao.id }>Editar</a>
+                <a href={url} className="button is-white is-small" >Editar</a>
             )
         }
 
@@ -174,20 +172,31 @@ $(function () {
 
             let mudarStatus = '';
             let editar = '';
+            let btns = '';
 
             if (this.props.user == ROLE_ADMIN) {
                 mudarStatus = <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
                 editar = <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
+
+                btns = (
+                    <div className="control is-grouped">
+                        <p className="control">
+                            <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
+                        </p>
+                        <p className="control">
+                            <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
+                        </p>
+                    </div>
+                );
             }
 
             return (
                 <div className="media fadeInUp animated slide" data-wow-delay=".3s">
                     <div className="media-body">
                         <h4 className="media-heading">
-                            {editar}
-                            {mudarStatus}
                             <a href={this.props.musicasUrl}>{this.props.categoria.nome} <span className="tag is-light is-pulled-right">{this.props.categoria.qtde_musicas}</span></a>
                         </h4>
+                        {btns}
                         <hr/>
                     </div>
                 </div>

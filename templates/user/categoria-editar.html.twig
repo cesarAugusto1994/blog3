@@ -1,0 +1,14 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Categoria{% endblock %}
+
+{% block headerNome %}Editar Categoria{% endblock %}
+
+{% block content %}
+    <div id="categoria-editar"
+         data-categoria-id="{{ categoria.id }}"
+         data-categoria-nome="{{ categoria.nome }}"
+         data-colecao-id="{{ categoria.colecao.id }}"
+         data-colecao-nome="{{ categoria.colecao.id }}">
+    </div>
+{% endblock %}

@@ -8,10 +8,6 @@
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-$app->get('/test', function () {
-    return 'Esta Funcionando!!!!!!!!!!!!!!';
-});
-
 $app->get('/login', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['twig']->render('login-new.html.twig',
         array(
@@ -24,14 +20,7 @@ $app->get('/login', function (\Symfony\Component\HttpFoundation\Request $request
 $app->get('/user/', function () use ($app) {
     return $app['twig']->render('/user/index.html.twig');
 })->bind('user');
-/*
-$app->get('/', function () use ($app) {
-    if (isset($app['user'])) {
-        return $app->redirect('/user/');
-    }
-    return $app['twig']->render('index.html.twig');
-})->bind('user');
-*/
+
 $app->post('/admin/login_check', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
 })->bind('login_check');

@@ -21,6 +21,10 @@ $categorias->post('categoria/adicionar', function (\Symfony\Component\HttpFounda
     return $app['categoria.controller']->novo($request, $app);
 });
 
+$categorias->post('category/edit', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+    return $app['categoria.controller']->editar($request, $app);
+});
+
 $categorias->get('category/{id}-{nome}/praises', function($id, $nome) use ($app) {
 
     $categoria = $app['categoria.repository']->find($id);

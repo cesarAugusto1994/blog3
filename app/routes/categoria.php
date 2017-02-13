@@ -38,6 +38,18 @@ $categorias->get('/category/{id}-{nome}/praises', function ($id, $nome) use ($ap
     );
 });
 
+$categorias->get('/category/{id}-{nome}/edit', function ($id, $nome) use ($app) {
+
+    $categoria = $app['categoria.repository']->find($id);
+
+    return $app['twig']->render(
+        '/user/categoria-editar.html.twig',
+        [
+            'categoria' => $categoria
+        ]
+    );
+});
+
 $categorias->get('categoria/nova', function (Request $request) use ($app) {
 
     $colecao = $app['colecao.repository']->find($request->get('colecao_id'));

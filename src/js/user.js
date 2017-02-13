@@ -17,9 +17,11 @@ $(function () {
                                         <span>Ol&aacute;, {this.props.user}.</span><br />
                                     </h1>
                                 </section>
-                                <h2 className="wow fadeInUp animated" data-wow-delay=".6s">
-                                    {this.props.app}
-                                </h2>
+                                <div className="container is-half">
+                                    <h2 className="wow fadeInUp animated" data-wow-delay=".5s">
+                                        {this.props.app}
+                                    </h2>
+                                </div>
                                 <a className="btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green"
                                    data-wow-delay=".9s" href="#works" data-section="#works">Iniciar</a>
                             </div>
@@ -163,7 +165,7 @@ $(function () {
 
                             return (
                                 <div key={colecao.id} className="col-sm-4 col-xs-12">
-                                    <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                                    <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="300ms" data-wow-delay="0ms">
                                         <div className="img-wrapper">
                                             <a href={linkToCategorias}>
                                                 <img style={StyleImg} src={root} className="img-responsive" alt="this is a title" />
@@ -221,7 +223,7 @@ $(function () {
                             return (
 
                                 <div key={musica.id} className="col-md-4 col-lg-4 col-xs-12">
-                                    <div className="media wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="1800ms">
+                                    <div className="media wow fadeInDown animated" data-wow-duration="300ms" data-wow-delay="600ms">
                                         <div className="media-left">
                                             <div className="icon">
                                                 <i className="ion-ios-play"></i>
@@ -270,7 +272,7 @@ $(function () {
                             let url = "https://www.youtube.com/embed/" + video.link;
                             return (
                                 <div key={video.id} className="col-md-4 col-lg-4 col-xs-12">
-                                    <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                                    <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="300ms" data-wow-delay="0ms">
                                         <div className="img-wrapper">
                                             <iframe  width="100%" height="100%" src={url}
                                                      frameBorder="0" allowFullScreen></iframe>

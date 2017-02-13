@@ -8,7 +8,11 @@
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-$app->get('/', 'index.controller:index')->bind('home');
+$app->get('/', function () use ($app) {
+
+    return $app->redirect('login');
+
+})->bind('home');
 $app->get('/user/about', 'index.controller:about')->bind('about');
 $app->get('/user/contact', 'index.controller:contact')->bind('contact');
 

@@ -57,7 +57,8 @@
 	__webpack_require__(11);
 	__webpack_require__(12);
 	__webpack_require__(13);
-	module.exports = __webpack_require__(14);
+	__webpack_require__(14);
+	module.exports = __webpack_require__(15);
 
 
 /***/ },
@@ -892,9 +893,13 @@
 	                                )
 	                            ),
 	                            React.createElement(
-	                                "h2",
-	                                { className: "wow fadeInUp animated", "data-wow-delay": ".6s" },
-	                                this.props.app
+	                                "div",
+	                                { className: "container is-half" },
+	                                React.createElement(
+	                                    "h2",
+	                                    { className: "wow fadeInUp animated", "data-wow-delay": ".5s" },
+	                                    this.props.app
+	                                )
 	                            ),
 	                            React.createElement(
 	                                "a",
@@ -1090,7 +1095,7 @@
 	                            { key: colecao.id, className: "col-sm-4 col-xs-12" },
 	                            React.createElement(
 	                                "figure",
-	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "500ms", "data-wow-delay": "0ms" },
+	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "300ms", "data-wow-delay": "0ms" },
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "img-wrapper" },
@@ -1165,7 +1170,7 @@
 	                            { key: musica.id, className: "col-md-4 col-lg-4 col-xs-12" },
 	                            React.createElement(
 	                                "div",
-	                                { className: "media wow fadeInDown animated", "data-wow-duration": "500ms", "data-wow-delay": "1800ms" },
+	                                { className: "media wow fadeInDown animated", "data-wow-duration": "300ms", "data-wow-delay": "600ms" },
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "media-left" },
@@ -1233,7 +1238,7 @@
 	                            { key: video.id, className: "col-md-4 col-lg-4 col-xs-12" },
 	                            React.createElement(
 	                                "figure",
-	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "500ms", "data-wow-delay": "0ms" },
+	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "300ms", "data-wow-delay": "0ms" },
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "img-wrapper" },
@@ -2652,13 +2657,11 @@
 
 	        render() {
 
+	            let url = "/user/category/" + this.props.categoria.id + "-" + this.props.categoria.nome.toLowerCase().replace(/ /g, '_') + "/edit";
+
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-white is-small',
-	                    onClick: this.props.acao,
-	                    'data-id': this.props.categoria.id,
-	                    'data-nome': this.props.categoria.nome,
-	                    'data-colecao': this.props.categoria.colecao.id },
+	                { href: url, className: 'button is-white is-small' },
 	                'Editar'
 	            );
 	        }
@@ -2865,10 +2868,26 @@
 
 	            let mudarStatus = '';
 	            let editar = '';
+	            let btns = '';
 
 	            if (this.props.user == ROLE_ADMIN) {
 	                mudarStatus = React.createElement(MudarStatusCategoria, { categoria: this.props.categoria, reloadCategoria: this.props.reloadCategoria });
 	                editar = React.createElement(BtnEditar, { categoria: this.props.categoria, acao: this.props.acao });
+
+	                btns = React.createElement(
+	                    'div',
+	                    { className: 'control is-grouped' },
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(MudarStatusCategoria, { categoria: this.props.categoria, reloadCategoria: this.props.reloadCategoria })
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(BtnEditar, { categoria: this.props.categoria, acao: this.props.acao })
+	                    )
+	                );
 	            }
 
 	            return React.createElement(
@@ -2880,8 +2899,6 @@
 	                    React.createElement(
 	                        'h4',
 	                        { className: 'media-heading' },
-	                        editar,
-	                        mudarStatus,
 	                        React.createElement(
 	                            'a',
 	                            { href: this.props.musicasUrl },
@@ -2894,6 +2911,7 @@
 	                            )
 	                        )
 	                    ),
+	                    btns,
 	                    React.createElement('hr', null)
 	                )
 	            );
@@ -4067,6 +4085,168 @@
 	        );
 	    }
 
+	};
+
+	const Render = React.createClass({
+	    displayName: "Render",
+
+
+	    getInitialState: function () {
+	        return { data: [], colecao: [] };
+	    },
+
+	    load: function () {
+	        $.get('/api/colecoes', function (result) {
+	            this.setState({ data: result });
+	        }.bind(this));
+	    },
+
+	    componentDidMount: function () {
+	        this.load();
+	    },
+
+	    redirect: function () {
+	        return window.location.href = '/user/collection/' + this.props.colecaoId + '-' + this.props.colecaoNome + '/categories';
+	    },
+
+	    handleSubmit: function (e) {
+
+	        e.preventDefault();
+
+	        let id = this.refs.id.value.trim();
+	        let nome = this.refs.nome.value.trim();
+	        let colecao = this.refs.colecao.value.trim();
+
+	        if (!nome || !colecao) {
+	            alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
+	        }
+
+	        const _this = this;
+
+	        $.ajax({
+	            type: "POST",
+	            url: "/api/category/edit",
+	            data: {
+	                id: id,
+	                nome: nome,
+	                colecao: colecao
+	            },
+	            cache: false,
+	            success: function (data) {
+	                alertify.success(data.mensagem);
+	                unblock_screen();
+	                _this.redirect();
+	            },
+	            error: function (data) {
+	                unblock_screen();
+	                alertify.error(data.mensagem);
+	            }
+	        });
+	    },
+
+	    render: function () {
+	        return React.createElement(
+	            Container,
+	            null,
+	            React.createElement(
+	                "form",
+	                { onSubmit: this.handleSubmit },
+	                React.createElement("input", { type: "hidden", name: "id", ref: "id", id: "id", value: this.props.categoriaId }),
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "Nome"
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement("input", { className: "input", type: "text", placeholder: "Nome", autoFocus: "autoFocus", ref: "nome",
+	                        name: "nome", id: "nome", required: true, defaultValue: this.props.categoriaNome })
+	                ),
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "Cole\xE7\xE3o"
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "select is-fullwidth" },
+	                        React.createElement(
+	                            "select",
+	                            { ref: "colecao", name: "colecao", id: "colecao", defaultValue: this.props.colecaoId },
+	                            this.state.data.map(function (colecao) {
+	                                return React.createElement(
+	                                    "option",
+	                                    { key: colecao.id, value: colecao.id },
+	                                    colecao.nome
+	                                );
+	                            })
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement(
+	                        "button",
+	                        { className: "button is-fullwidth is-primary" },
+	                        "Salvar"
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	if (document.getElementById("categoria-editar")) {
+
+	    const categoriaId = $("#categoria-editar").data("categoria-id");
+	    const categoriaNome = $("#categoria-editar").data("categoria-nome");
+
+	    const colecaoId = $("#categoria-editar").data("colecao-id");
+	    const colecaoNome = $("#categoria-editar").data("colecao-nome");
+
+	    ReactDOM.render(React.createElement(Render, {
+	        categoriaId: categoriaId,
+	        categoriaNome: categoriaNome,
+	        colecaoId: colecaoId,
+	        colecaoNome: colecaoNome
+	    }), document.getElementById('categoria-editar'));
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by cesar on 25/01/17.
+	 */
+
+	class Container extends React.Component {
+
+	    render() {
+	        return React.createElement(
+	            "article",
+	            null,
+	            React.createElement(
+	                "div",
+	                { className: "container" },
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" },
+	                        this.props.children
+	                    )
+	                )
+	            )
+	        );
+	    }
+
 	}
 	;
 
@@ -4239,7 +4419,7 @@
 	}
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -4988,7 +5168,7 @@
 	}
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -5472,7 +5652,7 @@
 	});
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
