@@ -24,7 +24,7 @@
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <div class="fileinput-new thumbnail" style="border: none; width: 150px; height: 150px;">
                                 <img style="height: 100%" src="{% if user.avatar %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
-                                     data-src="{% if app['usuario'].avatar %}{{ asset(app['dir.avatar'] ~ app['usuario'].avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}" alt="usuario">
+                                     data-src="{% if app.usuario.avatar %}{{ asset(app['dir.avatar'] ~ app.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}" alt="usuario">
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                             <div>
@@ -32,13 +32,33 @@
                                 <a href="#" class="button is-danger is-inverted is-small is-fullwidth fileinput-exists" data-dismiss="fileinput">Remover</a>
                             </div>
                         </div>
-                        <input type="hidden" name="id" value="{{ user.id }}">
-                        <p class="control">Nome Completo
+                        <p class="control">
+                            <input type="hidden" name="id" value="{{ user.id }}">
+                        </p>
+
+                        <label>Nome Completo</label>
+                        <p class="control">
                             <input class="input" type="text" placeholder="Nome" name="nome" value="{{ user.nome }}" required>
                         </p>
-                        <p class="control">E-mail
+
+                        <label>E-mail</label>
+                        <p class="control">
                             <input class="input" type="text" placeholder="email" name="email" value="{{ user.email }}" required>
                         </p>
+
+                        {% if app.usuario.roles == 'ROLE_ADMIN' %}
+                            <label>Previl&eacute;gios</label>
+                            <p class="control">
+                              <span class="select is-fullwidth">
+                                <select name="role">
+                                  <option value="ROLE_USER"
+                                          {% if user.roles == 'ROLE_USER' %}selected="selected"{% endif %}>User</option>
+                                  <option value="ROLE_ADMIN"
+                                          {% if user.roles == 'ROLE_ADMIN' %}selected="selected"{% endif %}>Admin</option>
+                                </select>
+                              </span>
+                            </p>
+                        {% endif %}
 
                         <p class="control">
                             <button class="button is-primary is-fullwidth" type="submit">Salvar</button>

@@ -32,6 +32,7 @@ class MusicaRepository extends EntityRepository
             ->select('m')
             ->where('m.nome LIKE :search')
             ->orWhere('m.letra LIKE :search')
+            ->orWhere('m.numero LIKE :search')
             ->andWhere('m.ativo = :ativo')
             ->setParameter(':search', '%'.$search.'%')
             ->setParameter(':ativo', true)

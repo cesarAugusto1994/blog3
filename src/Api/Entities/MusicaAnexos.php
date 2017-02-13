@@ -221,6 +221,7 @@ class MusicaAnexos implements \JsonSerializable
             "tipo" => $this->tipo,
             "isExterno" => $this->linkExterno,
             "link" => $this->link,
+            "usuario" => $this->usuario->getId(),
             "cadastro" => $this->cadastro->format(DATE_RFC822)
         ];
     }

@@ -43,7 +43,7 @@ $(function () {
                 cache: false,
                 success: function (data) {
                     alertify.success(data.message);
-                    window.location.reload();
+                    _this.props.reloadArquivos();
                     _this.props.closeModal();
                     unblock_screen();
                 },
@@ -272,7 +272,7 @@ $(function () {
 
     });
 
-    var ListComentarios = React.createClass({
+    const ListComentarios = React.createClass({
 
         componentDidMount: function () {
             return setInterval(this.props.reloadComentarios, 10000);
@@ -280,15 +280,15 @@ $(function () {
 
         render: function () {
 
-            var _this = this;
+            const _this = this;
 
             return (
                 <div>
                     {this.props.data.map(function (comentario) {
 
-                        var img = _this.props.dirAvatar + comentario.usuario.avatar;
+                        let img = _this.props.dirAvatar + comentario.usuario.avatar;
 
-                        var removerComentario = '';
+                        let removerComentario = '';
 
                         if (_this.props.user == ROLE_ADMIN || comentario.usuario.id == _this.props.userId) {
                             removerComentario = <RemoverComentario comentario={comentario}
@@ -651,7 +651,7 @@ $(function () {
 
     });
 
-    var ListArquivos = React.createClass({
+    const ListArquivos = React.createClass({
 
         componentDidMount: function () {
             return setInterval(this.props.reloadArquivos, 10000);
@@ -670,12 +670,17 @@ $(function () {
                         let visualzar = '';
                         let downLoad = '';
                         let link = '';
+                        let btn = '';
 
                         if (!anexo.isExterno) {
                             visualzar = <BtnVisualizar anexo={arquivo}/>;
                             downLoad = <BtnDownload anexo={arquivo}/>;
                         } else {
                             link = <BtnLink href={_this.props.sourceVideos}/>;
+                        }
+
+                        if (ROLE_ADMIN == _this.props.user || _this.props.userId == anexo.usuario) {
+                            btn = (<RemoverArquivo anexo={anexo} reloadArquivos={_this.props.reloadArquivos}/>);
                         }
 
                         return (
@@ -689,7 +694,7 @@ $(function () {
                                         {visualzar}
                                         {downLoad}
                                         {link}
-                                        <RemoverArquivo anexo={anexo} reloadArquivos={_this.props.reloadArquivos}/>
+                                        {btn}
                                     </div>
                                 </div>
                                 <br/>
@@ -700,43 +705,6 @@ $(function () {
             );
         }
 
-    });
-
-    const ViewArquivosMain = React.createClass({
-
-        getInitialState: function () {
-            return {data: []};
-        },
-        load: function () {
-            $.get(this.props.sourceArquivos, function (result) {
-                this.setState({data: result});
-            }.bind(this));
-        },
-        componentDidMount: function () {
-            this.load();
-        },
-
-        render: function () {
-
-            let card = '';
-
-            if (this.state.data.length > 0) {
-                card = (
-                    <CardLetra label="Arquivos">
-                        <ListArquivos reloadArquivos={this.load} anexos={this.state.data}
-                                      sourceArquivos={this.props.sourceArquivos}
-                                      sourceVideos={this.props.sourceVideos}
-                                      dirAnexos={this.props.dirAnexos}/>
-                    </CardLetra>
-                )
-            }
-
-            return (
-                <div>
-                    {card}
-                </div>
-            );
-        }
     });
 
     const ViewOpcoes = React.createClass({
@@ -771,6 +739,7 @@ $(function () {
             let menu = '';
             let card = '';
             let letra = '';
+            let cardArquivos = '';
 
             if (!this.props.dataMusica.letra) {
                 letra = (
@@ -800,7 +769,7 @@ $(function () {
                 )
             }
 
-            if (this.props.user == ROLE_ADMIN || this.state.data.length > 0) {
+            if (this.props.user == ROLE_ADMIN) {
 
                 card = (
                     <div>
@@ -816,9 +785,24 @@ $(function () {
                 );
             }
 
+            if (this.state.data.length > 0) {
+                cardArquivos = (
+                    <CardLetra label="Arquivos">
+                        <ListArquivos reloadArquivos={this.load}
+                                      anexos={this.state.data}
+                                      sourceArquivos={this.props.sourceArquivos}
+                                      sourceVideos={this.props.sourceVideos}
+                                      user={this.props.user}
+                                      userId={this.props.userId}
+                                      dirAnexos={this.props.dirAnexos}/>
+                    </CardLetra>
+                )
+            }
+
             return (
                 <div>
                     {card}
+                    {cardArquivos}
                 </div>
             )
         }
@@ -876,23 +860,14 @@ $(function () {
                         sourceVideos={this.props.sourceVideos}
                         musica={this.props.musicaId}
                         dirAnexos={this.props.dirAnexos}
-                        user={this.props.user}/>
+                        user={this.props.user}
+                        userId={this.props.userId}/>
                     <ViewLetra
                         dataMusica={this.state.data}
                         sourceView={this.props.sourceView}
                         sourceMusicaLetra={this.props.sourceMusicaLetra}
                         sourceMusicaTom={this.props.sourceMusicaTom}
                         sourceAddLetra={this.props.sourceAddLetra}/>
-                    <ViewArquivosMain
-                        dataMusica={this.state.data}
-                        sourceArquivos={this.props.sourceArquivos}
-                        sourceEditar={this.props.sourceEditar}
-                        sourceMusicaLetra={this.props.sourceMusicaLetra}
-                        sourceAddLetra={this.props.sourceAddLetra}
-                        sourceVideos={this.props.sourceVideos}
-                        musica={this.props.musicaId}
-                        dirAnexos={this.props.dirAnexos}
-                        user={this.props.user}/>
                     <ViewCometarios
                         source={this.props.source}
                         user={this.props.user}

@@ -75,6 +75,10 @@ class UsuariosController
             $usuario->setEmail($request->get('email'));
         }
 
+        if ($request->get('role') != $usuario->getRoles()) {
+            $usuario->setRoles($request->get('role'));
+        }
+
         if (!empty($_FILES['background']['size'])) {
             $usuario->setAvatar($app['upload.service']->upload($_FILES['background'], 'avatar', $usuario->getAvatar()));
         }

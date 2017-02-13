@@ -168,10 +168,11 @@ $(function () {
                             return (
                                 <div key={musica.id}>
                                     <h4 className="media-heading">
-                                        {btnEditar}
-                                        {btnMudarStatus}
                                         <a href={linkAnexos}>{musicaStr} <span className="tag is-light is-pulled-right">{musica.qtde_anexos}</span></a>
-                                    </h4><hr/>
+                                    </h4>
+                                    {btnEditar}
+                                    {btnMudarStatus}
+                                    <hr/>
                                 </div>
                             )
                         })

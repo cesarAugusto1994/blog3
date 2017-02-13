@@ -1336,7 +1336,7 @@
 	                cache: false,
 	                success: function (data) {
 	                    alertify.success(data.message);
-	                    window.location.reload();
+	                    _this.props.reloadArquivos();
 	                    _this.props.closeModal();
 	                    unblock_screen();
 	                },
@@ -1649,7 +1649,7 @@
 
 	    });
 
-	    var ListComentarios = React.createClass({
+	    const ListComentarios = React.createClass({
 	        displayName: 'ListComentarios',
 
 
@@ -1659,16 +1659,16 @@
 
 	        render: function () {
 
-	            var _this = this;
+	            const _this = this;
 
 	            return React.createElement(
 	                'div',
 	                null,
 	                this.props.data.map(function (comentario) {
 
-	                    var img = _this.props.dirAvatar + comentario.usuario.avatar;
+	                    let img = _this.props.dirAvatar + comentario.usuario.avatar;
 
-	                    var removerComentario = '';
+	                    let removerComentario = '';
 
 	                    if (_this.props.user == ROLE_ADMIN || comentario.usuario.id == _this.props.userId) {
 	                        removerComentario = React.createElement(RemoverComentario, { comentario: comentario,
@@ -2112,7 +2112,7 @@
 
 	    });
 
-	    var ListArquivos = React.createClass({
+	    const ListArquivos = React.createClass({
 	        displayName: 'ListArquivos',
 
 
@@ -2134,12 +2134,17 @@
 	                    let visualzar = '';
 	                    let downLoad = '';
 	                    let link = '';
+	                    let btn = '';
 
 	                    if (!anexo.isExterno) {
 	                        visualzar = React.createElement(BtnVisualizar, { anexo: arquivo });
 	                        downLoad = React.createElement(BtnDownload, { anexo: arquivo });
 	                    } else {
 	                        link = React.createElement(BtnLink, { href: _this.props.sourceVideos });
+	                    }
+
+	                    if (ROLE_ADMIN == _this.props.user || _this.props.userId == anexo.usuario) {
+	                        btn = React.createElement(RemoverArquivo, { anexo: anexo, reloadArquivos: _this.props.reloadArquivos });
 	                    }
 
 	                    return React.createElement(
@@ -2165,7 +2170,7 @@
 	                                visualzar,
 	                                downLoad,
 	                                link,
-	                                React.createElement(RemoverArquivo, { anexo: anexo, reloadArquivos: _this.props.reloadArquivos })
+	                                btn
 	                            )
 	                        ),
 	                        React.createElement('br', null)
@@ -2174,45 +2179,6 @@
 	            );
 	        }
 
-	    });
-
-	    const ViewArquivosMain = React.createClass({
-	        displayName: 'ViewArquivosMain',
-
-
-	        getInitialState: function () {
-	            return { data: [] };
-	        },
-	        load: function () {
-	            $.get(this.props.sourceArquivos, function (result) {
-	                this.setState({ data: result });
-	            }.bind(this));
-	        },
-	        componentDidMount: function () {
-	            this.load();
-	        },
-
-	        render: function () {
-
-	            let card = '';
-
-	            if (this.state.data.length > 0) {
-	                card = React.createElement(
-	                    CardLetra,
-	                    { label: 'Arquivos' },
-	                    React.createElement(ListArquivos, { reloadArquivos: this.load, anexos: this.state.data,
-	                        sourceArquivos: this.props.sourceArquivos,
-	                        sourceVideos: this.props.sourceVideos,
-	                        dirAnexos: this.props.dirAnexos })
-	                );
-	            }
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                card
-	            );
-	        }
 	    });
 
 	    const ViewOpcoes = React.createClass({
@@ -2249,6 +2215,7 @@
 	            let menu = '';
 	            let card = '';
 	            let letra = '';
+	            let cardArquivos = '';
 
 	            if (!this.props.dataMusica.letra) {
 	                letra = React.createElement(
@@ -2286,7 +2253,7 @@
 	                );
 	            }
 
-	            if (this.props.user == ROLE_ADMIN || this.state.data.length > 0) {
+	            if (this.props.user == ROLE_ADMIN) {
 
 	                card = React.createElement(
 	                    'div',
@@ -2304,10 +2271,25 @@
 	                );
 	            }
 
+	            if (this.state.data.length > 0) {
+	                cardArquivos = React.createElement(
+	                    CardLetra,
+	                    { label: 'Arquivos' },
+	                    React.createElement(ListArquivos, { reloadArquivos: this.load,
+	                        anexos: this.state.data,
+	                        sourceArquivos: this.props.sourceArquivos,
+	                        sourceVideos: this.props.sourceVideos,
+	                        user: this.props.user,
+	                        userId: this.props.userId,
+	                        dirAnexos: this.props.dirAnexos })
+	                );
+	            }
+
 	            return React.createElement(
 	                'div',
 	                null,
-	                card
+	                card,
+	                cardArquivos
 	            );
 	        }
 	    });
@@ -2371,23 +2353,14 @@
 	                    sourceVideos: this.props.sourceVideos,
 	                    musica: this.props.musicaId,
 	                    dirAnexos: this.props.dirAnexos,
-	                    user: this.props.user }),
+	                    user: this.props.user,
+	                    userId: this.props.userId }),
 	                React.createElement(ViewLetra, {
 	                    dataMusica: this.state.data,
 	                    sourceView: this.props.sourceView,
 	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
 	                    sourceMusicaTom: this.props.sourceMusicaTom,
 	                    sourceAddLetra: this.props.sourceAddLetra }),
-	                React.createElement(ViewArquivosMain, {
-	                    dataMusica: this.state.data,
-	                    sourceArquivos: this.props.sourceArquivos,
-	                    sourceEditar: this.props.sourceEditar,
-	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
-	                    sourceAddLetra: this.props.sourceAddLetra,
-	                    sourceVideos: this.props.sourceVideos,
-	                    musica: this.props.musicaId,
-	                    dirAnexos: this.props.dirAnexos,
-	                    user: this.props.user }),
 	                React.createElement(ViewCometarios, {
 	                    source: this.props.source,
 	                    user: this.props.user,
@@ -3588,8 +3561,6 @@
 	                        React.createElement(
 	                            "h4",
 	                            { className: "media-heading" },
-	                            btnEditar,
-	                            btnMudarStatus,
 	                            React.createElement(
 	                                "a",
 	                                { href: linkAnexos },
@@ -3602,6 +3573,8 @@
 	                                )
 	                            )
 	                        ),
+	                        btnEditar,
+	                        btnMudarStatus,
 	                        React.createElement("hr", null)
 	                    );
 	                })
