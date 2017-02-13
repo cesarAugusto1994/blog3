@@ -83,8 +83,8 @@ const Form = React.createClass({
             <form method="post" action={this.props.post} onSubmit={this.handleSubmit}>
                 {error}
                 <div className="form-group has-feedback">
-                    <input type="text" name="_username" autoFocus="autoFocus"
-                           className="form-control" placeholder="E-mail" ref="_username" defaultValue={this.props.lastUserName}/>
+                    <input type="email" name="_username" autoFocus="autoFocus"
+                           className="form-control" placeholder="E-mail" ref="_username" required="required" defaultValue={this.props.lastUserName}/>
                     <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback">

@@ -182,8 +182,8 @@
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { type: "text", name: "_username", autoFocus: "autoFocus",
-	                    className: "form-control", placeholder: "E-mail", ref: "_username", defaultValue: this.props.lastUserName }),
+	                React.createElement("input", { type: "email", name: "_username", autoFocus: "autoFocus",
+	                    className: "form-control", placeholder: "E-mail", ref: "_username", required: "required", defaultValue: this.props.lastUserName }),
 	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
 	            ),
 	            React.createElement(

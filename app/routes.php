@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 $app->get('/', function () use ($app) {
 
+    if(!empty($app['session']->get('user'))) {
+        return $app->redirect('/user/');
+    }
+
     return $app->redirect('login');
 
 })->bind('home');
