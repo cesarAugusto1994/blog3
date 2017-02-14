@@ -1,13 +1,69 @@
 {% extends 'base-new.html.twig' %}
 
 {% block stylesheet %}
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
+    <style>
+        pre {
+            background-color: transparent; border: none
+        }
+        .card {
+            width: 100%; min-width: 150px
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
 
-    <div id="view" data-praise="{{ path('api_praise', { id : musica.id, nome : musica.nome}) }}"></div>
+    <article>
+        <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <h2>{{ musica.nome }}</h2>
+                                    <div class="control is-grouped" id="fontlinks">
+                                        <p class="control has-addon">
+                                            <button id="incfont" class="button is-light is-small buttonfont">
+                                                A+
+                                            </button>
+                                        </p>
+                                        <p class="control">
+                                            <button id="decfont" class="button is-light is-small buttonfont">
+                                                A-
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <pre id="content" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
 
-    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
+    <script>
+        $("#content").transpose({key: 'C'});
+        $('#incfont').click(function () {
+            curSize = parseInt($('#content').css('font-size')) + 2;
+            curSize2 = parseInt($('.c').css('font-size')) + 2;
+            if (curSize <= 32)
+                $('#content').css('font-size', curSize);
+            if (curSize2 <= 32)
+                $('.c').css('font-size', curSize2);
+        });
+        $('#decfont').click(function () {
+            curSize = parseInt($('#content').css('font-size')) - 2;
+            curSize2 = parseInt($('.c').css('font-size')) - 2;
+            if (curSize >= 5)
+                $('#content').css('font-size', curSize);
+            if (curSize2 >= 5)
+                $('.c').css('font-size', curSize2);
+        });
+        $('.c').css('font-size', 12);
+        $('#content').css('font-size', 12);
+    </script>
 
 {% endblock %}

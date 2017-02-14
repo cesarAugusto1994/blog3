@@ -2574,7 +2574,7 @@
 	                React.createElement(FontControl, null),
 	                React.createElement(
 	                    'pre',
-	                    { id: 'content', 'data-key': this.state.data.tom, style: styleCardLetra },
+	                    { id: 'content-view', style: styleCardLetra, 'data-key': this.state.data.tom },
 	                    this.state.data.letra
 	                )
 	            )
@@ -2669,21 +2669,21 @@
 	    ReactDOM.render(React.createElement(VIEW, { source: MUSICA_SOURCE }), document.getElementById("view"));
 
 	    $('#incfont').click(function () {
-	        curSize = parseInt($('#content').css('font-size')) + 2;
+	        curSize = parseInt($('#content-view').css('font-size')) + 2;
 	        curSize2 = parseInt($('.c').css('font-size')) + 2;
 	        if (curSize <= 32) $('#content').css('font-size', curSize);
 	        if (curSize2 <= 32) $('.c').css('font-size', curSize2);
 	    });
 	    $('#decfont').click(function () {
-	        curSize = parseInt($('#content').css('font-size')) - 2;
+	        curSize = parseInt($('#content-view').css('font-size')) - 2;
 	        curSize2 = parseInt($('.c').css('font-size')) - 2;
 	        if (curSize >= 5) $('#content').css('font-size', curSize);
 	        if (curSize2 >= 5) $('.c').css('font-size', curSize2);
 	    });
 
-	    $("#content").transpose({ key: 'C' });
 	    $('.c').css('font-size', 12);
-	    $('#content').css('font-size', 12);
+	    $('#content-view').css('font-size', 12);
+	    $("#content-view").transpose({ key: 'C' });
 	}
 
 /***/ },

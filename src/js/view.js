@@ -28,7 +28,7 @@ const VIEW = React.createClass({
                 <Card>
                     <h2>{this.state.data.nome}</h2>
                     <FontControl />
-                    <pre id="content"  data-key={this.state.data.tom} style={styleCardLetra}>{this.state.data.letra}</pre>
+                    <pre id="content-view" style={styleCardLetra} data-key={this.state.data.tom}>{this.state.data.letra}</pre>
                 </Card>
             </Base>
         )
@@ -100,7 +100,7 @@ if (document.getElementById("view")) {
     ReactDOM.render(<VIEW source={MUSICA_SOURCE}/>, document.getElementById("view"));
 
     $('#incfont').click(function () {
-        curSize = parseInt($('#content').css('font-size')) + 2;
+        curSize = parseInt($('#content-view').css('font-size')) + 2;
         curSize2 = parseInt($('.c').css('font-size')) + 2;
         if (curSize <= 32)
             $('#content').css('font-size', curSize);
@@ -108,7 +108,7 @@ if (document.getElementById("view")) {
             $('.c').css('font-size', curSize2);
     });
     $('#decfont').click(function () {
-        curSize = parseInt($('#content').css('font-size')) - 2;
+        curSize = parseInt($('#content-view').css('font-size')) - 2;
         curSize2 = parseInt($('.c').css('font-size')) - 2;
         if (curSize >= 5)
             $('#content').css('font-size', curSize);
@@ -116,8 +116,8 @@ if (document.getElementById("view")) {
             $('.c').css('font-size', curSize2);
     });
 
-    $("#content").transpose({key: 'C'});
     $('.c').css('font-size', 12);
-    $('#content').css('font-size', 12);
+    $('#content-view').css('font-size', 12);
+    $("#content-view").transpose({key: 'C'});
 
 }
