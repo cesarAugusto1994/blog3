@@ -215,27 +215,24 @@ $(function () {
             return (
                 <div>
                     <Card sectionName="Adicionadas Recentemente">
+                        <figure className="wow fadeInLeft animated portfolio-item">
+
                         { this.state.data.map(function (musica) {
 
                             linkToAnexos = "/user/praise/"+musica.id+"-"+musica.nome.toLowerCase().replace(/ /g, '_')+"/attachments";
 
                             return (
-
-                                <div key={musica.id} className="col-md-4 col-lg-4 col-xs-12">
-                                    <div className="media wow fadeInDown animated">
-                                        <div className="media-left">
-                                            <div className="icon">
-                                                <i className="ion-ios-play"></i>
-                                            </div>
-                                        </div>
-                                        <div className="media-body">
-                                            <h4 className="media-heading"><a href={linkToAnexos}>{ musica.nome }</a></h4>
-                                        </div>
-                                    </div>
+                                <div key={musica.id} className="col-sm-12 col-xs-12">
+                                    <h4 className="tile is-4">
+                                        <a href={linkToAnexos}>
+                                            { musica.numero } { musica.nome }
+                                        </a>
+                                    </h4>
                                 </div>
-                                
                             )
                         }) }
+
+                        </figure>
                     </Card>
                 </div>
             )

@@ -31,7 +31,7 @@ $musica->get('musicas/adicionadas/recentemente', function() use ($app) {
         return new \Symfony\Component\HttpFoundation\JsonResponse($app['session']->get('musicas_adicionadas'));
     }
 
-    $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 12);
+    $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
     $app['session']->set('musicas_adicionadas', $musicas);
 
     return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);

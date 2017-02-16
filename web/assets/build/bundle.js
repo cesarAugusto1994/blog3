@@ -1171,41 +1171,30 @@
 	                React.createElement(
 	                    Card,
 	                    { sectionName: "Adicionadas Recentemente" },
-	                    this.state.data.map(function (musica) {
+	                    React.createElement(
+	                        "figure",
+	                        { className: "wow fadeInLeft animated portfolio-item" },
+	                        this.state.data.map(function (musica) {
 
-	                        linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
+	                            linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
 
-	                        return React.createElement(
-	                            "div",
-	                            { key: musica.id, className: "col-md-4 col-lg-4 col-xs-12" },
-	                            React.createElement(
+	                            return React.createElement(
 	                                "div",
-	                                { className: "media wow fadeInDown animated" },
+	                                { key: musica.id, className: "col-sm-12 col-xs-12" },
 	                                React.createElement(
-	                                    "div",
-	                                    { className: "media-left" },
+	                                    "h4",
+	                                    { className: "tile is-4" },
 	                                    React.createElement(
-	                                        "div",
-	                                        { className: "icon" },
-	                                        React.createElement("i", { className: "ion-ios-play" })
-	                                    )
-	                                ),
-	                                React.createElement(
-	                                    "div",
-	                                    { className: "media-body" },
-	                                    React.createElement(
-	                                        "h4",
-	                                        { className: "media-heading" },
-	                                        React.createElement(
-	                                            "a",
-	                                            { href: linkToAnexos },
-	                                            musica.nome
-	                                        )
+	                                        "a",
+	                                        { href: linkToAnexos },
+	                                        musica.numero,
+	                                        " ",
+	                                        musica.nome
 	                                    )
 	                                )
-	                            )
-	                        );
-	                    })
+	                            );
+	                        })
+	                    )
 	                )
 	            );
 	        }
