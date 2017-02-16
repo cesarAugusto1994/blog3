@@ -13,9 +13,11 @@
 #################################################################################################
 
 use Api\Entities\Usuarios;
+use Api\Services\Email;
 use App\Entities\Config;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 $app['index.controller'] = function () use ($app) {
@@ -262,21 +264,24 @@ $app['uuid.service'] = function () {
     return Ramsey\Uuid\Uuid::uuid4();
 };
 
-$app['usuario.email.service'] = function () use ($app) {
+$app['usuario.email.service'] = function ($email) use ($app) {
 
     $assunto = 'Bem Vindo Ao site.';
     $from = 'cezzaar@gmail.com';
-    $body = $app['twig']->render('user/email_template.twig');
 
-    $message = \Swift_Message::newInstance()
-        ->setSubject('[YourSite] Feedback')
-        ->setFrom(array($from))
-        ->setTo(array($from))
-        ->setBody($body);
+    $config = $app['config'];
 
-    $app['mailer']->send($message);
+    $array = [
+        'site' => $config->getNome(),
+        'lema' => $config->getSubtitulo()
+    ];
 
-    return new Response('Thank you for your feedback!', 201);
+    $body = $app['twig']->render('user/email_template.twig', $array);
+
+    $email = new Email($assunto, $from, $body);
+    $email->send($email, $app);
+
+    return new Response('E-mail enviado!', 201);
 };
 
 $app['usuario.sessao'] = function () use ($app) {

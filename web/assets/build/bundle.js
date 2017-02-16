@@ -59,7 +59,8 @@
 	__webpack_require__(13);
 	__webpack_require__(14);
 	__webpack_require__(15);
-	module.exports = __webpack_require__(16);
+	__webpack_require__(16);
+	module.exports = __webpack_require__(17);
 
 
 /***/ },
@@ -201,7 +202,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "register", className: "button is-primary is-outlined is-fullwidth" },
+	                        { href: "register", className: "button is-light is-fullwidth" },
 	                        "Registrar"
 	                    )
 	                ),
@@ -212,6 +213,17 @@
 	                        "button",
 	                        { type: "submit", className: "button is-success is-outlined is-fullwidth" },
 	                        "Entrar"
+	                    )
+	                ),
+	                React.createElement("br", null),
+	                React.createElement("br", null),
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-12" },
+	                    React.createElement(
+	                        "a",
+	                        { href: this.props.password, className: "button is-danger is-inverted is-fullwidth" },
+	                        "Esqueci minha Senha"
 	                    )
 	                )
 	            )
@@ -227,7 +239,7 @@
 	        return React.createElement(
 	            BASE,
 	            { app: this.props.app },
-	            React.createElement(Form, { post: this.props.post, error: this.props.error, lastUserName: this.props.lastUserName })
+	            React.createElement(Form, { post: this.props.post, error: this.props.error, password: this.props.password, lastUserName: this.props.lastUserName })
 	        );
 	    }
 	});
@@ -237,6 +249,7 @@
 	    const app = $("#login").data("app");
 	    const post = $("#login").data("post");
 	    const error = $("#login").data("error");
+	    const password = $("#login").data("password");
 	    const lastUserName = $("#login").data("last-user-name");
 
 	    $(document).on('click', '.notification > button.delete', function () {
@@ -244,7 +257,7 @@
 	        return false;
 	    });
 
-	    ReactDOM.render(React.createElement(Render, { app: app, post: post, error: error, lastUserName: lastUserName }), document.getElementById('login'));
+	    ReactDOM.render(React.createElement(Render, { app: app, post: post, error: error, password: password, lastUserName: lastUserName }), document.getElementById('login'));
 	}
 
 /***/ },
@@ -508,6 +521,167 @@
 
 /***/ },
 /* 3 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by cesar on 03/11/16.
+	 */
+
+	var style = {
+	    padding: "0",
+	    backgroundImage: 'url(' + $("#password").data("dir-img") + $("#password").data("background") + ')'
+	};
+
+	const StyleForm = {
+	    backgroundColor: "transparent"
+	};
+
+	var Forgot = React.createClass({
+	    displayName: "Forgot",
+
+
+	    render: function () {
+
+	        return React.createElement(
+	            "section",
+	            { id: "hero-area" },
+	            React.createElement(
+	                "div",
+	                { className: "container" },
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-md-12 text-center" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "block wow fadeInUp" },
+	                            React.createElement(
+	                                "section",
+	                                { className: "cd-intro" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "login-box" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "login-logo" },
+	                                        React.createElement(
+	                                            "a",
+	                                            { href: "/" },
+	                                            React.createElement(
+	                                                "b",
+	                                                null,
+	                                                this.props.app
+	                                            )
+	                                        )
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "register-box-body", style: StyleForm },
+	                                        React.createElement(
+	                                            "p",
+	                                            { className: "login-box-msg" },
+	                                            "Digite o seu E-mail"
+	                                        ),
+	                                        React.createElement(FormRegister, null)
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var FormRegister = React.createClass({
+	    displayName: "FormRegister",
+
+
+	    handleForm: function (e) {
+
+	        e.preventDefault();
+
+	        const email = this.refs.email.value;
+
+	        if (!email) {
+	            $("#email").focus();
+	            $("#email").addClass("is-danger");
+	            alertify.error("Deve Informar o E-mail");
+	            return false;
+	        }
+
+	        $("#email").removeClass("is-danger");
+
+	        $("#btnSubmit").addClass("is-loading");
+
+	        block_screen();
+
+	        $.ajax({
+	            type: 'POST',
+	            url: "/forgot-password",
+	            data: $("#form").serialize(),
+	            cache: false,
+	            success: function (data) {
+	                alertify.success(data.mensagem);
+	            },
+	            error: function (data) {
+	                unblock_screen();
+	                $("#btnSubmit").removeClass("is-loading");
+	                alertify.error(data.mensagem);
+	            }
+	        });
+	    },
+
+	    render: function () {
+
+	        return React.createElement(
+	            "form",
+	            { onSubmit: this.handleForm, method: "post", id: "form" },
+	            React.createElement(
+	                "div",
+	                { className: "form-group has-feedback" },
+	                React.createElement("input", { className: "input", value: "cezzaar@gmail.com", autoFocus: "autoFocus", autoComplete: "off", type: "email", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "row" },
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-6" },
+	                    React.createElement(
+	                        "a",
+	                        { href: "login", className: "button is-light is-fullwidth" },
+	                        "Voltar ao In\xEDcio"
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-6" },
+	                    React.createElement(
+	                        "button",
+	                        { type: "submit", id: "btnSubmit", className: "button is-success is-fullwidth" },
+	                        "Enviar"
+	                    )
+	                )
+	            )
+	        );
+	    }
+
+	});
+
+	const background = $("#password").data("background");
+	const app = $("#password").data("app");
+
+	if (document.getElementById("password")) {
+	    ReactDOM.render(React.createElement(Forgot, { app: app }), document.getElementById("password"));
+	}
+
+/***/ },
+/* 4 */
 /***/ function(module, exports) {
 
 	/**
@@ -864,7 +1038,7 @@
 	});
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
@@ -1259,7 +1433,7 @@
 	});
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/**
@@ -2493,7 +2667,7 @@
 	});
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	
@@ -2649,7 +2823,7 @@
 	}
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -2966,7 +3140,7 @@
 	});
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -3227,7 +3401,7 @@
 	});
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -3569,7 +3743,7 @@
 	});
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -3907,7 +4081,7 @@
 	});
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -4058,7 +4232,7 @@
 	}
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -4220,7 +4394,7 @@
 	}
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -4442,7 +4616,7 @@
 	}
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -5191,7 +5365,7 @@
 	}
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -5675,7 +5849,7 @@
 	});
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/**

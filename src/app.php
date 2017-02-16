@@ -62,6 +62,18 @@ $app['security.role_hierarchy'] = array(
         'ROLE_ALLOWED_TO_SWITCH'
     ],
 );
+
+$app->register(new Silex\Provider\SwiftmailerServiceProvider());
+
+$app['swiftmailer.options'] = array(
+    'host' => 'smtp.gmail.com',
+    'port' => 465,
+    'username' => 'cezzaar94@gmail.com',
+    'password' => 'elpro1973',
+    'encryption' => 'ssl',
+    'auth_mode' => null
+);
+
 $app->register(new \Silex\Provider\SessionServiceProvider());
 $app['session.storage.save_path'] = __DIR__ . '/../var/cache/sessions/';
 $app['session.storage.options'] = ['cookie_lifetime' => 3600];
@@ -84,18 +96,6 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
 $app->register(new \Silex\Provider\FormServiceProvider());
 $app->register(new HttpFragmentServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
-
-$app->register(new Silex\Provider\SwiftmailerServiceProvider());
-$app['swiftmailer.options'] = array(
-    'driver' => 'smtp',
-    'host' => 'smtp.gmail.com',
-    'port' => 465,
-    'username' => 'cezzaar@gmail.com',
-    'password' => 'Cesar1507',
-    'encryption' => 'ssl',
-    'auth_mode' => null,
-    'pretend' =>false
-);
 
 include_once __DIR__ . '/../app/services.php';
 include_once __DIR__ . '/../app/providers.php';

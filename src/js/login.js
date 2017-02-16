@@ -94,10 +94,15 @@ const Form = React.createClass({
                 </div>
                 <div className="row">
                     <div className="col-xs-6">
-                        <a href="register" className="button is-primary is-outlined is-fullwidth">Registrar</a>
+                        <a href="register" className="button is-light is-fullwidth">Registrar</a>
                     </div>
                     <div className="col-xs-6">
                         <button type="submit" className="button is-success is-outlined is-fullwidth">Entrar</button>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div className="col-xs-12">
+                        <a href={this.props.password} className="button is-danger is-inverted is-fullwidth">Esqueci minha Senha</a>
                     </div>
                 </div>
             </form>
@@ -110,7 +115,7 @@ const Render = React.createClass({
     render: function () {
         return (
             <BASE app={this.props.app}>
-                <Form post={this.props.post} error={this.props.error} lastUserName={this.props.lastUserName}/>
+                <Form post={this.props.post} error={this.props.error} password={this.props.password} lastUserName={this.props.lastUserName}/>
             </BASE>
         )
     }
@@ -121,6 +126,7 @@ if (document.getElementById('login')) {
     const app = $("#login").data("app");
     const post = $("#login").data("post");
     const error = $("#login").data("error");
+    const password = $("#login").data("password");
     const lastUserName = $("#login").data("last-user-name");
 
     $(document).on('click', '.notification > button.delete', function() {
@@ -129,6 +135,6 @@ if (document.getElementById('login')) {
     });
 
     ReactDOM.render(
-        <Render app={app} post={post} error={error} lastUserName={lastUserName}/>, document.getElementById('login')
+        <Render app={app} post={post} error={error} password={password} lastUserName={lastUserName}/>, document.getElementById('login')
     );
 }
