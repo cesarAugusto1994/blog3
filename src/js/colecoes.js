@@ -61,14 +61,16 @@ $(function () {
 
         render() {
 
-            var mudarStatus = '';
-            var editar = '';
+            let mudarStatus = '';
+            let editar = '';
             let menu = '';
+            let btn = '';
 
             if (this.props.user == 'ROLE_ADMIN') {
 
                 mudarStatus = <MudarStatusColecao colecao={this.props.colecao} reloadColecao={this.props.reloadColecao}/>
                 editar = <BtnEditar colecao={this.props.colecao} />
+                btn =  <span className="tag is-light">{this.props.colecao.qtde_categorias}</span>;
 
                 menu = (
                 <div className="btn-group">
@@ -76,7 +78,7 @@ $(function () {
                         <span className="caret"></span>
                     </button>
                     <ul className="dropdown-menu">
-                        <li>{editar}{mudarStatus}</li>
+                        <li>{editar}{mudarStatus}{btn}</li>
                     </ul>
                 </div>
                 );
@@ -92,7 +94,6 @@ $(function () {
                             {menu}
                             <a href={this.props.categoriasUrl}>
                                 {this.props.colecao.nome}
-                                <span className="tag is-light">{this.props.colecao.qtde_categorias}</span>
                             </a>
                         </h4>
                     </figcaption>

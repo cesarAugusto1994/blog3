@@ -2,6 +2,14 @@
  * Created by cesar on 25/01/17.
  */
 
+const TEXTAREA = {
+    width: "100%",
+    height: "200px",
+    fontSize: "14px",
+    lineHeight: "18px",
+    border: "1px solid #dddddd",
+    padding: "10px",
+};
 
 class Container extends React.Component {
 
@@ -50,6 +58,7 @@ const Render = React.createClass({
         let numero = this.refs.numero.value.trim();
         let tonalidade = this.refs.tonalidade.value.trim();
         let categoria = this.refs.categoria.value.trim();
+        let letra = this.refs.letra.value.trim();
 
         if (!nome || !categoria) {
             alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
@@ -67,6 +76,7 @@ const Render = React.createClass({
                 numero: numero,
                 tonalidade: tonalidade,
                 categoria: categoria,
+                letra : letra
             },
             cache: false,
             success: function (data) {
@@ -131,8 +141,12 @@ const Render = React.createClass({
                             })}
                         </select>
                     </div>
-                    <br/>
-                    <br/>
+                    <label className="label text-black">Letra</label>
+                    <p className="control">
+                        <textarea className="textarea form-control" id="letra" name="letra" ref="letra"
+                                  placeholder="Informe a letra se dispon&iacute;vel."
+                                  style={TEXTAREA}></textarea>
+                    </p>
                     <p className="control">
                         <button className="button is-danger is-fullwidth" type="submit">Salvar</button>
                     </p>

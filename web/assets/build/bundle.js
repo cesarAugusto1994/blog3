@@ -914,9 +914,21 @@
 	                            ),
 	                            React.createElement(
 	                                "a",
-	                                { className: "btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green",
+	                                { className: "button is-light",
 	                                    "data-wow-delay": ".3s", href: "#works", "data-section": "#works" },
 	                                "Iniciar"
+	                            ),
+	                            React.createElement(
+	                                "a",
+	                                { className: "button is-primary is-inverted",
+	                                    "data-wow-delay": ".3s", href: "/user/praise/new" },
+	                                "Sugerir Louvor"
+	                            ),
+	                            React.createElement(
+	                                "a",
+	                                { className: "button is-danger is-inverted",
+	                                    "data-wow-delay": ".3s", href: "#" },
+	                                "Em breve: Solicite-nos um louvor, letra, partitura ou outros."
 	                            )
 	                        )
 	                    )
@@ -3024,14 +3036,20 @@
 
 	        render() {
 
-	            var mudarStatus = '';
-	            var editar = '';
+	            let mudarStatus = '';
+	            let editar = '';
 	            let menu = '';
+	            let btn = '';
 
 	            if (this.props.user == 'ROLE_ADMIN') {
 
 	                mudarStatus = React.createElement(MudarStatusColecao, { colecao: this.props.colecao, reloadColecao: this.props.reloadColecao });
 	                editar = React.createElement(BtnEditar, { colecao: this.props.colecao });
+	                btn = React.createElement(
+	                    'span',
+	                    { className: 'tag is-light' },
+	                    this.props.colecao.qtde_categorias
+	                );
 
 	                menu = React.createElement(
 	                    'div',
@@ -3048,7 +3066,8 @@
 	                            'li',
 	                            null,
 	                            editar,
-	                            mudarStatus
+	                            mudarStatus,
+	                            btn
 	                        )
 	                    )
 	                );
@@ -3072,12 +3091,7 @@
 	                        React.createElement(
 	                            'a',
 	                            { href: this.props.categoriasUrl },
-	                            this.props.colecao.nome,
-	                            React.createElement(
-	                                'span',
-	                                { className: 'tag is-light' },
-	                                this.props.colecao.qtde_categorias
-	                            )
+	                            this.props.colecao.nome
 	                        )
 	                    )
 	                )
@@ -3509,220 +3523,10 @@
 	                addMusica,
 	                addMusica2,
 	                addMusica3,
-	                React.createElement(GerenciarModal, { closeModal: this.closeModal, reloadMusicas: this.load, colecao: this.props.colecao,
-	                    categoria: this.props.categoria }),
-	                React.createElement("hr", { className: "small" }),
 	                React.createElement(ListMusicas, { data: this.state.data, user: this.props.user, reloadMusicas: this.load })
 	            );
 	        }
 
-	    });
-
-	    const Modal = React.createClass({
-	        displayName: "Modal",
-
-
-	        componentDidMount: function () {
-	            $(this.getDOMNode).modal({ backdrop: "static", keyboard: true, show: false });
-	        },
-
-	        componentWillUnmount: function () {
-	            $(this.getDOMNode).off("hidden", this.handleHidden);
-	        },
-
-	        open: function () {
-	            $(this.getDOMNode).modal("show");
-	        },
-
-	        close: function () {
-	            $(this.getDOMNode).modal("hide");
-	        },
-
-	        render: function () {
-	            return React.createElement(
-	                "div",
-	                { id: "musica-modal", className: "modal fade", tabIndex: "-1" },
-	                React.createElement(
-	                    "div",
-	                    { className: "modal-dialog" },
-	                    React.createElement(
-	                        "div",
-	                        { className: "modal-content" },
-	                        React.createElement(
-	                            "div",
-	                            { className: "modal-header" },
-	                            React.createElement(
-	                                "button",
-	                                { type: "button", className: "close", "data-dismiss": "modal" },
-	                                React.createElement(
-	                                    "span",
-	                                    null,
-	                                    "\xD7"
-	                                )
-	                            ),
-	                            React.createElement(
-	                                "h4",
-	                                { className: "modal-title" },
-	                                this.props.title
-	                            )
-	                        ),
-	                        React.createElement(
-	                            "form",
-	                            { className: "form-horizontal", onSubmit: this.props.handleSubmit },
-	                            React.createElement(
-	                                "div",
-	                                { className: "modal-body" },
-	                                this.props.children
-	                            ),
-	                            React.createElement(
-	                                "div",
-	                                { className: "modal-footer" },
-	                                React.createElement(
-	                                    "button",
-	                                    { type: "button", className: "button is-danger is-outlined is-pulled-left",
-	                                        "data-dismiss": "modal" },
-	                                    "Cancelar"
-	                                ),
-	                                React.createElement(
-	                                    "button",
-	                                    { type: "submit", className: "button is-success" },
-	                                    "Salvar"
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    });
-
-	    const GerenciarModal = React.createClass({
-	        displayName: "GerenciarModal",
-
-
-	        getInitialState: function () {
-	            return { data: [], albuns: [] };
-	        },
-
-	        load: function () {
-
-	            $.get('/user/tonalidades', function (result) {
-	                this.setState({ data: result });
-	            }.bind(this));
-
-	            $.get('/user/albuns', function (result) {
-	                this.setState({ albuns: result });
-	            }.bind(this));
-	        },
-
-	        componentDidMount: function () {
-	            this.load();
-	        },
-
-	        handleSubmit: function (e) {
-
-	            var _this = this;
-
-	            e.preventDefault();
-
-	            var nome = this.refs.nome.value.trim();
-	            var numero = this.refs.numero.value.trim();
-	            var tonalidade = this.refs.tonalidade.value.trim();
-	            var album = this.refs.album.value.trim();
-	            var categoria = $("#musicas").data("categoria");
-
-	            if (!nome || !categoria) {
-	                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
-	                return false;
-	            }
-
-	            $.ajax({
-	                type: "POST",
-	                url: "/user/musica/adicionar",
-	                data: {
-	                    nome: nome,
-	                    numero: numero,
-	                    tonalidade: tonalidade,
-	                    album: album,
-	                    categoria: categoria
-	                },
-	                cache: false,
-	                success: function (data) {
-	                    alertify.success(data.message);
-	                    _this.props.reloadMusicas();
-	                    _this.props.closeModal();
-	                    unblock_screen();
-	                },
-	                error: function () {
-	                    alertify.error("ops, ocorreu um erro...");
-	                    unblock_screen();
-	                }
-	            });
-	        },
-
-	        render: function () {
-
-	            var modal = null;
-	            modal = React.createElement(
-	                Modal,
-	                { title: "Adicionar Musica", handleSubmit: this.handleSubmit },
-	                React.createElement(
-	                    "label",
-	                    { htmlFor: "nome" },
-	                    "Nome"
-	                ),
-	                React.createElement("input", { className: "input", type: "text", name: "nome", ref: "nome", id: "nome", required: true }),
-	                React.createElement(
-	                    "label",
-	                    { htmlFor: "numero" },
-	                    "N\xFAmero"
-	                ),
-	                React.createElement("input", { className: "input", type: "text", name: "numero", id: "numero", ref: "numero" }),
-	                React.createElement(
-	                    "label",
-	                    { htmlFor: "tonalidade" },
-	                    "Tonalidade"
-	                ),
-	                React.createElement(
-	                    "select",
-	                    { className: "form-control", name: "tonalidade", ref: "tonalidade", id: "tonalidade" },
-	                    this.state.data.map(function (tom) {
-	                        return React.createElement(
-	                            "option",
-	                            { key: tom, value: tom },
-	                            tom
-	                        );
-	                    })
-	                ),
-	                React.createElement(
-	                    "label",
-	                    { htmlFor: "album" },
-	                    "Album"
-	                ),
-	                React.createElement(
-	                    "select",
-	                    { className: "form-control", name: "album", ref: "album", id: "album" },
-	                    React.createElement(
-	                        "option",
-	                        { value: "" },
-	                        "Sem Album"
-	                    ),
-	                    this.state.albuns.map(function (album) {
-	                        return React.createElement(
-	                            "option",
-	                            { key: album.id, value: album.id },
-	                            album.label
-	                        );
-	                    })
-	                )
-	            );
-
-	            return React.createElement(
-	                "div",
-	                null,
-	                modal
-	            );
-	        }
 	    });
 
 	    class Base extends React.Component {
@@ -4423,6 +4227,15 @@
 	 * Created by cesar on 25/01/17.
 	 */
 
+	const TEXTAREA = {
+	    width: "100%",
+	    height: "200px",
+	    fontSize: "14px",
+	    lineHeight: "18px",
+	    border: "1px solid #dddddd",
+	    padding: "10px"
+	};
+
 	class Container extends React.Component {
 
 	    render() {
@@ -4478,6 +4291,7 @@
 	        let numero = this.refs.numero.value.trim();
 	        let tonalidade = this.refs.tonalidade.value.trim();
 	        let categoria = this.refs.categoria.value.trim();
+	        let letra = this.refs.letra.value.trim();
 
 	        if (!nome || !categoria) {
 	            alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
@@ -4494,7 +4308,8 @@
 	                nome: nome,
 	                numero: numero,
 	                tonalidade: tonalidade,
-	                categoria: categoria
+	                categoria: categoria,
+	                letra: letra
 	            },
 	            cache: false,
 	            success: function (data) {
@@ -4593,8 +4408,18 @@
 	                        })
 	                    )
 	                ),
-	                React.createElement("br", null),
-	                React.createElement("br", null),
+	                React.createElement(
+	                    "label",
+	                    { className: "label text-black" },
+	                    "Letra"
+	                ),
+	                React.createElement(
+	                    "p",
+	                    { className: "control" },
+	                    React.createElement("textarea", { className: "textarea form-control", id: "letra", name: "letra", ref: "letra",
+	                        placeholder: "Informe a letra se dispon\xEDvel.",
+	                        style: TEXTAREA })
+	                ),
 	                React.createElement(
 	                    "p",
 	                    { className: "control" },

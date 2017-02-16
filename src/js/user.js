@@ -22,8 +22,12 @@ $(function () {
                                         {this.props.app}
                                     </h2>
                                 </div>
-                                <a className="btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green"
+                                <a className="button is-light"
                                    data-wow-delay=".3s" href="#works" data-section="#works">Iniciar</a>
+                                <a className="button is-primary is-inverted"
+                                   data-wow-delay=".3s" href="/user/praise/new">Sugerir Louvor</a>
+                                <a className="button is-danger is-inverted"
+                                   data-wow-delay=".3s" href="#">Em breve: Solicite-nos um louvor, letra, partitura ou outros.</a>
                             </div>
                         </div>
                     </div>
