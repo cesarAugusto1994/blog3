@@ -17,7 +17,7 @@ $(function () {
             let url = "/user/category/" + this.props.categoria.id + "-" + this.props.categoria.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
             return (
-                <a href={url} className="button is-white is-small" >Editar</a>
+                <a href={url} className="button is-light is-small" >Editar</a>
             )
         }
 
@@ -27,7 +27,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-danger is-inverted is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
+                <a className="button is-light is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
             )
         }
 
@@ -37,7 +37,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-success is-inverted is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Ativar</a>
+                <a className="button is-light is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Ativar</a>
             )
         }
 
@@ -54,152 +54,44 @@ $(function () {
         }
     };
 
-    var Modal = React.createClass({
-        componentDidMount: function() {
-            $(this.getDOMNode)
-                .modal({backdrop: "static", keyboard: true, show: false});
-        },
-
-        componentWillUnmount: function() {
-            $(this.getDOMNode)
-                .off("hidden", this.handleHidden);
-        },
-
-        open: function() {
-            $(this.getDOMNode).modal("show");
-        },
-
-        close: function() {
-            $(this.getDOMNode).modal("hide");
-        },
-
-        render: function() {
-            return (
-                <div id="ModalCategorias" className="modal fade" tabIndex="-1">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal">
-                                    <span>&times;</span>
-                                </button>
-                                <h4 className="modal-title">{this.props.title}</h4>
-                            </div>
-                            <form className="form-horizontal" onSubmit={this.props.handleSubmit}>
-                                <div className="modal-body">
-                                    {this.props.children}
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="button is-danger is-outlined is-pulled-left" data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" className="button is-success">Salvar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            )
-        }
-    });
-
-    const EditarCategoriaModal = React.createClass({
-
-        handleSubmit : function (e) {
-          
-            e.preventDefault();
-
-            var id = this.refs.id.value.trim();
-            var nome = this.refs.nome.value.trim();
-            var colecao = this.refs.colecao.value.trim();
-
-            if (!nome || !colecao) {
-                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
-            }
-
-            const _this = this;
-
-            $.ajax({
-                type: "POST",
-                url: "/user/category/"+id+"-"+nome+"/edit",
-                data : {
-                    id : id,
-                    nome : nome,
-                    colecao : colecao
-                },
-                cache: false,
-                success: function (data) {
-                    alertify.success(data.message);
-                    _this.props.reloadCategoria();
-                    _this.props.closeModal();
-                    unblock_screen();
-                },
-                error: function () {
-                    unblock_screen();
-                    alertify.error("Ocorreu um erro.");
-                }
-            });
-        },
-        
-        render: function() {
-
-            let modal = null;
-            modal = (
-                <Modal title="Editar Categoria" handleSubmit={this.handleSubmit}>
-                    <input type="hidden" ref="id" name="id" id="id" defaultValue={this.props.categoria.id}/>
-                    <label htmlFor="nome">Nome</label>
-                    <input className="input is-primary" type="text" placeholder="Nome" defaultValue={this.props.categoria.nome} ref="nome" name="nome" id="nome" required/>
-                    <label htmlFor="colecao">Cole&ccedil;&atilde;o</label>
-                    <select className="input is-primary" ref="colecao" name="colecao" id="colecao" defaultValue={this.props.categoria.colecao.id}>
-                        { this.props.colecoes.map(function (colecao) {
-                            return (
-                                <option key={colecao.id} value={colecao.id}>{colecao.nome}</option>
-                            )
-                        })}
-                    </select>
-                </Modal>
-            );
-
-            return (
-                <div>
-                    {modal}
-                </div>
-            );
-        }
-    });
-
     const BlockCategorias = React.createClass({
 
         render: function () {
 
-            let mudarStatus = '';
-            let editar = '';
             let btns = '';
 
             if (this.props.user == ROLE_ADMIN) {
-                mudarStatus = <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
-                editar = <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
-
                 btns = (
-                    <div className="control is-grouped">
+                    <div className="control is-grouped is-centered">
                         <p className="control">
                             <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
                         </p>
                         <p className="control">
                             <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
                         </p>
+                        <p className="control">
+                            <span
+                                className="tag is-light is-pulled-right">{this.props.categoria.qtde_musicas}</span>
+                        </p>
                     </div>
                 );
             }
 
             return (
-                <div className="media fadeInUp animated slide" data-wow-delay=".3s">
-                    <div className="media-body">
-                        <h4 className="media-heading">
-                            <a href={this.props.musicasUrl}>{this.props.categoria.nome} <span className="tag is-light is-pulled-right">{this.props.categoria.qtde_musicas}</span></a>
-                        </h4>
-                        {btns}
-                        <hr/>
-                    </div>
+
+                <div className="col-sm-6 col-xs-12">
+                    <figure className="wow fadeInLeft animated portfolio-item">
+                        <figcaption>
+                            <h2 className="tile">
+                                <a href={this.props.musicasUrl}>
+                                    {this.props.categoria.nome}
+                                </a>
+                            </h2>
+                            {btns}
+                        </figcaption>
+                    </figure>
                 </div>
+
             )
         }
     });
@@ -262,28 +154,6 @@ $(function () {
 
     const CategoriasList = React.createClass({
 
-        getInitialState: function() {
-            return {data: []};
-        },
-        load : function () {
-            $.get('/api/colecoes', function (result) {
-                this.setState({ data: result });
-            }.bind(this));
-        },
-        componentDidMount: function() {
-            this.load();
-        },
-
-        openModal: function () {
-            $("#ModalCategorias").modal("show");
-        },
-        closeModal: function () {
-            $("#ModalCategorias").modal("hide");
-            $('.modal-body #id').val('');
-            $('.modal-body #nome').val('');
-            $('.modal-body #colecao').val('');
-        },
-
         render: function () {
 
             const _this = this;
@@ -294,19 +164,12 @@ $(function () {
                     const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_') + "/praises";
                     return (
                         <div key={categoria.id}>
-
                             <BlockCategorias
                                 categoria={categoria}
                                 musicasUrl={musicasUrl}
                                 user={_this.props.user}
                                 reloadCategoria={_this.props.reloadCategoria}
                                 acao={_this.openModal}/>
-
-                            <EditarCategoriaModal
-                                closeModal={_this.closeModal}
-                                reloadCategoria={_this.props.reloadCategoria}
-                                colecoes={_this.state.data}
-                                categoria={categoria} />
                         </div>
                     )
                 }) }</span>

@@ -83,7 +83,7 @@ $(function () {
             }
 
             return (
-                <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                <figure className="wow fadeInLeft animated portfolio-item">
                     <div className="img-wrapper" >
                         <Image colecao={this.props.colecao} dirImg={this.props.dirImg} categoriasUrl={this.props.categoriasUrl} defaultImage={this.props.defaultImage}/>
                     </div>

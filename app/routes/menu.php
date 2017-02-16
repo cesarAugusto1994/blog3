@@ -9,8 +9,16 @@
 $menu = $app['controllers_factory'];
 
 $menu->get('menus', function () use ($app) {
+
+    if (!empty($app['session']->get('menus'))) {
+        return new \Symfony\Component\HttpFoundation\JsonResponse($app['session']->get('menus'));
+    }
+
     $menu = $app['menu.repository']->findBy(['ativo' => true]);
+    $app['session']->set('menus', $menu);
+
     return new \Symfony\Component\HttpFoundation\JsonResponse($menu);
+
 })->bind('api_menu');
 
 $menu->get('blog', function () use ($app) {

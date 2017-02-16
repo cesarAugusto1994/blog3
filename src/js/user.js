@@ -11,19 +11,19 @@ $(function () {
                 <section id="hero-area">
                     <div className="row">
                         <div className="col-md-12 text-center">
-                            <div className="block wow fadeInUp" data-wow-delay=".3s">
+                            <div className="block wow fadeInUp">
                                 <section className="cd-intro">
-                                    <h1 className="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
+                                    <h1 className="wow fadeInUp animated cd-headline slide" data-wow-delay=".2s">
                                         <span>Ol&aacute;, {this.props.user}.</span><br />
                                     </h1>
                                 </section>
                                 <div className="container is-half">
-                                    <h2 className="wow fadeInUp animated" data-wow-delay=".5s">
+                                    <h2 className="wow fadeInUp animated" data-wow-delay=".2s">
                                         {this.props.app}
                                     </h2>
                                 </div>
                                 <a className="btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green"
-                                   data-wow-delay=".9s" href="#works" data-section="#works">Iniciar</a>
+                                   data-wow-delay=".3s" href="#works" data-section="#works">Iniciar</a>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@ $(function () {
                 <section id="works" className="works">
                     <div className="container">
                         <div className="section-heading">
-                            <h1 className="title wow fadeInDown" data-wow-delay=".3s">{this.props.sectionName}</h1>
+                            <h1 className="title wow fadeInDown" data-wow-delay=".1s">{this.props.sectionName}</h1>
                         </div>
                         <div className="row">
                             {this.props.children}
@@ -56,8 +56,7 @@ $(function () {
                     <div className="container">
                         <div className="col-md-12">
                             <div className="block">
-                                <h2 className="title wow fadeInDown" data-wow-delay=".3s"
-                                    data-wow-duration="500ms">{this.props.sectionName}</h2>
+                                <h2 className="title wow fadeInDown" data-wow-delay=".1s">{this.props.sectionName}</h2>
                                 <div className="row">
                                     {this.props.children}
                                 </div>
@@ -105,7 +104,7 @@ $(function () {
 
                         return (
                             <div key={menu.id} className="col-sm-4 col-xs-12">
-                                <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                                <figure className="wow fadeInLeft animated portfolio-item">
                                     <div className="img-wrapper">
                                         <a href={menu.url}>
                                             <img style={StyleImg} src={root} className="img-responsive" alt="this is a title" />
@@ -165,7 +164,7 @@ $(function () {
 
                             return (
                                 <div key={colecao.id} className="col-sm-4 col-xs-12">
-                                    <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="300ms" data-wow-delay="0ms">
+                                    <figure className="wow fadeInLeft animated portfolio-item">
                                         <div className="img-wrapper">
                                             <a href={linkToCategorias}>
                                                 <img style={StyleImg} src={root} className="img-responsive" alt="this is a title" />
@@ -223,7 +222,7 @@ $(function () {
                             return (
 
                                 <div key={musica.id} className="col-md-4 col-lg-4 col-xs-12">
-                                    <div className="media wow fadeInDown animated" data-wow-duration="300ms" data-wow-delay="600ms">
+                                    <div className="media wow fadeInDown animated">
                                         <div className="media-left">
                                             <div className="icon">
                                                 <i className="ion-ios-play"></i>
@@ -244,64 +243,30 @@ $(function () {
 
     });
 
-    var Videos = React.createClass({
-
-        getInitialState : function () {
-            return {data : []}
-        },
-
-        load : function () {
-            $.get(this.props.source, function (result) {
-                this.setState({ data : result })
-            }.bind(this))
-        },
-
-        componentDidMount : function () {
-            this.load();
-        },
+    const Videos = React.createClass({
 
         render : function () {
-
-            var linkToVideos = '';
 
             return (
                 <div>
                     <CardBlue sectionName="Videos">
-                        { this.state.data.map(function (video) {
-                            linkToVideos = "/user/videos";
-                            let url = "https://www.youtube.com/embed/" + video.link;
-                            return (
-                                <div key={video.id} className="col-md-4 col-lg-4 col-xs-12">
-                                    <figure className="wow fadeInLeft animated portfolio-item" data-wow-duration="300ms" data-wow-delay="0ms">
-                                        <div className="img-wrapper">
-                                            <iframe  width="100%" height="100%" src={url}
-                                                     frameBorder="0" allowFullScreen></iframe>
-                                        </div>
-                                        <figcaption>
-                                            <h4>
-                                                {video.nome}
-                                            </h4>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                            )
-                        }) }
+                        <a href="/user/musica/anexos/videos" className="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Acessar</a>
                     </CardBlue>
                 </div>
             )
         }
 
     });
-    
-    var menu = $("#user").data("menu");
-    var dirMenu = $("#user").data("dir-menu");
-    var colecao = $("#user").data("colecao");
-    var dirColecao = $("#user").data("dir-colecao");
-    var defaultBackground = $("#user").data("default-background");
-    var musica = $("#user").data("musica");
-    var videos = $("#user").data("videos");
-    var user = $("#user").data("user");
-    var app = $("#user").data("app");
+
+    const menu = $("#user").data("menu");
+    const dirMenu = $("#user").data("dir-menu");
+    const colecao = $("#user").data("colecao");
+    const dirColecao = $("#user").data("dir-colecao");
+    const defaultBackground = $("#user").data("default-background");
+    const musica = $("#user").data("musica");
+    const videos = $("#user").data("videos");
+    const user = $("#user").data("user");
+    const app = $("#user").data("app");
 
     if (document.getElementById("user")) {
         ReactDOM.render(

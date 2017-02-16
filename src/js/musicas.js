@@ -6,7 +6,7 @@ $(function () {
 
     const ROLE_ADMIN = "ROLE_ADMIN";
 
-    class BtnAdd extends React.Component{
+    class BtnAdd extends React.Component {
 
         render() {
 
@@ -19,7 +19,7 @@ $(function () {
 
     }
 
-    class BtnAdd2 extends React.Component{
+    class BtnAdd2 extends React.Component {
 
         render() {
 
@@ -32,7 +32,7 @@ $(function () {
 
     }
 
-    class BtnAdd3 extends React.Component{
+    class BtnAdd3 extends React.Component {
 
         render() {
 
@@ -45,7 +45,7 @@ $(function () {
 
     }
 
-    class BtnEditar extends React.Component{
+    class BtnEditar extends React.Component {
 
         render() {
             return (
@@ -55,28 +55,30 @@ $(function () {
 
     }
 
-    class BtnInativar extends React.Component{
+    class BtnInativar extends React.Component {
 
         render() {
             return (
                 <a onClick={this.props.mudarStatus} className="button is-danger is-inverted is-small">Inativar</a>
             );
         }
-    };
+    }
+    ;
 
-    class BtnAtivar extends React.Component{
+    class BtnAtivar extends React.Component {
 
         render() {
             return (
                 <a onClick={this.props.mudarStatus} className="button is-success is-inverted is-small">Ativar</a>
             );
         }
-    };
+    }
+    ;
 
-    class Card extends React.Component{
+    class Card extends React.Component {
         render() {
             return (
-                <div className="media wow fadeInUp animated slide"  data-wow-delay=".3s">
+                <div className="media wow fadeInUp animated slide" data-wow-delay=".3s">
                     <div className="media-body">
                         {this.props.children}
                     </div>
@@ -87,16 +89,16 @@ $(function () {
 
     var MudarStatusMusica = React.createClass({
 
-        getInitialState : function () {
-            return { ativo : this.props.musica.ativo }
+        getInitialState: function () {
+            return {ativo: this.props.musica.ativo}
         },
 
-        loadStatus : function () {
+        loadStatus: function () {
             this.props.reloadMusica();
-            this.setState({ ativo: !this.props.musica.ativo });
+            this.setState({ativo: !this.props.musica.ativo});
         },
 
-        handleMudarStatus : function (e) {
+        handleMudarStatus: function (e) {
 
             e.preventDefault();
 
@@ -123,12 +125,12 @@ $(function () {
 
         },
 
-        render : function () {
+        render: function () {
 
-            let btn = <BtnAtivar mudarStatus={this.handleMudarStatus} />;
+            let btn = <BtnAtivar mudarStatus={this.handleMudarStatus}/>;
 
             if (this.props.musica.ativo) {
-                btn = <BtnInativar mudarStatus={this.handleMudarStatus} />;
+                btn = <BtnInativar mudarStatus={this.handleMudarStatus}/>;
             }
 
             return (
@@ -140,23 +142,42 @@ $(function () {
 
     var ListMusicas = React.createClass({
 
-        render : function () {
+        render: function () {
 
             let btnEditar = "";
             let btnMudarStatus = "";
+            let btnRegistros = "";
+            let btns = "";
+
             const _this = this;
 
-            return(
+            return (
                 <div>
                     {
                         this.props.data.map(function (musica) {
 
-                            let linkAnexos = "/user/praise/"+ musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') +"/attachments";
+                            let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
                             let editarMusica = "/user/praises/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
                             if (ROLE_ADMIN == _this.props.user) {
                                 btnEditar = <BtnEditar link={editarMusica}/>;
                                 btnMudarStatus = <MudarStatusMusica musica={musica} reloadMusica={_this.props.reloadMusicas}/>;
+                                btnRegistros = <span className="tag is-light">{musica.qtde_anexos}</span>
+
+                                btns = (
+                                    <div className="control is-grouped is-centered">
+                                        <p className="control">
+                                            <MudarStatusMusica musica={musica} reloadMusica={_this.props.reloadMusicas}/>
+                                        </p>
+                                        <p className="control">
+                                            <BtnEditar link={editarMusica}/>
+                                        </p>
+                                        <p className="control">
+                                            <span className="tag is-light">{musica.qtde_anexos}</span>
+                                        </p>
+                                    </div>
+                                );
+
                             }
 
                             let musicaStr = musica.nome;
@@ -166,13 +187,21 @@ $(function () {
                             }
 
                             return (
+
                                 <div key={musica.id}>
-                                    <h4 className="media-heading">
-                                        <a href={linkAnexos}>{musicaStr} <span className="tag is-light is-pulled-right">{musica.qtde_anexos}</span></a>
-                                    </h4>
-                                    {btnEditar}
-                                    {btnMudarStatus}
-                                    <hr/>
+
+                                    <div className="col-sm-6 col-xs-12">
+                                        <figure className="wow fadeInLeft animated portfolio-item">
+                                            <figcaption>
+                                                <h2 className="tile">
+                                                    <a href={linkAnexos}>
+                                                        {musicaStr}
+                                                    </a>
+                                                </h2>
+                                                {btns}
+                                            </figcaption>
+                                        </figure>
+                                    </div>
                                 </div>
                             )
                         })
@@ -184,17 +213,17 @@ $(function () {
 
     var View = React.createClass({
 
-        getInitialState : function () {
+        getInitialState: function () {
             return {data: []};
         },
 
-        load : function () {
+        load: function () {
             $.get(this.props.source, function (result) {
                 this.setState({data: result});
             }.bind(this))
         },
 
-        componentDidMount : function () {
+        componentDidMount: function () {
             this.load();
         },
 
@@ -206,7 +235,7 @@ $(function () {
             $("#musica-modal").modal("hide");
         },
 
-        render : function () {
+        render: function () {
 
             let addMusica = (<BtnAdd categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>);
             let addMusica2 = '';
@@ -222,8 +251,9 @@ $(function () {
                     {addMusica}
                     {addMusica2}
                     {addMusica3}
-                    <GerenciarModal closeModal={this.closeModal} reloadMusicas={this.load} colecao={this.props.colecao} categoria={this.props.categoria}/>
-                    <hr className="small" />
+                    <GerenciarModal closeModal={this.closeModal} reloadMusicas={this.load} colecao={this.props.colecao}
+                                    categoria={this.props.categoria}/>
+                    <hr className="small"/>
                     <ListMusicas data={this.state.data} user={this.props.user} reloadMusicas={this.load}/>
                 </Base>
             )
@@ -233,25 +263,25 @@ $(function () {
 
     const Modal = React.createClass({
 
-        componentDidMount: function() {
+        componentDidMount: function () {
             $(this.getDOMNode)
                 .modal({backdrop: "static", keyboard: true, show: false});
         },
 
-        componentWillUnmount: function() {
+        componentWillUnmount: function () {
             $(this.getDOMNode)
                 .off("hidden", this.handleHidden);
         },
 
-        open: function() {
+        open: function () {
             $(this.getDOMNode).modal("show");
         },
 
-        close: function() {
+        close: function () {
             $(this.getDOMNode).modal("hide");
         },
 
-        render: function() {
+        render: function () {
             return (
                 <div id="musica-modal" className="modal fade" tabIndex="-1">
                     <div className="modal-dialog">
@@ -267,7 +297,9 @@ $(function () {
                                     {this.props.children}
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="button is-danger is-outlined is-pulled-left" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" className="button is-danger is-outlined is-pulled-left"
+                                            data-dismiss="modal">Cancelar
+                                    </button>
                                     <button type="submit" className="button is-success">Salvar</button>
                                 </div>
                             </form>
@@ -281,11 +313,11 @@ $(function () {
     const GerenciarModal = React.createClass({
 
         getInitialState: function () {
-            return {data: [], albuns : []}
+            return {data: [], albuns: []}
         },
 
         load: function () {
-            
+
             $.get('/user/tonalidades', function (result) {
                 this.setState({data: result})
             }.bind(this));
@@ -300,7 +332,7 @@ $(function () {
             this.load();
         },
 
-        handleSubmit : function (e) {
+        handleSubmit: function (e) {
 
             var _this = this;
 
@@ -320,12 +352,12 @@ $(function () {
             $.ajax({
                 type: "POST",
                 url: "/user/musica/adicionar",
-                data : {
-                    nome : nome,
-                    numero : numero,
-                    tonalidade : tonalidade,
-                    album : album,
-                    categoria : categoria
+                data: {
+                    nome: nome,
+                    numero: numero,
+                    tonalidade: tonalidade,
+                    album: album,
+                    categoria: categoria
                 },
                 cache: false,
                 success: function (data) {
@@ -341,7 +373,7 @@ $(function () {
             });
         },
 
-        render: function() {
+        render: function () {
 
             var modal = null;
             modal = (
@@ -349,7 +381,7 @@ $(function () {
                     <label htmlFor="nome">Nome</label>
                     <input className="input" type="text" name="nome" ref="nome" id="nome" required/>
                     <label htmlFor="numero">N&uacute;mero</label>
-                    <input className="input" type="text" name="numero" id="numero" ref="numero" />
+                    <input className="input" type="text" name="numero" id="numero" ref="numero"/>
                     <label htmlFor="tonalidade">Tonalidade</label>
                     <select className="form-control" name="tonalidade" ref="tonalidade" id="tonalidade">
                         {this.state.data.map(function (tom) {
@@ -404,7 +436,8 @@ $(function () {
     if (document.getElementById("musicas")) {
         ReactDOM.render(
             <div>
-                <View source={source} link={sourceLink} user={user} colecao={colecao} categoria={categoria} categoriaNome={categoriaNome}/>
+                <View source={source} link={sourceLink} user={user} colecao={colecao} categoria={categoria}
+                      categoriaNome={categoriaNome}/>
             </div>,
             document.getElementById('musicas')
         );

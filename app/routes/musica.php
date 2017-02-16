@@ -26,8 +26,17 @@ $musica->get('view/{id}', function($id) use ($app) {
 
 
 $musica->get('musicas/adicionadas/recentemente', function() use ($app) {
+
+    if (!empty($app['session']->get('musicas_adicionadas'))) {
+        return new \Symfony\Component\HttpFoundation\JsonResponse($app['session']->get('musicas_adicionadas'));
+    }
+
     $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 12);
+    $app['session']->set('musicas_adicionadas', $musicas);
+
     return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);
+
+
 })->bind('api_musicas_recentes');
 
 

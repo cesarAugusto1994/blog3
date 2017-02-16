@@ -886,13 +886,13 @@
 	                        { className: "col-md-12 text-center" },
 	                        React.createElement(
 	                            "div",
-	                            { className: "block wow fadeInUp", "data-wow-delay": ".3s" },
+	                            { className: "block wow fadeInUp" },
 	                            React.createElement(
 	                                "section",
 	                                { className: "cd-intro" },
 	                                React.createElement(
 	                                    "h1",
-	                                    { className: "wow fadeInUp animated cd-headline slide", "data-wow-delay": ".4s" },
+	                                    { className: "wow fadeInUp animated cd-headline slide", "data-wow-delay": ".2s" },
 	                                    React.createElement(
 	                                        "span",
 	                                        null,
@@ -908,14 +908,14 @@
 	                                { className: "container is-half" },
 	                                React.createElement(
 	                                    "h2",
-	                                    { className: "wow fadeInUp animated", "data-wow-delay": ".5s" },
+	                                    { className: "wow fadeInUp animated", "data-wow-delay": ".2s" },
 	                                    this.props.app
 	                                )
 	                            ),
 	                            React.createElement(
 	                                "a",
 	                                { className: "btn-lines dark light wow fadeInUp animated smooth-scroll btn btn-default btn-green",
-	                                    "data-wow-delay": ".9s", href: "#works", "data-section": "#works" },
+	                                    "data-wow-delay": ".3s", href: "#works", "data-section": "#works" },
 	                                "Iniciar"
 	                            )
 	                        )
@@ -938,7 +938,7 @@
 	                        { className: "section-heading" },
 	                        React.createElement(
 	                            "h1",
-	                            { className: "title wow fadeInDown", "data-wow-delay": ".3s" },
+	                            { className: "title wow fadeInDown", "data-wow-delay": ".1s" },
 	                            this.props.sectionName
 	                        )
 	                    ),
@@ -968,8 +968,7 @@
 	                            { className: "block" },
 	                            React.createElement(
 	                                "h2",
-	                                { className: "title wow fadeInDown", "data-wow-delay": ".3s",
-	                                    "data-wow-duration": "500ms" },
+	                                { className: "title wow fadeInDown", "data-wow-delay": ".1s" },
 	                                this.props.sectionName
 	                            ),
 	                            React.createElement(
@@ -1028,7 +1027,7 @@
 	                            { key: menu.id, className: "col-sm-4 col-xs-12" },
 	                            React.createElement(
 	                                "figure",
-	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "500ms", "data-wow-delay": "0ms" },
+	                                { className: "wow fadeInLeft animated portfolio-item" },
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "img-wrapper" },
@@ -1106,7 +1105,7 @@
 	                            { key: colecao.id, className: "col-sm-4 col-xs-12" },
 	                            React.createElement(
 	                                "figure",
-	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "300ms", "data-wow-delay": "0ms" },
+	                                { className: "wow fadeInLeft animated portfolio-item" },
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "img-wrapper" },
@@ -1181,7 +1180,7 @@
 	                            { key: musica.id, className: "col-md-4 col-lg-4 col-xs-12" },
 	                            React.createElement(
 	                                "div",
-	                                { className: "media wow fadeInDown animated", "data-wow-duration": "300ms", "data-wow-delay": "600ms" },
+	                                { className: "media wow fadeInDown animated" },
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "media-left" },
@@ -1213,27 +1212,11 @@
 
 	    });
 
-	    var Videos = React.createClass({
+	    const Videos = React.createClass({
 	        displayName: "Videos",
 
 
-	        getInitialState: function () {
-	            return { data: [] };
-	        },
-
-	        load: function () {
-	            $.get(this.props.source, function (result) {
-	                this.setState({ data: result });
-	            }.bind(this));
-	        },
-
-	        componentDidMount: function () {
-	            this.load();
-	        },
-
 	        render: function () {
-
-	            var linkToVideos = '';
 
 	            return React.createElement(
 	                "div",
@@ -1241,48 +1224,26 @@
 	                React.createElement(
 	                    CardBlue,
 	                    { sectionName: "Videos" },
-	                    this.state.data.map(function (video) {
-	                        linkToVideos = "/user/videos";
-	                        let url = "https://www.youtube.com/embed/" + video.link;
-	                        return React.createElement(
-	                            "div",
-	                            { key: video.id, className: "col-md-4 col-lg-4 col-xs-12" },
-	                            React.createElement(
-	                                "figure",
-	                                { className: "wow fadeInLeft animated portfolio-item", "data-wow-duration": "300ms", "data-wow-delay": "0ms" },
-	                                React.createElement(
-	                                    "div",
-	                                    { className: "img-wrapper" },
-	                                    React.createElement("iframe", { width: "100%", height: "100%", src: url,
-	                                        frameBorder: "0", allowFullScreen: true })
-	                                ),
-	                                React.createElement(
-	                                    "figcaption",
-	                                    null,
-	                                    React.createElement(
-	                                        "h4",
-	                                        null,
-	                                        video.nome
-	                                    )
-	                                )
-	                            )
-	                        );
-	                    })
+	                    React.createElement(
+	                        "a",
+	                        { href: "/user/musica/anexos/videos", className: "btn btn-default btn-contact wow fadeInDown", "data-wow-delay": ".7s", "data-wow-duration": "500ms" },
+	                        "Acessar"
+	                    )
 	                )
 	            );
 	        }
 
 	    });
 
-	    var menu = $("#user").data("menu");
-	    var dirMenu = $("#user").data("dir-menu");
-	    var colecao = $("#user").data("colecao");
-	    var dirColecao = $("#user").data("dir-colecao");
-	    var defaultBackground = $("#user").data("default-background");
-	    var musica = $("#user").data("musica");
-	    var videos = $("#user").data("videos");
-	    var user = $("#user").data("user");
-	    var app = $("#user").data("app");
+	    const menu = $("#user").data("menu");
+	    const dirMenu = $("#user").data("dir-menu");
+	    const colecao = $("#user").data("colecao");
+	    const dirColecao = $("#user").data("dir-colecao");
+	    const defaultBackground = $("#user").data("default-background");
+	    const musica = $("#user").data("musica");
+	    const videos = $("#user").data("videos");
+	    const user = $("#user").data("user");
+	    const app = $("#user").data("app");
 
 	    if (document.getElementById("user")) {
 	        ReactDOM.render(React.createElement(
@@ -2710,7 +2671,7 @@
 
 	            return React.createElement(
 	                'a',
-	                { href: url, className: 'button is-white is-small' },
+	                { href: url, className: 'button is-light is-small' },
 	                'Editar'
 	            );
 	        }
@@ -2722,7 +2683,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-danger is-inverted is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
+	                { className: 'button is-light is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
 	                'Inativar'
 	            );
 	        }
@@ -2734,7 +2695,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-success is-inverted is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
+	                { className: 'button is-light is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
 	                'Ativar'
 	            );
 	        }
@@ -2754,178 +2715,18 @@
 	        }
 	    };
 
-	    var Modal = React.createClass({
-	        displayName: 'Modal',
-
-	        componentDidMount: function () {
-	            $(this.getDOMNode).modal({ backdrop: "static", keyboard: true, show: false });
-	        },
-
-	        componentWillUnmount: function () {
-	            $(this.getDOMNode).off("hidden", this.handleHidden);
-	        },
-
-	        open: function () {
-	            $(this.getDOMNode).modal("show");
-	        },
-
-	        close: function () {
-	            $(this.getDOMNode).modal("hide");
-	        },
-
-	        render: function () {
-	            return React.createElement(
-	                'div',
-	                { id: 'ModalCategorias', className: 'modal fade', tabIndex: '-1' },
-	                React.createElement(
-	                    'div',
-	                    { className: 'modal-dialog' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'modal-content' },
-	                        React.createElement(
-	                            'div',
-	                            { className: 'modal-header' },
-	                            React.createElement(
-	                                'button',
-	                                { type: 'button', className: 'close', 'data-dismiss': 'modal' },
-	                                React.createElement(
-	                                    'span',
-	                                    null,
-	                                    '\xD7'
-	                                )
-	                            ),
-	                            React.createElement(
-	                                'h4',
-	                                { className: 'modal-title' },
-	                                this.props.title
-	                            )
-	                        ),
-	                        React.createElement(
-	                            'form',
-	                            { className: 'form-horizontal', onSubmit: this.props.handleSubmit },
-	                            React.createElement(
-	                                'div',
-	                                { className: 'modal-body' },
-	                                this.props.children
-	                            ),
-	                            React.createElement(
-	                                'div',
-	                                { className: 'modal-footer' },
-	                                React.createElement(
-	                                    'button',
-	                                    { type: 'button', className: 'button is-danger is-outlined is-pulled-left', 'data-dismiss': 'modal' },
-	                                    'Cancelar'
-	                                ),
-	                                React.createElement(
-	                                    'button',
-	                                    { type: 'submit', className: 'button is-success' },
-	                                    'Salvar'
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    });
-
-	    const EditarCategoriaModal = React.createClass({
-	        displayName: 'EditarCategoriaModal',
-
-
-	        handleSubmit: function (e) {
-
-	            e.preventDefault();
-
-	            var id = this.refs.id.value.trim();
-	            var nome = this.refs.nome.value.trim();
-	            var colecao = this.refs.colecao.value.trim();
-
-	            if (!nome || !colecao) {
-	                alertify.error("O Nome da Categoria e a colecao devem ser informadas.");
-	            }
-
-	            const _this = this;
-
-	            $.ajax({
-	                type: "POST",
-	                url: "/user/category/" + id + "-" + nome + "/edit",
-	                data: {
-	                    id: id,
-	                    nome: nome,
-	                    colecao: colecao
-	                },
-	                cache: false,
-	                success: function (data) {
-	                    alertify.success(data.message);
-	                    _this.props.reloadCategoria();
-	                    _this.props.closeModal();
-	                    unblock_screen();
-	                },
-	                error: function () {
-	                    unblock_screen();
-	                    alertify.error("Ocorreu um erro.");
-	                }
-	            });
-	        },
-
-	        render: function () {
-
-	            let modal = null;
-	            modal = React.createElement(
-	                Modal,
-	                { title: 'Editar Categoria', handleSubmit: this.handleSubmit },
-	                React.createElement('input', { type: 'hidden', ref: 'id', name: 'id', id: 'id', defaultValue: this.props.categoria.id }),
-	                React.createElement(
-	                    'label',
-	                    { htmlFor: 'nome' },
-	                    'Nome'
-	                ),
-	                React.createElement('input', { className: 'input is-primary', type: 'text', placeholder: 'Nome', defaultValue: this.props.categoria.nome, ref: 'nome', name: 'nome', id: 'nome', required: true }),
-	                React.createElement(
-	                    'label',
-	                    { htmlFor: 'colecao' },
-	                    'Cole\xE7\xE3o'
-	                ),
-	                React.createElement(
-	                    'select',
-	                    { className: 'input is-primary', ref: 'colecao', name: 'colecao', id: 'colecao', defaultValue: this.props.categoria.colecao.id },
-	                    this.props.colecoes.map(function (colecao) {
-	                        return React.createElement(
-	                            'option',
-	                            { key: colecao.id, value: colecao.id },
-	                            colecao.nome
-	                        );
-	                    })
-	                )
-	            );
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                modal
-	            );
-	        }
-	    });
-
 	    const BlockCategorias = React.createClass({
 	        displayName: 'BlockCategorias',
 
 
 	        render: function () {
 
-	            let mudarStatus = '';
-	            let editar = '';
 	            let btns = '';
 
 	            if (this.props.user == ROLE_ADMIN) {
-	                mudarStatus = React.createElement(MudarStatusCategoria, { categoria: this.props.categoria, reloadCategoria: this.props.reloadCategoria });
-	                editar = React.createElement(BtnEditar, { categoria: this.props.categoria, acao: this.props.acao });
-
 	                btns = React.createElement(
 	                    'div',
-	                    { className: 'control is-grouped' },
+	                    { className: 'control is-grouped is-centered' },
 	                    React.createElement(
 	                        'p',
 	                        { className: 'control' },
@@ -2935,33 +2736,40 @@
 	                        'p',
 	                        { className: 'control' },
 	                        React.createElement(BtnEditar, { categoria: this.props.categoria, acao: this.props.acao })
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(
+	                            'span',
+	                            {
+	                                className: 'tag is-light is-pulled-right' },
+	                            this.props.categoria.qtde_musicas
+	                        )
 	                    )
 	                );
 	            }
 
 	            return React.createElement(
 	                'div',
-	                { className: 'media fadeInUp animated slide', 'data-wow-delay': '.3s' },
+	                { className: 'col-sm-6 col-xs-12' },
 	                React.createElement(
-	                    'div',
-	                    { className: 'media-body' },
+	                    'figure',
+	                    { className: 'wow fadeInLeft animated portfolio-item' },
 	                    React.createElement(
-	                        'h4',
-	                        { className: 'media-heading' },
+	                        'figcaption',
+	                        null,
 	                        React.createElement(
-	                            'a',
-	                            { href: this.props.musicasUrl },
-	                            this.props.categoria.nome,
-	                            ' ',
+	                            'h2',
+	                            { className: 'tile' },
 	                            React.createElement(
-	                                'span',
-	                                { className: 'tag is-light is-pulled-right' },
-	                                this.props.categoria.qtde_musicas
+	                                'a',
+	                                { href: this.props.musicasUrl },
+	                                this.props.categoria.nome
 	                            )
-	                        )
-	                    ),
-	                    btns,
-	                    React.createElement('hr', null)
+	                        ),
+	                        btns
+	                    )
 	                )
 	            );
 	        }
@@ -3030,28 +2838,6 @@
 	        displayName: 'CategoriasList',
 
 
-	        getInitialState: function () {
-	            return { data: [] };
-	        },
-	        load: function () {
-	            $.get('/api/colecoes', function (result) {
-	                this.setState({ data: result });
-	            }.bind(this));
-	        },
-	        componentDidMount: function () {
-	            this.load();
-	        },
-
-	        openModal: function () {
-	            $("#ModalCategorias").modal("show");
-	        },
-	        closeModal: function () {
-	            $("#ModalCategorias").modal("hide");
-	            $('.modal-body #id').val('');
-	            $('.modal-body #nome').val('');
-	            $('.modal-body #colecao').val('');
-	        },
-
 	        render: function () {
 
 	            const _this = this;
@@ -3072,12 +2858,7 @@
 	                                musicasUrl: musicasUrl,
 	                                user: _this.props.user,
 	                                reloadCategoria: _this.props.reloadCategoria,
-	                                acao: _this.openModal }),
-	                            React.createElement(EditarCategoriaModal, {
-	                                closeModal: _this.closeModal,
-	                                reloadCategoria: _this.props.reloadCategoria,
-	                                colecoes: _this.state.data,
-	                                categoria: categoria })
+	                                acao: _this.openModal })
 	                        );
 	                    })
 	                )
@@ -3286,7 +3067,7 @@
 
 	            return React.createElement(
 	                'figure',
-	                { className: 'wow fadeInLeft animated portfolio-item', 'data-wow-duration': '500ms', 'data-wow-delay': '0ms' },
+	                { className: 'wow fadeInLeft animated portfolio-item' },
 	                React.createElement(
 	                    'div',
 	                    { className: 'img-wrapper' },
@@ -3520,7 +3301,8 @@
 	                "Inativar"
 	            );
 	        }
-	    };
+	    }
+	    ;
 
 	    class BtnAtivar extends React.Component {
 
@@ -3531,7 +3313,8 @@
 	                "Ativar"
 	            );
 	        }
-	    };
+	    }
+	    ;
 
 	    class Card extends React.Component {
 	        render() {
@@ -3610,6 +3393,9 @@
 
 	            let btnEditar = "";
 	            let btnMudarStatus = "";
+	            let btnRegistros = "";
+	            let btns = "";
+
 	            const _this = this;
 
 	            return React.createElement(
@@ -3623,6 +3409,35 @@
 	                    if (ROLE_ADMIN == _this.props.user) {
 	                        btnEditar = React.createElement(BtnEditar, { link: editarMusica });
 	                        btnMudarStatus = React.createElement(MudarStatusMusica, { musica: musica, reloadMusica: _this.props.reloadMusicas });
+	                        btnRegistros = React.createElement(
+	                            "span",
+	                            { className: "tag is-light" },
+	                            musica.qtde_anexos
+	                        );
+
+	                        btns = React.createElement(
+	                            "div",
+	                            { className: "control is-grouped is-centered" },
+	                            React.createElement(
+	                                "p",
+	                                { className: "control" },
+	                                React.createElement(MudarStatusMusica, { musica: musica, reloadMusica: _this.props.reloadMusicas })
+	                            ),
+	                            React.createElement(
+	                                "p",
+	                                { className: "control" },
+	                                React.createElement(BtnEditar, { link: editarMusica })
+	                            ),
+	                            React.createElement(
+	                                "p",
+	                                { className: "control" },
+	                                React.createElement(
+	                                    "span",
+	                                    { className: "tag is-light" },
+	                                    musica.qtde_anexos
+	                                )
+	                            )
+	                        );
 	                    }
 
 	                    let musicaStr = musica.nome;
@@ -3635,23 +3450,27 @@
 	                        "div",
 	                        { key: musica.id },
 	                        React.createElement(
-	                            "h4",
-	                            { className: "media-heading" },
+	                            "div",
+	                            { className: "col-sm-6 col-xs-12" },
 	                            React.createElement(
-	                                "a",
-	                                { href: linkAnexos },
-	                                musicaStr,
-	                                " ",
+	                                "figure",
+	                                { className: "wow fadeInLeft animated portfolio-item" },
 	                                React.createElement(
-	                                    "span",
-	                                    { className: "tag is-light is-pulled-right" },
-	                                    musica.qtde_anexos
+	                                    "figcaption",
+	                                    null,
+	                                    React.createElement(
+	                                        "h2",
+	                                        { className: "tile" },
+	                                        React.createElement(
+	                                            "a",
+	                                            { href: linkAnexos },
+	                                            musicaStr
+	                                        )
+	                                    ),
+	                                    btns
 	                                )
 	                            )
-	                        ),
-	                        btnEditar,
-	                        btnMudarStatus,
-	                        React.createElement("hr", null)
+	                        )
 	                    );
 	                })
 	            );
@@ -3701,7 +3520,8 @@
 	                addMusica,
 	                addMusica2,
 	                addMusica3,
-	                React.createElement(GerenciarModal, { closeModal: this.closeModal, reloadMusicas: this.load, colecao: this.props.colecao, categoria: this.props.categoria }),
+	                React.createElement(GerenciarModal, { closeModal: this.closeModal, reloadMusicas: this.load, colecao: this.props.colecao,
+	                    categoria: this.props.categoria }),
 	                React.createElement("hr", { className: "small" }),
 	                React.createElement(ListMusicas, { data: this.state.data, user: this.props.user, reloadMusicas: this.load })
 	            );
@@ -3770,7 +3590,8 @@
 	                                { className: "modal-footer" },
 	                                React.createElement(
 	                                    "button",
-	                                    { type: "button", className: "button is-danger is-outlined is-pulled-left", "data-dismiss": "modal" },
+	                                    { type: "button", className: "button is-danger is-outlined is-pulled-left",
+	                                        "data-dismiss": "modal" },
 	                                    "Cancelar"
 	                                ),
 	                                React.createElement(
@@ -3948,7 +3769,8 @@
 	        ReactDOM.render(React.createElement(
 	            "div",
 	            null,
-	            React.createElement(View, { source: source, link: sourceLink, user: user, colecao: colecao, categoria: categoria, categoriaNome: categoriaNome })
+	            React.createElement(View, { source: source, link: sourceLink, user: user, colecao: colecao, categoria: categoria,
+	                categoriaNome: categoriaNome })
 	        ), document.getElementById('musicas'));
 	    }
 	});
