@@ -87,7 +87,7 @@ var FormRegister = React.createClass({
 
             <form onSubmit={this.handleForm} method="post" id="form">
                 <div className="form-group has-feedback">
-                    <input className="input" value="cezzaar@gmail.com" autoFocus="autoFocus" autoComplete="off" type="email" name="email" placeholder="E-mail" id="email" ref="email"/>
+                    <input className="input" autoFocus="autoFocus" autoComplete="off" type="email" name="email" placeholder="E-mail" id="email" ref="email"/>
                     <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
 

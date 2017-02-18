@@ -202,7 +202,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "register", className: "button is-light is-fullwidth" },
+	                        { href: "register", className: "button is-primary is-outlined is-fullwidth" },
 	                        "Registrar"
 	                    )
 	                ),
@@ -213,17 +213,6 @@
 	                        "button",
 	                        { type: "submit", className: "button is-success is-outlined is-fullwidth" },
 	                        "Entrar"
-	                    )
-	                ),
-	                React.createElement("br", null),
-	                React.createElement("br", null),
-	                React.createElement(
-	                    "div",
-	                    { className: "col-xs-12" },
-	                    React.createElement(
-	                        "a",
-	                        { href: this.props.password, className: "button is-danger is-inverted is-fullwidth" },
-	                        "Esqueci minha Senha"
 	                    )
 	                )
 	            )
@@ -643,7 +632,7 @@
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input", value: "cezzaar@gmail.com", autoFocus: "autoFocus", autoComplete: "off", type: "email", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
+	                React.createElement("input", { className: "input", autoFocus: "autoFocus", autoComplete: "off", type: "email", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
 	            ),
 	            React.createElement(

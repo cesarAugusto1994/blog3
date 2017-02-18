@@ -94,15 +94,10 @@ const Form = React.createClass({
                 </div>
                 <div className="row">
                     <div className="col-xs-6">
-                        <a href="register" className="button is-light is-fullwidth">Registrar</a>
+                        <a href="register" className="button is-primary is-outlined is-fullwidth">Registrar</a>
                     </div>
                     <div className="col-xs-6">
                         <button type="submit" className="button is-success is-outlined is-fullwidth">Entrar</button>
-                    </div>
-                    <br/>
-                    <br/>
-                    <div className="col-xs-12">
-                        <a href={this.props.password} className="button is-danger is-inverted is-fullwidth">Esqueci minha Senha</a>
                     </div>
                 </div>
             </form>
