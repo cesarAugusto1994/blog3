@@ -84,7 +84,8 @@ $anexos->post('/musica/anexos/{id}/remover', function($id) use ($app) {
 $anexos->get('/praise/{id}-{nome}/videos', function ($id, $nome) use ($app) {
 
     $musica = $app['musica.repository']->find($id);
-    $videos = $app['musica.anexos.repository']->findBy(['musica' => $musica]);
+    $tipo = $app['tipo.anexo.repository']->find(4);
+    $videos = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'tipo' => $tipo]);
     return $app['twig']->render('user/musica-videos.html.twig', ['musica' => $musica, 'videos' => $videos]);
 
 })->bind('musica_videos');
