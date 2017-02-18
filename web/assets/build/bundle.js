@@ -1572,11 +1572,12 @@
 
 	            e.preventDefault();
 
-	            var _this = this;
+	            const _this = this;
 
 	            var id = this.refs.musica.value.trim();
 	            var tipo = this.refs.tipo.value.trim();
 	            var link = this.refs.link.value.trim();
+	            var nome = this.refs.nome.value.trim();
 
 	            if (!link) {
 	                alertify.error("Erro no arquivo.");
@@ -1591,6 +1592,7 @@
 	                url: "/user/musica/" + id + "/anexos/save",
 	                data: {
 	                    id: id,
+	                    nome: nome,
 	                    tipo: tipo,
 	                    link: link
 	                },
@@ -1659,6 +1661,17 @@
 	                                { className: 'modal-body' },
 	                                React.createElement('input', { type: 'hidden', name: 'musica', id: 'musica', ref: 'musica',
 	                                    defaultValue: this.props.musica }),
+	                                React.createElement(
+	                                    'p',
+	                                    { className: 'control' },
+	                                    React.createElement(
+	                                        'label',
+	                                        null,
+	                                        'Titulo'
+	                                    ),
+	                                    React.createElement('input', { className: 'input', type: 'text', placeholder: 'Titulo', name: 'nome', id: 'nome',
+	                                        ref: 'nome' })
+	                                ),
 	                                React.createElement(
 	                                    'p',
 	                                    { className: 'control' },
@@ -2301,12 +2314,18 @@
 	                    let downLoad = '';
 	                    let link = '';
 	                    let btn = '';
+	                    let videos = '';
 
 	                    if (!anexo.isExterno) {
 	                        visualzar = React.createElement(BtnVisualizar, { anexo: arquivo });
 	                        downLoad = React.createElement(BtnDownload, { anexo: arquivo });
 	                    } else {
-	                        link = React.createElement(BtnLink, { href: _this.props.sourceVideos });
+	                        if ('Video' == anexo.tipo.nome) {
+	                            videos = '/user/praise/' + anexo.musica.id + '-' + anexo.musica.nome.toLowerCase().replace(/ /g, '_') + '/videos';
+	                        } else {
+	                            videos = anexo.link;
+	                        }
+	                        link = React.createElement(BtnLink, { href: videos });
 	                    }
 
 	                    if (ROLE_ADMIN == _this.props.user || _this.props.userId == anexo.usuario) {
@@ -3303,8 +3322,8 @@
 
 	            e.preventDefault();
 
-	            var _this = this;
-	            var colecao = this.props;
+	            const _this = this;
+	            const colecao = this.props;
 
 	            alertify.confirm("Deseja " + (this.state.ativo ? 'Inativar' : 'Ativar') + " esta Cole&ccedil;&atilde;o?", function () {
 
@@ -3328,7 +3347,7 @@
 	        },
 	        render: function () {
 
-	            var btnStatus = '';
+	            let btnStatus = '';
 
 	            if (this.state.ativo) {
 	                btnStatus = React.createElement(BtnInativar, { acao: this.handleInativarColecao, colecao: this.props.colecao });
@@ -3345,14 +3364,14 @@
 
 	    });
 
-	    var ColecoesList = React.createClass({
+	    const ColecoesList = React.createClass({
 	        displayName: 'ColecoesList',
 
 	        getInitialState: function () {
 	            return { data: [] };
 	        },
 	        load: function () {
-	            var _this = this;
+	            const _this = this;
 	            $.get(_this.props.source, function (result) {
 	                _this.setState({ data: result });
 	            }.bind(_this));
@@ -3363,13 +3382,13 @@
 
 	        render: function () {
 
-	            var _this = this;
+	            const _this = this;
 
 	            return React.createElement(
 	                'span',
 	                null,
 	                this.state.data.map(function (colecao) {
-	                    var categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
+	                    let categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
 	                    return React.createElement(
 	                        'div',
 	                        { key: colecao.id },
@@ -3386,10 +3405,10 @@
 	        }
 	    });
 
-	    var source = $("#colecoes").attr("data-source");
-	    var dirImg = $("#colecoes").attr("data-img");
-	    var defaultImage = $("#colecoes").attr("data-defaul-image");
-	    var user = $("#colecoes").attr("data-user");
+	    const source = $("#colecoes").attr("data-source");
+	    const dirImg = $("#colecoes").attr("data-img");
+	    const defaultImage = $("#colecoes").attr("data-defaul-image");
+	    const user = $("#colecoes").attr("data-user");
 
 	    if (document.getElementById("colecoes")) {
 	        ReactDOM.render(React.createElement(

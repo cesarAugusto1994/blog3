@@ -81,6 +81,22 @@ $anexos->post('/musica/anexos/{id}/remover', function($id) use ($app) {
     );
     })->bind('musica_anexos_remover');
 
+$anexos->get('/praise/{id}-{nome}/videos', function ($id, $nome) use ($app) {
+
+    $musica = $app['musica.repository']->find($id);
+    $videos = $app['musica.anexos.repository']->findBy(['musica' => $musica]);
+    return $app['twig']->render('user/musica-videos.html.twig', ['musica' => $musica, 'videos' => $videos]);
+
+})->bind('musica_videos');
+
+$anexos->get('/praise/{id}-{nome}/video/{video}', function ($id, $nome, $video) use ($app) {
+
+    $musica = $app['musica.repository']->find($id);
+    $video = $app['musica.anexos.repository']->find($video);
+    return $app['twig']->render('user/musica-video.html.twig', ['musica' => $musica, 'video' => $video]);
+
+})->bind('musica_video');
+
 $anexos->get('/musica/anexos/videos', function () use ($app) {
 
     $tipo = $app['tipo.anexo.repository']->find(4);
@@ -211,11 +227,13 @@ $anexos->post('/musica/{musicaId}/anexos/save', function($musicaId, \Symfony\Com
 
     if ($tipo->getNome() == 'Video') {
         preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $request->get('link'), $matches);
-        $link = $matches[0];
+        if (!empty($matches[0])) {
+            $link = "https://www.youtube.com/embed/" . $matches[0];
+        }
     }
 
     $musicaAnexo = new \Api\Entities\MusicaAnexos();
-    $musicaAnexo->setNome($musica->getNome());
+    $musicaAnexo->setNome($request->request->get('nome') ?: $musica->getNome());
     $musicaAnexo->setMusica($musica);
     $musicaAnexo->setTipo($tipo);
     $musicaAnexo->setLinkExterno(true);

@@ -102,11 +102,12 @@ $(function () {
 
             e.preventDefault();
 
-            var _this = this;
+            const _this = this;
 
             var id = this.refs.musica.value.trim();
             var tipo = this.refs.tipo.value.trim();
             var link = this.refs.link.value.trim();
+            var nome = this.refs.nome.value.trim();
 
             if (!link) {
                 alertify.error("Erro no arquivo.");
@@ -121,6 +122,7 @@ $(function () {
                 url: "/user/musica/" + id + "/anexos/save",
                 data: {
                     id: id,
+                    nome: nome,
                     tipo: tipo,
                     link: link
                 },
@@ -169,6 +171,11 @@ $(function () {
                                 <div className="modal-body">
                                     <input type="hidden" name="musica" id="musica" ref="musica"
                                            defaultValue={this.props.musica}/>
+                                    <p className="control">
+                                        <label>Titulo</label>
+                                        <input className="input" type="text" placeholder="Titulo" name="nome" id="nome"
+                                               ref="nome"/>
+                                    </p>
                                     <p className="control">
                                         <label>Tipo Arquivo</label>
                                         <select name="tipo" id="tipo" ref="tipo" className="input">
@@ -682,12 +689,18 @@ $(function () {
                         let downLoad = '';
                         let link = '';
                         let btn = '';
+                        let videos = '';
 
                         if (!anexo.isExterno) {
                             visualzar = <BtnVisualizar anexo={arquivo}/>;
                             downLoad = <BtnDownload anexo={arquivo}/>;
                         } else {
-                            link = <BtnLink href={_this.props.sourceVideos}/>;
+                            if ('Video' == anexo.tipo.nome) {
+                                videos = '/user/praise/' + anexo.musica.id + '-' + anexo.musica.nome.toLowerCase().replace(/ /g, '_') + '/videos';
+                            } else {
+                                videos = anexo.link;
+                            }
+                            link = <BtnLink href={videos}/>;
                         }
 
                         if (ROLE_ADMIN == _this.props.user || _this.props.userId == anexo.usuario) {

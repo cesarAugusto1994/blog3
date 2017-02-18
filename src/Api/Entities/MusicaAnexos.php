@@ -217,6 +217,7 @@ class MusicaAnexos implements \JsonSerializable
     {
         return [
             "id" => $this->id,
+            "musica" => $this->musica,
             "nome" => $this->nome,
             "tipo" => $this->tipo,
             "isExterno" => $this->linkExterno,

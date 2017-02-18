@@ -130,8 +130,8 @@ $(function () {
 
             e.preventDefault();
 
-            var _this = this;
-            var colecao = this.props;
+            const _this = this;
+            const colecao = this.props;
 
             alertify.confirm("Deseja " + (this.state.ativo ? 'Inativar' : 'Ativar') + " esta Cole&ccedil;&atilde;o?", function () {
 
@@ -156,7 +156,7 @@ $(function () {
         },
         render: function () {
 
-            var btnStatus = '';
+            let btnStatus = '';
 
             if (this.state.ativo) {
                 btnStatus = <BtnInativar acao={this.handleInativarColecao} colecao={this.props.colecao}/>;
@@ -171,12 +171,12 @@ $(function () {
 
     });
 
-    var ColecoesList = React.createClass({
+    const ColecoesList = React.createClass({
         getInitialState: function() {
             return {data: []};
         },
         load : function () {
-            var _this = this;
+            const _this = this;
             $.get(_this.props.source, function (result) {
                 _this.setState({ data: result });
             }.bind(_this));
@@ -187,11 +187,11 @@ $(function () {
 
         render: function () {
 
-            var _this = this;
+            const _this = this;
 
             return (
                 <span>{ this.state.data.map(function (colecao) {
-                    var categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
+                    let categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
                     return (
                         <div key={colecao.id}>
                             <BlockColecoes colecao={colecao}
@@ -208,10 +208,10 @@ $(function () {
         }
     });
 
-    var source = $("#colecoes").attr("data-source");
-    var dirImg = $("#colecoes").attr("data-img");
-    var defaultImage = $("#colecoes").attr("data-defaul-image");
-    var user = $("#colecoes").attr("data-user");
+    const source = $("#colecoes").attr("data-source");
+    const dirImg = $("#colecoes").attr("data-img");
+    const defaultImage = $("#colecoes").attr("data-defaul-image");
+    const user = $("#colecoes").attr("data-user");
 
     if (document.getElementById("colecoes")) {
         ReactDOM.render(
