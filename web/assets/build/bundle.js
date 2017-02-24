@@ -1487,7 +1487,6 @@
 
 	        render: function () {
 
-	            var modal = null;
 	            modal = React.createElement(
 	                'div',
 	                { id: 'modal-musicas', className: 'modal fade', tabIndex: '-1' },
@@ -2036,8 +2035,8 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { href: this.props.sourceView, className: 'button is-light is-small is-pulled-right' },
-	                'Tela Cheia'
+	                { href: this.props.sourceView, className: 'button is-danger is-small' },
+	                'LETRA'
 	            );
 	        }
 	    }
@@ -2104,17 +2103,9 @@
 	            let btn = '';
 
 	            if (this.props.isFavorito === true) {
-	                btn = React.createElement(
-	                    'a',
-	                    { className: 'button is-small is-danger is-inverted add-remove', onClick: this.props.handle },
-	                    'Remover dos Favoritos'
-	                );
+	                btn = React.createElement('i', { className: 'fa fa-star add-remove', 'aria-hidden': 'true', onClick: this.props.handle });
 	            } else {
-	                btn = React.createElement(
-	                    'a',
-	                    { className: 'button is-small is-light add-remove', onClick: this.props.handle },
-	                    'Adicionar aos Favoritos'
-	                );
+	                btn = React.createElement('i', { className: 'fa fa-star-o add-remove', 'aria-hidden': 'true', onClick: this.props.handle });
 	            }
 
 	            return React.createElement(
@@ -2434,6 +2425,12 @@
 	                    { className: 'control' },
 	                    React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra })
 	                );
+	            } else {
+	                letra = React.createElement(
+	                    'p',
+	                    { className: 'control' },
+	                    React.createElement(BtnView, { sourceView: this.props.sourceView })
+	                );
 	            }
 
 	            if (this.props.user == ROLE_ADMIN) {
@@ -2470,7 +2467,13 @@
 	                        'p',
 	                        { className: 'control' },
 	                        React.createElement(BtnFavoritos, { handle: this.handleFavoritos, isFavorito: this.state.favorito, dataMusica: this.props.dataMusica })
-	                    )
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        React.createElement(BtnAdicionarArquivo, { openModal: this.openModal })
+	                    ),
+	                    letra
 	                );
 	            }
 
@@ -2575,13 +2578,15 @@
 	                    musica: this.props.musicaId,
 	                    dirAnexos: this.props.dirAnexos,
 	                    user: this.props.user,
-	                    userId: this.props.userId }),
+	                    userId: this.props.userId,
+	                    sourceView: this.props.sourceView }),
 	                React.createElement(ViewLetra, {
 	                    dataMusica: this.state.data,
 	                    sourceView: this.props.sourceView,
 	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
 	                    sourceMusicaTom: this.props.sourceMusicaTom,
-	                    sourceAddLetra: this.props.sourceAddLetra }),
+	                    sourceAddLetra: this.props.sourceAddLetra
+	                }),
 	                React.createElement(ViewCometarios, {
 	                    source: this.props.source,
 	                    user: this.props.user,
@@ -2935,24 +2940,20 @@
 
 	            return React.createElement(
 	                'div',
-	                { className: 'col-sm-6 col-xs-12' },
+	                { className: 'wow fadeInLeft animated portfolio-item' },
 	                React.createElement(
-	                    'figure',
-	                    { className: 'wow fadeInLeft animated portfolio-item' },
+	                    'div',
+	                    { className: 'col-sm-12 col-xs-12' },
 	                    React.createElement(
-	                        'figcaption',
-	                        null,
+	                        'h4',
+	                        { className: 'tile' },
 	                        React.createElement(
-	                            'h2',
-	                            { className: 'tile' },
-	                            React.createElement(
-	                                'a',
-	                                { href: this.props.musicasUrl },
-	                                this.props.categoria.nome
-	                            )
-	                        ),
-	                        btns
-	                    )
+	                            'a',
+	                            { href: this.props.musicasUrl },
+	                            this.props.categoria.nome
+	                        )
+	                    ),
+	                    btns
 	                )
 	            );
 	        }
@@ -3636,24 +3637,20 @@
 	                        { key: musica.id },
 	                        React.createElement(
 	                            "div",
-	                            { className: "col-sm-6 col-xs-12" },
+	                            { className: "wow fadeInLeft animated portfolio-item" },
 	                            React.createElement(
-	                                "figure",
-	                                { className: "wow fadeInLeft animated portfolio-item" },
+	                                "div",
+	                                { className: "col-sm-12 col-xs-12" },
 	                                React.createElement(
-	                                    "figcaption",
-	                                    null,
+	                                    "h4",
+	                                    { className: "tile" },
 	                                    React.createElement(
-	                                        "h2",
-	                                        { className: "tile" },
-	                                        React.createElement(
-	                                            "a",
-	                                            { href: linkAnexos },
-	                                            musicaStr
-	                                        )
-	                                    ),
-	                                    btns
-	                                )
+	                                        "a",
+	                                        { href: linkAnexos },
+	                                        musicaStr
+	                                    )
+	                                ),
+	                                btns
 	                            )
 	                        )
 	                    );
@@ -3705,6 +3702,7 @@
 	                addMusica,
 	                addMusica2,
 	                addMusica3,
+	                React.createElement("hr", { className: "small" }),
 	                React.createElement(ListMusicas, { data: this.state.data, user: this.props.user, reloadMusicas: this.load })
 	            );
 	        }

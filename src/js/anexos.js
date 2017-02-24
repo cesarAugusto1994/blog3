@@ -59,7 +59,6 @@ $(function () {
 
         render: function () {
 
-            var modal = null;
             modal = (
                 <div id="modal-musicas" className="modal fade" tabIndex="-1">
                     <div className="modal-dialog">
@@ -476,7 +475,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.sourceView} className="button is-light is-small is-pulled-right">Tela Cheia</a>
+                <a href={this.props.sourceView} className="button is-danger is-small">LETRA</a>
             );
         }
     }
@@ -534,9 +533,9 @@ $(function () {
             let btn = '';
 
             if (this.props.isFavorito === true) {
-                btn = (<a className="button is-small is-danger is-inverted add-remove" onClick={this.props.handle}>Remover dos Favoritos</a>);
+                btn = (<i className="fa fa-star add-remove" aria-hidden="true" onClick={this.props.handle}></i>);
             } else {
-                btn = (<a className="button is-small is-light add-remove"  onClick={this.props.handle}>Adicionar aos Favoritos</a>);
+                btn = (<i className="fa fa-star-o add-remove" aria-hidden="true" onClick={this.props.handle}></i>);
             }
 
             return (
@@ -808,6 +807,12 @@ $(function () {
                         <BtnAddLetra source={this.props.sourceAddLetra}/>
                     </p>
                 )
+            } else {
+                letra = (
+                    <p className="control">
+                        <BtnView sourceView={this.props.sourceView}/>
+                    </p>
+                )
             }
 
             if (this.props.user == ROLE_ADMIN) {
@@ -834,6 +839,10 @@ $(function () {
                         <p className="control">
                             <BtnFavoritos handle={this.handleFavoritos} isFavorito={this.state.favorito} dataMusica={this.props.dataMusica}/>
                         </p>
+                        <p className="control">
+                            <BtnAdicionarArquivo openModal={this.openModal}/>
+                        </p>
+                        {letra}
                     </div>
                 )
             }
@@ -930,13 +939,15 @@ $(function () {
                         musica={this.props.musicaId}
                         dirAnexos={this.props.dirAnexos}
                         user={this.props.user}
-                        userId={this.props.userId}/>
+                        userId={this.props.userId}
+                        sourceView={this.props.sourceView}/>
                     <ViewLetra
                         dataMusica={this.state.data}
                         sourceView={this.props.sourceView}
                         sourceMusicaLetra={this.props.sourceMusicaLetra}
                         sourceMusicaTom={this.props.sourceMusicaTom}
-                        sourceAddLetra={this.props.sourceAddLetra}/>
+                        sourceAddLetra={this.props.sourceAddLetra}
+                    />
                     <ViewCometarios
                         source={this.props.source}
                         user={this.props.user}

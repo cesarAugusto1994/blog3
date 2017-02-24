@@ -1,16 +1,4 @@
-$(function () {
-    $('a[href="#search"]').on('click', function(event) {
-        event.preventDefault();
-        $('#search').addClass('open');
-        $('#search > form > input[type="search"]').focus();
-    });
 
-    $('#search, #search button.close').on('click keyup', function(event) {
-        if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
-            $(this).removeClass('open');
-        }
-    });
-});
 
 alertify.defaults = {
     // dialogs defaults
@@ -66,6 +54,7 @@ function block_screen(time = 200) {
     //alertify.message('<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>');
     $('<div id="screenBlock"></div>').appendTo('body');
     $('#screenBlock').css( { opacity: 0, background: '#f6f6f6', width: $(document).width(), height: $(document).height() } );
+    $('#screenBlock').html('<h2>Aguarde um momento.</h2>');
     $('#screenBlock').addClass('blockDiv');
     $('#screenBlock').animate({opacity: 0.8}, time);
 }

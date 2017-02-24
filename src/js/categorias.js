@@ -78,20 +78,16 @@ $(function () {
             }
 
             return (
-
-                <div className="col-sm-6 col-xs-12">
-                    <figure className="wow fadeInLeft animated portfolio-item">
-                        <figcaption>
-                            <h2 className="tile">
-                                <a href={this.props.musicasUrl}>
-                                    {this.props.categoria.nome}
-                                </a>
-                            </h2>
-                            {btns}
-                        </figcaption>
-                    </figure>
+                <div className="wow fadeInLeft animated portfolio-item">
+                    <div className="col-sm-12 col-xs-12">
+                        <h4 className="tile">
+                            <a href={this.props.musicasUrl}>
+                                {this.props.categoria.nome}
+                            </a>
+                        </h4>
+                        {btns}
+                    </div>
                 </div>
-
             )
         }
     });
