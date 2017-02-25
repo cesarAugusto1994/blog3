@@ -1485,10 +1485,6 @@
 	            });
 	        },
 
-	        clear: function () {
-	            window.location.reload();
-	        },
-
 	        render: function () {
 
 	            modal = React.createElement(
@@ -1533,7 +1529,7 @@
 	                                { className: 'modal-footer' },
 	                                React.createElement(
 	                                    'button',
-	                                    { onClick: this.clear, type: 'button', className: 'button is-danger is-pulled-left',
+	                                    { type: 'button', className: 'button is-danger is-pulled-left',
 	                                        'data-dismiss': 'modal' },
 	                                    'Fechar'
 	                                )

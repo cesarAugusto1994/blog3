@@ -57,10 +57,6 @@ $(function () {
 
         },
 
-        clear : function () {
-            window.location.reload()
-        },
-
         render: function () {
 
             modal = (
@@ -80,7 +76,7 @@ $(function () {
                                            multiple/>
                                 </div>
                                 <div className="modal-footer">
-                                    <button onClick={this.clear} type="button" className="button is-danger is-pulled-left"
+                                    <button type="button" className="button is-danger is-pulled-left"
                                             data-dismiss="modal">Fechar
                                     </button>
                                 </div>
