@@ -57,6 +57,10 @@ $(function () {
 
         },
 
+        clear : function () {
+            window.location.reload()
+        },
+
         render: function () {
 
             modal = (
@@ -76,8 +80,8 @@ $(function () {
                                            multiple/>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="button is-danger is-pulled-left"
-                                            data-dismiss="modal">Cancelar
+                                    <button onClick={this.clear} type="button" className="button is-danger is-pulled-left"
+                                            data-dismiss="modal">Fechar
                                     </button>
                                 </div>
                             </form>
@@ -388,11 +392,11 @@ $(function () {
                                defaultValue={this.props.musicaId}/>
                         <div className="form-group">
                             <div className="col-lg-12">
-                                <textarea className="textarea" name="comentario" id="comentario" ref="comentario" placeholder="..."></textarea>
+                                <textarea className="textarea" name="comentario" id="comentario" ref="comentario" placeholder="Deixe o seu comentário"></textarea>
                             </div>
                         </div>
                         <p>
-                            <button id="comentar" ref="submit" className="button is-light is-fullwidth is-success" onClick={this.handleSubmit}>
+                            <button id="comentar" ref="submit" className="button is-fullwidth is-danger" onClick={this.handleSubmit}>
                                 Enviar
                             </button>
                         </p>
@@ -669,7 +673,7 @@ $(function () {
     const ListArquivos = React.createClass({
 
         componentDidMount: function () {
-            return setInterval(this.props.reloadArquivos, 1000);
+            return setInterval(this.props.reloadArquivos, 3000);
         },
 
         render: function () {
@@ -745,7 +749,7 @@ $(function () {
         },
 
         componentDidMount: function () {
-            setInterval(this.load(), 1000);
+            this.load();
             this.loadFavoritos();
         },
 

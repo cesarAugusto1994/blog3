@@ -1485,6 +1485,10 @@
 	            });
 	        },
 
+	        clear: function () {
+	            window.location.reload();
+	        },
+
 	        render: function () {
 
 	            modal = React.createElement(
@@ -1529,9 +1533,9 @@
 	                                { className: 'modal-footer' },
 	                                React.createElement(
 	                                    'button',
-	                                    { type: 'button', className: 'button is-danger is-pulled-left',
+	                                    { onClick: this.clear, type: 'button', className: 'button is-danger is-pulled-left',
 	                                        'data-dismiss': 'modal' },
-	                                    'Cancelar'
+	                                    'Fechar'
 	                                )
 	                            )
 	                        )
@@ -1923,7 +1927,7 @@
 	                        React.createElement(
 	                            'div',
 	                            { className: 'col-lg-12' },
-	                            React.createElement('textarea', { className: 'textarea', name: 'comentario', id: 'comentario', ref: 'comentario', placeholder: '...' })
+	                            React.createElement('textarea', { className: 'textarea', name: 'comentario', id: 'comentario', ref: 'comentario', placeholder: 'Deixe o seu coment\xE1rio' })
 	                        )
 	                    ),
 	                    React.createElement(
@@ -1931,7 +1935,7 @@
 	                        null,
 	                        React.createElement(
 	                            'button',
-	                            { id: 'comentar', ref: 'submit', className: 'button is-light is-fullwidth is-success', onClick: this.handleSubmit },
+	                            { id: 'comentar', ref: 'submit', className: 'button is-fullwidth is-danger', onClick: this.handleSubmit },
 	                            'Enviar'
 	                        )
 	                    )
@@ -2266,7 +2270,7 @@
 
 
 	        componentDidMount: function () {
-	            return setInterval(this.props.reloadArquivos, 1000);
+	            return setInterval(this.props.reloadArquivos, 3000);
 	        },
 
 	        render: function () {
@@ -2355,7 +2359,7 @@
 	        },
 
 	        componentDidMount: function () {
-	            setInterval(this.load(), 1000);
+	            this.load();
 	            this.loadFavoritos();
 	        },
 
