@@ -7,6 +7,7 @@
  */
 
 use App\Controllers\Uploader;
+use Symfony\Component\BrowserKit\Request;
 
 $anexos = $app['controllers_factory'];
 
@@ -80,6 +81,41 @@ $anexos->post('/musica/anexos/{id}/remover', function($id) use ($app) {
         ]
     );
     })->bind('musica_anexos_remover');
+
+
+$anexos->post('/musica/anexos/remover', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    if (empty($request->request->get('id'))) {
+        throw new Exception('Id não informado.');
+    }
+
+    /**
+     * @var \Api\Entities\MusicaAnexos $anexo
+     */
+    $anexo = $app['musica.anexos.repository']->find($request->request->get('id'));
+
+    $directory = $app['dir.base2'].'assets/blog/musicas/'.$anexo->getLink();
+
+    if(file_exists($directory)) {
+        unlink($directory);
+    }
+
+    $app['db']->beginTransaction();
+    $app['musica.anexos.repository']->remove($anexo);
+    $app['db']->commit();
+
+    $mensagem = 'removeu o arquivo '.$anexo->getNome();
+
+    $app['log.controller']->criar($mensagem);
+    $app['session']->getFlashBag()->add('mensagem', $mensagem);
+
+    return $app->json(
+        [
+            'class' => 'success',
+            'message' => $mensagem
+        ]
+    );
+});
 
 $anexos->get('/praise/{id}-{nome}/videos', function ($id, $nome) use ($app) {
 
@@ -189,6 +225,7 @@ $anexos->post('/musica/{musicaId}/anexos/upload', function($musicaId, \Symfony\C
         return $app->json(
             [
                 'class' => 'success',
+                'id' => $musicaAnexo->getId(),
                 'message' => $mensagem
             ]
         );

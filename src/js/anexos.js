@@ -67,7 +67,7 @@ $(function () {
                                 <button type="button" className="close" data-dismiss="modal">
                                     <span>&times;</span>
                                 </button>
-                                <h4 className="modal-title">{this.props.title}</h4>
+                                <h4 className="modal-title">Adicionar Arquivos</h4>
                             </div>
                             <form className="form-horizontal" ref="uploadForm" onSubmit={this.handleSubmit}>
                                 <div className="modal-body">
@@ -79,7 +79,6 @@ $(function () {
                                     <button type="button" className="button is-danger is-pulled-left"
                                             data-dismiss="modal">Cancelar
                                     </button>
-                                    <button id="btn-upload" type="submit" className="button is-success">Salvar</button>
                                 </div>
                             </form>
                         </div>
@@ -198,7 +197,6 @@ $(function () {
                                     <button type="button" className="button is-danger is-outlined is-pulled-left"
                                             data-dismiss="modal">Cancelar
                                     </button>
-                                    <button type="submit" className="button is-success">Salvar</button>
                                 </div>
                             </form>
                         </div>
@@ -671,7 +669,7 @@ $(function () {
     const ListArquivos = React.createClass({
 
         componentDidMount: function () {
-            return setInterval(this.props.reloadArquivos, 10000);
+            return setInterval(this.props.reloadArquivos, 1000);
         },
 
         render: function () {
@@ -715,7 +713,6 @@ $(function () {
                                             <a className="button is-light is-small is-pulled-right">{anexo.cadastro}</a>
                                         </h4>
                                         {visualzar}
-                                        {downLoad}
                                         {link}
                                         {btn}
                                     </div>
@@ -748,7 +745,7 @@ $(function () {
         },
 
         componentDidMount: function () {
-            this.load();
+            setInterval(this.load(), 1000);
             this.loadFavoritos();
         },
 
@@ -1011,6 +1008,164 @@ $(function () {
                         sourceMusicaTom={sourceMusicaTom}
                 />,
             document.getElementById('comentarios')
+        );
+
+        var fd = new FormData();
+        var files = $('#filer_input').val();
+
+        $.each(files, function (index, value) {
+            fd.append('files[]', files[index]);
+        });
+
+        $('#filer_input').filer(
+            {
+                limit: 20,
+                maxSize: 15,
+                extensions: null,
+                changeInput: '<div class="jFiler-input-dragDrop"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i></div><div class="jFiler-input-text"><h3>Arraste e solte arquivos aqui</h3> <span style="display:inline-block; margin: 15px 0">ou</span></div><a class="jFiler-input-choose-btn blue">Selecionar Arquivos</a></div></div>',
+                showThumbs: true,
+                theme: "dragdropbox",
+                templates: {
+                    box: '<ul class="jFiler-items-list jFiler-items-grid"></ul>',
+                    item: '<li class="jFiler-item">\
+						<div class="jFiler-item-container">\
+							<div class="jFiler-item-inner">\
+								<div class="jFiler-item-thumb">\
+									<div class="jFiler-item-status"></div>\
+									<div class="jFiler-item-thumb-overlay">\
+										<div class="jFiler-item-info">\
+											<div style="display:table-cell;vertical-align: middle;">\
+												<span class="jFiler-item-title"><b title="{{fi-name}}">{{fi-name}}</b></span>\
+												<span class="jFiler-item-others">{{fi-size2}}</span>\
+											</div>\
+										</div>\
+									</div>\
+									{{fi-image}}\
+								</div>\
+								<div class="jFiler-item-assets jFiler-row">\
+									<ul class="list-inline pull-left">\
+										<li>{{fi-progressBar}}</li>\
+									</ul>\
+									<ul class="list-inline pull-right">\
+										<li><a class="icon-jfi-trash jFiler-item-trash-action"></a></li>\
+									</ul>\
+								</div>\
+							</div>\
+						</div>\
+					</li>',
+                    itemAppend: '<li class="jFiler-item">\
+							<div class="jFiler-item-container">\
+								<div class="jFiler-item-inner">\
+									<div class="jFiler-item-thumb">\
+										<div class="jFiler-item-status"></div>\
+										<div class="jFiler-item-thumb-overlay">\
+											<div class="jFiler-item-info">\
+												<div style="display:table-cell;vertical-align: middle;">\
+													<span class="jFiler-item-title"><b title="{{fi-name}}">{{fi-name}}</b></span>\
+													<span class="jFiler-item-others">{{fi-size2}}</span>\
+												</div>\
+											</div>\
+										</div>\
+										{{fi-image}}\
+									</div>\
+									<div class="jFiler-item-assets jFiler-row">\
+										<ul class="list-inline pull-left">\
+											<li><span class="jFiler-item-others">{{fi-icon}}</span></li>\
+										</ul>\
+										<ul class="list-inline pull-right">\
+											<li><a class="icon-jfi-trash jFiler-item-trash-action"></a></li>\
+										</ul>\
+									</div>\
+								</div>\
+							</div>\
+						</li>',
+                    progressBar: '<div class="bar"></div>',
+                    itemAppendToEnd: false,
+                    canvasImage: true,
+                    removeConfirmation: true,
+                    _selectors: {
+                        list: '.jFiler-items-list',
+                        item: '.jFiler-item',
+                        progressBar: '.bar',
+                        remove: '.jFiler-item-trash-action'
+                    }
+                },
+                dragDrop: {
+                    dragEnter: null,
+                    dragLeave: null,
+                    drop: null,
+                },
+
+                uploadFile: {
+                    url: "/user/musica/" + musicaId + "/anexos/upload",
+                    data: fd,
+                    type: 'POST',
+                    enctype: 'multipart/form-data',
+                    synchron: true,
+                    beforeSend: function(){},
+                    success: function(data, itemEl, listEl, boxEl, newInputEl, inputEl, id){
+                        var parent = itemEl.find(".jFiler-jProgressBar").parent(),
+                            new_file_name = data.id,
+                            filerKit = inputEl.prop("jFiler");
+
+                        filerKit.files_list[id].name = new_file_name;
+
+                        itemEl.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+                            $("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> Success</div>").hide().appendTo(parent).fadeIn("slow");
+                        });
+                    },
+                    error: function(el){
+                        var parent = el.find(".jFiler-jProgressBar").parent();
+                        el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+                            $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> Error</div>").hide().appendTo(parent).fadeIn("slow");
+                        });
+                    },
+                    statusCode: null,
+                    onProgress: null,
+                    onComplete: null
+                },
+
+                files: null,
+                addMore: false,
+                clipBoardPaste: true,
+                excludeName: null,
+                beforeRender: null,
+                afterRender: null,
+                beforeShow: null,
+                beforeSelect: null,
+                onSelect: null,
+                afterShow: null,
+
+                onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
+                    var filerKit = inputEl.prop("jFiler"),
+                        file_name = filerKit.files_list[id].name;
+                    $.post('/user/musica/anexos/remover', {id: file_name, musica : musicaId});
+                },
+
+                onEmpty: null,
+                options: null,
+                dialogs: {
+                    alert: function(text) {
+                        return alert(text);
+                    },
+                    confirm: function (text, callback) {
+                        confirm(text) ? callback() : null;
+                    }
+                },
+                captions: {
+                    button: "Selecione Arquivos",
+                    feedback: "Selecione Arquivos para Upload",
+                    feedback2: "Arquivos selecionados",
+                    drop: "Solte um arquivo aqui para Upload",
+                    removeConfirmation: "Are you sure you want to remove this file?",
+                    errors: {
+                        filesLimit: "Apenas {{fi-limit}} arquivos são permitidos para upload.",
+                        filesType: "Only Images are allowed to be uploaded.",
+                        filesSize: "{{fi-name}} is too large! Please upload file up to {{fi-maxSize}} MB.",
+                        filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB."
+                    }
+                }
+            }
         );
 
         $("#comentario").emojioneArea({

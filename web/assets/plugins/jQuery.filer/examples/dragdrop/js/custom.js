@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	//Example 2
-	$("#filer_input2").filer({
+	$("#filer_input").filer({
 		limit: null,
 		maxSize: null,
 		extensions: null,
@@ -132,10 +132,10 @@ $(document).ready(function(){
 			}
 		},
 		captions: {
-			button: "Choose Files",
-			feedback: "Choose files To Upload",
-			feedback2: "files were chosen",
-			drop: "Drop file here to Upload",
+			button: "Selecione Arquivos",
+			feedback: "Selecione Arquivos para Upload",
+			feedback2: "Arquivos selecionados",
+			drop: "Solte um arquivo aqui para Upload",
 			removeConfirmation: "Are you sure you want to remove this file?",
 			errors: {
 				filesLimit: "Only {{fi-limit}} files are allowed to be uploaded.",
