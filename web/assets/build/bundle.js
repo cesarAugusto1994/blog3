@@ -2466,18 +2466,15 @@
 	                );
 	            }
 
-	            if (this.props.user == ROLE_ADMIN) {
-
-	                card = React.createElement(
-	                    'div',
-	                    null,
-	                    React.createElement(UploadArquivo, { reloadArquivos: this.load, openModal: this.openModal,
-	                        closeModal: this.closeModal,
-	                        musica: this.props.musica }),
-	                    React.createElement(AddLink, { reloadArquivos: this.load, openModal: this.openModalAddLink,
-	                        closeModal: this.closeModalAddLink, musica: this.props.musica })
-	                );
-	            }
+	            card = React.createElement(
+	                'div',
+	                null,
+	                React.createElement(UploadArquivo, { reloadArquivos: this.load, openModal: this.openModal,
+	                    closeModal: this.closeModal,
+	                    musica: this.props.musica }),
+	                React.createElement(AddLink, { reloadArquivos: this.load, openModal: this.openModalAddLink,
+	                    closeModal: this.closeModalAddLink, musica: this.props.musica })
+	            );
 
 	            if (this.state.data.length > 0) {
 	                cardArquivos = React.createElement(

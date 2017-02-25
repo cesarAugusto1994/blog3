@@ -844,18 +844,15 @@ $(function () {
                 )
             }
 
-            if (this.props.user == ROLE_ADMIN) {
-
-                card = (
-                    <div>
-                        <UploadArquivo reloadArquivos={this.load} openModal={this.openModal}
-                                       closeModal={this.closeModal}
-                                       musica={this.props.musica}/>
-                        <AddLink reloadArquivos={this.load} openModal={this.openModalAddLink}
-                                 closeModal={this.closeModalAddLink} musica={this.props.musica}/>
-                    </div>
-                );
-            }
+            card = (
+                <div>
+                    <UploadArquivo reloadArquivos={this.load} openModal={this.openModal}
+                                   closeModal={this.closeModal}
+                                   musica={this.props.musica}/>
+                    <AddLink reloadArquivos={this.load} openModal={this.openModalAddLink}
+                             closeModal={this.closeModalAddLink} musica={this.props.musica}/>
+                </div>
+            );
 
             if (this.state.data.length > 0) {
                 cardArquivos = (
