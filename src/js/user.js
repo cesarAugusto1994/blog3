@@ -251,7 +251,7 @@ $(function () {
             return (
                 <div>
                     <CardBlue sectionName="Videos">
-                        <a href="/user/musica/anexos/videos" className="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Acessar</a>
+                        <a href="/user/musica/anexos/videos" className="button is-large is-danger wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Acessar</a>
                     </CardBlue>
                 </div>
             )

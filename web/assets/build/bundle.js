@@ -1390,7 +1390,7 @@
 	                    { sectionName: "Videos" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "/user/musica/anexos/videos", className: "btn btn-default btn-contact wow fadeInDown", "data-wow-delay": ".7s", "data-wow-duration": "500ms" },
+	                        { href: "/user/musica/anexos/videos", className: "button is-large is-danger wow fadeInDown", "data-wow-delay": ".7s", "data-wow-duration": "500ms" },
 	                        "Acessar"
 	                    )
 	                )
