@@ -60,7 +60,8 @@
 	__webpack_require__(14);
 	__webpack_require__(15);
 	__webpack_require__(16);
-	module.exports = __webpack_require__(17);
+	__webpack_require__(17);
+	module.exports = __webpack_require__(18);
 
 
 /***/ },
@@ -91,7 +92,7 @@
 	                        { className: "col-md-12 text-center" },
 	                        React.createElement(
 	                            "div",
-	                            { className: "block wow fadeInUp", "data-wow-delay": ".3s" },
+	                            { className: "block wow fadeInUp" },
 	                            React.createElement(
 	                                "section",
 	                                { className: "cd-intro" },
@@ -184,15 +185,15 @@
 	                "div",
 	                { className: "form-group has-feedback" },
 	                React.createElement("input", { type: "email", name: "_username", autoFocus: "autoFocus",
-	                    className: "form-control", placeholder: "E-mail", ref: "_username", required: "required", defaultValue: this.props.lastUserName }),
-	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
+	                    className: "form-control is-large", placeholder: "E-mail", ref: "_username", required: "required", defaultValue: this.props.lastUserName }),
+	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { type: "password", name: "_password", className: "form-control",
+	                React.createElement("input", { type: "password", name: "_password", className: "form-control is-large",
 	                    placeholder: "Password", required: "required", title: "Informe a Senha", ref: "_password" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-lock form-control-feedback" })
+	                React.createElement("span", { className: "glyphicon glyphicon-lock form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
@@ -202,7 +203,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "register", className: "button is-primary is-outlined is-fullwidth" },
+	                        { href: "register", className: "button is-primary is-outlined is-large is-fullwidth" },
 	                        "Registrar"
 	                    )
 	                ),
@@ -211,8 +212,22 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "button",
-	                        { type: "submit", className: "button is-success is-outlined is-fullwidth" },
+	                        { type: "submit", className: "button is-success is-outlined is-large is-fullwidth" },
 	                        "Entrar"
+	                    )
+	                )
+	            ),
+	            React.createElement("br", null),
+	            React.createElement(
+	                "div",
+	                { className: "row" },
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-12" },
+	                    React.createElement(
+	                        "a",
+	                        { href: "/i-forgot-my-password", className: "button is-white is-large is-fullwidth" },
+	                        "Esqueci minha senha"
 	                    )
 	                )
 	            )
@@ -445,19 +460,19 @@
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input", type: "text", name: "nome", placeholder: "Nome Completo", id: "nome", ref: "nome" }),
+	                React.createElement("input", { className: "input is-large", type: "text", name: "nome", placeholder: "Nome Completo", id: "nome", ref: "nome" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-user form-control-feedback" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input", type: "text", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
+	                React.createElement("input", { className: "input is-large", type: "text", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback", id: "div-password" },
-	                React.createElement("input", { className: "input", type: "password", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
+	                React.createElement("input", { className: "input is-large", type: "password", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
 	                    ref: "password" }),
 	                React.createElement("span", { className: "help is-danger" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
@@ -465,7 +480,7 @@
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback", id: "div-password-confirm" },
-	                React.createElement("input", { className: "input", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
+	                React.createElement("input", { className: "input is-large", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
 	                    id: "password_confirm", ref: "password_confirm" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
 	            ),
@@ -477,7 +492,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "login", className: "button is-primary is-link is-fullwidth" },
+	                        { href: "login", className: "button is-primary is-link is-fullwidth is-large" },
 	                        "J\xE1 possuo Conta!"
 	                    )
 	                ),
@@ -486,7 +501,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "button",
-	                        { type: "submit", id: "btnSubmit", className: "button is-success is-outlined is-fullwidth" },
+	                        { type: "submit", id: "btnSubmit", className: "button is-success is-outlined is-fullwidth is-large" },
 	                        "Salvar"
 	                    )
 	                )
@@ -510,6 +525,240 @@
 
 /***/ },
 /* 3 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by cesar on 03/11/16.
+	 */
+
+	var style = {
+	    padding: "0",
+	    backgroundImage: 'url(' + $("#register").data("dir-img") + $("#register").data("background") + ')'
+	};
+
+	const StyleForm = {
+	    backgroundColor: "transparent"
+	};
+
+	var Register = React.createClass({
+	    displayName: "Register",
+
+
+	    render: function () {
+
+	        return React.createElement(
+	            "section",
+	            { id: "hero-area" },
+	            React.createElement(
+	                "div",
+	                { className: "container" },
+	                React.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "col-md-12 text-center" },
+	                        React.createElement(
+	                            "div",
+	                            { className: "block wow fadeInUp", "data-wow-delay": ".3s" },
+	                            React.createElement(
+	                                "section",
+	                                { className: "cd-intro" },
+	                                React.createElement(
+	                                    "div",
+	                                    { className: "login-box" },
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "login-logo" },
+	                                        React.createElement(
+	                                            "a",
+	                                            { href: "/" },
+	                                            React.createElement(
+	                                                "b",
+	                                                null,
+	                                                this.props.app
+	                                            )
+	                                        )
+	                                    ),
+	                                    React.createElement(
+	                                        "div",
+	                                        { className: "register-box-body", style: StyleForm },
+	                                        React.createElement(
+	                                            "p",
+	                                            { className: "login-box-msg" },
+	                                            "Redefinir Senha"
+	                                        ),
+	                                        React.createElement(FormRegister, { email: this.props.email })
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var FormRegister = React.createClass({
+	    displayName: "FormRegister",
+
+
+	    handleForm: function (e) {
+
+	        e.preventDefault();
+
+	        var email = this.refs.email.value;
+	        var password = this.refs.password.value;
+	        var password_confirm = this.refs.password_confirm.value;
+
+	        if (!email) {
+	            $("#email").focus();
+	            $("#email").addClass("is-danger");
+	            alertify.error("Deve Informar o E-mail");
+	            return false;
+	        }
+
+	        $("#email").removeClass("is-danger");
+
+	        if (!password) {
+	            $("#password").focus();
+	            $("#password").addClass("is-danger");
+	            alertify.error("Deve Informar uma senha");
+	            return false;
+	        }
+
+	        $("#password").removeClass("is-danger");
+
+	        if (password != password_confirm) {
+	            $("#password").addClass("is-danger");
+	            $("#password_confirm").addClass("is-danger");
+	            alertify.error("As Senhas n&atilde;o s&atilde;o iguais.");
+	            return false;
+	        }
+
+	        $("#password").removeClass("is-danger");
+	        $("#password_confirm").removeClass("is-danger");
+
+	        $("#btnSubmit").addClass("is-loading");
+
+	        block_screen();
+
+	        $.ajax({
+	            type: 'POST',
+	            url: "/forgotten-password/save",
+	            data: $("#form").serialize(),
+	            cache: false,
+	            success: function (data) {
+
+	                $.ajax({
+	                    type: 'POST',
+	                    url: "/admin/login_check",
+	                    data: {
+	                        _username: email,
+	                        _password: password
+	                    },
+	                    cache: false,
+	                    success: function (data) {
+	                        window.location.href = '/user/';
+	                        return false;
+	                    },
+	                    error: function () {
+	                        unblock_screen();
+	                        $("#btnSubmit").removeClass("is-loading");
+	                        alertify.error("opss, algo deu errado...");
+	                        return false;
+	                    }
+	                });
+	            },
+	            error: function () {
+	                unblock_screen();
+	                $("#btnSubmit").removeClass("is-loading");
+	                alertify.error("opss, algo deu errado...");
+	            }
+	        });
+	    },
+
+	    handlePassLength: function () {
+
+	        if (0 < this.refs.password.value.length && 6 > this.refs.password.value.length) {
+	            $("#password").addClass("is-danger");
+	            $("#div-password > .help").text("Sua Senha deve conter mais de 6 caracteres.");
+	        } else {
+	            $("#password").removeClass("is-danger");
+	            $("#password").addClass("is-success");
+	            $("#div-password > .help").text("");
+	        }
+	    },
+
+	    handleConfirmPass: function () {
+
+	        if (this.refs.password_confirm.value != this.refs.password.value) {
+	            $("#password_confirm").addClass("is-danger");
+	        } else {
+	            $("#password_confirm").removeClass("is-danger");
+	            $("#password_confirm").addClass("is-success");
+	        }
+	    },
+
+	    render: function () {
+
+	        return React.createElement(
+	            "form",
+	            { onSubmit: this.handleForm, method: "post", id: "form" },
+	            React.createElement(
+	                "div",
+	                { className: "form-group has-feedback" },
+	                React.createElement("input", { className: "input is-large", type: "text", defaultValue: this.props.email, readOnly: true, name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "form-group has-feedback", id: "div-password" },
+	                React.createElement("input", { className: "input is-large", type: "password", autoFocus: "autoFocus", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
+	                    ref: "password" }),
+	                React.createElement("span", { className: "help is-danger" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "form-group has-feedback", id: "div-password-confirm" },
+	                React.createElement("input", { className: "input is-large", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
+	                    id: "password_confirm", ref: "password_confirm" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "row" },
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-12" },
+	                    React.createElement(
+	                        "button",
+	                        { type: "submit", id: "btnSubmit", className: "button is-success  is-large is-outlined is-fullwidth" },
+	                        "Salvar"
+	                    )
+	                )
+	            )
+	        );
+	    }
+
+	});
+
+	const background = $("#forgotten").data("background");
+	const app = $("#forgotten").data("app");
+	const email = $("#forgotten").data("email");
+
+	if (document.getElementById("forgotten")) {
+	    ReactDOM.render(React.createElement(
+	        "div",
+	        null,
+	        React.createElement(Register, { app: app, email: email })
+	    ), document.getElementById("forgotten"));
+	}
+
+/***/ },
+/* 4 */
 /***/ function(module, exports) {
 
 	/**
@@ -603,10 +852,7 @@
 	        }
 
 	        $("#email").removeClass("is-danger");
-
 	        $("#btnSubmit").addClass("is-loading");
-
-	        block_screen();
 
 	        $.ajax({
 	            type: 'POST',
@@ -615,11 +861,13 @@
 	            cache: false,
 	            success: function (data) {
 	                alertify.success(data.mensagem);
+	                $("#mensagem").text(data.mensagem);
+	                $("#btnSubmit").hide();
 	            },
 	            error: function (data) {
-	                unblock_screen();
+	                alertify.error(data.responseJSON.mensagem);
+	                $("#email").focus();
 	                $("#btnSubmit").removeClass("is-loading");
-	                alertify.error(data.mensagem);
 	            }
 	        });
 	    },
@@ -629,10 +877,11 @@
 	        return React.createElement(
 	            "form",
 	            { onSubmit: this.handleForm, method: "post", id: "form" },
+	            React.createElement("p", { className: "title is-4", id: "mensagem" }),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input", autoFocus: "autoFocus", autoComplete: "off", type: "email", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
+	                React.createElement("input", { className: "input is-large", autoFocus: "autoFocus", autoComplete: "off", type: "email", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
 	            ),
 	            React.createElement(
@@ -643,7 +892,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "login", className: "button is-light is-fullwidth" },
+	                        { href: "login", className: "button is-link is-large is-fullwidth" },
 	                        "Voltar ao In\xEDcio"
 	                    )
 	                ),
@@ -652,7 +901,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "button",
-	                        { type: "submit", id: "btnSubmit", className: "button is-success is-fullwidth" },
+	                        { type: "submit", id: "btnSubmit", className: "button is-success is-large is-fullwidth" },
 	                        "Enviar"
 	                    )
 	                )
@@ -670,7 +919,7 @@
 	}
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
@@ -1027,7 +1276,7 @@
 	});
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/**
@@ -1422,7 +1671,7 @@
 	});
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/**
@@ -2822,7 +3071,7 @@
 	});
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	
@@ -2978,7 +3227,7 @@
 	}
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -3291,7 +3540,7 @@
 	});
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -3552,7 +3801,7 @@
 	});
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -3891,7 +4140,7 @@
 	});
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -4229,7 +4478,7 @@
 	});
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -4380,7 +4629,7 @@
 	}
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -4542,7 +4791,7 @@
 	}
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -4764,7 +5013,7 @@
 	}
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -5513,7 +5762,7 @@
 	}
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/**
@@ -5997,7 +6246,7 @@
 	});
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/**

@@ -29,8 +29,8 @@ var Register = React.createClass({
                                         </div>
 
                                         <div className="register-box-body" style={StyleForm}>
-                                            <p className="login-box-msg">Registrar novo usu&aacute;rio</p>
-                                            <FormRegister />
+                                            <p className="login-box-msg">Redefinir Senha</p>
+                                            <FormRegister email={this.props.email}/>
                                         </div>
 
                                     </div>
@@ -50,19 +50,10 @@ var FormRegister = React.createClass({
 
         e.preventDefault();
 
-        var nome = this.refs.nome.value;
         var email = this.refs.email.value;
         var password = this.refs.password.value;
         var password_confirm = this.refs.password_confirm.value;
 
-        if (!nome) {
-            $("#nome").focus();
-            $("#nome").addClass("is-danger");
-            alertify.error("Deve Informar o seu Nome");
-            return false;
-        }
-
-        $("#nome").removeClass("is-danger");
 
         if (!email) {
             $("#email").focus();
@@ -98,7 +89,7 @@ var FormRegister = React.createClass({
 
         $.ajax({
             type: 'POST',
-            url : "/register/save",
+            url : "/forgotten-password/save",
             data : $("#form").serialize(),
             cache: false,
             success: function (data) {
@@ -162,15 +153,11 @@ var FormRegister = React.createClass({
 
             <form onSubmit={this.handleForm} method="post" id="form">
                 <div className="form-group has-feedback">
-                    <input className="input is-large" type="text" name="nome" placeholder="Nome Completo" id="nome" ref="nome"/>
-                    <span className="glyphicon glyphicon-user form-control-feedback"></span>
-                </div>
-                <div className="form-group has-feedback">
-                    <input className="input is-large" type="text" name="email" placeholder="E-mail" id="email" ref="email"/>
+                    <input className="input is-large" type="text" defaultValue={this.props.email} readOnly name="email" placeholder="E-mail" id="email" ref="email"/>
                     <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback" id="div-password">
-                    <input className="input is-large" type="password" name="password" onChange={this.handlePassLength} placeholder="Senha" id="password"
+                    <input className="input is-large" type="password" autoFocus="autoFocus" name="password" onChange={this.handlePassLength} placeholder="Senha" id="password"
                            ref="password"/>
                     <span className="help is-danger"></span>
                     <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
@@ -181,11 +168,8 @@ var FormRegister = React.createClass({
                     <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
                 <div className="row">
-                    <div className="col-xs-6">
-                        <a href="login" className="button is-primary is-link is-fullwidth is-large">Já possuo Conta!</a>
-                    </div>
-                    <div className="col-xs-6">
-                        <button type="submit" id="btnSubmit" className="button is-success is-outlined is-fullwidth is-large">Salvar</button>
+                    <div className="col-xs-12">
+                        <button type="submit" id="btnSubmit" className="button is-success  is-large is-outlined is-fullwidth">Salvar</button>
                     </div>
                 </div>
             </form>
@@ -194,16 +178,16 @@ var FormRegister = React.createClass({
 
 });
 
-var background = $("#register").data("background");
-var dirImg = $("#register").data("dir-img");
-var app = $("#register").data("app");
+const background = $("#forgotten").data("background");
+const app = $("#forgotten").data("app");
+const email = $("#forgotten").data("email");
 
-if (document.getElementById("register")) {
+if (document.getElementById("forgotten")) {
     ReactDOM.render(
         <div>
-            <Register app={app}/>
+            <Register app={app} email={email}/>
         </div>,
-        document.getElementById("register")
+        document.getElementById("forgotten")
     );
 }
 

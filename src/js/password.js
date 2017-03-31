@@ -60,10 +60,7 @@ var FormRegister = React.createClass({
         }
 
         $("#email").removeClass("is-danger");
-
         $("#btnSubmit").addClass("is-loading");
-        
-        block_screen();
 
         $.ajax({
             type: 'POST',
@@ -72,11 +69,13 @@ var FormRegister = React.createClass({
             cache: false,
             success: function (data) {
                 alertify.success(data.mensagem);
+                $("#mensagem").text(data.mensagem);
+                $("#btnSubmit").hide();
             },
             error: function (data) {
-                unblock_screen();
+                alertify.error(data.responseJSON.mensagem);
+                $("#email").focus();
                 $("#btnSubmit").removeClass("is-loading");
-                alertify.error(data.mensagem);
             }
         })
     },
@@ -86,17 +85,18 @@ var FormRegister = React.createClass({
         return (
 
             <form onSubmit={this.handleForm} method="post" id="form">
+                <p className="title is-4" id="mensagem"></p>
                 <div className="form-group has-feedback">
-                    <input className="input" autoFocus="autoFocus" autoComplete="off" type="email" name="email" placeholder="E-mail" id="email" ref="email"/>
+                    <input className="input is-large" autoFocus="autoFocus" autoComplete="off" type="email" name="email" placeholder="E-mail" id="email" ref="email"/>
                     <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
 
                 <div className="row">
                     <div className="col-xs-6">
-                        <a href="login" className="button is-light is-fullwidth">Voltar ao In&iacute;cio</a>
+                        <a href="login" className="button is-link is-large is-fullwidth">Voltar ao In&iacute;cio</a>
                     </div>
                     <div className="col-xs-6">
-                        <button type="submit" id="btnSubmit" className="button is-success is-fullwidth">Enviar</button>
+                        <button type="submit" id="btnSubmit" className="button is-success is-large is-fullwidth">Enviar</button>
                     </div>
                 </div>
             </form>

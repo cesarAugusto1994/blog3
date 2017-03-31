@@ -12,10 +12,10 @@ use Doctrine\ORM\EntityRepository;
 use Api\Entities\EmailConfirmacao;
 
 /**
- * Class EmailConfirmationRepository
- * @package Application\Entity
+ * Class EmailConfirmacaoRepository
+ * @package Api\Repositories
  */
-class EmailConfirmationRepository extends EntityRepository
+class EmailConfirmacaoRepository extends EntityRepository
 {
     /**
      * @param EmailConfirmacao $email

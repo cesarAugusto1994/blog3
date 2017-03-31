@@ -123,6 +123,12 @@ $app['album.repository'] = function () use ($app) {
 $app['favoritos.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\Favoritos::class);
 };
+$app['email.confirmacao.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\EmailConfirmacao::class);
+};
+$app['status.email.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\StatusEmail::class);
+};
 
 #################################################################################################
 #################################################################################################
@@ -189,7 +195,7 @@ $app['adress'] = function () {
 $app['dir.base'] = function () use ($app) {
 
     if (in_array($_SERVER['REMOTE_ADDR'], $app['adress'])) {
-        return '/';
+        return '';
     }
 
     return '/web/';

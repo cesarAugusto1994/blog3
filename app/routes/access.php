@@ -6,6 +6,7 @@
  * Time: 09:33
  */
 
+use Api\Entities\EmailConfirmacao;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
 use Symfony\Component\BrowserKit\Request;
@@ -101,6 +102,30 @@ $app->get('email-send', function () use ($app) {
     ], 201);
 });
 
+$app->get('forgotten-passord/token/{token}', function ($token) use ($app) {
+
+    /**
+     * @var EmailConfirmacao $emailConfirmacao
+     */
+    $emailConfirmacao = $app['email.confirmacao.repository']->findOneBy(['token' => $token]);
+
+    if (!$emailConfirmacao) {
+        return $app->json(['classe' => 'error']);
+    }
+
+    $dataAtual = new DateTime('now');
+
+    if ($dataAtual > $emailConfirmacao->getValidade()) {
+        return $app->json(['classe' => 'error']);
+    }
+
+    $emailConfirmacao->setAtivoEm(new DateTime('now'));
+    $app['email.confirmacao.repository']->save($emailConfirmacao);
+
+    return $app['twig']->render('forgotten_password.html.twig', ['email' => $emailConfirmacao->getUsuario()->getEmail()]);
+
+});
+
 
 $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
@@ -118,12 +143,43 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
 
         $config = $app['config'];
 
+        /**
+         * @var Usuarios $usuario
+         */
+        $usuario = $app['usuarios.repository']->findOneBy(['email' => $request->request->get('email')]);
+
+        if (!$usuario) {
+            return $app->json([
+                'classe' => 'error',
+                'mensagem' => "Não existe nenhum cadastro com esse e-mail."
+            ], 403);
+        }
+
+        $uuid = $app['uuid.service'];
+
+        $link = "https:/coletaneaicm.com/forgotten-passord/token/" . $uuid;
+        
+        $dataAtual = $dateTime = new DateTime('now');
+
+        $statusEmail = $app['status.email.repository']->find(1);
+
+        $emailConfirmacao = new EmailConfirmacao();
+        $emailConfirmacao->setUsuario($usuario);
+        $emailConfirmacao->setToken($uuid);
+        $emailConfirmacao->setGeradoEm($dataAtual);
+        $emailConfirmacao->setValidade($dateTime->modify('5 days'));
+        $emailConfirmacao->setStatus($statusEmail);
+
+        $app['email.confirmacao.repository']->save($emailConfirmacao);
+
         $array = [
+            'nome' => $usuario->getNome(),
+            'link' => $link,
             'site' => $config->getNome(),
             'lema' => $config->getSubtitulo()
         ];
 
-        $body = $app['twig']->render('user/email_template.twig', $array);
+        $body = $app['twig']->render('user/email_forgotten_password.html.twig', $array);
 
         $email = new Email($assunto, $from, $body);
         $email->send($request->request->get('email'), $app);
@@ -131,7 +187,7 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
 
     return $app->json([
         "classe" => "sucesso",
-        "mensagem" => "E-mail enviado.",
+        "mensagem" => "Um Email para a redefinição de senha foi enviado para " . $request->request->get('email') . "",
     ], 201);
 
 });
@@ -166,6 +222,35 @@ $app->match(
             [
                 'class' => 'success',
                 'user' => ['username' => $usuario->getEmail(), 'password' => $usuario->getPassword()],
+                'message' => 'Usuario Registrado'
+            ]
+        );
+    }
+);
+
+
+$app->post(
+    'forgotten-password/save',
+    function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+        /**
+         * @var Usuarios $user
+         */
+        $user = $app['usuarios.repository']->findOneBy(['email' => $request->request->get('email')]);
+
+        $encoder = $app['security.encoder.digest'];
+        $password = $encoder->encodePassword($request->get('password'), '');
+
+        $user->setPassword($password);
+
+        $app['db']->beginTransaction();
+        $app['usuarios.repository']->save($user);
+        $app['db']->commit();
+
+        return $app->json(
+            [
+                'class' => 'success',
+                'user' => ['username' => $user->getEmail(), 'password' => $user->getPassword()],
                 'message' => 'Usuario Registrado'
             ]
         );

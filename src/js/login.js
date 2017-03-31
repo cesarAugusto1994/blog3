@@ -13,7 +13,7 @@ class BASE extends React.Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12 text-center">
-                            <div className="block wow fadeInUp" data-wow-delay=".3s">
+                            <div className="block wow fadeInUp">
                                 <section className="cd-intro">
                                     <div className="login-box">
                                         <div className="login-logo text-black">
@@ -84,20 +84,26 @@ const Form = React.createClass({
                 {error}
                 <div className="form-group has-feedback">
                     <input type="email" name="_username" autoFocus="autoFocus"
-                           className="form-control" placeholder="E-mail" ref="_username" required="required" defaultValue={this.props.lastUserName}/>
-                    <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
+                           className="form-control is-large" placeholder="E-mail" ref="_username" required="required" defaultValue={this.props.lastUserName}/>
+                    <span className="glyphicon glyphicon-envelope form-control-feedback is-large"></span>
                 </div>
                 <div className="form-group has-feedback">
-                    <input type="password" name="_password" className="form-control"
+                    <input type="password" name="_password" className="form-control is-large"
                            placeholder="Password" required="required" title="Informe a Senha" ref="_password"/>
-                    <span className="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <span className="glyphicon glyphicon-lock form-control-feedback is-large"></span>
                 </div>
                 <div className="row">
                     <div className="col-xs-6">
-                        <a href="register" className="button is-primary is-outlined is-fullwidth">Registrar</a>
+                        <a href="register" className="button is-primary is-outlined is-large is-fullwidth">Registrar</a>
                     </div>
                     <div className="col-xs-6">
-                        <button type="submit" className="button is-success is-outlined is-fullwidth">Entrar</button>
+                        <button type="submit" className="button is-success is-outlined is-large is-fullwidth">Entrar</button>
+                    </div>
+                </div>
+                <br/>
+                <div className="row">
+                    <div className="col-xs-12">
+                        <a href="/i-forgot-my-password" className="button is-white is-large is-fullwidth">Esqueci minha senha</a>
                     </div>
                 </div>
             </form>
