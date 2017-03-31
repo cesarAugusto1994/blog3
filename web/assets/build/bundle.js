@@ -461,13 +461,13 @@
 	                "div",
 	                { className: "form-group has-feedback" },
 	                React.createElement("input", { className: "input is-large", type: "text", name: "nome", placeholder: "Nome Completo", id: "nome", ref: "nome" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-user form-control-feedback" })
+	                React.createElement("span", { className: "glyphicon glyphicon-user form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
 	                React.createElement("input", { className: "input is-large", type: "text", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
+	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
@@ -475,14 +475,14 @@
 	                React.createElement("input", { className: "input is-large", type: "password", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
 	                    ref: "password" }),
 	                React.createElement("span", { className: "help is-danger" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
+	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback", id: "div-password-confirm" },
 	                React.createElement("input", { className: "input is-large", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
 	                    id: "password_confirm", ref: "password_confirm" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
+	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
@@ -710,7 +710,7 @@
 	                "div",
 	                { className: "form-group has-feedback" },
 	                React.createElement("input", { className: "input is-large", type: "text", defaultValue: this.props.email, readOnly: true, name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
+	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
@@ -718,7 +718,7 @@
 	                React.createElement("input", { className: "input is-large", type: "password", autoFocus: "autoFocus", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
 	                    ref: "password" }),
 	                React.createElement("span", { className: "help is-danger" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
+	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
@@ -1410,7 +1410,8 @@
 	    const StyleImg = {
 	        minHeight: '160px',
 	        maxHeight: '160px',
-	        margin: 'auto'
+	        width: auto,
+	        backgroundSize: '100% 100%'
 	    };
 
 	    var Menu = React.createClass({

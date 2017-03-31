@@ -75,7 +75,8 @@ $(function () {
     const StyleImg = {
         minHeight: '160px',
         maxHeight: '160px',
-        margin: 'auto'
+        width: auto,
+        backgroundSize: '100% 100%'
     };
     
     var Menu = React.createClass({

@@ -157,7 +157,7 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
 
         $uuid = $app['uuid.service'];
 
-        $link = "https:/coletaneaicm.com/forgotten-passord/token/" . $uuid;
+        $link = "https://coletaneaicm.com/forgotten-passord/token/" . $uuid;
         
         $dataAtual = $dateTime = new DateTime('now');
 
