@@ -185,13 +185,13 @@
 	                "div",
 	                { className: "form-group has-feedback" },
 	                React.createElement("input", { type: "email", name: "_username", autoFocus: "autoFocus",
-	                    className: "form-control is-large", placeholder: "E-mail", ref: "_username", required: "required", defaultValue: this.props.lastUserName }),
+	                    className: "form-control", placeholder: "E-mail", ref: "_username", required: "required", defaultValue: this.props.lastUserName }),
 	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback is-large" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { type: "password", name: "_password", className: "form-control is-large",
+	                React.createElement("input", { type: "password", name: "_password", className: "form-control",
 	                    placeholder: "Password", required: "required", title: "Informe a Senha", ref: "_password" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-lock form-control-feedback is-large" })
 	            ),
@@ -203,7 +203,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "register", className: "button is-primary is-outlined is-large is-fullwidth" },
+	                        { href: "register", className: "button is-primary is-outlined is-fullwidth" },
 	                        "Registrar"
 	                    )
 	                ),
@@ -212,7 +212,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "button",
-	                        { type: "submit", className: "button is-success is-outlined is-large is-fullwidth" },
+	                        { type: "submit", className: "button is-success is-outlined is-fullwidth" },
 	                        "Entrar"
 	                    )
 	                )
@@ -226,7 +226,7 @@
 	                    { className: "col-xs-12" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "/i-forgot-my-password", className: "button is-white is-large is-fullwidth" },
+	                        { href: "/i-forgot-my-password", className: "button is-link is-fullwidth" },
 	                        "Esqueci minha senha"
 	                    )
 	                )
@@ -460,29 +460,29 @@
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input is-large", type: "text", name: "nome", placeholder: "Nome Completo", id: "nome", ref: "nome" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-user form-control-feedback is-large" })
+	                React.createElement("input", { className: "input", type: "text", name: "nome", placeholder: "Nome Completo", id: "nome", ref: "nome" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-user form-control-feedback" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input is-large", type: "text", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback is-large" })
+	                React.createElement("input", { className: "input", type: "text", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback", id: "div-password" },
-	                React.createElement("input", { className: "input is-large", type: "password", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
+	                React.createElement("input", { className: "input", type: "password", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
 	                    ref: "password" }),
 	                React.createElement("span", { className: "help is-danger" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback is-large" })
+	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback", id: "div-password-confirm" },
-	                React.createElement("input", { className: "input is-large", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
+	                React.createElement("input", { className: "input", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
 	                    id: "password_confirm", ref: "password_confirm" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback is-large" })
+	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
 	            ),
 	            React.createElement(
 	                "div",
@@ -492,7 +492,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "login", className: "button is-primary is-link is-fullwidth is-large" },
+	                        { href: "login", className: "button is-primary is-link is-fullwidth" },
 	                        "J\xE1 possuo Conta!"
 	                    )
 	                ),
@@ -501,7 +501,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "button",
-	                        { type: "submit", id: "btnSubmit", className: "button is-success is-outlined is-fullwidth is-large" },
+	                        { type: "submit", id: "btnSubmit", className: "button is-success is-outlined is-fullwidth" },
 	                        "Salvar"
 	                    )
 	                )
@@ -1410,8 +1410,7 @@
 	    const StyleImg = {
 	        minHeight: '160px',
 	        maxHeight: '160px',
-	        width: auto,
-	        backgroundSize: '100% 100%'
+	        width: 'auto'
 	    };
 
 	    var Menu = React.createClass({
@@ -1532,20 +1531,10 @@
 	                                "figure",
 	                                { className: "wow fadeInLeft animated portfolio-item" },
 	                                React.createElement(
-	                                    "div",
-	                                    { className: "img-wrapper" },
-	                                    React.createElement(
-	                                        "a",
-	                                        { href: linkToCategorias },
-	                                        React.createElement("img", { style: StyleImg, src: root, className: "img-responsive", alt: "this is a title" }),
-	                                        React.createElement("div", { className: "overlay" })
-	                                    )
-	                                ),
-	                                React.createElement(
 	                                    "figcaption",
 	                                    null,
 	                                    React.createElement(
-	                                        "h4",
+	                                        "h2",
 	                                        null,
 	                                        React.createElement(
 	                                            "a",

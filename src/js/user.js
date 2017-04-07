@@ -75,8 +75,7 @@ $(function () {
     const StyleImg = {
         minHeight: '160px',
         maxHeight: '160px',
-        width: auto,
-        backgroundSize: '100% 100%'
+        width: 'auto'
     };
     
     var Menu = React.createClass({
@@ -170,18 +169,12 @@ $(function () {
                             return (
                                 <div key={colecao.id} className="col-sm-4 col-xs-12">
                                     <figure className="wow fadeInLeft animated portfolio-item">
-                                        <div className="img-wrapper">
-                                            <a href={linkToCategorias}>
-                                                <img style={StyleImg} src={root} className="img-responsive" alt="this is a title" />
-                                                <div className="overlay"></div>
-                                            </a>
-                                        </div>
                                         <figcaption>
-                                            <h4>
+                                            <h2>
                                                 <a href={linkToCategorias}>
                                                     {colecao.nome}
                                                 </a>
-                                            </h4>
+                                            </h2>
                                             <p>
                                                 {colecao.descricao}
                                             </p>

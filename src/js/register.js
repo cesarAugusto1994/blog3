@@ -162,30 +162,30 @@ var FormRegister = React.createClass({
 
             <form onSubmit={this.handleForm} method="post" id="form">
                 <div className="form-group has-feedback">
-                    <input className="input is-large" type="text" name="nome" placeholder="Nome Completo" id="nome" ref="nome"/>
-                    <span className="glyphicon glyphicon-user form-control-feedback is-large"></span>
+                    <input className="input" type="text" name="nome" placeholder="Nome Completo" id="nome" ref="nome"/>
+                    <span className="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback">
-                    <input className="input is-large" type="text" name="email" placeholder="E-mail" id="email" ref="email"/>
-                    <span className="glyphicon glyphicon-envelope form-control-feedback is-large"></span>
+                    <input className="input" type="text" name="email" placeholder="E-mail" id="email" ref="email"/>
+                    <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback" id="div-password">
-                    <input className="input is-large" type="password" name="password" onChange={this.handlePassLength} placeholder="Senha" id="password"
+                    <input className="input" type="password" name="password" onChange={this.handlePassLength} placeholder="Senha" id="password"
                            ref="password"/>
                     <span className="help is-danger"></span>
-                    <span className="glyphicon glyphicon-log-in form-control-feedback is-large"></span>
+                    <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback" id="div-password-confirm">
-                    <input className="input is-large" type="password" name="password_confirm" onChange={this.handleConfirmPass} placeholder="Confirme a senha"
+                    <input className="input" type="password" name="password_confirm" onChange={this.handleConfirmPass} placeholder="Confirme a senha"
                            id="password_confirm" ref="password_confirm"/>
-                    <span className="glyphicon glyphicon-log-in form-control-feedback is-large"></span>
+                    <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
                 <div className="row">
                     <div className="col-xs-6">
-                        <a href="login" className="button is-primary is-link is-fullwidth is-large">Já possuo Conta!</a>
+                        <a href="login" className="button is-primary is-link is-fullwidth">Já possuo Conta!</a>
                     </div>
                     <div className="col-xs-6">
-                        <button type="submit" id="btnSubmit" className="button is-success is-outlined is-fullwidth is-large">Salvar</button>
+                        <button type="submit" id="btnSubmit" className="button is-success is-outlined is-fullwidth">Salvar</button>
                     </div>
                 </div>
             </form>
