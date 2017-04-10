@@ -197,6 +197,7 @@ $(function () {
                                     <button type="button" className="button is-danger is-outlined is-pulled-left"
                                             data-dismiss="modal">Cancelar
                                     </button>
+                                    <button type="submit" className="button is-success">Salvar</button>
                                 </div>
                             </form>
                         </div>
@@ -531,9 +532,9 @@ $(function () {
             let btn = '';
 
             if (this.props.isFavorito === true) {
-                btn = (<i className="fa fa-star add-remove" aria-hidden="true" onClick={this.props.handle}></i>);
+                btn = (<a className="button is-small is-danger is-inverted add-remove" onClick={this.props.handle}>Remover dos Favoritos</a>);
             } else {
-                btn = (<i className="fa fa-star-o add-remove" aria-hidden="true" onClick={this.props.handle}></i>);
+                btn = (<a className="button is-small is-light add-remove"  onClick={this.props.handle}>Adicionar aos Favoritos</a>);
             }
 
             return (
@@ -547,9 +548,8 @@ $(function () {
         render() {
             return (
                 <div>
-                    <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
+                    <div className="card wow fadeInUp animated slide" style={styleCard}>
                         <div className="card-content">
-                            <p className="title is-5">{this.props.label}</p>
                             <div className="media">
                                 <div className="media-content">
                                     {this.props.children}
@@ -557,7 +557,6 @@ $(function () {
                             </div>
                         </div>
                     </div>
-                    <br />
                 </div>
             )
         }
@@ -709,15 +708,16 @@ $(function () {
                                 <div className="media">
                                     <ImagemArquivo anexo={anexo}/>
                                     <div className="media-body">
-                                        <h4 className="media-heading">{anexo.nome}
+                                        <p className="lead">{anexo.nome}
                                             <a className="button is-light is-small is-pulled-right">{anexo.cadastro}</a>
-                                        </h4>
+                                            <br />
+                                            <span>Enviado por { anexo.usuario } em { anexo.cadastro }</span>
+                                        </p>
                                         {visualzar}
                                         {link}
                                         {btn}
                                     </div>
                                 </div>
-                                <br/>
                             </div>
                         )
                     })}
@@ -768,8 +768,6 @@ $(function () {
             let id = this.props.musica;
             $("#add-remove").addClass("is-loading");
 
-            block_screen(500);
-
             $.ajax({
                 type: "POST",
                 url: "/api/favoritos/add-remove",
@@ -778,14 +776,12 @@ $(function () {
                 },
                 cache: false,
                 success: function (data) {
-                    $("#add-remove").removeClass("is-loading");
-                    unblock_screen();
-                    alertify.success(data.mensagem);
                     _this.loadFavoritos();
+                    $("#add-remove").removeClass("is-loading");
+                    alertify.success(data.mensagem);
                 },
                 error: function () {
                     $("#add-remove").removeClass("is-loading");
-                    unblock_screen();
                     alertify.error("Ocorreu um erro.");
                 }
             });
@@ -800,33 +796,22 @@ $(function () {
 
             if (!this.props.dataMusica.letra) {
                 letra = (
-                    <p className="control">
-                        <BtnAddLetra source={this.props.sourceAddLetra}/>
-                    </p>
+                    <BtnAddLetra source={this.props.sourceAddLetra}/>
                 )
             } else {
                 letra = (
-                    <p className="control">
-                        <BtnView sourceView={this.props.sourceView}/>
-                    </p>
+                    <BtnView sourceView={this.props.sourceView}/>
                 )
             }
 
             if (this.props.user == ROLE_ADMIN) {
                 menu = (
-                    <div className="control is-grouped">
-                        <p className="control">
-                            <BtnFavoritos handle={this.handleFavoritos} isFavorito={this.state.favorito} dataMusica={this.props.dataMusica}/>
-                        </p>
-                        <p className="control">
-                            <BtnEditarMusica source={this.props.sourceEditar}/>
-                        </p>
-                        <p className="control">
-                            <BtnAddLink openModal={this.openModalAddLink}/>
-                        </p>
-                        <p className="control">
-                            <BtnAdicionarArquivo openModal={this.openModal}/>
-                        </p>
+                    <div className="block">
+                        <BtnFavoritos handle={this.handleFavoritos} isFavorito={this.state.favorito}
+                                      dataMusica={this.props.dataMusica}/>
+                        <BtnEditarMusica source={this.props.sourceEditar}/>
+                        <BtnAddLink openModal={this.openModalAddLink}/>
+                        <BtnAdicionarArquivo openModal={this.openModal}/>
                         {letra}
                     </div>
                 )
@@ -839,7 +824,9 @@ $(function () {
                         <p className="control">
                             <BtnAdicionarArquivo openModal={this.openModal}/>
                         </p>
-                        {letra}
+                        <p className="control">
+                            {letra}
+                        </p>
                     </div>
                 )
             }
@@ -868,13 +855,42 @@ $(function () {
                 )
             }
 
+            let cardLetra = 'Sem letra disponível.';
+
+            if (this.props.sourceMusicaLetra) {
+                cardLetra = (
+                    <CardLetra label="Letra">
+                        <Font
+                            source={this.props.sourceAddLetra}
+                            sourceView={this.props.sourceView}/>
+                        <BlockLetra
+                            musica={this.props.dataMusica}
+                            sourceMusicaLetra={this.props.sourceMusicaLetra}
+                            sourceMusicaTom={this.props.sourceMusicaTom}/>
+                    </CardLetra>
+                )
+            }
+
             return (
                 <div>
                     <CardLetra label="Menu">
                         {menu}
                     </CardLetra>
-                    {card}
-                    {cardArquivos}
+                    <br/>
+                    <div>
+                        <ul className="tabs is-toggle is-fullwidth" role="tablist">
+                            <li role="presentation" className="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Letra</a></li>
+                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arquivos</a></li>
+                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Informações</a></li>
+                        </ul>
+
+                        <div className="tab-content">
+                            <div role="tabpanel" className="tab-pane active" id="home">{cardLetra}</div>
+                            <div role="tabpanel" className="tab-pane" id="profile">{cardArquivos}</div>
+                            <div role="tabpanel" className="tab-pane" id="messages">Em Breve</div>
+                        </div>
+                    </div>
+                    <br/>
                 </div>
             )
         }
@@ -928,6 +944,7 @@ $(function () {
                         sourceArquivos={this.props.sourceArquivos}
                         sourceEditar={this.props.sourceEditar}
                         sourceMusicaLetra={this.props.sourceMusicaLetra}
+                        sourceMusicaTom={this.props.sourceMusicaTom}
                         sourceAddLetra={this.props.sourceAddLetra}
                         sourceVideos={this.props.sourceVideos}
                         musica={this.props.musicaId}
@@ -935,13 +952,6 @@ $(function () {
                         user={this.props.user}
                         userId={this.props.userId}
                         sourceView={this.props.sourceView}/>
-                    <ViewLetra
-                        dataMusica={this.state.data}
-                        sourceView={this.props.sourceView}
-                        sourceMusicaLetra={this.props.sourceMusicaLetra}
-                        sourceMusicaTom={this.props.sourceMusicaTom}
-                        sourceAddLetra={this.props.sourceAddLetra}
-                    />
                     <ViewCometarios
                         source={this.props.source}
                         user={this.props.user}
@@ -1190,6 +1200,8 @@ $(function () {
 
         $("pre").transpose({key: 'C'});
         $('.c').css('font-size', 12);
-        $('#content').css('font-size', 12)
+        $('.c').css('font-family', 'tahoma');
+        $('#content').css('font-size', 12);
+        $('#content').css('font-family', 'tahoma');
     }
 });

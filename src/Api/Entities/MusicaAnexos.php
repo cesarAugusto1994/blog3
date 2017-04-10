@@ -8,6 +8,7 @@
 
 namespace Api\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,7 +77,15 @@ class MusicaAnexos implements \JsonSerializable
      * @var boolean
      */
     private $ativo;
-    
+
+    /**
+     * MusicaAnexos constructor.
+     */
+    public function __construct()
+    {
+        $this->usuario = new ArrayCollection();
+    }
+
     /**
      * @return int
      */
@@ -222,8 +231,8 @@ class MusicaAnexos implements \JsonSerializable
             "tipo" => $this->tipo,
             "isExterno" => $this->linkExterno,
             "link" => $this->link,
-            "usuario" => $this->usuario->getId(),
-            "cadastro" => $this->cadastro->format(DATE_RFC822)
+            "usuario" => $this->usuario->getNome(),
+            "cadastro" => $this->cadastro->format('d/m/y H:i:s')
         ];
     }
 }

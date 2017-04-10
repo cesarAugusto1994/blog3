@@ -1935,6 +1935,11 @@
 	                                    { type: 'button', className: 'button is-danger is-outlined is-pulled-left',
 	                                        'data-dismiss': 'modal' },
 	                                    'Cancelar'
+	                                ),
+	                                React.createElement(
+	                                    'button',
+	                                    { type: 'submit', className: 'button is-success' },
+	                                    'Salvar'
 	                                )
 	                            )
 	                        )
@@ -2332,9 +2337,17 @@
 	            let btn = '';
 
 	            if (this.props.isFavorito === true) {
-	                btn = React.createElement('i', { className: 'fa fa-star add-remove', 'aria-hidden': 'true', onClick: this.props.handle });
+	                btn = React.createElement(
+	                    'a',
+	                    { className: 'button is-small is-danger is-inverted add-remove', onClick: this.props.handle },
+	                    'Remover dos Favoritos'
+	                );
 	            } else {
-	                btn = React.createElement('i', { className: 'fa fa-star-o add-remove', 'aria-hidden': 'true', onClick: this.props.handle });
+	                btn = React.createElement(
+	                    'a',
+	                    { className: 'button is-small is-light add-remove', onClick: this.props.handle },
+	                    'Adicionar aos Favoritos'
+	                );
 	            }
 
 	            return React.createElement(
@@ -2353,15 +2366,10 @@
 	                null,
 	                React.createElement(
 	                    'div',
-	                    { className: 'card wow fadeInUp animated slide', 'data-wow-delay': '.3s', style: styleCard },
+	                    { className: 'card wow fadeInUp animated slide', style: styleCard },
 	                    React.createElement(
 	                        'div',
 	                        { className: 'card-content' },
-	                        React.createElement(
-	                            'p',
-	                            { className: 'title is-5' },
-	                            this.props.label
-	                        ),
 	                        React.createElement(
 	                            'div',
 	                            { className: 'media' },
@@ -2372,8 +2380,7 @@
 	                            )
 	                        )
 	                    )
-	                ),
-	                React.createElement('br', null)
+	                )
 	            );
 	        }
 	    }
@@ -2552,12 +2559,21 @@
 	                                'div',
 	                                { className: 'media-body' },
 	                                React.createElement(
-	                                    'h4',
-	                                    { className: 'media-heading' },
+	                                    'p',
+	                                    { className: 'lead' },
 	                                    anexo.nome,
 	                                    React.createElement(
 	                                        'a',
 	                                        { className: 'button is-light is-small is-pulled-right' },
+	                                        anexo.cadastro
+	                                    ),
+	                                    React.createElement('br', null),
+	                                    React.createElement(
+	                                        'span',
+	                                        null,
+	                                        'Enviado por ',
+	                                        anexo.usuario,
+	                                        ' em ',
 	                                        anexo.cadastro
 	                                    )
 	                                ),
@@ -2565,8 +2581,7 @@
 	                                link,
 	                                btn
 	                            )
-	                        ),
-	                        React.createElement('br', null)
+	                        )
 	                    );
 	                })
 	            );
@@ -2617,8 +2632,6 @@
 	            let id = this.props.musica;
 	            $("#add-remove").addClass("is-loading");
 
-	            block_screen(500);
-
 	            $.ajax({
 	                type: "POST",
 	                url: "/api/favoritos/add-remove",
@@ -2627,14 +2640,12 @@
 	                },
 	                cache: false,
 	                success: function (data) {
-	                    $("#add-remove").removeClass("is-loading");
-	                    unblock_screen();
-	                    alertify.success(data.mensagem);
 	                    _this.loadFavoritos();
+	                    $("#add-remove").removeClass("is-loading");
+	                    alertify.success(data.mensagem);
 	                },
 	                error: function () {
 	                    $("#add-remove").removeClass("is-loading");
-	                    unblock_screen();
 	                    alertify.error("Ocorreu um erro.");
 	                }
 	            });
@@ -2648,43 +2659,20 @@
 	            let cardArquivos = '';
 
 	            if (!this.props.dataMusica.letra) {
-	                letra = React.createElement(
-	                    'p',
-	                    { className: 'control' },
-	                    React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra })
-	                );
+	                letra = React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra });
 	            } else {
-	                letra = React.createElement(
-	                    'p',
-	                    { className: 'control' },
-	                    React.createElement(BtnView, { sourceView: this.props.sourceView })
-	                );
+	                letra = React.createElement(BtnView, { sourceView: this.props.sourceView });
 	            }
 
 	            if (this.props.user == ROLE_ADMIN) {
 	                menu = React.createElement(
 	                    'div',
-	                    { className: 'control is-grouped' },
-	                    React.createElement(
-	                        'p',
-	                        { className: 'control' },
-	                        React.createElement(BtnFavoritos, { handle: this.handleFavoritos, isFavorito: this.state.favorito, dataMusica: this.props.dataMusica })
-	                    ),
-	                    React.createElement(
-	                        'p',
-	                        { className: 'control' },
-	                        React.createElement(BtnEditarMusica, { source: this.props.sourceEditar })
-	                    ),
-	                    React.createElement(
-	                        'p',
-	                        { className: 'control' },
-	                        React.createElement(BtnAddLink, { openModal: this.openModalAddLink })
-	                    ),
-	                    React.createElement(
-	                        'p',
-	                        { className: 'control' },
-	                        React.createElement(BtnAdicionarArquivo, { openModal: this.openModal })
-	                    ),
+	                    { className: 'block' },
+	                    React.createElement(BtnFavoritos, { handle: this.handleFavoritos, isFavorito: this.state.favorito,
+	                        dataMusica: this.props.dataMusica }),
+	                    React.createElement(BtnEditarMusica, { source: this.props.sourceEditar }),
+	                    React.createElement(BtnAddLink, { openModal: this.openModalAddLink }),
+	                    React.createElement(BtnAdicionarArquivo, { openModal: this.openModal }),
 	                    letra
 	                );
 	            } else {
@@ -2701,7 +2689,11 @@
 	                        { className: 'control' },
 	                        React.createElement(BtnAdicionarArquivo, { openModal: this.openModal })
 	                    ),
-	                    letra
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        letra
+	                    )
 	                );
 	            }
 
@@ -2729,6 +2721,22 @@
 	                );
 	            }
 
+	            let cardLetra = 'Sem letra disponível.';
+
+	            if (this.props.sourceMusicaLetra) {
+	                cardLetra = React.createElement(
+	                    CardLetra,
+	                    { label: 'Letra' },
+	                    React.createElement(Font, {
+	                        source: this.props.sourceAddLetra,
+	                        sourceView: this.props.sourceView }),
+	                    React.createElement(BlockLetra, {
+	                        musica: this.props.dataMusica,
+	                        sourceMusicaLetra: this.props.sourceMusicaLetra,
+	                        sourceMusicaTom: this.props.sourceMusicaTom })
+	                );
+	            }
+
 	            return React.createElement(
 	                'div',
 	                null,
@@ -2737,8 +2745,62 @@
 	                    { label: 'Menu' },
 	                    menu
 	                ),
-	                card,
-	                cardArquivos
+	                React.createElement('br', null),
+	                React.createElement(
+	                    'div',
+	                    null,
+	                    React.createElement(
+	                        'ul',
+	                        { className: 'tabs is-toggle is-fullwidth', role: 'tablist' },
+	                        React.createElement(
+	                            'li',
+	                            { role: 'presentation', className: 'active' },
+	                            React.createElement(
+	                                'a',
+	                                { href: '#home', 'aria-controls': 'home', role: 'tab', 'data-toggle': 'tab' },
+	                                'Letra'
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'li',
+	                            { role: 'presentation' },
+	                            React.createElement(
+	                                'a',
+	                                { href: '#profile', 'aria-controls': 'profile', role: 'tab', 'data-toggle': 'tab' },
+	                                'Arquivos'
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'li',
+	                            { role: 'presentation' },
+	                            React.createElement(
+	                                'a',
+	                                { href: '#messages', 'aria-controls': 'messages', role: 'tab', 'data-toggle': 'tab' },
+	                                'Informa\xE7\xF5es'
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'tab-content' },
+	                        React.createElement(
+	                            'div',
+	                            { role: 'tabpanel', className: 'tab-pane active', id: 'home' },
+	                            cardLetra
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { role: 'tabpanel', className: 'tab-pane', id: 'profile' },
+	                            cardArquivos
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { role: 'tabpanel', className: 'tab-pane', id: 'messages' },
+	                            'Em Breve'
+	                        )
+	                    )
+	                ),
+	                React.createElement('br', null)
 	            );
 	        }
 	    });
@@ -2798,6 +2860,7 @@
 	                    sourceArquivos: this.props.sourceArquivos,
 	                    sourceEditar: this.props.sourceEditar,
 	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
+	                    sourceMusicaTom: this.props.sourceMusicaTom,
 	                    sourceAddLetra: this.props.sourceAddLetra,
 	                    sourceVideos: this.props.sourceVideos,
 	                    musica: this.props.musicaId,
@@ -2805,13 +2868,6 @@
 	                    user: this.props.user,
 	                    userId: this.props.userId,
 	                    sourceView: this.props.sourceView }),
-	                React.createElement(ViewLetra, {
-	                    dataMusica: this.state.data,
-	                    sourceView: this.props.sourceView,
-	                    sourceMusicaLetra: this.props.sourceMusicaLetra,
-	                    sourceMusicaTom: this.props.sourceMusicaTom,
-	                    sourceAddLetra: this.props.sourceAddLetra
-	                }),
 	                React.createElement(ViewCometarios, {
 	                    source: this.props.source,
 	                    user: this.props.user,
@@ -3056,7 +3112,9 @@
 
 	        $("pre").transpose({ key: 'C' });
 	        $('.c').css('font-size', 12);
+	        $('.c').css('font-family', 'tahoma');
 	        $('#content').css('font-size', 12);
+	        $('#content').css('font-family', 'tahoma');
 	    }
 	});
 

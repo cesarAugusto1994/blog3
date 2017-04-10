@@ -38,12 +38,12 @@ $app['security.firewalls'] = array(
         ),
         'remember_me' => array(
             'secret'   => '%secret%',
-            'lifetime' => 50000,
+            'lifetime' => 100000,
             'path'     => '/user/',
             // by default, the feature is enabled by checking a
             // checkbox in the login form (see below), uncomment
             // the following line to always enable it.
-            //'always_remember_me' => true,
+            'always_remember_me' => true,
         ),
         'users' => function () use ($app) {
             return new Security\UserProvider($app['db'], $app);
@@ -76,7 +76,7 @@ $app['swiftmailer.options'] = array(
 
 $app->register(new \Silex\Provider\SessionServiceProvider());
 $app['session.storage.save_path'] = __DIR__ . '/../var/cache/sessions/';
-$app['session.storage.options'] = ['cookie_lifetime' => 3600];
+$app['session.storage.options'] = ['cookie_lifetime' => 10800];
 $app['session']->start();
 $app->register(new Silex\Provider\RememberMeServiceProvider());
 $app->register(new \Silex\Provider\TwigServiceProvider(),

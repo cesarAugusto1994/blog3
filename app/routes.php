@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 $app->get('/', function () use ($app) {
 
@@ -17,6 +18,7 @@ $app->get('/', function () use ($app) {
     return $app->redirect('login');
 
 })->bind('home');
+
 $app->get('/user/about', 'index.controller:about')->bind('about');
 $app->get('/user/contact', 'index.controller:contact')->bind('contact');
 
@@ -48,6 +50,12 @@ $app->get('/user/mail', function() use ($app) {
     return $app['usuario.email.service'];
 });
 
+$app->get('/user/cache', function() {
+    return new Response('Foo', 200, array(
+        'Cache-Control' => 's-maxage=5',
+    ));
+});
+
 $app->mount('/api', include __DIR__ . '/routes/api_categoria.php');
 $app->mount('/api', include __DIR__ . '/routes/api_musica.php');
 $app->mount('/api', include __DIR__ . '/routes/api_colecao.php');
@@ -71,7 +79,7 @@ $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
 include __DIR__.'/routes/post.php';
 include __DIR__.'/routes/musica_admin.php';
 include __DIR__.'/routes/access.php';
-/*
+
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
     switch ($code) {
         case 400 :
@@ -94,4 +102,4 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
             break;
     }
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
-});*/
+});
