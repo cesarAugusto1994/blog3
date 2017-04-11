@@ -2,7 +2,8 @@
 
 {% block title %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
 
-{% block stylesheet %}{{ parent() }}
+{% block stylesheet %}
+    {{ parent() }}
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet"/>
 {% endblock %}
@@ -32,5 +33,6 @@
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset(app['dir.base'] ~ 'assets/vendor/emojionearea/dist/emojionearea.js') }}" async></script>
 
 {% endblock %}
