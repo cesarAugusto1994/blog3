@@ -185,7 +185,7 @@ $app->post('musica/{id}/letra/editar', function($id, \Symfony\Component\HttpFoun
     $app['musica.repository']->save($musica);
     $app['db']->commit();
     
-    return $app->redirect('/user/praise/'.$musica->getId().'-'.$musica->getId().'/attachments');
+    return $app->redirect('/user/praise/'.$musica->getId().'-'.$musica->getId());
     
 })->bind('api_musica_letra_editar');
 
@@ -223,7 +223,7 @@ $musica->post('musica/editar', function(\Symfony\Component\HttpFoundation\Reques
     $app['musica.repository']->save($musica);
     $app['db']->commit();
 
-    return $app->redirect('/user/praise/'.$musica->getId().'-'.$musica->getId().'/attachments');
+    return $app->redirect('/user/praise/'.$musica->getId().'-'.$musica->getId());
 
 })->bind('save_musica');
 

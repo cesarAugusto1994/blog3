@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Login
  * @package Api\Entities
- * @ORM\Entity(repositoryClass="")
+ * @ORM\Entity(repositoryClass="Api\Repositories\LoginRepository")
  * @ORM\Table(name="login")
  */
 class Login

@@ -7,6 +7,7 @@
  */
 
 use Api\Entities\EmailConfirmacao;
+use Api\Entities\Login;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
 use Symfony\Component\BrowserKit\Request;

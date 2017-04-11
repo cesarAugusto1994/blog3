@@ -22,13 +22,16 @@
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset(app['dir.base'] ~ 'assets/vendor/font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/vendor/emojionearea/dist/emojionearea.css') }}" rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/dist/css/emoji.min.css') }}" rel="stylesheet">
     <style type="text/css">
         #hero-area {
             background: url('{{ app['background'] }}') no-repeat 50%;
             background-size: 100% 100%;
         }
     </style>
+
+    {% block stylesheet %}{% endblock %}
+
     <title>{{ app['nome.blog'] }} - {% block title %}{% endblock %}</title>
 
     <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/jquery/dist/jquery.js') }}"></script>
@@ -68,8 +71,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    {% block stylesheet %}{% endblock %}
 
 </head>
 <body>

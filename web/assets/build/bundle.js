@@ -881,7 +881,7 @@
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input is-large", autoFocus: "autoFocus", autoComplete: "off", type: "email", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
+	                React.createElement("input", { className: "input", autoFocus: "autoFocus", autoComplete: "off", type: "email", name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback" })
 	            ),
 	            React.createElement(
@@ -892,8 +892,8 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "login", className: "button is-link is-large is-fullwidth" },
-	                        "Voltar ao In\xEDcio"
+	                        { href: "login", className: "button is-primary is-outlined is-fullwidth" },
+	                        "In\xEDcio"
 	                    )
 	                ),
 	                React.createElement(
@@ -901,7 +901,7 @@
 	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "button",
-	                        { type: "submit", id: "btnSubmit", className: "button is-success is-large is-fullwidth" },
+	                        { type: "submit", id: "btnSubmit", className: "button is-success is-fullwidth" },
 	                        "Enviar"
 	                    )
 	                )
@@ -1587,7 +1587,7 @@
 	                        { className: "wow fadeInLeft animated portfolio-item" },
 	                        this.state.data.map(function (musica) {
 
-	                            linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
+	                            linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
 
 	                            return React.createElement(
 	                                "div",
@@ -4038,7 +4038,7 @@
 	                null,
 	                this.props.data.map(function (musica) {
 
-	                    let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
+	                    let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_');
 	                    let editarMusica = "/user/praises/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
 	                    if (ROLE_ADMIN == _this.props.user) {
@@ -4428,7 +4428,7 @@
 	                null,
 	                this.props.data.map(function (favorito) {
 
-	                    let linkAnexos = "/user/praise/" + favorito.musica.id + '-' + favorito.musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
+	                    let linkAnexos = "/user/praise/" + favorito.musica.id + '-' + favorito.musica.nome.toLowerCase().replace(/ /g, '_');
 	                    let editarMusica = "/user/praises/" + favorito.musica.id + "-" + favorito.musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
 	                    if (ROLE_ADMIN == _this.props.user) {
@@ -5979,7 +5979,7 @@
 	                null,
 	                this.props.data.map(function (musica) {
 
-	                    let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
+	                    let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_');
 	                    let editarMusica = "/user/praises/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
 	                    if (ROLE_ADMIN == _this.props.user) {

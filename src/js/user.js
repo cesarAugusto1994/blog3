@@ -214,7 +214,7 @@ $(function () {
 
                         { this.state.data.map(function (musica) {
 
-                            linkToAnexos = "/user/praise/"+musica.id+"-"+musica.nome.toLowerCase().replace(/ /g, '_')+"/attachments";
+                            linkToAnexos = "/user/praise/"+musica.id+"-"+musica.nome.toLowerCase().replace(/ /g, '_');
 
                             return (
                                 <div key={musica.id} className="col-sm-12 col-xs-12">

@@ -156,7 +156,7 @@ $(function () {
                     {
                         this.props.data.map(function (musica) {
 
-                            let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_') + "/attachments";
+                            let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_');
                             let editarMusica = "/user/praises/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
                             if (ROLE_ADMIN == _this.props.user) {

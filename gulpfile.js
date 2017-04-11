@@ -10,8 +10,7 @@ var stripCssComments = require('gulp-strip-css-comments');
 
 // Definimos o diretorio dos arquivos para evitar repetição futuramente
 var files = [
-    "./web/assets/blog-new/js/*.js",
-    "./web/assets/blog-new/js/vendor/*.js",
+    "./web/assets/blog-new/js/*.js", //"./web/assets/blog-new/js/vendor/*.js",
 ];
 
 /*
@@ -69,6 +68,10 @@ var css = [
     './web/assets/plugins/jQuery.filer/css/jquery.filer.css',
 ];
 
+var cssEmoji = [
+    './web/assets/vendor/emojionearea/dist/emojionearea.css',
+];
+
 // Processo que agrupará todos os arquivos CSS, removerá comentários CSS e minificará.
 
 // Cria a TASK padrão, esta linha será processada quando o comando "GULP" for executado
@@ -80,7 +83,15 @@ gulp.task('default-css', function () {
         .pipe(gulp.dest('./web/assets/dist/css/'));
 });
 
+gulp.task('emoji-css', function () {
+    gulp.src(cssEmoji)
+        .pipe(concat('emoji.min.css'))
+        .pipe(stripCssComments({all: true}))
+        .pipe(cssmin())
+        .pipe(gulp.dest('./web/assets/dist/css/'));
+});
+
 // Cria a TASK de verificar em tempo real alterações, se detectar alguma alteração, será processado o comando relativo ao arquivo
 gulp.task('watch', function() {
-    gulp.watch(css, ['minify-css']);
+    gulp.watch(css, ['minify-css', 'emoji-css']);
 });

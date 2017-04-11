@@ -202,7 +202,7 @@ $(function () {
                     {
                         this.props.data.map(function (favorito) {
 
-                            let linkAnexos = "/user/praise/"+ favorito.musica.id + '-' + favorito.musica.nome.toLowerCase().replace(/ /g, '_') +"/attachments";
+                            let linkAnexos = "/user/praise/"+ favorito.musica.id + '-' + favorito.musica.nome.toLowerCase().replace(/ /g, '_');
                             let editarMusica = "/user/praises/" + favorito.musica.id + "-" + favorito.musica.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
                             if (ROLE_ADMIN == _this.props.user) {
