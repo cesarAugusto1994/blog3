@@ -1,0 +1,43 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Sugestão{% endblock %}
+{% block headerNome %}Sugestão{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if mensagem is defined %}
+
+                        <article class="message is-primary">
+                            <div class="message-header">
+                                <p>Mensagem</p>
+                            </div>
+                            <div class="message-body">
+                                {{ mensagem }}
+                            </div>
+                        </article>
+
+                    {% else %}
+
+                        <form method="post" class="form-horizontal wow fadeInUp animated slide" action="{{ path('form_sugestao') }}">
+                            <p class="control">
+                                <textarea class="textarea" name="mensagem" autofocus id="mensagem" ref="mensagem"
+                                          placeholder="Deixe a sua sugestão"></textarea>
+                            </p>
+                            <p class="control">
+                                <button class="button is-danger is-fullwidth" type="submit">Enviar</button>
+                            </p>
+                        </form>
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

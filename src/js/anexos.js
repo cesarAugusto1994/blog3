@@ -711,7 +711,7 @@ $(function () {
                                         <p className="lead">{anexo.nome}
                                             <a className="button is-light is-small is-pulled-right">{anexo.cadastro}</a>
                                             <br />
-                                            <span>Enviado por { anexo.usuario } em { anexo.cadastro }</span>
+                                            <small>Enviado por { anexo.usuario } em { anexo.cadastro }</small>
                                         </p>
                                         {visualzar}
                                         {link}
@@ -792,7 +792,7 @@ $(function () {
             let menu = '';
             let card = '';
             let letra = '';
-            let cardArquivos = '';
+            let cardArquivos = (<CardLetra label="Letra">Sem anexos disponíveis.</CardLetra>);
 
             if (!this.props.dataMusica.letra) {
                 letra = (
@@ -855,7 +855,7 @@ $(function () {
                 )
             }
 
-            let cardLetra = 'Sem letra disponível.';
+            let cardLetra = (<CardLetra label="Letra">Sem letra disponível.</CardLetra>);
 
             if (this.props.sourceMusicaLetra) {
                 cardLetra = (
@@ -876,10 +876,11 @@ $(function () {
                     <CardLetra label="Menu">
                         {menu}
                     </CardLetra>
+                    {card}
                     <br/>
                     <div>
                         <ul className="tabs is-toggle is-fullwidth" role="tablist">
-                            <li role="presentation" className="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Letra</a></li>
+                            <li role="presentation" className="is-active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Letra</a></li>
                             <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arquivos</a></li>
                             <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Informações</a></li>
                         </ul>
@@ -887,7 +888,7 @@ $(function () {
                         <div className="tab-content">
                             <div role="tabpanel" className="tab-pane active" id="home">{cardLetra}</div>
                             <div role="tabpanel" className="tab-pane" id="profile">{cardArquivos}</div>
-                            <div role="tabpanel" className="tab-pane" id="messages">Em Breve</div>
+                            <div role="tabpanel" className="tab-pane" id="messages"><CardLetra label="Letra">Em Breve</CardLetra></div>
                         </div>
                     </div>
                     <br/>

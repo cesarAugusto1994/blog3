@@ -13,21 +13,18 @@ $(function () {
                         <div className="col-md-12 text-center">
                             <div className="block wow fadeInUp">
                                 <section className="cd-intro">
-                                    <h1 className="wow fadeInUp animated cd-headline slide" data-wow-delay=".2s">
+                                    <h1 className="wow fadeInUp animated cd-headline slide">
                                         <span>Ol&aacute;, {this.props.user}.</span><br />
                                     </h1>
                                 </section>
                                 <div className="container is-half">
-                                    <h2 className="wow fadeInUp animated" data-wow-delay=".2s">
+                                    <h2 className="wow fadeInUp animated">
                                         {this.props.app}
                                     </h2>
                                 </div>
-                                <a className="button is-light"
-                                   data-wow-delay=".3s" href="#works" data-section="#works">Iniciar</a>
-                                <a className="button is-primary is-inverted"
-                                   data-wow-delay=".3s" href="/user/praise/new">Sugerir Louvor</a>
-                                <a className="button is-danger is-inverted"
-                                   data-wow-delay=".3s" href="#">Em breve: Solicite-nos um louvor, letra, partitura ou outros.</a>
+                                <a className="button is-light is-large" href="#works" data-section="#works">Iniciar</a>
+                                <a className="button is-primary is-large" href="/user/praise/new">Sugerir Louvor</a>
+                                <a className="button is-danger is-large" href="/user/sugestao">Sugestão</a>
                             </div>
                         </div>
                     </div>
@@ -42,7 +39,7 @@ $(function () {
                 <section id="works" className="works">
                     <div className="container">
                         <div className="section-heading">
-                            <h1 className="title wow fadeInDown" data-wow-delay=".1s">{this.props.sectionName}</h1>
+                            <h1 className="title wow fadeInDown">{this.props.sectionName}</h1>
                         </div>
                         <div className="row">
                             {this.props.children}

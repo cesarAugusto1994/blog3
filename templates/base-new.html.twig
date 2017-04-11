@@ -7,40 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/ico/favicon.ico') }}" rel='shortcut icon' type='image/x-icon'/>
-    <title>{{ app['nome.blog'] }} - {% block title %}{% endblock %}</title>
     <meta name="description" content="">
     <meta name="keywords" content="Louvores">
     <meta name="author" content="Cesar Augusto">
 
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/alertify.min.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/themes/default.min.css') }}" rel=stylesheet>
-    <link href="{{ asset(app['dir.base'] ~ 'assets/vendor/jasny-bootstrap/dist/css/jasny-bootstrap.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/themes/default.min.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/bulma.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/ionicons.min.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/slider.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/owl.carousel.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/owl.theme.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/jquery.fancybox.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/main.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/responsive.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/main.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(app['dir.base'] ~ 'assets/dist/css/style.min.css') }}" rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset(app['dir.base'] ~ 'assets/vendor/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet"/>
-    <link href="{{ asset(app['dir.base'] ~ 'assets/vendor/emojionearea/dist/emojionearea.css') }}" rel="stylesheet" type="text/css" media="screen">
-
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/vendor/emojionearea/dist/emojionearea.css') }}" rel="stylesheet">
     <style type="text/css">
         #hero-area {
             background: url('{{ app['background'] }}') no-repeat 50%;
             background-size: 100% 100%;
         }
     </style>
+    <title>{{ app['nome.blog'] }} - {% block title %}{% endblock %}</title>
 
     <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/jquery/dist/jquery.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/react/react.js') }}"></script>
@@ -60,7 +49,6 @@
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}" async></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}" async></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript" async></script>
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ asset(app['dir.base'] ~ 'assets/vendor/emojionearea/dist/emojionearea.js') }}" async></script>
 
     <script>

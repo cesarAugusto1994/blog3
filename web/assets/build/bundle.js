@@ -1304,7 +1304,7 @@
 	                                { className: "cd-intro" },
 	                                React.createElement(
 	                                    "h1",
-	                                    { className: "wow fadeInUp animated cd-headline slide", "data-wow-delay": ".2s" },
+	                                    { className: "wow fadeInUp animated cd-headline slide" },
 	                                    React.createElement(
 	                                        "span",
 	                                        null,
@@ -1320,27 +1320,24 @@
 	                                { className: "container is-half" },
 	                                React.createElement(
 	                                    "h2",
-	                                    { className: "wow fadeInUp animated", "data-wow-delay": ".2s" },
+	                                    { className: "wow fadeInUp animated" },
 	                                    this.props.app
 	                                )
 	                            ),
 	                            React.createElement(
 	                                "a",
-	                                { className: "button is-light",
-	                                    "data-wow-delay": ".3s", href: "#works", "data-section": "#works" },
+	                                { className: "button is-light is-large", href: "#works", "data-section": "#works" },
 	                                "Iniciar"
 	                            ),
 	                            React.createElement(
 	                                "a",
-	                                { className: "button is-primary is-inverted",
-	                                    "data-wow-delay": ".3s", href: "/user/praise/new" },
+	                                { className: "button is-primary is-large", href: "/user/praise/new" },
 	                                "Sugerir Louvor"
 	                            ),
 	                            React.createElement(
 	                                "a",
-	                                { className: "button is-danger is-inverted",
-	                                    "data-wow-delay": ".3s", href: "#" },
-	                                "Em breve: Solicite-nos um louvor, letra, partitura ou outros."
+	                                { className: "button is-danger is-large", href: "/user/sugestao" },
+	                                "Sugest\xE3o"
 	                            )
 	                        )
 	                    )
@@ -1362,7 +1359,7 @@
 	                        { className: "section-heading" },
 	                        React.createElement(
 	                            "h1",
-	                            { className: "title wow fadeInDown", "data-wow-delay": ".1s" },
+	                            { className: "title wow fadeInDown" },
 	                            this.props.sectionName
 	                        )
 	                    ),
@@ -2569,7 +2566,7 @@
 	                                    ),
 	                                    React.createElement('br', null),
 	                                    React.createElement(
-	                                        'span',
+	                                        'small',
 	                                        null,
 	                                        'Enviado por ',
 	                                        anexo.usuario,
@@ -2656,7 +2653,11 @@
 	            let menu = '';
 	            let card = '';
 	            let letra = '';
-	            let cardArquivos = '';
+	            let cardArquivos = React.createElement(
+	                CardLetra,
+	                { label: 'Letra' },
+	                'Sem anexos dispon\xEDveis.'
+	            );
 
 	            if (!this.props.dataMusica.letra) {
 	                letra = React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra });
@@ -2721,7 +2722,11 @@
 	                );
 	            }
 
-	            let cardLetra = 'Sem letra disponível.';
+	            let cardLetra = React.createElement(
+	                CardLetra,
+	                { label: 'Letra' },
+	                'Sem letra dispon\xEDvel.'
+	            );
 
 	            if (this.props.sourceMusicaLetra) {
 	                cardLetra = React.createElement(
@@ -2745,6 +2750,7 @@
 	                    { label: 'Menu' },
 	                    menu
 	                ),
+	                card,
 	                React.createElement('br', null),
 	                React.createElement(
 	                    'div',
@@ -2754,7 +2760,7 @@
 	                        { className: 'tabs is-toggle is-fullwidth', role: 'tablist' },
 	                        React.createElement(
 	                            'li',
-	                            { role: 'presentation', className: 'active' },
+	                            { role: 'presentation', className: 'is-active' },
 	                            React.createElement(
 	                                'a',
 	                                { href: '#home', 'aria-controls': 'home', role: 'tab', 'data-toggle': 'tab' },
@@ -2796,7 +2802,11 @@
 	                        React.createElement(
 	                            'div',
 	                            { role: 'tabpanel', className: 'tab-pane', id: 'messages' },
-	                            'Em Breve'
+	                            React.createElement(
+	                                CardLetra,
+	                                { label: 'Letra' },
+	                                'Em Breve'
+	                            )
 	                        )
 	                    )
 	                ),

@@ -4,6 +4,9 @@ var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
+var cssmin = require("gulp-cssmin");
+// Remove comentários CSS
+var stripCssComments = require('gulp-strip-css-comments');
 
 // Definimos o diretorio dos arquivos para evitar repetição futuramente
 var files = [
@@ -56,4 +59,28 @@ gulp.task('default', function() {
     gulp.watch(files, function(evt) {
         gulp.run('lint', 'dist');
     });
+});
+
+var css = [
+    './web/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css',
+    './web/assets/vendor/jasny-bootstrap/dist/css/jasny-bootstrap.css',
+    './web/assets/blog-new/css/*.css',
+    './web/assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css',
+    './web/assets/plugins/jQuery.filer/css/jquery.filer.css',
+];
+
+// Processo que agrupará todos os arquivos CSS, removerá comentários CSS e minificará.
+
+// Cria a TASK padrão, esta linha será processada quando o comando "GULP" for executado
+gulp.task('default-css', function () {
+    gulp.src(css)
+        .pipe(concat('style.min.css'))
+        .pipe(stripCssComments({all: true}))
+        .pipe(cssmin())
+        .pipe(gulp.dest('./web/assets/dist/css/'));
+});
+
+// Cria a TASK de verificar em tempo real alterações, se detectar alguma alteração, será processado o comando relativo ao arquivo
+gulp.task('watch', function() {
+    gulp.watch(css, ['minify-css']);
 });
