@@ -104,7 +104,7 @@ const Render = React.createClass({
 
         let categoriaID = this.refs.categoria1.value;
         let categoriaNome = "category";
-        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome + '/praises';
+        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome;
 
         $.ajax({
             type: "POST",

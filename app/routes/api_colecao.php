@@ -24,7 +24,7 @@ $colecao->get('colecoes', function() use ($app){
 })->bind('api_colecoes');
 
 
-$colecao->get('collection/{id}-{nome}/categories', function($id, $nome) use ($app){
+$colecao->get('collection/{id}-{nome}', function($id, $nome) use ($app){
 
     $colecao = $app['colecao.repository']->find($id);
 

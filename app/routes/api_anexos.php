@@ -8,7 +8,7 @@
 
 $anexos = $app['controllers_factory'];
 
-$anexos->get('/praise/{id}-{nome}', function($id, $nome) use ($app) {
+$anexos->get('/praise/{id}-{nome}/files', function($id, $nome) use ($app) {
 
     $musica = $app['musica.repository']->find($id);
     $anexos = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true]);

@@ -38,7 +38,7 @@ const Render = React.createClass({
     },
 
     redirect : function () {
-        return window.location.href = '/user/collection/' + this.props.colecaoId + '-' + this.props.colecaoNome + '/categories';
+        return window.location.href = '/user/collection/' + this.props.colecaoId + '-' + this.props.colecaoNome;
     },
 
     handleSubmit : function (e) {

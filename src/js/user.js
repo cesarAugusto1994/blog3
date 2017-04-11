@@ -161,7 +161,7 @@ $(function () {
                         { this.state.data.map(function (colecao) {
 
                             root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
-                            linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
+                            linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_');
 
                             return (
                                 <div key={colecao.id} className="col-sm-4 col-xs-12">

@@ -1519,7 +1519,7 @@
 	                    this.state.data.map(function (colecao) {
 
 	                        root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
-	                        linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
+	                        linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_');
 
 	                        return React.createElement(
 	                            "div",
@@ -3482,7 +3482,7 @@
 	                    'span',
 	                    null,
 	                    _this.props.categoria.map(function (categoria) {
-	                        const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_') + "/praises";
+	                        const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_');
 	                        return React.createElement(
 	                            'div',
 	                            { key: categoria.id },
@@ -3827,7 +3827,7 @@
 	                'span',
 	                null,
 	                this.state.data.map(function (colecao) {
-	                    let categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_') + "/categories";
+	                    let categoriasUrl = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_');
 	                    return React.createElement(
 	                        'div',
 	                        { key: colecao.id },
@@ -4586,7 +4586,7 @@
 	    },
 
 	    redirect: function () {
-	        return window.location.href = '/user/collection/' + this.props.colecaoId + '-' + this.props.colecaoNome + '/categories';
+	        return window.location.href = '/user/collection/' + this.props.colecaoId + '-' + this.props.colecaoNome;
 	    },
 
 	    handleSubmit: function (e) {
@@ -4737,7 +4737,7 @@
 	    },
 
 	    redirect: function () {
-	        return window.location.href = '/user/collection/' + this.props.colecaoId + '-' + this.props.colecaoNome + '/categories';
+	        return window.location.href = '/user/collection/' + this.props.colecaoId + '-' + this.props.colecaoNome;
 	    },
 
 	    handleSubmit: function (e) {
@@ -4928,7 +4928,7 @@
 
 	        let categoriaID = this.refs.categoria.value;
 	        let categoriaNome = "category";
-	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome + '/praises';
+	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome;
 
 	        $.ajax({
 	            type: "POST",
@@ -5187,7 +5187,7 @@
 
 	        let categoriaID = this.refs.categoria1.value;
 	        let categoriaNome = "category";
-	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome + '/praises';
+	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome;
 
 	        $.ajax({
 	            type: "POST",
@@ -6412,7 +6412,7 @@
 
 	        let categoriaID = this.refs.categoria.value;
 	        let categoriaNome = "category";
-	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome + '/praises';
+	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome;
 
 	        $.ajax({
 	            type: "POST",
