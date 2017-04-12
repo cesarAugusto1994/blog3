@@ -709,21 +709,21 @@
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback" },
-	                React.createElement("input", { className: "input is-large", type: "text", defaultValue: this.props.email, readOnly: true, name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback is-large" })
+	                React.createElement("input", { className: "input ", type: "text", defaultValue: this.props.email, readOnly: true, name: "email", placeholder: "E-mail", id: "email", ref: "email" }),
+	                React.createElement("span", { className: "glyphicon glyphicon-envelope form-control-feedback " })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback", id: "div-password" },
-	                React.createElement("input", { className: "input is-large", type: "password", autoFocus: "autoFocus", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
+	                React.createElement("input", { className: "input ", type: "password", autoFocus: "autoFocus", name: "password", onChange: this.handlePassLength, placeholder: "Senha", id: "password",
 	                    ref: "password" }),
 	                React.createElement("span", { className: "help is-danger" }),
-	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback is-large" })
+	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback " })
 	            ),
 	            React.createElement(
 	                "div",
 	                { className: "form-group has-feedback", id: "div-password-confirm" },
-	                React.createElement("input", { className: "input is-large", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
+	                React.createElement("input", { className: "input ", type: "password", name: "password_confirm", onChange: this.handleConfirmPass, placeholder: "Confirme a senha",
 	                    id: "password_confirm", ref: "password_confirm" }),
 	                React.createElement("span", { className: "glyphicon glyphicon-log-in form-control-feedback" })
 	            ),
@@ -732,10 +732,19 @@
 	                { className: "row" },
 	                React.createElement(
 	                    "div",
-	                    { className: "col-xs-12" },
+	                    { className: "col-xs-6" },
+	                    React.createElement(
+	                        "a",
+	                        { href: "/", className: "button is-primary is-outlined is-fullwidth" },
+	                        "Inicio"
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "col-xs-6" },
 	                    React.createElement(
 	                        "button",
-	                        { type: "submit", id: "btnSubmit", className: "button is-success  is-large is-outlined is-fullwidth" },
+	                        { type: "submit", id: "btnSubmit", className: "button is-success is-outlined is-fullwidth" },
 	                        "Salvar"
 	                    )
 	                )
@@ -1064,7 +1073,7 @@
 	        render: function () {
 
 	            var rootAvatar = this.props.dirAvatar + this.props.user.avatar;
-	            var linkToPerfil = "/user/" + this.props.user.id + '/' + this.props.user.nome.toLowerCase().replace(/ /g, '_') + '/perfil';
+	            var linkToPerfil = "/user/" + this.props.user.id + '-' + this.props.user.nome.toLowerCase().replace(/ /g, '_');
 	            var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
 	            const favoritos = "/user/favorites";
 	            var admin = "";

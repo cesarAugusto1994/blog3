@@ -103,7 +103,7 @@ $(function () {
         render: function () {
 
             var rootAvatar = this.props.dirAvatar + this.props.user.avatar;
-            var linkToPerfil = "/user/" + this.props.user.id + '/' + this.props.user.nome.toLowerCase().replace(/ /g, '_') + '/perfil';
+            var linkToPerfil = "/user/" + this.props.user.id + '-' + this.props.user.nome.toLowerCase().replace(/ /g, '_');
             var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
             const favoritos = "/user/favorites";
             var admin = "";

@@ -111,13 +111,13 @@ $app->get('forgotten-passord/token/{token}', function ($token) use ($app) {
     $emailConfirmacao = $app['email.confirmacao.repository']->findOneBy(['token' => $token]);
 
     if (!$emailConfirmacao) {
-        return $app->json(['classe' => 'error']);
+        return $app['twig']->render('token_invalido.html.twig', ['mensagem' => 'Código de autorização inválido!']);
     }
 
     $dataAtual = new DateTime('now');
 
     if ($dataAtual > $emailConfirmacao->getValidade()) {
-        return $app->json(['classe' => 'error']);
+        return $app['twig']->render('token_invalido.html.twig', ['mensagem' => 'Token Expirado!']);
     }
 
     $emailConfirmacao->setAtivoEm(new DateTime('now'));
@@ -160,15 +160,17 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
 
         $link = "https://coletaneaicm.com/forgotten-passord/token/" . $uuid;
         
-        $dataAtual = $dateTime = new DateTime('now');
+        $dateTime = new DateTime('now');
+        $dataLimite = new DateTime('now');
+        $dataLimite->modify('+1 day');
 
         $statusEmail = $app['status.email.repository']->find(1);
 
         $emailConfirmacao = new EmailConfirmacao();
         $emailConfirmacao->setUsuario($usuario);
         $emailConfirmacao->setToken($uuid);
-        $emailConfirmacao->setGeradoEm($dataAtual);
-        $emailConfirmacao->setValidade($dateTime->modify('5 days'));
+        $emailConfirmacao->setGeradoEm($dateTime);
+        $emailConfirmacao->setValidade($dataLimite);
         $emailConfirmacao->setStatus($statusEmail);
 
         $app['email.confirmacao.repository']->save($emailConfirmacao);

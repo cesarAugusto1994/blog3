@@ -10,14 +10,14 @@ use Api\Entities\Usuarios;
 
 $user = $app['controllers_factory'];
 
-$user->get('/{id}/{nome}/perfil', function($id, $nome) use($app) {
+$user->get('/{id}-{nome}', function($id, $nome) use($app) {
 
     $userSession = $app['session']->get('user');
     $userS = $app['usuarios.repository']->find($userSession->getId());
 
     if ('ROLE_ADMIN' != $userS->getRoles()) {
         if ($userSession->getId() != $id) {
-            return $app->redirect('/user/' . $userSession->getId() . '/' . $nome . '/perfil');
+            return $app->redirect('/user/' . $userSession->getId() . '-' . $nome);
         }
     }
 
