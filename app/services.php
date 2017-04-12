@@ -135,6 +135,9 @@ $app['sugestao.repository'] = function () use ($app) {
 $app['login.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\Login::class);
 };
+$app['email.enviado.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\EmailEnviado::class);
+};
 
 #################################################################################################
 #################################################################################################
@@ -325,4 +328,39 @@ $app['usuario'] = function () use ($app) {
 $app['envia.email'] = function () use ($app) {
     $config = $app['config.repository']->findAll();
     return $config ? $config[0]->isEnviaEmail() : 0;
+};
+
+$app['email.padrao'] = function () {
+    return 'contato.coletaneaicm@gmail.com';
+};
+
+$app['email.confirmacao'] = function () use ($app) {
+
+    $email = 'contato.coletaneaicm@gmail.com';
+
+    /**
+     * @var Usuarios $usuario
+     */
+    $usuario = $app['usuarios.repository']->findOneBy(['email' => $email]);
+
+    if (!$usuario) {
+        return;
+    }
+
+    $config = $app['config'];
+
+    $assunto = "Confirmação de Cadastro.";
+    $from = $email;
+
+    $array = [
+        'nome' => $usuario->getNome(),
+        'site' => $config->getNome(),
+        'lema' => $config->getSubtitulo()
+    ];
+
+    return $app['twig']->render('/user/success.html.twig', $array);
+
+    //$email = new Email($assunto, $from, $body);
+    //$email->send($email, $app);
+
 };

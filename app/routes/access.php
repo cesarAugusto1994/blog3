@@ -7,6 +7,7 @@
  */
 
 use Api\Entities\EmailConfirmacao;
+use Api\Entities\EmailEnviado;
 use Api\Entities\Login;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
@@ -71,9 +72,9 @@ $app->get('i-forgot-my-password', function () use ($app) {
 })->bind('password');
 
 
-$app->get('email-send', function () use ($app) {
+$app->get('/user/email-send-all', function () use ($app) {
 
-    $assunto = 'Bem Vindo Ao site.';
+    $assunto = 'Bem vindo ao site!';
     $from = 'cezzaar@gmail.com';
 
     $config = $app['config'];
@@ -93,7 +94,7 @@ $app->get('email-send', function () use ($app) {
 
         $body = $app['twig']->render('user/email_template.twig', $array);
 
-        $email = new Email($assunto, $from, $body);
+        $email = new Email($assunto, $app['email.padrao'], $body);
         $email->send($usuario->getEmail(), $app);
     }
 
@@ -139,8 +140,7 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
 
     if ($request->request->get('email')) {
 
-        $assunto = 'Bem Vindo Ao site.';
-        $from = 'cezzaar@gmail.com';
+        $assunto = 'Redefinição de Senha';
 
         $config = $app['config'];
 
@@ -184,8 +184,17 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
 
         $body = $app['twig']->render('user/email_forgotten_password.html.twig', $array);
 
-        $email = new Email($assunto, $from, $body);
+        $email = new Email($assunto, $app['email.padrao'], $body);
         $email->send($request->request->get('email'), $app);
+
+        $emailEnviado = new EmailEnviado();
+        $emailEnviado->setUsuario($usuario);
+        $emailEnviado->setTipo($assunto);
+        $emailEnviado->setDataHora(new DateTime('now'));
+
+        $app['db']->beginTransaction();
+        $app['email.enviado.repository']->save($emailEnviado);
+        $app['db']->commit();
     }
 
     return $app->json([
@@ -221,6 +230,28 @@ $app->match(
         $app['usuarios.repository']->save($usuario);
         $app['db']->commit();
 
+        $config = $app['config'];
+        $assunto = "Confirmação de Cadastro";
+        $array = [
+            'mensagem' => "Seja Bem Vindo ao Coletânea ICM.",
+            'nome' => $request->request->get('nome'),
+            'site' => $config->getNome(),
+            'lema' => $config->getSubtitulo()
+        ];
+
+        $body = $app['twig']->render('/user/success.html.twig', $array);
+        $email = new Email($assunto, $app['email.padrao'], $body);
+        $email->send($request->request->get('email'), $app);
+
+        $emailEnviado = new EmailEnviado();
+        $emailEnviado->setUsuario($usuario);
+        $emailEnviado->setTipo($assunto);
+        $emailEnviado->setDataHora(new DateTime('now'));
+
+        $app['db']->beginTransaction();
+        $app['email.enviado.repository']->save($emailEnviado);
+        $app['db']->commit();
+
         return $app->json(
             [
                 'class' => 'success',
@@ -250,6 +281,28 @@ $app->post(
         $app['usuarios.repository']->save($user);
         $app['db']->commit();
 
+        $config = $app['config'];
+        $assunto = "Sucesso na redefinição de senha";
+        $array = [
+            'mensagem' => "Sua senha foi redefinida com sucesso!",
+            'nome' => $request->request->get('nome'),
+            'site' => $config->getNome(),
+            'lema' => $config->getSubtitulo()
+        ];
+
+        $body = $app['twig']->render('/user/success.html.twig', $array);
+        $email = new Email($assunto, $app['email.padrao'], $body);
+        $email->send($request->request->get('email'), $app);
+
+        $emailEnviado = new EmailEnviado();
+        $emailEnviado->setUsuario($user);
+        $emailEnviado->setTipo($assunto);
+        $emailEnviado->setDataHora(new DateTime('now'));
+
+        $app['db']->beginTransaction();
+        $app['email.enviado.repository']->save($emailEnviado);
+        $app['db']->commit();
+
         return $app->json(
             [
                 'class' => 'success',
@@ -259,3 +312,9 @@ $app->post(
         );
     }
 );
+
+$app->get('/user/email-success', function () use ($app) {
+
+    return $app['email.confirmacao'];
+
+});
