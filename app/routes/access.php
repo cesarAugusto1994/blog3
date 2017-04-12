@@ -285,7 +285,7 @@ $app->post(
         $assunto = "Sucesso na redefinição de senha";
         $array = [
             'mensagem' => "Sua senha foi redefinida com sucesso!",
-            'nome' => $request->request->get('nome'),
+            'nome' => $user->getNome(),
             'site' => $config->getNome(),
             'lema' => $config->getSubtitulo()
         ];
