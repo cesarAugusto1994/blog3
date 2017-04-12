@@ -214,8 +214,8 @@ $app->post('musica/{id}/letra/editar', function($id, \Symfony\Component\HttpFoun
         'Gb7 ', 'Gbm7 ', 'G7 ', 'Gm7 ', 'G#7 ', 'G#m7 '
     ];
 
-    $search = ['7M', '4', '(4)', '(sus)', '(9)', 'º', '(#5)', 'Introdução: ', 'Instrumentos '];
-    $replace = ['maj7', 'sus', 'sus', 'sus', '9', 'dim', '#5', "Introdução: \n", "Instrumentos \n"];
+    $search = ['7M', '4', '(4)', '(sus)', '(9)', '(b9)', 'º', '(#5)', 'Introdução: ', 'Instrumentos '];
+    $replace = ['maj7', 'sus', 'sus', 'sus', '9', 'b9', 'dim', '#5', "Introdução: \n", "Instrumentos \n"];
 
     $search = array_merge($search, $encontrarVirgula);
     $replace = array_merge($replace, $removerVirgulas);
