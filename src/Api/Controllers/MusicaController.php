@@ -81,8 +81,28 @@ class MusicaController
         }
 
         if ($request->get('letra')) {
-            $musica->setLetra(strip_tags(htmlspecialchars_decode($request->get('letra'))));
-            $musica->setLetraOriginal($request->get('letra'));
+
+            $encontrarVirgula = [
+                'A,', 'Am,', 'A#,', 'A#m,', 'Bb,', 'Bbm,', 'B,', 'Bm,', 'C,', 'Cm,', 'C#,', 'C#m,', 'Db,', 'Dbm,',
+                'D,', 'Dm,', 'D#,', 'D#m,', 'Eb,',
+                'Ebm,', 'E,', 'F,', 'Fm,', 'F#,', 'F#m,', 'Gb,', 'Gbm,', 'G,', 'Gm,', 'G#,', 'G#m,', 'Ab,', 'Abm,',
+            ];
+
+            $removerVirgulas = [
+                'A ', 'Am ', 'A# ', 'A#m ', 'Bb ', 'Bbm ', 'B ', 'Bm ', 'C ', 'Cm ', 'C# ', 'C#m ', 'Db ', 'Dbm ',
+                'D ', 'Dm ', 'D# ', 'D#m ', 'Eb ',
+                'Ebm ', 'E ', 'F ', 'Fm ', 'F# ', 'F#m ', 'Gb ', 'Gbm ', 'G ', 'Gm ', 'G# ', 'G#m ', 'Ab ', 'Abm ',
+            ];
+
+            $search = ['7M', '4', '(9)', 'º', '(#5)', 'Introdução: ', 'Instrumentos '];
+            $replace = ['maj7', 'sus', '9', 'dim', '#5', "Introdução: \n", "Instrumentos \n"];
+
+            $search = array_merge($search, $encontrarVirgula);
+            $replace = array_merge($replace, $removerVirgulas);
+
+            $letra = str_replace($search, $replace, $request->get('letra'));
+            $musica->setLetra(strip_tags(htmlspecialchars_decode($letra)));
+            $musica->setLetraOriginal($letra);
         }
 
         $musica->setCategoria($categoria);
@@ -166,8 +186,28 @@ class MusicaController
         }
 
         if ($request['letra']) {
-            $musica->setLetra(strip_tags(htmlspecialchars_decode($request['letra'])));
-            $musica->setLetraOriginal($request['letra']);
+
+            $encontrarVirgula = [
+                'A,', 'Am,', 'A#,', 'A#m,', 'Bb,', 'Bbm,', 'B,', 'Bm,', 'C,', 'Cm,', 'C#,', 'C#m,', 'Db,', 'Dbm,',
+                'D,', 'Dm,', 'D#,', 'D#m,', 'Eb,',
+                'Ebm,', 'E,', 'F,', 'Fm,', 'F#,', 'F#m,', 'Gb,', 'Gbm,', 'G,', 'Gm,', 'G#,', 'G#m,', 'Ab,', 'Abm,',
+            ];
+
+            $removerVirgulas = [
+                'A ', 'Am ', 'A# ', 'A#m ', 'Bb ', 'Bbm ', 'B ', 'Bm ', 'C ', 'Cm ', 'C# ', 'C#m ', 'Db ', 'Dbm ',
+                'D ', 'Dm ', 'D# ', 'D#m ', 'Eb ',
+                'Ebm ', 'E ', 'F ', 'Fm ', 'F# ', 'F#m ', 'Gb ', 'Gbm ', 'G ', 'Gm ', 'G# ', 'G#m ', 'Ab ', 'Abm ',
+            ];
+
+            $search = ['7M', '4', '(9)', 'º', '(#5)', 'Introdução: ', 'Instrumentos '];
+            $replace = ['maj7', 'sus', '9', 'dim', '#5', "Introdução: \n", "Instrumentos \n"];
+
+            $search = array_merge($search, $encontrarVirgula);
+            $replace = array_merge($replace, $removerVirgulas);
+
+            $letra = str_replace($search, $replace, $request['letra']);
+            $musica->setLetra(strip_tags(htmlspecialchars_decode($letra)));
+            $musica->setLetraOriginal($letra);
         }
 
         $musica->setCategoria($categoria);

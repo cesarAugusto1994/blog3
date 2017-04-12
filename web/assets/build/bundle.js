@@ -1592,28 +1592,32 @@
 	                    Card,
 	                    { sectionName: "Adicionadas Recentemente" },
 	                    React.createElement(
-	                        "figure",
-	                        { className: "wow fadeInLeft animated portfolio-item" },
-	                        this.state.data.map(function (musica) {
+	                        "table",
+	                        { className: "table is-striped" },
+	                        React.createElement(
+	                            "tbody",
+	                            null,
+	                            this.state.data.map(function (musica) {
 
-	                            linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
+	                                linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
 
-	                            return React.createElement(
-	                                "div",
-	                                { key: musica.id, className: "col-sm-12 col-xs-12" },
-	                                React.createElement(
-	                                    "h4",
-	                                    { className: "tile is-4" },
+	                                return React.createElement(
+	                                    "tr",
+	                                    { key: musica.id },
 	                                    React.createElement(
-	                                        "a",
-	                                        { href: linkToAnexos },
-	                                        musica.numero,
-	                                        " ",
-	                                        musica.nome
+	                                        "td",
+	                                        null,
+	                                        React.createElement(
+	                                            "a",
+	                                            { className: "lead", href: linkToAnexos },
+	                                            musica.numero,
+	                                            " - ",
+	                                            musica.nome
+	                                        )
 	                                    )
-	                                )
-	                            );
-	                        })
+	                                );
+	                            })
+	                        )
 	                    )
 	                )
 	            );

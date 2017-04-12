@@ -178,8 +178,27 @@ $app->post('musica/{id}/letra/editar', function($id, \Symfony\Component\HttpFoun
         throw new Exception('Musica não encontrada.');
     }
     
-    $musica->setLetra(strip_tags($request->get('letra')));
-    $musica->setLetraOriginal($request->get('letra'));
+    $encontrarVirgula = [
+      'A,', 'Am,', 'A#,', 'A#m,', 'Bb,', 'Bbm,', 'B,', 'Bm,', 'C,', 'Cm,', 'C#,', 'C#m,', 'Db,', 'Dbm,',  
+      'D,', 'Dm,', 'D#,', 'D#m,', 'Eb,',  
+      'Ebm,', 'E,', 'F,', 'Fm,', 'F#,', 'F#m,', 'Gb,', 'Gbm,', 'G,', 'Gm,', 'G#,', 'G#m,', 'Ab,', 'Abm,',
+    ];
+
+    $removerVirgulas = [
+        'A ', 'Am ', 'A# ', 'A#m ', 'Bb ', 'Bbm ', 'B ', 'Bm ', 'C ', 'Cm ', 'C# ', 'C#m ', 'Db ', 'Dbm ',
+        'D ', 'Dm ', 'D# ', 'D#m ', 'Eb ',
+        'Ebm ', 'E ', 'F ', 'Fm ', 'F# ', 'F#m ', 'Gb ', 'Gbm ', 'G ', 'Gm ', 'G# ', 'G#m ', 'Ab ', 'Abm ',
+    ];
+
+    $search = ['7M', '4', '(9)', 'º', '(#5)', 'Introdução: ', 'Instrumentos '];
+    $replace = ['maj7', 'sus', '9', 'dim', '#5', "Introdução: \n", "Instrumentos \n"];
+
+    $search = array_merge($search, $encontrarVirgula);
+    $replace = array_merge($replace, $removerVirgulas);
+
+    $letra = str_replace($search, $replace, $request->get('letra'));
+    $musica->setLetra(strip_tags($letra));
+    $musica->setLetraOriginal($letra);
     
     $app['db']->beginTransaction();
     $app['musica.repository']->save($musica);

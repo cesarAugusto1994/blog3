@@ -210,24 +210,20 @@ $(function () {
             return (
                 <div>
                     <Card sectionName="Adicionadas Recentemente">
-                        <figure className="wow fadeInLeft animated portfolio-item">
+                        <table className="table is-striped">
+                            <tbody>
+                            { this.state.data.map(function (musica) {
 
-                        { this.state.data.map(function (musica) {
+                                linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
 
-                            linkToAnexos = "/user/praise/"+musica.id+"-"+musica.nome.toLowerCase().replace(/ /g, '_');
-
-                            return (
-                                <div key={musica.id} className="col-sm-12 col-xs-12">
-                                    <h4 className="tile is-4">
-                                        <a href={linkToAnexos}>
-                                            { musica.numero } { musica.nome }
-                                        </a>
-                                    </h4>
-                                </div>
-                            )
-                        }) }
-
-                        </figure>
+                                return (
+                                    <tr key={musica.id}>
+                                        <td><a className="lead" href={linkToAnexos}>{ musica.numero } - { musica.nome }</a></td>
+                                    </tr>
+                                )
+                            }) }
+                            </tbody>
+                        </table>
                     </Card>
                 </div>
             )
