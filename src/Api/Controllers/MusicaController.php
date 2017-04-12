@@ -83,15 +83,39 @@ class MusicaController
         if ($request->get('letra')) {
 
             $encontrarVirgula = [
-                'A,', 'Am,', 'A#,', 'A#m,', 'Bb,', 'Bbm,', 'B,', 'Bm,', 'C,', 'Cm,', 'C#,', 'C#m,', 'Db,', 'Dbm,',
-                'D,', 'Dm,', 'D#,', 'D#m,', 'Eb,',
-                'Ebm,', 'E,', 'F,', 'Fm,', 'F#,', 'F#m,', 'Gb,', 'Gbm,', 'G,', 'Gm,', 'G#,', 'G#m,', 'Ab,', 'Abm,',
+                'Ab,', 'Abm,', 'A,', 'Am,', 'A#,', 'A#m,',
+                'Ab7,', 'Abm7,', 'A7,', 'Am7,', 'A#7,', 'A#m7,',
+                'Bb,', 'Bbm,', 'B,', 'Bm,',
+                'Bb7,', 'Bbm7,', 'B7,', 'Bm7,',
+                'C,', 'Cm,', 'C#,', 'C#m,',
+                'C7,', 'Cm7,', 'C#7,', 'C#m7,',
+                'C9,', 'Cm9,', 'C#9,', 'C#m9,',
+                'Db,', 'Dbm,', 'D,', 'Dm,', 'D#,', 'D#m,',
+                'Db7,', 'Dbm7,', 'D7,', 'Dm7,', 'D#7,', 'D#m7,',
+                'Eb,', 'Ebm,', 'E,', 'Em,',
+                'Eb7,', 'Ebm7,', 'E7,', 'Em7,',
+                'F,', 'Fm,', 'F#,', 'F#m,',
+                'F7,', 'Fm7,', 'F#7,', 'F#m7,',
+                'Gb,', 'Gbm,', 'G,', 'Gm,', 'G#,', 'G#m,',
+                'Gb7,', 'Gbm7,', 'G7,', 'Gm7,', 'G#7,', 'G#m7,'
             ];
 
             $removerVirgulas = [
-                'A ', 'Am ', 'A# ', 'A#m ', 'Bb ', 'Bbm ', 'B ', 'Bm ', 'C ', 'Cm ', 'C# ', 'C#m ', 'Db ', 'Dbm ',
-                'D ', 'Dm ', 'D# ', 'D#m ', 'Eb ',
-                'Ebm ', 'E ', 'F ', 'Fm ', 'F# ', 'F#m ', 'Gb ', 'Gbm ', 'G ', 'Gm ', 'G# ', 'G#m ', 'Ab ', 'Abm ',
+                'Ab ', 'Abm ', 'A ', 'Am ', 'A# ', 'A#m ',
+                'Ab7 ', 'Abm7 ', 'A7 ', 'Am7 ', 'A#7 ', 'A#m7 ',
+                'Bb ', 'Bbm ', 'B ', 'Bm ',
+                'Bb7 ', 'Bbm7 ', 'B7 ', 'Bm7 ',
+                'C ', 'Cm ', 'C# ', 'C#m ',
+                'C7 ', 'Cm7 ', 'C#7 ', 'C#m7 ',
+                'C9 ', 'Cm9 ', 'C#9 ', 'C#m9 ',
+                'Db ', 'Dbm ', 'D ', 'Dm ', 'D# ', 'D#m ',
+                'Db7 ', 'Dbm7 ', 'D7 ', 'Dm7 ', 'D#7 ', 'D#m7 ',
+                'Eb ', 'Ebm ', 'E ', 'Em ',
+                'Eb7 ', 'Ebm7 ', 'E7 ', 'Em7 ',
+                'F ', 'Fm ', 'F# ', 'F#m ',
+                'F7 ', 'Fm7 ', 'F#7 ', 'F#m7 ',
+                'Gb ', 'Gbm ', 'G ', 'Gm ', 'G# ', 'G#m ',
+                'Gb7 ', 'Gbm7 ', 'G7 ', 'Gm7 ', 'G#7 ', 'G#m7 '
             ];
 
             $search = ['7M', '4', '(9)', 'º', '(#5)', 'Introdução: ', 'Instrumentos '];
@@ -188,15 +212,39 @@ class MusicaController
         if ($request['letra']) {
 
             $encontrarVirgula = [
-                'A,', 'Am,', 'A#,', 'A#m,', 'Bb,', 'Bbm,', 'B,', 'Bm,', 'C,', 'Cm,', 'C#,', 'C#m,', 'Db,', 'Dbm,',
-                'D,', 'Dm,', 'D#,', 'D#m,', 'Eb,',
-                'Ebm,', 'E,', 'F,', 'Fm,', 'F#,', 'F#m,', 'Gb,', 'Gbm,', 'G,', 'Gm,', 'G#,', 'G#m,', 'Ab,', 'Abm,',
+                'Ab,', 'Abm,', 'A,', 'Am,', 'A#,', 'A#m,',
+                'Ab7,', 'Abm7,', 'A7,', 'Am7,', 'A#7,', 'A#m7,',
+                'Bb,', 'Bbm,', 'B,', 'Bm,',
+                'Bb7,', 'Bbm7,', 'B7,', 'Bm7,',
+                'C,', 'Cm,', 'C#,', 'C#m,',
+                'C7,', 'Cm7,', 'C#7,', 'C#m7,',
+                'C9,', 'Cm9,', 'C#9,', 'C#m9,',
+                'Db,', 'Dbm,', 'D,', 'Dm,', 'D#,', 'D#m,',
+                'Db7,', 'Dbm7,', 'D7,', 'Dm7,', 'D#7,', 'D#m7,',
+                'Eb,', 'Ebm,', 'E,', 'Em,',
+                'Eb7,', 'Ebm7,', 'E7,', 'Em7,',
+                'F,', 'Fm,', 'F#,', 'F#m,',
+                'F7,', 'Fm7,', 'F#7,', 'F#m7,',
+                'Gb,', 'Gbm,', 'G,', 'Gm,', 'G#,', 'G#m,',
+                'Gb7,', 'Gbm7,', 'G7,', 'Gm7,', 'G#7,', 'G#m7,'
             ];
 
             $removerVirgulas = [
-                'A ', 'Am ', 'A# ', 'A#m ', 'Bb ', 'Bbm ', 'B ', 'Bm ', 'C ', 'Cm ', 'C# ', 'C#m ', 'Db ', 'Dbm ',
-                'D ', 'Dm ', 'D# ', 'D#m ', 'Eb ',
-                'Ebm ', 'E ', 'F ', 'Fm ', 'F# ', 'F#m ', 'Gb ', 'Gbm ', 'G ', 'Gm ', 'G# ', 'G#m ', 'Ab ', 'Abm ',
+                'Ab ', 'Abm ', 'A ', 'Am ', 'A# ', 'A#m ',
+                'Ab7 ', 'Abm7 ', 'A7 ', 'Am7 ', 'A#7 ', 'A#m7 ',
+                'Bb ', 'Bbm ', 'B ', 'Bm ',
+                'Bb7 ', 'Bbm7 ', 'B7 ', 'Bm7 ',
+                'C ', 'Cm ', 'C# ', 'C#m ',
+                'C7 ', 'Cm7 ', 'C#7 ', 'C#m7 ',
+                'C9 ', 'Cm9 ', 'C#9 ', 'C#m9 ',
+                'Db ', 'Dbm ', 'D ', 'Dm ', 'D# ', 'D#m ',
+                'Db7 ', 'Dbm7 ', 'D7 ', 'Dm7 ', 'D#7 ', 'D#m7 ',
+                'Eb ', 'Ebm ', 'E ', 'Em ',
+                'Eb7 ', 'Ebm7 ', 'E7 ', 'Em7 ',
+                'F ', 'Fm ', 'F# ', 'F#m ',
+                'F7 ', 'Fm7 ', 'F#7 ', 'F#m7 ',
+                'Gb ', 'Gbm ', 'G ', 'Gm ', 'G# ', 'G#m ',
+                'Gb7 ', 'Gbm7 ', 'G7 ', 'Gm7 ', 'G#7 ', 'G#m7 '
             ];
 
             $search = ['7M', '4', '(9)', 'º', '(#5)', 'Introdução: ', 'Instrumentos '];
