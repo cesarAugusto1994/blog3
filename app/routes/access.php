@@ -263,7 +263,7 @@ $app->match(
         $password = $encoder->encodePassword($request->get('password'), '');
 
         $usuario = new \Api\Entities\Usuarios();
-        $usuario->setNome($request->request->get('nome'));
+        $usuario->setNome(ucwords($request->request->get('nome')));
         $usuario->setEmail(strtolower($request->request->get('email')));
         $usuario->setPassword($password);
         $usuario->setAvatar('avatar.png');

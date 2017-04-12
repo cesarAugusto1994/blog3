@@ -68,7 +68,7 @@ class UsuariosController
         $usuario = $app['usuarios.repository']->find($request->get('id'));
 
         if ($request->get('nome') != $usuario->getNome()) {
-            $usuario->setNome($request->get('nome'));
+            $usuario->setNome(ucwords($request->get('nome')));
         }
 
         if ($request->get('email') != $usuario->getEmail()) {
