@@ -11,7 +11,6 @@ use Api\Entities\EmailEnviado;
 use Api\Entities\Login;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
-use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 $app->get('/login', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
@@ -74,15 +73,14 @@ $app->get('i-forgot-my-password', function () use ($app) {
 
 $app->get('/user/email-send-all', function () use ($app) {
 
-    $assunto = 'Bem vindo ao site!';
-    $from = 'cezzaar@gmail.com';
+    $assunto = 'Lembrete';
 
     $config = $app['config'];
 
     /**
      * @var Usuarios $usuario
      */
-    $usuarios = $app['usuarios.repository']->findAll();
+    $usuarios = $app['usuarios.repository']->findBy([], [], 200, 30);
 
     foreach ($usuarios as $usuario) {
 
@@ -92,15 +90,62 @@ $app->get('/user/email-send-all', function () use ($app) {
             'nome' => $usuario->getNome()
         ];
 
-        $body = $app['twig']->render('user/email_template.twig', $array);
+        $body = $app['twig']->render('user/email_user.html.twig', $array);
 
         $email = new Email($assunto, $app['email.padrao'], $body);
         $email->send($usuario->getEmail(), $app);
+
+        $emailEnviado = new EmailEnviado();
+        $emailEnviado->setUsuario($usuario);
+        $emailEnviado->setTipo($assunto);
+        $emailEnviado->setDataHora(new DateTime('now'));
+
+        $app['db']->beginTransaction();
+        $app['email.enviado.repository']->save($emailEnviado);
+        $app['db']->commit();
+
     }
 
     return $app->json([
         "classe" => "sucesso",
         "mensagem" => "E-mail enviado.",
+    ], 201);
+});
+
+$app->get('/user/email-send', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    $assunto = 'Lembrete';
+
+    $config = $app['config'];
+
+    /**
+     * @var Usuarios $usuario
+     */
+    $usuario = $app['usuarios.repository']->find($request->get('id'));
+
+    $array = [
+        'site' => $config->getNome(),
+        'lema' => $config->getSubtitulo(),
+        'nome' => $usuario->getNome()
+    ];
+
+    $body = $app['twig']->render('user/email_user.html.twig', $array);
+
+    $email = new Email($assunto, $app['email.padrao'], $body);
+    $email->send($usuario->getEmail(), $app);
+
+    $emailEnviado = new EmailEnviado();
+    $emailEnviado->setUsuario($usuario);
+    $emailEnviado->setTipo($assunto);
+    $emailEnviado->setDataHora(new DateTime('now'));
+
+    $app['db']->beginTransaction();
+    $app['email.enviado.repository']->save($emailEnviado);
+    $app['db']->commit();
+
+    return $app->json([
+        "classe" => "sucesso",
+        "message" => "E-mail enviado.",
     ], 201);
 });
 
@@ -219,7 +264,7 @@ $app->match(
 
         $usuario = new \Api\Entities\Usuarios();
         $usuario->setNome($request->request->get('nome'));
-        $usuario->setEmail($request->request->get('email'));
+        $usuario->setEmail(strtolower($request->request->get('email')));
         $usuario->setPassword($password);
         $usuario->setAvatar('avatar.png');
         $usuario->setCadastro(new \DateTime('now'));

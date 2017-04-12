@@ -72,7 +72,7 @@ class UsuariosController
         }
 
         if ($request->get('email') != $usuario->getEmail()) {
-            $usuario->setEmail($request->get('email'));
+            $usuario->setEmail(strtolower($request->request->get('email')));
         }
 
         if ($request->get('role') != $usuario->getRoles()) {

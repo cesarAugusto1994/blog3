@@ -9,51 +9,123 @@
 {% block content %}
 
     <section id="works" class="works">
-    <div class="container wow fadeInUp animated slide" data-wow-delay=".3s">
-    <div class="row">
+        <div class="container wow fadeInUp animated slide" data-wow-delay=".3s">
+            <div class="row">
 
-    <table class="table is-striped">
-    <thead>
-    <tr>
-        <th><abbr title="Position">ID</abbr></th>
-        <th>Nome</th>
-        <th><abbr title="Played">Email</abbr></th>
-        <th><abbr title="Won">Cadastro</abbr></th>
-        <th><abbr title="Drawn">Situacao</abbr></th>
-        <th><abbr title="Drawn">Opcoes</abbr></th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-        <th><abbr title="Position">ID</abbr></th>
-        <th>Nome</th>
-        <th><abbr title="Played">Email</abbr></th>
-        <th><abbr title="Won">Cadastro</abbr></th>
-        <th><abbr title="Drawn">Situacao</abbr></th>
-        <th><abbr title="Drawn">Opcoes</abbr></th>
-    </tr>
-    </tfoot>
-    <tbody>
-    {% for usuario in usuarios %}
-        <tr>
-            <td>{{ usuario.id }}</td>
-            <td><a href="{{ path('perfil', { id : usuario.id, nome : usuario.nome }) }}">{{ usuario.nome }}</a></td>
-            <td>{{ usuario.email }}</td>
-            <td>{{ usuario.cadastro|date('d/m/y H:i:s') }}</td>
-            <td>
-                <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-small"
-                   href="{{ path('usuario_status', { id : usuario.id }) }}"
-                   style="text-decoration: none">
-                    <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
-                </a></td>
-            <td><a class="button is-primary is-small"
-                   href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a></td>
-        </tr>
-        {% endfor %}
-        </tbody>
-        </table>
-        </div>
-        </div>
-        </section>
+                <a class="button is-danger is-small" id="btnEnviarEmailParaTodos"
+                   href="#">Enviar e-mail para todos</a>
+                <hr>
 
-        {% endblock %}
+                <table class="table is-striped">
+                    <thead>
+                    <tr>
+                        <th><abbr title="Position">ID</abbr></th>
+                        <th>Nome</th>
+                        <th><abbr title="Played">Email</abbr></th>
+                        <th><abbr title="Won">Cadastro</abbr></th>
+                        <th><abbr title="Drawn">Situacao</abbr></th>
+                        <th><abbr title="Drawn">Opcoes</abbr></th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th><abbr title="Position">ID</abbr></th>
+                        <th>Nome</th>
+                        <th><abbr title="Played">Email</abbr></th>
+                        <th><abbr title="Won">Cadastro</abbr></th>
+                        <th><abbr title="Drawn">Situacao</abbr></th>
+                        <th><abbr title="Drawn">Opcoes</abbr></th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.id }}</td>
+                            <td>
+                                <a href="{{ path('perfil', { id : usuario.id, nome : usuario.nome }) }}">{{ usuario.nome }}</a>
+                            </td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.cadastro|date('d/m/y H:i:s') }}</td>
+                            <td>
+                                <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-small"
+                                   href="{{ path('usuario_status', { id : usuario.id }) }}"
+                                   style="text-decoration: none">
+                                    <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
+                                </a></td>
+                            <td><a class="button is-primary is-small"
+                                   href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
+                                <button class="button is-small enviarEmail" value="{{ usuario.id }}">
+                                    Enviar Email
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#btnEnviarEmailParaTodos").click(enviarEmailParaTodosUsuarios);
+            $(".enviarEmail").click(function (e) {
+
+                e.preventDefault();
+                var id = $(this).val();
+
+                alertify.confirm("Deseja enviar um e-mail?", function () {
+
+
+                    block_screen();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/user/email-send?id=' + id,
+                        cache: false,
+                        success: function (data) {
+                            alertify.success(data.message);
+                            unblock_screen();
+                        },
+                        error: function () {
+                            unblock_screen();
+                            alertify.error("Ocorreu um erro.");
+                        }
+                    })
+
+                }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
+
+
+            })
+        });
+
+        function enviarEmailParaTodosUsuarios(e) {
+
+            e.preventDefault();
+
+            alertify.confirm("Deseja enviar e-mail para todos?", function () {
+
+                block_screen();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/user/email-send-all',
+                    cache: false,
+                    success: function (data) {
+                        alertify.success(data.message);
+                        unblock_screen();
+                    },
+                    error: function () {
+                        unblock_screen();
+                        alertify.error("Ocorreu um erro.");
+                    }
+                })
+
+            }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
+
+        }
+
+    </script>
+
+{% endblock %}
