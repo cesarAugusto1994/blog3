@@ -80,11 +80,11 @@ $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
 include __DIR__.'/routes/post.php';
 include __DIR__.'/routes/musica_admin.php';
 include __DIR__.'/routes/access.php';
-/*
+
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
     switch ($code) {
         case 400 :
-            $message = 'Ocorreu um erro no m&aacute;quina local.';
+            $message = 'Ocorreu um erro na m&aacute;quina local.';
             break;
         case 403 :
             $message = 'Acesso negado, Você não tem permissão para acessar esta página.';
@@ -103,4 +103,4 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
             break;
     }
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
-});*/
+});
