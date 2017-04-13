@@ -48,4 +48,6 @@ FileETag None
   </FilesMatch>
 </IfModule>
 
+AddType text/cache-manifest .manifest
+
 FallbackResource /web/index.php

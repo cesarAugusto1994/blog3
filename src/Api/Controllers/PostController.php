@@ -15,6 +15,7 @@ use App\Controllers\WorkWithStrings;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use App\Controllers\PagerController;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PostController
@@ -51,11 +52,9 @@ class PostController
     public function post($id, Application $app)
     {
         $post = $app['posts.repository']->find($id);
-        $links = $app['posts.links.repository']->findBy(['post' => $id]);
 
         return $app['twig']->render('/user/post.html.twig', [
             'post' => $post,
-            'links' => $links,
             'posts_relacionados' => []
         ]);
     }
@@ -158,7 +157,7 @@ class PostController
 
         $post->setTitulo($this->replaceSpecialStrings($request->get('titulo')));
         $post->setDescricao($request->get('descricao'));
-        $post->setConteudo(strip_tags($request->get('descricao')));
+        $post->setConteudo(($request->get('descricao')));
         $post->setAtualizado(new \DateTime('now'));
 
         if (!empty($_FILES['background']['size'])) {
@@ -191,7 +190,8 @@ class PostController
             }
         }
 
-        return $app->redirect('/user/post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
+        return $app->json(['message' => 'certo'], Response::HTTP_OK);
+
     }
     
     /**

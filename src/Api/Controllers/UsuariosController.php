@@ -75,8 +75,10 @@ class UsuariosController
             $usuario->setEmail(strtolower($request->request->get('email')));
         }
 
-        if ($request->get('role') != $usuario->getRoles()) {
-            $usuario->setRoles($request->get('role'));
+        if ("ROLE_ADMIN" == $app['usuario']->getRoles()) {
+            if ($request->get('role') != $usuario->getRoles()) {
+                $usuario->setRoles($request->get('role'));
+            }
         }
 
         if (!empty($_FILES['background']['size'])) {

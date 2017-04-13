@@ -1,0 +1,11 @@
+CACHE MANIFEST
+CACHE:
+./web/assets/blog/css/AdminLTE.min.css
+./web/assets/blog/css/bootstrap-switch.min.css
+./web/assets/blog/css/bulma.css
+./web/assets/blog/css/clean-blog.min.css
+./web/assets/blog/css/login.css
+./web/assets/blog/css/main.css
+./web/assets/blog/css/signin.css
+FALLBACK:
+/ /offline.html
