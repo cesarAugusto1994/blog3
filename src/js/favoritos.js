@@ -209,11 +209,7 @@ $(function () {
                                 btnEditar = <BtnEditar link={editarMusica}/>;
                                 btnMudarStatus = <MudarStatusMusica musica={favorito.musica} reloadMusica={_this.props.reloadMusicas}/>;
                             }
-/*
-                            btnRemoverDosFavoritos = (
-                                <BtnFavoritos musica={favorito.musica} handleFavoritos={_this.handleFavoritos}/>
-                            );
-*/
+
                             let musicaStr = favorito.musica.nome;
 
                             if (favorito.musica.numero) {

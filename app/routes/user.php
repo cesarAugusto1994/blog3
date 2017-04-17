@@ -10,6 +10,15 @@ use Api\Entities\Usuarios;
 
 $user = $app['controllers_factory'];
 
+$user->get('/{id}-{nome}/favorites', function($id, $nome) use ($app) {
+
+    $usuario = $app['usuarios.repository']->find($id);
+    $favorito = $app['favoritos.repository']->findBy(['usuario' => $usuario]);
+
+    return $app['twig']->render('/user/favoritos_user.html.twig', ['favoritos' => $favorito]);
+
+})->bind('user_favorites_2');
+
 $user->get('/{id}-{nome}', function($id, $nome) use($app) {
 
     $userSession = $app['session']->get('user');

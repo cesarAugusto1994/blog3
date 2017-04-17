@@ -1,0 +1,27 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Favoritos{% endblock %}
+
+{% block headerNome %}Favoritos{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="list-group">
+                        {% for favorito in favoritos %}
+
+                            <a href="/user/praise/{{ favorito.musica.id }}-{{ favorito.musica.nome|lower }}" class="list-group-item">
+                                {{ favorito.musica.numero }} {{ favorito.musica.nome }}
+                            </a>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

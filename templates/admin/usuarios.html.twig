@@ -20,21 +20,27 @@
                     <thead>
                     <tr>
                         <th><abbr title="Position">ID</abbr></th>
+                        <th>Foto</th>
                         <th>Nome</th>
                         <th><abbr title="Played">Email</abbr></th>
                         <th><abbr title="Won">Cadastro</abbr></th>
                         <th><abbr title="Drawn">Situacao</abbr></th>
-                        <th><abbr title="Drawn">Opcoes</abbr></th>
+                        <th><abbr title="Drawn">Atividades</abbr></th>
+                        <th><abbr title="Drawn">E-mail</abbr></th>
+                        <th><abbr title="Drawn">Favoritos</abbr></th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
                         <th><abbr title="Position">ID</abbr></th>
+                        <th>Foto</th>
                         <th>Nome</th>
                         <th><abbr title="Played">Email</abbr></th>
                         <th><abbr title="Won">Cadastro</abbr></th>
                         <th><abbr title="Drawn">Situacao</abbr></th>
-                        <th><abbr title="Drawn">Opcoes</abbr></th>
+                        <th><abbr title="Drawn">Atividades</abbr></th>
+                        <th><abbr title="Drawn">E-mail</abbr></th>
+                        <th><abbr title="Drawn">Favoritos</abbr></th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -54,12 +60,20 @@
                                    href="{{ path('usuario_status', { id : usuario.id }) }}"
                                    style="text-decoration: none">
                                     <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
-                                </a></td>
+                                </a>
+                            </td>
                             <td><a class="button is-primary is-small"
                                    href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
+                            </td>
+                            <td>
                                 <button class="button is-small enviarEmail" value="{{ usuario.id }}">
                                     Enviar Email
                                 </button>
+                            </td>
+                            <td>
+                                <a href="{{ path('user_favorites_2', { id : usuario.id, nome : usuario.nome }) }}" target="_blank" class="button is-small is-success">
+                                    Favoritos
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
