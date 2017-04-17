@@ -3333,7 +3333,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-light is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
+	                { className: 'button is-danger is-inverted is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
 	                'Inativar'
 	            );
 	        }
@@ -3345,7 +3345,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-light is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
+	                { className: 'button is-success is-inverted is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
 	                'Ativar'
 	            );
 	        }
@@ -3488,23 +3488,37 @@
 
 	            const _this = this;
 
+	            let btns = '';
+
 	            return React.createElement(
 	                'div',
 	                null,
 	                React.createElement(
-	                    'span',
-	                    null,
+	                    'div',
+	                    { className: 'list-group' },
 	                    _this.props.categoria.map(function (categoria) {
+
 	                        const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_');
+
+	                        if (_this.props.user == ROLE_ADMIN) {
+	                            btns = React.createElement(
+	                                'div',
+	                                { className: 'pull-right' },
+	                                React.createElement(MudarStatusCategoria, { categoria: categoria, reloadCategoria: _this.props.reloadCategoria }),
+	                                React.createElement(BtnEditar, { categoria: categoria, acao: _this.props.openModal }),
+	                                React.createElement(
+	                                    'span',
+	                                    { className: 'badge' },
+	                                    categoria.qtde_musicas
+	                                )
+	                            );
+	                        }
+
 	                        return React.createElement(
-	                            'div',
-	                            { key: categoria.id },
-	                            React.createElement(BlockCategorias, {
-	                                categoria: categoria,
-	                                musicasUrl: musicasUrl,
-	                                user: _this.props.user,
-	                                reloadCategoria: _this.props.reloadCategoria,
-	                                acao: _this.openModal })
+	                            'a',
+	                            { href: musicasUrl, key: categoria.id, className: 'list-group-item' },
+	                            categoria.nome,
+	                            btns
 	                        );
 	                    })
 	                )
@@ -4048,7 +4062,7 @@
 
 	            return React.createElement(
 	                "div",
-	                null,
+	                { className: "list-group" },
 	                this.props.data.map(function (musica) {
 
 	                    let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_');
@@ -4065,25 +4079,13 @@
 
 	                        btns = React.createElement(
 	                            "div",
-	                            { className: "control is-grouped is-centered" },
+	                            { className: "pull-right" },
+	                            React.createElement(MudarStatusMusica, { musica: musica, reloadMusica: _this.props.reloadMusicas }),
+	                            React.createElement(BtnEditar, { link: editarMusica }),
 	                            React.createElement(
-	                                "p",
-	                                { className: "control" },
-	                                React.createElement(MudarStatusMusica, { musica: musica, reloadMusica: _this.props.reloadMusicas })
-	                            ),
-	                            React.createElement(
-	                                "p",
-	                                { className: "control" },
-	                                React.createElement(BtnEditar, { link: editarMusica })
-	                            ),
-	                            React.createElement(
-	                                "p",
-	                                { className: "control" },
-	                                React.createElement(
-	                                    "span",
-	                                    { className: "tag is-light" },
-	                                    musica.qtde_anexos
-	                                )
+	                                "span",
+	                                { className: "badge" },
+	                                musica.qtde_anexos
 	                            )
 	                        );
 	                    }
@@ -4095,26 +4097,10 @@
 	                    }
 
 	                    return React.createElement(
-	                        "div",
-	                        { key: musica.id },
-	                        React.createElement(
-	                            "div",
-	                            { className: "wow fadeInLeft animated portfolio-item" },
-	                            React.createElement(
-	                                "div",
-	                                { className: "col-sm-12 col-xs-12" },
-	                                React.createElement(
-	                                    "h4",
-	                                    { className: "tile" },
-	                                    React.createElement(
-	                                        "a",
-	                                        { href: linkAnexos },
-	                                        musicaStr
-	                                    )
-	                                ),
-	                                btns
-	                            )
-	                        )
+	                        "a",
+	                        { href: linkAnexos, key: musica.id, className: "list-group-item" },
+	                        musicaStr,
+	                        btns
 	                    );
 	                })
 	            );

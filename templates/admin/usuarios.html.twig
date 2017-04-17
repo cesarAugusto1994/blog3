@@ -42,6 +42,9 @@
                         <tr>
                             <td>{{ usuario.id }}</td>
                             <td>
+                                <img style="min-height: 64px; max-height: 64px;" src="{% if usuario.avatar %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="media-object" alt="..." >
+                            </td>
+                            <td>
                                 <a href="{{ path('perfil', { id : usuario.id, nome : usuario.nome }) }}">{{ usuario.nome }}</a>
                             </td>
                             <td>{{ usuario.email }}</td>

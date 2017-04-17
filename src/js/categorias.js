@@ -27,7 +27,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-light is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
+                <a className="button is-danger is-inverted is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
             )
         }
 
@@ -37,7 +37,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-light is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Ativar</a>
+                <a className="button is-success is-inverted is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Ativar</a>
             )
         }
 
@@ -154,22 +154,34 @@ $(function () {
 
             const _this = this;
 
+            let btns = '';
+
+
+
             return (
                 <div>
-                <span>{ _this.props.categoria.map(function (categoria) {
-                    const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_');
-                    return (
-                        <div key={categoria.id}>
-                            <BlockCategorias
-                                categoria={categoria}
-                                musicasUrl={musicasUrl}
-                                user={_this.props.user}
-                                reloadCategoria={_this.props.reloadCategoria}
-                                acao={_this.openModal}/>
-                        </div>
-                    )
-                }) }</span>
+                    <div className="list-group">{ _this.props.categoria.map(function (categoria) {
 
+                        const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_');
+
+                        if (_this.props.user == ROLE_ADMIN) {
+                            btns = (
+                                <div className="pull-right">
+                                    <MudarStatusCategoria categoria={categoria} reloadCategoria={_this.props.reloadCategoria}/>
+                                    <BtnEditar categoria={categoria} acao={_this.props.openModal}/>
+                                    <span className="badge">{categoria.qtde_musicas}</span>
+                                </div>
+                            );
+                        }
+
+                        return (
+                            <a href={musicasUrl} key={categoria.id} className="list-group-item">
+                                {categoria.nome}
+                                {btns}
+                            </a>
+                        )
+                    }) }
+                    </div>
                 </div>
             )
         }

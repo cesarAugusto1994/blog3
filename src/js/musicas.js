@@ -152,7 +152,7 @@ $(function () {
             const _this = this;
 
             return (
-                <div>
+                <div className="list-group">
                     {
                         this.props.data.map(function (musica) {
 
@@ -165,19 +165,12 @@ $(function () {
                                 btnRegistros = <span className="tag is-light">{musica.qtde_anexos}</span>
 
                                 btns = (
-                                    <div className="control is-grouped is-centered">
-                                        <p className="control">
-                                            <MudarStatusMusica musica={musica} reloadMusica={_this.props.reloadMusicas}/>
-                                        </p>
-                                        <p className="control">
-                                            <BtnEditar link={editarMusica}/>
-                                        </p>
-                                        <p className="control">
-                                            <span className="tag is-light">{musica.qtde_anexos}</span>
-                                        </p>
+                                    <div className="pull-right">
+                                        <MudarStatusMusica musica={musica} reloadMusica={_this.props.reloadMusicas}/>
+                                        <BtnEditar link={editarMusica}/>
+                                        <span className="badge">{musica.qtde_anexos}</span>
                                     </div>
                                 );
-
                             }
 
                             let musicaStr = musica.nome;
@@ -187,18 +180,10 @@ $(function () {
                             }
 
                             return (
-                                <div key={musica.id}>
-                                    <div className="wow fadeInLeft animated portfolio-item">
-                                        <div className="col-sm-12 col-xs-12">
-                                            <h4 className="tile">
-                                                <a href={linkAnexos}>
-                                                    {musicaStr}
-                                                </a>
-                                            </h4>
-                                            {btns}
-                                        </div>
-                                    </div>
-                                </div>
+                                <a href={linkAnexos} key={musica.id} className="list-group-item">
+                                    {musicaStr}
+                                    {btns}
+                                </a>
                             )
                         })
                     }

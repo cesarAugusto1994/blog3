@@ -218,6 +218,10 @@ $app['dir.base2'] = function () use ($app) {
     return '/web';
 };
 
+$app['dir.base3'] = function () use ($app) {
+    return 'https://coletaneaicm.com/web/';
+};
+
 $app['database'] = function () use ($app) {
     return [
         'dbname' => 'blogcezzaar',
@@ -235,7 +239,7 @@ $app['dir.post'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/img/posts/';
 };
 $app['dir.avatar'] = function () use ($app) {
-    return $app['dir.base'] . 'assets/blog/img/avatar/';
+    return $app['dir.base3'] . 'assets/blog/img/avatar/';
 };
 $app['dir.widgets'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/img/widgets/';
