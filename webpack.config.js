@@ -7,6 +7,7 @@ module.exports = {
         "./src/js/password",
         "./src/js/template",
         "./src/js/user",
+        "./src/js/search",
         "./src/js/anexos",
         "./src/js/view",
         "./src/js/categorias",

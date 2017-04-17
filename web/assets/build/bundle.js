@@ -61,7 +61,8 @@
 	__webpack_require__(15);
 	__webpack_require__(16);
 	__webpack_require__(17);
-	module.exports = __webpack_require__(18);
+	__webpack_require__(18);
+	module.exports = __webpack_require__(19);
 
 
 /***/ },
@@ -1675,6 +1676,97 @@
 /***/ function(module, exports) {
 
 	/**
+	 * Created by cesar on 17/04/17.
+	 */
+
+	$(function () {
+
+	    const ContainnerSearch = React.createClass({
+	        displayName: "ContainnerSearch",
+
+
+	        render: function () {
+
+	            return React.createElement(
+	                "div",
+	                { className: "col-lg-2 col-md-4 col-sm-12" },
+	                React.createElement(
+	                    "form",
+	                    null,
+	                    React.createElement(
+	                        "label",
+	                        null,
+	                        "test",
+	                        React.createElement("input", { type: "text" })
+	                    )
+	                )
+	            );
+	        }
+	    });
+
+	    const ContainnerResource = React.createClass({
+	        displayName: "ContainnerResource",
+
+
+	        render: function () {
+
+	            return React.createElement(
+	                "div",
+	                { className: "col-lg-10 col-md-8 col-sm-12" },
+	                "\xC9 um fato conhecido de todos que um leitor se distrair\xE1 com o conte\xFAdo de texto leg\xEDvel de uma p\xE1gina quando estiver examinando sua diagrama\xE7\xE3o. A vantagem de usar Lorem Ipsum \xE9 que ele tem uma distribui\xE7\xE3o normal de letras, ao contr\xE1rio de \"Conte\xFAdo aqui, conte\xFAdo aqui\", fazendo com que ele tenha uma apar\xEAncia similar a de um texto leg\xEDvel. Muitos softwares de publica\xE7\xE3o e editores de p\xE1ginas na internet agora usam Lorem Ipsum como texto-modelo padr\xE3o, e uma r\xE1pida busca por 'lorem ipsum' mostra v\xE1rios websites ainda em sua fase de constru\xE7\xE3o. V\xE1rias vers\xF5es novas surgiram ao longo dos anos, eventualmente por acidente, e \xE0s vezes de prop\xF3sito (injetando humor, e coisas do g\xEAnero)."
+	            );
+	        }
+
+	    });
+
+	    const Containner = React.createClass({
+	        displayName: "Containner",
+
+
+	        render: function () {
+
+	            return React.createElement(
+	                "div",
+	                null,
+	                React.createElement(ContainnerSearch, null),
+	                React.createElement(ContainnerResource, null)
+	            );
+	        }
+
+	    });
+
+	    const Render = React.createClass({
+	        displayName: "Render",
+
+
+	        render: function () {
+	            return React.createElement(
+	                "article",
+	                null,
+	                React.createElement(
+	                    "div",
+	                    { className: "container" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "row" },
+	                        React.createElement(ContainnerSearch, null),
+	                        React.createElement(ContainnerResource, null)
+	                    )
+	                )
+	            );
+	        }
+	    });
+
+	    if (document.getElementById('search')) {
+	        ReactDOM.render(React.createElement(Render, null), document.getElementById('search'));
+	    }
+	});
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	/**
 	 * Created by cesar on 20/10/16.
 	 */
 
@@ -3142,7 +3234,7 @@
 	});
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	
@@ -3298,7 +3390,7 @@
 	}
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -3625,7 +3717,7 @@
 	});
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -3886,7 +3978,7 @@
 	});
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -4197,7 +4289,7 @@
 	});
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -4535,7 +4627,7 @@
 	});
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -4686,7 +4778,7 @@
 	}
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -4848,7 +4940,7 @@
 	}
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -5070,7 +5162,7 @@
 	}
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/**
@@ -5819,7 +5911,7 @@
 	}
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/**
@@ -6303,7 +6395,7 @@
 	});
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	/**
