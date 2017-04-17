@@ -132,6 +132,9 @@ $app['status.email.repository'] = function () use ($app) {
 $app['sugestao.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\Sugestao::class);
 };
+$app['sugestao.resposta.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\SugestaoResposta::class);
+};
 $app['login.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\Login::class);
 };

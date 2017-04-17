@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Api\Repositories\SugestaoRepository")
  * @ORM\Table(name="sugestao")
  */
-class Sugestao
+class Sugestao implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -38,6 +38,18 @@ class Sugestao
      * @var string
      */
     private $mensagem;
+
+    /**
+     * @ORM\Column(name="enviada_em", type="datetime", nullable=true)
+     * @var \DateTime
+     */
+    private $enviadaEm;
+
+    /**
+     * @ORM\Column(name="respondida", type="boolean")
+     * @var bool
+     */
+    private $respondida;
 
     /**
      * @return int
@@ -77,5 +89,49 @@ class Sugestao
     public function setMensagem($mensagem)
     {
         $this->mensagem = $mensagem;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEnviadaEm()
+    {
+        return $this->enviadaEm;
+    }
+
+    /**
+     * @param \DateTime $enviadaEm
+     */
+    public function setEnviadaEm($enviadaEm)
+    {
+        $this->enviadaEm = $enviadaEm;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRespondida()
+    {
+        return $this->respondida;
+    }
+
+    /**
+     * @param bool $respondida
+     */
+    public function setRespondida($respondida)
+    {
+        $this->respondida = $respondida;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "mensagem" => $this->mensagem,
+            "usuario" => $this->usuario->getId(),
+        ];
     }
 }

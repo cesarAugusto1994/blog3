@@ -676,7 +676,7 @@ $(function () {
             const _this = this;
 
             return (
-                <div>
+                <ul className="list-group">
                     {this.props.anexos.map(function (anexo) {
 
                         let arquivo = _this.props.dirAnexos + anexo.nome;
@@ -704,27 +704,20 @@ $(function () {
                         }
 
                         return (
-                            <div key={anexo.id}>
-                                <div className="media">
-                                    <ImagemArquivo anexo={anexo}/>
-                                    <div className="media-body">
-                                        <p className="lead">{anexo.nome}
-                                            <a className="button is-light is-small is-pulled-right">{anexo.cadastro}</a>
-                                            <br />
-                                            <small>Enviado por { anexo.usuario } em { anexo.cadastro }</small>
-                                        </p>
-                                        {visualzar}
-                                        {link}
-                                        {btn}
-                                    </div>
-                                </div>
-                            </div>
+                            <li className="list-group-item" key={anexo.id}>
+                                <p>{anexo.nome}</p>
+                                <p>
+                                <small>Enviado por { anexo.usuario } em { anexo.cadastro }</small>
+                                {visualzar}
+                                {link}
+                                {btn}
+                                </p>
+                            </li>
                         )
                     })}
-                </div>
+                </ul>
             );
         }
-
     });
 
     const ViewOpcoes = React.createClass({
@@ -880,7 +873,7 @@ $(function () {
                     <br/>
                     <div>
                         <ul className="tabs is-toggle is-fullwidth" role="tablist">
-                            <li role="presentation" className="is-active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Letra</a></li>
+                            <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Letra</a></li>
                             <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arquivos</a></li>
                             <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Informações</a></li>
                         </ul>

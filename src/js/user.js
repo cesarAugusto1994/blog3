@@ -166,6 +166,12 @@ $(function () {
                             return (
                                 <div key={colecao.id} className="col-sm-4 col-xs-12">
                                     <figure className="wow fadeInLeft animated portfolio-item">
+                                        <div className="img-wrapper">
+                                            <a href={linkToCategorias}>
+                                                <img style={StyleImg} src={root} className="img-responsive" alt="this is a title" />
+                                                <div className="overlay"></div>
+                                            </a>
+                                        </div>
                                         <figcaption>
                                             <h2>
                                                 <a href={linkToCategorias}>
@@ -210,20 +216,18 @@ $(function () {
             return (
                 <div>
                     <Card sectionName="Adicionadas Recentemente">
-                        <table className="table is-striped">
-                            <tbody>
+                        <div className="list-group col-md-12">
                             { this.state.data.map(function (musica) {
 
                                 linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
 
                                 return (
-                                    <tr key={musica.id}>
-                                        <td><a className="lead" href={linkToAnexos}>{ musica.numero } - { musica.nome }</a></td>
-                                    </tr>
+                                    <a href={linkToAnexos} key={musica.id} className="list-group-item">
+                                        { musica.numero } { musica.nome }
+                                    </a>
                                 )
                             }) }
-                            </tbody>
-                        </table>
+                        </div>
                     </Card>
                 </div>
             )

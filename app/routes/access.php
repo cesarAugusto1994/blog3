@@ -11,6 +11,7 @@ use Api\Entities\EmailEnviado;
 use Api\Entities\Login;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 $app->get('/login', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
@@ -300,7 +301,12 @@ $app->match(
         return $app->json(
             [
                 'class' => 'success',
-                'user' => ['username' => $usuario->getEmail(), 'password' => $usuario->getPassword()],
+                'user' => [
+                    'username' => $usuario->getEmail(),
+                    'password' => $usuario->getPassword(),
+                    'id' => $usuario->getId(),
+                    'nome' => $usuario->getNome()
+                ],
                 'message' => 'Usuario Registrado'
             ]
         );
@@ -351,7 +357,12 @@ $app->post(
         return $app->json(
             [
                 'class' => 'success',
-                'user' => ['username' => $user->getEmail(), 'password' => $user->getPassword()],
+                'user' => [
+                    'username' => $user->getEmail(),
+                    'password' => $user->getPassword(),
+                    'id' => $user->getId(),
+                    'nome' => $user->getNome()
+                ],
                 'message' => 'Usuario Registrado'
             ]
         );

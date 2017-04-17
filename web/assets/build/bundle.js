@@ -302,7 +302,7 @@
 	                        { className: "col-md-12 text-center" },
 	                        React.createElement(
 	                            "div",
-	                            { className: "block wow fadeInUp", "data-wow-delay": ".3s" },
+	                            { className: "block wow fadeInUp" },
 	                            React.createElement(
 	                                "section",
 	                                { className: "cd-intro" },
@@ -324,7 +324,7 @@
 	                                    ),
 	                                    React.createElement(
 	                                        "div",
-	                                        { className: "register-box-body", style: StyleForm },
+	                                        { className: "register-box-body" },
 	                                        React.createElement(
 	                                            "p",
 	                                            { className: "login-box-msg" },
@@ -402,6 +402,9 @@
 	            data: $("#form").serialize(),
 	            cache: false,
 	            success: function (data) {
+
+	                let id = data.user.id;
+	                let nome = data.user.nome;
 
 	                $.ajax({
 	                    type: 'POST',
@@ -494,7 +497,7 @@
 	                    React.createElement(
 	                        "a",
 	                        { href: "login", className: "button is-primary is-link is-fullwidth" },
-	                        "J\xE1 possuo Conta!"
+	                        "J\xE1 possuo conta!"
 	                    )
 	                ),
 	                React.createElement(
@@ -1110,6 +1113,15 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
+	                                    { href: '/user/sugestoes' },
+	                                    'Sugest\xF5es'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
 	                                    { href: '/admin/post/form' },
 	                                    'Novo Post'
 	                                )
@@ -1538,6 +1550,16 @@
 	                                "figure",
 	                                { className: "wow fadeInLeft animated portfolio-item" },
 	                                React.createElement(
+	                                    "div",
+	                                    { className: "img-wrapper" },
+	                                    React.createElement(
+	                                        "a",
+	                                        { href: linkToCategorias },
+	                                        React.createElement("img", { style: StyleImg, src: root, className: "img-responsive", alt: "this is a title" }),
+	                                        React.createElement("div", { className: "overlay" })
+	                                    )
+	                                ),
+	                                React.createElement(
 	                                    "figcaption",
 	                                    null,
 	                                    React.createElement(
@@ -1593,32 +1615,20 @@
 	                    Card,
 	                    { sectionName: "Adicionadas Recentemente" },
 	                    React.createElement(
-	                        "table",
-	                        { className: "table is-striped" },
-	                        React.createElement(
-	                            "tbody",
-	                            null,
-	                            this.state.data.map(function (musica) {
+	                        "div",
+	                        { className: "list-group col-md-12" },
+	                        this.state.data.map(function (musica) {
 
-	                                linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
+	                            linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
 
-	                                return React.createElement(
-	                                    "tr",
-	                                    { key: musica.id },
-	                                    React.createElement(
-	                                        "td",
-	                                        null,
-	                                        React.createElement(
-	                                            "a",
-	                                            { className: "lead", href: linkToAnexos },
-	                                            musica.numero,
-	                                            " - ",
-	                                            musica.nome
-	                                        )
-	                                    )
-	                                );
-	                            })
-	                        )
+	                            return React.createElement(
+	                                "a",
+	                                { href: linkToAnexos, key: musica.id, className: "list-group-item" },
+	                                musica.numero,
+	                                " ",
+	                                musica.nome
+	                            );
+	                        })
 	                    )
 	                )
 	            );
@@ -2622,8 +2632,8 @@
 	            const _this = this;
 
 	            return React.createElement(
-	                'div',
-	                null,
+	                'ul',
+	                { className: 'list-group' },
 	                this.props.anexos.map(function (anexo) {
 
 	                    let arquivo = _this.props.dirAnexos + anexo.nome;
@@ -2651,44 +2661,32 @@
 	                    }
 
 	                    return React.createElement(
-	                        'div',
-	                        { key: anexo.id },
+	                        'li',
+	                        { className: 'list-group-item', key: anexo.id },
 	                        React.createElement(
-	                            'div',
-	                            { className: 'media' },
-	                            React.createElement(ImagemArquivo, { anexo: anexo }),
+	                            'p',
+	                            null,
+	                            anexo.nome
+	                        ),
+	                        React.createElement(
+	                            'p',
+	                            null,
 	                            React.createElement(
-	                                'div',
-	                                { className: 'media-body' },
-	                                React.createElement(
-	                                    'p',
-	                                    { className: 'lead' },
-	                                    anexo.nome,
-	                                    React.createElement(
-	                                        'a',
-	                                        { className: 'button is-light is-small is-pulled-right' },
-	                                        anexo.cadastro
-	                                    ),
-	                                    React.createElement('br', null),
-	                                    React.createElement(
-	                                        'small',
-	                                        null,
-	                                        'Enviado por ',
-	                                        anexo.usuario,
-	                                        ' em ',
-	                                        anexo.cadastro
-	                                    )
-	                                ),
-	                                visualzar,
-	                                link,
-	                                btn
-	                            )
+	                                'small',
+	                                null,
+	                                'Enviado por ',
+	                                anexo.usuario,
+	                                ' em ',
+	                                anexo.cadastro
+	                            ),
+	                            visualzar,
+	                            link,
+	                            btn
 	                        )
 	                    );
 	                })
 	            );
 	        }
-
 	    });
 
 	    const ViewOpcoes = React.createClass({
@@ -2865,7 +2863,7 @@
 	                        { className: 'tabs is-toggle is-fullwidth', role: 'tablist' },
 	                        React.createElement(
 	                            'li',
-	                            { role: 'presentation', className: 'is-active' },
+	                            { role: 'presentation' },
 	                            React.createElement(
 	                                'a',
 	                                { href: '#home', 'aria-controls': 'home', role: 'tab', 'data-toggle': 'tab' },

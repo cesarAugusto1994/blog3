@@ -1,0 +1,52 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Sugestão{% endblock %}
+{% block headerNome %}Sugestão{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if mensagem is defined %}
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">Mensagem</div>
+                            <div class="panel-body">
+                                {{ mensagem }}
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Sugestão de {{ usuario.nome }}</div>
+                        <div class="panel-body">
+                            {{ sugestao.mensagem }}
+                        </div>
+                    </div>
+
+                    <form method="post" class="form-horizontal wow fadeInUp animated slide"
+                          action="{{ path('form_sugestao_responder') }}">
+                        <input type="hidden" name="sugestaoId" value="{{ sugestao.id }}"/>
+                        <input type="hidden" name="user" value="{{ usuario.id }}"/>
+                        <p class="control">
+                            <span>Responder:</span>
+                        </p>
+                        <p class="control">
+                                <textarea class="textarea" name="mensagem" autofocus id="mensagem" ref="mensagem"
+                                          placeholder="Enviar Mensagem"></textarea>
+                        </p>
+                        <p class="control">
+                            <button class="button is-danger is-fullwidth" type="submit">Enviar</button>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

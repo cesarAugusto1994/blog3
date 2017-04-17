@@ -20,7 +20,7 @@ var Register = React.createClass({
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12 text-center">
-                            <div className="block wow fadeInUp" data-wow-delay=".3s">
+                            <div className="block wow fadeInUp">
                                 <section className="cd-intro">
                                     <div className="login-box">
 
@@ -28,7 +28,7 @@ var Register = React.createClass({
                                             <a href="/"><b>{this.props.app}</b></a>
                                         </div>
 
-                                        <div className="register-box-body" style={StyleForm}>
+                                        <div className="register-box-body">
                                             <p className="login-box-msg">Registrar novo usu&aacute;rio</p>
                                             <FormRegister />
                                         </div>
@@ -102,6 +102,9 @@ var FormRegister = React.createClass({
             data : $("#form").serialize(),
             cache: false,
             success: function (data) {
+
+                let id = data.user.id;
+                let nome = data.user.nome;
 
                 $.ajax({
                     type: 'POST',
@@ -182,7 +185,7 @@ var FormRegister = React.createClass({
                 </div>
                 <div className="row">
                     <div className="col-xs-6">
-                        <a href="login" className="button is-primary is-link is-fullwidth">Já possuo Conta!</a>
+                        <a href="login" className="button is-primary is-link is-fullwidth">Já possuo conta!</a>
                     </div>
                     <div className="col-xs-6">
                         <button type="submit" id="btnSubmit" className="button is-success is-outlined is-fullwidth">Salvar</button>
