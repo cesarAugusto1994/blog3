@@ -14,7 +14,7 @@
                     <span class="sr-only">Toggle navigation</span><i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand"
-                   href="{{ path('home') }}">{{ app['config'].nome }}</a>
+                   href="{{ path('palavra') }}">{{ app['blog2'].nome }}</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
@@ -38,7 +38,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="{{ path('perfil', { user : app['usuario.sessao'].id }) }}">Perfil</a>
+                                    <a href="{{ path('perfil', { id : app.usuario.id, nome : app.usuario.nome }) }}">Perfil</a>
                                 </li>
                                 <li>
                                     <a href="{{ path('usuario_atividades', { user : app['usuario.sessao'].id }) }}">Atividades</a>
@@ -66,22 +66,7 @@
         </div>
     </nav>
 
-    {% block header %}
-        <header class="intro-header"
-                style="background-image: url('{% if app.config.background is not null %}{{ asset(app.dir.img ~ app.config.background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                        <div class="site-heading">
-                            <h1>{% block headerNome %}{% endblock %}</h1>
-                            <hr class="small">
-                            <span class="subheading">{% block headerSubtitulo %}{% endblock %}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-    {% endblock %}
+    {% block header %}{% endblock %}
 
     {% block content %}{% endblock %}
 

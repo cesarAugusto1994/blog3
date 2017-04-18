@@ -1,0 +1,65 @@
+{% extends 'blog/template.html.twig' %}
+
+    {% block header %}
+        <header class="intro-header"
+                style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="site-heading">
+                            <h1>{{ app['blog2'].nome }}</h1>
+                            <hr class="small">
+                            <span class="subheading">{{ app['blog2'].subtitulo }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                <h3>{% if message is defined %}{{ message }}{% endif %}</h3>
+
+                {% for post in posts %}
+                    <div class="post-preview">
+                        <a href="{{ path('palavra_post', { postId : post.id, postTitulo : post.titulo|lower|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}">
+                            <h2 class="post-title">
+                                {{ post.titulo }}
+                            </h2>
+                            <h3 class="post-subtitle">
+                                {{ post.conteudo|slice(0, 300)|trim|raw }} {% if post.conteudo|length > 300 %}[...]{% endif %}
+                            </h3>
+                        </a>
+                        {% if post.usuario.id is defined %}
+                            <p class="post-meta">Posted by {{ post.usuario.nome }}
+                                &agrave; {{ post.tempoPostagem }}</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="post-preview">
+                        <h2 class="post-title">Nenhum Post encontrado.</h2>
+                    </div>
+                {% endfor %}
+                <ul class="pager">
+                    {% if firstPage is defined and firstPage > 0 %}
+                        <li class="previous">
+                            <a href="{{ path('palavra_page', { 'page' : firstPage }) }}">&xlarr; Newer Posts</a>
+                        </li>
+                    {% endif %}
+                    {% if nextPage is defined and nextPage > 0 %}
+                        <li class="next">
+                            <a href="{{ path('palavra_page', { 'page' : nextPage }) }}">Older Posts &xrarr;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

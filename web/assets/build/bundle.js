@@ -966,7 +966,8 @@
 	                )
 	            );
 	        }
-	    };
+	    }
+	    ;
 
 	    class NavbarHeader extends React.Component {
 
@@ -1156,7 +1157,8 @@
 	                        )
 	                    )
 	                );
-	            };
+	            }
+	            ;
 
 	            var access = {
 	                label: "login",
@@ -1220,17 +1222,35 @@
 	            return React.createElement(
 	                MainMenu,
 	                null,
-	                this.state.data.map(function (menu) {
-	                    return React.createElement(
-	                        'li',
-	                        { key: menu.id },
+	                React.createElement(
+	                    'li',
+	                    { className: 'dropdown' },
+	                    React.createElement(
+	                        'a',
+	                        { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown' },
+	                        'Menu',
+	                        React.createElement('span', { className: 'caret' })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'dropdown-menu' },
 	                        React.createElement(
-	                            'a',
-	                            { href: "/user/" + menu.url },
-	                            menu.nome
+	                            'ul',
+	                            null,
+	                            this.state.data.map(function (menu) {
+	                                return React.createElement(
+	                                    'li',
+	                                    { key: menu.id },
+	                                    React.createElement(
+	                                        'a',
+	                                        { href: "/user/" + menu.url },
+	                                        menu.nome
+	                                    )
+	                                );
+	                            })
 	                        )
-	                    );
-	                }),
+	                    )
+	                ),
 	                admin,
 	                userProfile,
 	                React.createElement(
@@ -1265,7 +1285,8 @@
 	                CardMenu,
 	                null,
 	                React.createElement(NavbarHeader, { configNome: this.props.configNome, configImg: this.props.configImg }),
-	                React.createElement(Menu, { user: this.props.user, dirAvatar: this.props.dirAvatar, avatarDefault: this.props.avatarDefault, pesquisar: this.props.pesquisar })
+	                React.createElement(Menu, { user: this.props.user, dirAvatar: this.props.dirAvatar,
+	                    avatarDefault: this.props.avatarDefault, pesquisar: this.props.pesquisar })
 	            );
 	        }
 
@@ -1838,7 +1859,7 @@
 
 	        render: function () {
 
-	            modal = React.createElement(
+	            let modal = React.createElement(
 	                'div',
 	                { id: 'modal-musicas', className: 'modal fade', tabIndex: '-1' },
 	                React.createElement(
@@ -2863,11 +2884,11 @@
 	                        { className: 'tabs is-toggle is-fullwidth', role: 'tablist' },
 	                        React.createElement(
 	                            'li',
-	                            { role: 'presentation' },
+	                            { role: 'presentation', className: 'active' },
 	                            React.createElement(
 	                                'a',
-	                                { href: '#home', 'aria-controls': 'home', role: 'tab', 'data-toggle': 'tab' },
-	                                'Letra'
+	                                { href: '#profile', 'aria-controls': 'profile', role: 'tab', 'data-toggle': 'tab' },
+	                                'Arquivos'
 	                            )
 	                        ),
 	                        React.createElement(
@@ -2875,8 +2896,8 @@
 	                            { role: 'presentation' },
 	                            React.createElement(
 	                                'a',
-	                                { href: '#profile', 'aria-controls': 'profile', role: 'tab', 'data-toggle': 'tab' },
-	                                'Arquivos'
+	                                { href: '#home', 'aria-controls': 'home', role: 'tab', 'data-toggle': 'tab' },
+	                                'Letra'
 	                            )
 	                        ),
 	                        React.createElement(
@@ -2894,13 +2915,13 @@
 	                        { className: 'tab-content' },
 	                        React.createElement(
 	                            'div',
-	                            { role: 'tabpanel', className: 'tab-pane active', id: 'home' },
-	                            cardLetra
+	                            { role: 'tabpanel', className: 'tab-pane active', id: 'profile' },
+	                            cardArquivos
 	                        ),
 	                        React.createElement(
 	                            'div',
-	                            { role: 'tabpanel', className: 'tab-pane', id: 'profile' },
-	                            cardArquivos
+	                            { role: 'tabpanel', className: 'tab-pane', id: 'home' },
+	                            cardLetra
 	                        ),
 	                        React.createElement(
 	                            'div',

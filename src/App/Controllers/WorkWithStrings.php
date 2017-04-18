@@ -28,7 +28,7 @@ trait WorkWithStrings
         array_pop($this->target);
         array_pop($this->replace);
         
-        return $formatedString;
+        return strtolower($formatedString);
     }
     
 }

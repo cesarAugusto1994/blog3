@@ -101,6 +101,12 @@ class Musica implements \JsonSerializable
      * @var boolean
      */
     private $novo;
+
+    /**
+     * @ORM\Column(name="apenas_anexos", type="boolean")
+     * @var boolean
+     */
+    private $apenasAnexos;
     
     /**
      * @ORM\Column(name="ativo", type="boolean")
@@ -310,6 +316,22 @@ class Musica implements \JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function isApenasAnexos()
+    {
+        return $this->apenasAnexos;
+    }
+
+    /**
+     * @param bool $apenasAnexos
+     */
+    public function setApenasAnexos($apenasAnexos)
+    {
+        $this->apenasAnexos = $apenasAnexos;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()
@@ -323,7 +345,8 @@ class Musica implements \JsonSerializable
             "album" => $this->album,
             "tom" => $this->tom,
             "qtde_anexos" => $this->getCountAnexos(),
-            "ativo" => $this->ativo
+            "ativo" => $this->ativo,
+            "apenas_anexos" => $this->apenasAnexos
         ];
     }
 }

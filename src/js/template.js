@@ -27,7 +27,8 @@ $(function () {
                 </header>
             )
         }
-    };
+    }
+    ;
 
     class NavbarHeader extends React.Component {
 
@@ -124,7 +125,8 @@ $(function () {
                         </ul>
                     </div>
                 </li>
-            };
+            }
+            ;
 
             var access = {
                 label: "login",
@@ -153,11 +155,19 @@ $(function () {
 
             return (
                 <MainMenu>
-                    { this.state.data.map(function (menu) {
-                        return (
-                            <li key={menu.id}><a href={ "/user/" + menu.url}>{menu.nome}</a></li>
-                        )
-                    }) }
+                    <li className="dropdown">
+                        <a href="#" className="dropdown-toggle" data-toggle="dropdown">Menu
+                            <span className="caret"></span></a>
+                        <div className="dropdown-menu">
+                            <ul>
+                                { this.state.data.map(function (menu) {
+                                    return (
+                                        <li key={menu.id}><a href={ "/user/" + menu.url}>{menu.nome}</a></li>
+                                    )
+                                }) }
+                            </ul>
+                        </div>
+                    </li>
                     {admin}
                     {userProfile}
                     <li><a href={this.props.pesquisar}>Pesquisar</a></li>
@@ -174,7 +184,8 @@ $(function () {
             return (
                 <CardMenu>
                     <NavbarHeader configNome={this.props.configNome} configImg={this.props.configImg}/>
-                    <Menu user={this.props.user} dirAvatar={this.props.dirAvatar} avatarDefault={this.props.avatarDefault} pesquisar={this.props.pesquisar}/>
+                    <Menu user={this.props.user} dirAvatar={this.props.dirAvatar}
+                          avatarDefault={this.props.avatarDefault} pesquisar={this.props.pesquisar}/>
                 </CardMenu>
             )
         }

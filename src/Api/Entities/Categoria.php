@@ -47,6 +47,12 @@ class Categoria implements \JsonSerializable
     private $musicas;
 
     /**
+     * @ORM\Column(name="apenas_anexos", type="boolean")
+     * @var boolean
+     */
+    private $apenasAnexos;
+
+    /**
      * @ORM\Column(name="ativo", type="smallint")
      * @var int
      */
@@ -131,6 +137,22 @@ class Categoria implements \JsonSerializable
     {
        return count($this->musicas);
     }
+
+    /**
+     * @return bool
+     */
+    public function isApenasAnexos()
+    {
+        return $this->apenasAnexos;
+    }
+
+    /**
+     * @param bool $apenasAnexos
+     */
+    public function setApenasAnexos($apenasAnexos)
+    {
+        $this->apenasAnexos = $apenasAnexos;
+    }
     
     /**
      * @return array
@@ -142,7 +164,8 @@ class Categoria implements \JsonSerializable
             "nome" => $this->nome,
             "qtde_musicas" => $this->getCountMusicas(),
             "colecao" => $this->colecao,
-            "ativo" => $this->ativo
+            "ativo" => $this->ativo,
+            "apenas_anexos" => $this->apenasAnexos
         ];
     }
 }

@@ -164,7 +164,7 @@ $app['menus'] = function () use ($app) {
 
 $app['config'] = function () use ($app) {
     $configs = $app['config.repository']->findAll();
-    return end($configs);
+    return $configs[0];
 };
 
 $app['widgets'] = function () use ($app) {
@@ -173,12 +173,17 @@ $app['widgets'] = function () use ($app) {
 
 $app['nome.blog'] = function () use ($app) {
     $default = $app['config.repository']->findAll();
-    return $default[0]->getNome() ?: 'Blog';
+    return $default[0]->getNome() ?: 'Coletânea ICM';
 };
 
 $app['blog'] = function () use ($app) {
     $default = $app['config.repository']->findAll();
     return $default[0] ?: [];
+};
+
+$app['blog2'] = function () use ($app) {
+    $default = $app['config.repository']->findAll();
+    return $default[1] ?: [];
 };
 
 $app['background'] = function () use ($app) {

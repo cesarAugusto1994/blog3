@@ -35,7 +35,7 @@ class PostController
         $pager = $app['pager.Controller'];
         $pager->pager($app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']), $page);
     
-        return $app['twig']->render('/user/posts.html.twig', [
+        return $app['twig']->render('/blog/index.html.twig', [
             'posts' => $app['posts.repository']->getAll($pager->getOffset(), $pager->getLimit()),
             'firstPage' => $pager->getFirstPage(),
             'nextPage' => $pager->getNextPage(),
@@ -151,13 +151,16 @@ class PostController
     public function editar(Request $request, Application $app)
     {
         /**
-         * Posts $post
+         * Post $post
          */
         $post = $app['posts.repository']->find($request->get('id'));
 
+        $search = '  ';
+        $replace = '';
+
         $post->setTitulo($this->replaceSpecialStrings($request->get('titulo')));
         $post->setDescricao($request->get('descricao'));
-        $post->setConteudo(($request->get('descricao')));
+        $post->setConteudo(strip_tags(trim(str_replace($search, $replace, $request->get('descricao')))));
         $post->setAtualizado(new \DateTime('now'));
 
         if (!empty($_FILES['background']['size'])) {
@@ -190,7 +193,7 @@ class PostController
             }
         }
 
-        return $app->json(['message' => 'certo'], Response::HTTP_OK);
+        return $app->redirect('/user/palavra/'.$post->getId().'-'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
 
     }
     

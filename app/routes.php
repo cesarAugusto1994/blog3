@@ -74,6 +74,8 @@ $app->mount('/user', include __DIR__ . '/routes/tipos_anexos.php');
 $app->mount('/user', include __DIR__ . '/routes/favoritos.php');
 $app->mount('/user', include __DIR__ . '/routes/sugestao.php');
 
+$app->mount('/user/palavra/', include __DIR__ . '/routes/blog/home.php');
+
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
 $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
 

@@ -71,7 +71,7 @@
                                 </button>
                             </td>
                             <td>
-                                <a href="{{ path('user_favorites_2', { id : usuario.id, nome : usuario.nome }) }}" target="_blank" class="button is-small is-success">
+                                <a href="{{ path('user_favorites_2', { id : usuario.id, nome : usuario.nome|lower }) }}" target="_blank" class="button is-small is-success">
                                     Favoritos
                                 </a>
                             </td>

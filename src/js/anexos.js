@@ -59,7 +59,7 @@ $(function () {
 
         render: function () {
 
-            modal = (
+            let modal = (
                 <div id="modal-musicas" className="modal fade" tabIndex="-1">
                     <div className="modal-dialog">
                         <div className="modal-content">
@@ -865,6 +865,7 @@ $(function () {
             }
 
             return (
+
                 <div>
                     <CardLetra label="Menu">
                         {menu}
@@ -873,14 +874,14 @@ $(function () {
                     <br/>
                     <div>
                         <ul className="tabs is-toggle is-fullwidth" role="tablist">
+                            <li role="presentation" className="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arquivos</a></li>
                             <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Letra</a></li>
-                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arquivos</a></li>
                             <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Informações</a></li>
                         </ul>
 
                         <div className="tab-content">
-                            <div role="tabpanel" className="tab-pane active" id="home">{cardLetra}</div>
-                            <div role="tabpanel" className="tab-pane" id="profile">{cardArquivos}</div>
+                            <div role="tabpanel" className="tab-pane active" id="profile">{cardArquivos}</div>
+                            <div role="tabpanel" className="tab-pane" id="home">{cardLetra}</div>
                             <div role="tabpanel" className="tab-pane" id="messages"><CardLetra label="Letra">Em Breve</CardLetra></div>
                         </div>
                     </div>
