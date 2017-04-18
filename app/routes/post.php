@@ -10,37 +10,37 @@ $app->get('user/posts', function ($page = 1) use ($app) {
     return $app['post.controller']->posts($page, $app);
 })->bind('posts');
 
-$app->post('/admin/post/new', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('/user/palavra/new', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->criar($request, $app);
 })->bind('newPost');
 
-$app->get('user/post/{postId}/{postTitulo}', function ($postId, $postTitulo) use ($app){
+$app->get('user/palavra/{postId}-{postTitulo}', function ($postId, $postTitulo) use ($app){
     return $app['post.controller']->post($postId, $app);
 })->bind('post');
 
-$app->get('admin/posts/grid', function() use ($app) {
+$app->get('user/palavra/listagem', function() use ($app) {
     return $app['twig']->render('admin/grid_posts.html.twig', [
         'posts' => $app['posts.repository']->findBy([], ['cadastro' => 'DESC'])
     ]);
 })->bind('grid_posts');
 
-$app->get('admin/post/form', function () use ($app) {
+$app->get('user/palavra/form', function () use ($app) {
     return $app['twig']->render('admin/newpost.html.twig');
 })->bind('postForm');
 
-$app->get('admin/post/edit/{id}/{name}', function($id, $name) use ($app) {
+$app->get('user/palavra/{id}-{name}/editar', function($id, $name) use ($app) {
     return $app['post.controller']->editarPost($id, $app);
 })->bind('edit_post');
 
-$app->put('admin/post/edit/save', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->put('user/palavra/salvar-edicao', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->editar($request, $app);
 })->bind('save_edit_post')->method('PUT|POST');
 
-$app->get('admin/post/status/{id}', function($id) use ($app) {
+$app->get('user/palavra/{id}/status', function($id) use ($app) {
     return $app['post.controller']->alterarStatus((int)$id, $app);
 })->bind('status_post');
 
-$app->get('admin/tag/{id}/{tag}', function($id, $tag) use ($app) {
+$app->get('user/palavra/tag/{id}/{tag}', function($id, $tag) use ($app) {
     return $app['post.controller']->postsByTags($tag, $app);
 })->bind('tag');
 
