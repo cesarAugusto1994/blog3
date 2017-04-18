@@ -19,6 +19,17 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
 
+                    <li><a href="{{ path('postForm') }}">Postar Mensagem</a></li>
+
+                    <li>
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">Menu</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('colecoes') }}">Louvores</a></li>
+                            <li><a href="{{ path('palavra') }}">Palavra Revelada</a></li>
+                        </ul>
+                    </li>
+
                     {% if is_granted('ROLE_ADMIN') %}
                         <li>
                             <a href="#" data-toggle="dropdown" aria-haspopup="true"

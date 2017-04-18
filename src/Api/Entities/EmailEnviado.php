@@ -34,6 +34,12 @@ class EmailEnviado
     private $usuario;
 
     /**
+     * @ORM\Column(name="mensagem", type="text")
+     * @var string
+     */
+    private $mensagem;
+
+    /**
      * @ORM\Column(name="data_hora", type="datetime")
      * @var \DateTime
      */
@@ -67,6 +73,22 @@ class EmailEnviado
     public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMensagem()
+    {
+        return $this->mensagem;
+    }
+
+    /**
+     * @param string $mensagem
+     */
+    public function setMensagem($mensagem)
+    {
+        $this->mensagem = $mensagem;
     }
 
     /**

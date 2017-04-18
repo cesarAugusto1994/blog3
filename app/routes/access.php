@@ -236,6 +236,7 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
         $emailEnviado = new EmailEnviado();
         $emailEnviado->setUsuario($usuario);
         $emailEnviado->setTipo($assunto);
+        $emailEnviado->setMensagem($assunto);
         $emailEnviado->setDataHora(new DateTime('now'));
 
         $app['db']->beginTransaction();
@@ -278,8 +279,10 @@ $app->match(
 
         $config = $app['config'];
         $assunto = "Confirmação de Cadastro";
+        $mensagem = "Seja Bem Vindo(a) ao Coletânea ICM.";
+
         $array = [
-            'mensagem' => "Seja Bem Vindo ao Coletânea ICM.",
+            'mensagem' => $mensagem,
             'nome' => $request->request->get('nome'),
             'site' => $config->getNome(),
             'lema' => $config->getSubtitulo()
@@ -292,6 +295,7 @@ $app->match(
         $emailEnviado = new EmailEnviado();
         $emailEnviado->setUsuario($usuario);
         $emailEnviado->setTipo($assunto);
+        $emailEnviado->setMensagem($mensagem);
         $emailEnviado->setDataHora(new DateTime('now'));
 
         $app['db']->beginTransaction();
@@ -334,8 +338,10 @@ $app->post(
 
         $config = $app['config'];
         $assunto = "Sucesso na redefinição de senha";
+        $mensagem = "Sua senha foi redefinida com sucesso!";
+
         $array = [
-            'mensagem' => "Sua senha foi redefinida com sucesso!",
+            'mensagem' => $mensagem,
             'nome' => $user->getNome(),
             'site' => $config->getNome(),
             'lema' => $config->getSubtitulo()
@@ -348,6 +354,7 @@ $app->post(
         $emailEnviado = new EmailEnviado();
         $emailEnviado->setUsuario($user);
         $emailEnviado->setTipo($assunto);
+        $emailEnviado->setMensagem($mensagem);
         $emailEnviado->setDataHora(new DateTime('now'));
 
         $app['db']->beginTransaction();

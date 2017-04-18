@@ -265,8 +265,8 @@ $app['dir.album'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/img/albuns/';
 };
 
-$app['background.default'] = $app['dir.base'] . 'assets/blog/img/wallpaper.jpg';
-$app['background.post.default'] = $app['dir.base'] . 'assets/blog/img/wallpaper.jpg';
+$app['background.default'] = $app['dir.base3'] . 'assets/blog/img/wallpaper.jpg';
+$app['background.post.default'] = $app['dir.base3'] . 'assets/blog/img/wallpaper.jpg';
 $app['avatar.default'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/img/defaults/avatar.png';
 };

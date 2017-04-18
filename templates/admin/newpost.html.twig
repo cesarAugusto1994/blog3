@@ -1,51 +1,46 @@
-{% extends 'template-new.html.twig' %}
+{% extends 'blog/template.html.twig' %}
 
 {% block title %}Novo Post{% endblock %}
 
 {% block stylesheet %}
     {{ parent() }}
-    <script>
-        $('#tag').tagsinput({
-            confirmKeys: [13, 44],
-            tagClass: function(item) {
-                return (item.length > 10 ? 'big' : 'label label-success');
-            }
-        });
-    </script>
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script>tinymce.init($('#descricao'));</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <link rel="stylesheet"
+          href="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css') }}">
 {% endblock %}
-
-{% block header %}{{ parent() }}{% endblock %}
-
-{% block headerNome %}Criar Post{% endblock %}
 
 {% block content %}
 
+    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Criar Post</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <article>
-        <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <form method="post" class="form-horizontal" action="{{ path('newPost') }}"
                           enctype="multipart/form-data">
-                        <label>Titulo</label>
-                        <p class="control">
-                            <input class="input" type="text" placeholder="Titulo" name="titulo">
+
+                        <p class="control has-icon">
+                            <input class="input" type="text" placeholder="Titulo" name="titulo" required>
+                            <i class="fa fa-edit"></i>
                         </p>
-                        <label>Background</label>
-                        <p class="control">
+                        <p class="control has-icon">
                             <input class="input" type="file" id="background" name="background" placeholder="Background" accept="image/*">
+                            <i class="fa fa-image"></i>
                         </p>
-                        <label>Tags</label>
                         <p class="control">
-                            <input type="text"
-                                   class="form-control" name="tags" data-role="tagsinput" placeholder="tags"/>
+                            <input type="text" class="form-control" id="tag" name="tags" data-role="tagsinput"
+                                   placeholder="tags"/>
                         </p>
-                        <label>Descri&ccedil;&atilde;o</label>
                         <p class="control">
                             <textarea class="textarea form-control" id="descricao" name="descricao"
                                       placeholder="Descricao" placeholder="Place some text here"
@@ -62,4 +57,22 @@
         </div>
     </article>
 
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $('#tag').tagsinput({
+            confirmKeys: [13, 44],
+            tagClass: function(item) {
+                return (item.length > 10 ? 'big' : 'label label-success');
+            }
+        });
+    </script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init($('#descricao'));</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ asset(app['dir.base'] ~ '/assets/plugins/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 {% endblock %}

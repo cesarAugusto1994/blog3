@@ -71,6 +71,7 @@ $sugestao->post('/sugestao/responder', function (Request $request) use ($app){
     $emailEnviado = new EmailEnviado();
     $emailEnviado->setUsuario($usuario);
     $emailEnviado->setTipo($assunto);
+    $emailEnviado->setMensagem($mensagem);
     $emailEnviado->setDataHora(new DateTime('now'));
 
     $app['db']->beginTransaction();
