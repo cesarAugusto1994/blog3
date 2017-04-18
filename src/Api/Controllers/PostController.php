@@ -138,7 +138,7 @@ class PostController
      */
     public function editarPost($id, Application $app)
     {
-        return $app['twig']->render('admin/edit_post.html.twig', [
+        return $app['twig']->render('/user/edit_post.html.twig', [
             'post' => $app['posts.repository']->find($id),
         ]);
     }
@@ -237,7 +237,7 @@ class PostController
             }
         }
 
-        return $app->redirect('/user/post/'.$post->getId().'/'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
+        return $app->redirect('/user/palavra/'.$post->getId().'-'.$this->replaceSpecialStringsFromUrl($post->getTitulo()));
     }
     
     /**

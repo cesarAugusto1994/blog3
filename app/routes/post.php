@@ -10,7 +10,7 @@ $app->get('user/posts', function ($page = 1) use ($app) {
     return $app['post.controller']->posts($page, $app);
 })->bind('posts');
 
-$app->post('/user/palavra/new', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('/user/palavra/criar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->criar($request, $app);
 })->bind('newPost');
 
@@ -25,7 +25,7 @@ $app->get('user/palavra/listagem', function() use ($app) {
 })->bind('grid_posts');
 
 $app->get('user/palavra/form', function () use ($app) {
-    return $app['twig']->render('admin/newpost.html.twig');
+    return $app['twig']->render('/user/newpost.html.twig');
 })->bind('postForm');
 
 $app->get('user/palavra/{id}-{name}/editar', function($id, $name) use ($app) {
