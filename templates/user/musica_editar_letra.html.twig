@@ -4,6 +4,11 @@
 
 {% block headerNome %}{{ musica.nome }} - Letra{% endblock %}
 
+{% block stylesheet %}
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=91a9atfos2ittmhqexk1fymksio2pivke5ur2dogysceaim4"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+{% endblock %}
+
 {% block content %}
 
     <article>
@@ -15,7 +20,7 @@
                         <input type="hidden" name="rota" id="rota" value="edicao_letra">
                         <p class="control">
                         <textarea class="textarea form-control" id="letra" name="letra"
-                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ musica.letra }}</textarea>
+                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ musica.letraOriginal }}</textarea>
                         </p>
                         <p class="control">
                             <button class="button is-primary is-fullwidth" type="submit">Salvar</button>

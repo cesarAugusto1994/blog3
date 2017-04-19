@@ -13,6 +13,8 @@
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/alertify.min.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/themes/default.min.css') }}" rel=stylesheet>
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/snackbarjs/dist/snackbar.min.css') }}" rel=stylesheet>
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/snackbarjs/themes-css/material.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/bulma.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog-new/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -34,6 +36,15 @@
     <title>{{ app['nome.blog'] }} - {% block title %}{% endblock %}</title>
 
     <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/snackbarjs/dist/snackbar.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            if($("#snackbarid").length > 0) {
+                $("#snackbarid").snackbar("show");
+            }
+        });
+    </script>
+
     <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/react/react.min.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/react/react-dom.min.js') }}"></script>
     <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
@@ -46,7 +57,6 @@
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/slider.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/jquery.fancybox.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/main.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/snackbarjs/dist/snackbar.min.js') }}" async></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/main.js') }}"></script>
 
     <script>

@@ -12,6 +12,7 @@
 #################################################################################################
 #################################################################################################
 
+use Api\Entities\Categoria;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
 use App\Entities\Config;
@@ -155,6 +156,44 @@ $app['upload.service'] = function () use ($app) {
 $app['colecoes'] = function () use ($app) {
     return $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
 };
+
+$app['categorias'] = function () use ($app) {
+
+    if (!empty($app['session']->get('categorias'))) {
+        return $app['session']->get('categorias');
+    }
+
+    $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+
+    $array = [];
+    /**
+     * @var Categoria $categoria
+     */
+    foreach ($categorias as $categoria) {
+
+        $key = $categoria->getColecao()->getId();
+
+        if (!isset($array[$key]['nome'])) {
+            $array[$key]['nome'] = $categoria->getColecao()->getNome();
+        }
+
+        if ($categoria->getColecao()->getNome() == $array[$key]['nome']) {
+
+            $array[$key]['nome'] = $categoria->getColecao()->getNome();
+
+            $array[$key]['categorias'][] = [
+                "id" => $categoria->getId(),
+                "nome" => $categoria->getNome()
+            ];
+        }
+    }
+
+    $categoriasArray = array_merge($array);
+
+    $app['session']->set('categorias', $categoriasArray);
+    return $app['session']->get('categorias');
+};
+
 $app['categories'] = function () use ($app) {
     return $app['tags.repository']->findAll();
 };

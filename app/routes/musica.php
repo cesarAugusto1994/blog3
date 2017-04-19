@@ -7,6 +7,9 @@
  */
 
 use Api\Entities\Categoria;
+use Api\Entities\Musica;
+use Api\Entities\Usuarios;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 $musica = $app['controllers_factory'];
 
@@ -87,7 +90,18 @@ $musica->get('praise/new', function(\Symfony\Component\HttpFoundation\Request $r
         return $app['twig']->render('/user/musica-adicionar-2.html.twig', ['categoria' => $categoria]);
     }
 
-    return $app['twig']->render('/user/musica-adicionar.html.twig', ['categoria' => $categoria]);
+    return $app['twig']->render('/user/musica-adicionar.html.twig',
+        [
+            'categoriaSelecionada' => $categoria,
+            'tons' => $app['tonalidades'],
+            'colecoes' => $app['categorias'],
+            'mensagem' => '',
+            'nome' => '',
+            'numero' => '',
+            'tonalidade' => '',
+            'categoria' => '',
+            'letra' => '',
+        ]);
 
 });
 
@@ -231,6 +245,152 @@ $app->post('musica/{id}/letra/editar', function($id, \Symfony\Component\HttpFoun
     return $app->redirect('/user/praise/'.$musica->getId().'-'.$musica->getId());
     
 })->bind('api_musica_letra_editar');
+
+$musica->post('/musica/add', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    try {
+
+        if (0 == $request->request->count()) {
+            throw new \InvalidArgumentException("Nao foi possivel adicionar esta m&uacute;sica: Nenhum dado foi informado.");
+        }
+
+        if (empty($request->get('categoria'))) {
+            throw new \Exception("Não foi possivel Adicionar musica: A Categoria nao foi informada.");
+        }
+
+        $categoria = $app['categoria.repository']->find($request->get('categoria'));
+        $musicaJaExisteNaCategoria = $app['musica.repository']->findBy(
+            [
+                'nome' => $request->get('nome'),
+                'categoria' => $categoria,
+            ]
+        );
+
+        if ($musicaJaExisteNaCategoria) {
+            throw new \Exception("Não foi poss&iacute;vel adicionar m&uacute;sica: M&uacute;sica já adiconada.");
+        }
+
+        if (empty($request->get('nome'))) {
+            throw new \Exception("Não foi possivel Adicionar musica: O nome nao foi informado.");
+        }
+
+        /**
+         * @var \Api\Entities\Categoria $categoria
+         */
+        $categoria = $app['categoria.repository']->find($request->get('categoria'));
+        $user = $app['session']->get('user');
+        /**
+         * @var \Api\Entities\Usuarios $usuario
+         */
+        $usuario = $app['usuarios.repository']->find($user->getId());
+
+        $musica = new Musica();
+
+        $musica->setNome(strtoupper($request->get('nome')));
+        $musica->setNumero($request->get('numero') ?: null);
+        $musica->setTom($request->get('tonalidade'));
+
+        if ($request->get('album')) {
+            $album = $app['album.repository']->find($request->get('album'));
+            $musica->setAlbum($album);
+        }
+
+        if ($request->get('letra')) {
+
+            $encontrarVirgula = [
+                'Ab,', 'Abm,', 'A,', 'Am,', 'A#,', 'A#m,',
+                'Ab7,', 'Abm7,', 'A7,', 'Am7,', 'A#7,', 'A#m7,',
+                'Bb,', 'Bbm,', 'B,', 'Bm,',
+                'Bb7,', 'Bbm7,', 'B7,', 'Bm7,',
+                'C,', 'Cm,', 'C#,', 'C#m,',
+                'C7,', 'Cm7,', 'C#7,', 'C#m7,',
+                'C9,', 'Cm9,', 'C#9,', 'C#m9,',
+                'Db,', 'Dbm,', 'D,', 'Dm,', 'D#,', 'D#m,',
+                'Db7,', 'Dbm7,', 'D7,', 'Dm7,', 'D#7,', 'D#m7,',
+                'Eb,', 'Ebm,', 'E,', 'Em,',
+                'Eb7,', 'Ebm7,', 'E7,', 'Em7,',
+                'F,', 'Fm,', 'F#,', 'F#m,',
+                'F7,', 'Fm7,', 'F#7,', 'F#m7,',
+                'Gb,', 'Gbm,', 'G,', 'Gm,', 'G#,', 'G#m,',
+                'Gb7,', 'Gbm7,', 'G7,', 'Gm7,', 'G#7,', 'G#m7,'
+            ];
+
+            $removerVirgulas = [
+                'Ab ', 'Abm ', 'A ', 'Am ', 'A# ', 'A#m ',
+                'Ab7 ', 'Abm7 ', 'A7 ', 'Am7 ', 'A#7 ', 'A#m7 ',
+                'Bb ', 'Bbm ', 'B ', 'Bm ',
+                'Bb7 ', 'Bbm7 ', 'B7 ', 'Bm7 ',
+                'C ', 'Cm ', 'C# ', 'C#m ',
+                'C7 ', 'Cm7 ', 'C#7 ', 'C#m7 ',
+                'C9 ', 'Cm9 ', 'C#9 ', 'C#m9 ',
+                'Db ', 'Dbm ', 'D ', 'Dm ', 'D# ', 'D#m ',
+                'Db7 ', 'Dbm7 ', 'D7 ', 'Dm7 ', 'D#7 ', 'D#m7 ',
+                'Eb ', 'Ebm ', 'E ', 'Em ',
+                'Eb7 ', 'Ebm7 ', 'E7 ', 'Em7 ',
+                'F ', 'Fm ', 'F# ', 'F#m ',
+                'F7 ', 'Fm7 ', 'F#7 ', 'F#m7 ',
+                'Gb ', 'Gbm ', 'G ', 'Gm ', 'G# ', 'G#m ',
+                'Gb7 ', 'Gbm7 ', 'G7 ', 'Gm7 ', 'G#7 ', 'G#m7 '
+            ];
+
+            $search = ['7M', '4', '(9)', 'º', '(#5)', 'Introdução: ', 'Instrumentos '];
+            $replace = ['maj7', 'sus', '9', 'dim', '#5', "Introdução: \n", "Instrumentos \n"];
+
+            $search = array_merge($search, $encontrarVirgula);
+            $replace = array_merge($replace, $removerVirgulas);
+
+            $letra = str_replace($search, $replace, $request->get('letra'));
+            $musica->setLetra(strip_tags(htmlspecialchars_decode($letra)));
+            $musica->setLetraOriginal($letra);
+        }
+
+        $musica->setCategoria($categoria);
+        $musica->setUsuario($usuario);
+        $musica->setCadastro(new \DateTime('now'));
+        $musica->setNovo(false);
+
+        if ($request->get('novo')) {
+            $musica->setNovo($request->get('novo'));
+        }
+
+        $ativo = false;
+
+        if (Usuarios::ROLE_ADMIN == $usuario->getRoles()) {
+            $ativo = true;
+        }
+
+        $musica->setAtivo($ativo);
+
+        $app['db']->beginTransaction();
+        $app['musica.repository']->save($musica);
+        $app['db']->commit();
+
+        $app['session']->getFlashBag()->add('mensagem', 'Musica adicionada com sucesso.');
+
+        return $app->redirect('/user/category/'. $musica->getCategoria()->getId().'-'.urlencode(strtolower(trim($musica->getCategoria()->getNome()))));
+
+    } catch (Exception $e) {
+
+        if ($request->request->get('categoria')) {
+            $categoria = $app['categoria.repository']->find($request->request->get('categoria'));
+        }
+
+        return $app['twig']->render('/user/musica-adicionar.html.twig',
+            [
+                'categoriaSelecionada' => $categoria,
+                'tons' => $app['tonalidades'],
+                'colecoes' => $app['categorias'],
+                'mensagem' => $e->getMessage(),
+                'nome' => $request->request->get('nome'),
+                'numero' => $request->request->get('numero'),
+                'tonalidade' => $request->request->get('tonalidade'),
+                'categoria' => $request->request->get('categoria'),
+                'letra' => $request->request->get('letra'),
+            ]);
+
+    }
+})->bind('musica_adicionar');
+
 
 $musica->post('musica/editar', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 

@@ -4,9 +4,73 @@
 
 {% block headerNome %}Nova Musica{% endblock %}
 
+{% block stylesheet %}
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=91a9atfos2ittmhqexk1fymksio2pivke5ur2dogysceaim4"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+{% endblock %}
+
 {% block content %}
-    <div id="musica-adicionar"
-         data-categoria="{{ categoria.id }}"
-         data-categoria-nome="{{ categoria.nome }}"
-    ></div>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if mensagem %}
+
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">Alerta!</div>
+                            <div class="panel-body">
+                                {{ mensagem|raw }}
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    <form class="form-horizontal" method="POST" action="{{ path('musica_adicionar') }}">
+                        <label class="label text-black">Titulo</label>
+                        <p class="control">
+                            <input class="input" type="text" value="{{ nome }}" autofocus placeholder="Titulo" ref="nome" name="nome" id="nome" required/>
+                        </p>
+                        <label class="label text-black">N&uacute;mero:</label>
+                        <p class="control">
+                            <input class="input" type="text" value="{{ numero }}" placeholder="N&uacute;mero" ref="numero" name="numero" id="numero"/>
+                        </p>
+                        <label class="label text-black">Tonalidade</label>
+                        <div class="select is-fullwidth">
+                            <select name="tonalidade" ref="tonalidade" id="tonalidade">
+                                {% for tom in tons %}
+                                    <option value="{{ tom }}" {% if tonalidade == tom %} selected="selected" {% endif %}>{{tom}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <label class="label text-black">Categoria</label>
+                        <div class="select is-fullwidth">
+                            <select id="categoria" name="categoria" ref="categoria" required>
+
+                                {% for colecao in colecoes %}
+                                    <optgroup label="{{ colecao.nome }}">
+                                        {% for categoria in colecao.categorias %}
+                                            <option value="{{ categoria.id }}" {% if categoriaSelecionada.id == categoria.id %} selected="selected" {% endif %}>{{ categoria.nome }}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                        <label class="label text-black">Letra</label>
+                        <p class="control">
+                        <textarea class="textarea form-control" id="letra" name="letra" ref="letra"
+                                  placeholder="Informe a letra se dispon&iacute;vel.">{{ letra }}</textarea>
+                        </p>
+                        <p class="control">
+                            <button class="button is-danger is-fullwidth" type="submit">Salvar</button>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
 {% endblock %}

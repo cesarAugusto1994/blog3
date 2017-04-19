@@ -5028,6 +5028,8 @@
 	        let categoria = this.refs.categoria.value.trim();
 	        let letra = this.refs.letra.value.trim();
 
+	        console.log(letra);
+
 	        if (!nome || !categoria) {
 	            alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
 	        }
@@ -5036,37 +5038,41 @@
 	        let categoriaNome = "category";
 	        const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome;
 
-	        $.ajax({
-	            type: "POST",
-	            url: "/api/musica/adicionar",
-	            data: {
-	                nome: nome,
-	                numero: numero,
-	                tonalidade: tonalidade,
-	                categoria: categoria,
-	                letra: letra
-	            },
-	            cache: false,
-	            success: function (data) {
-
-	                if (data.classe == 'success') {
-	                    alertify.success(data.message);
-	                } else {
-	                    alertify.error(data.message);
-	                }
-
-	                if (data.redirect == true) {
-	                    window.location.href = '/user/praise-success';
-	                } else if (data.classe == 'sucess') {
-	                    window.location.href = PRAISES;
-	                }
-	                unblock_screen();
-	            },
-	            error: function (data) {
-	                alertify.error(data.message);
-	                unblock_screen();
-	            }
-	        });
+	        return false;
+	        /*
+	                $.ajax({
+	                    type: "POST",
+	                    url: "/api/musica/adicionar",
+	                    data: {
+	                        nome: nome,
+	                        numero: numero,
+	                        tonalidade: tonalidade,
+	                        categoria: categoria,
+	                        letra : letra
+	                    },
+	                    cache: false,
+	                    success: function (data) {
+	        
+	                        if (data.classe == 'success') {
+	                            alertify.success(data.message);
+	                        } else {
+	                            alertify.error(data.message);
+	                        }
+	        
+	                        if (data.redirect == true) {
+	                            window.location.href = '/user/praise-success';
+	                        }
+	                        else if (data.classe == 'sucess') {
+	                            window.location.href = PRAISES;
+	                        }
+	                        unblock_screen();
+	                    },
+	                    error: function (data) {
+	                        alertify.error(data.message);
+	                        unblock_screen();
+	                    }
+	                });
+	                */
 	    },
 
 	    render: function () {
@@ -5152,8 +5158,7 @@
 	                    "p",
 	                    { className: "control" },
 	                    React.createElement("textarea", { className: "textarea form-control", id: "letra", name: "letra", ref: "letra",
-	                        placeholder: "Informe a letra se dispon\xEDvel.",
-	                        style: TEXTAREA })
+	                        placeholder: "Informe a letra se dispon\xEDvel." })
 	                ),
 	                React.createElement(
 	                    "p",

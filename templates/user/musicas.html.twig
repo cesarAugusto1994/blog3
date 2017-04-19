@@ -6,11 +6,18 @@
 
 {% block content %}
 
-    <div id="musicas" data-source="{{ path('api_praises_form_category', { id : categoria.id, nome : categoria.nome|lower|replace(' ', '_') }) }}"
+    {% if app.session.flashbag.has('mensagem') %}
+        {% for alert in app.session.flashbag.get('mensagem') %}
+            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+        {% endfor %}
+    {% endif %}
+
+    <div id="musicas"
+         data-source="{{ path('api_praises_form_category', { id : categoria.id, nome : categoria.nome|url_encode }) }}"
          data-add-musica="{{ path('view_adicionar_musica', { categoria : categoria.id }) }}"
          data-categoria="{{ categoria.id }}"
          data-categoria-nome="{{ categoria.nome }}"
          data-colecao="{{ categoria.colecao.id }}"
-    data-user="{{ app['usuario'].roles }}"></div>
+         data-user="{{ app['usuario'].roles }}"></div>
 
 {% endblock %}

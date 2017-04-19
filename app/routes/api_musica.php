@@ -44,7 +44,7 @@ $musica->post('/musica/adicionar', function (\Symfony\Component\HttpFoundation\R
             "message" => $e->getMessage(),
         ]);
     }
-});
+})->bind('musica_adicionar');
 
 
 $musica->post('/musica/adicionar/varios', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {

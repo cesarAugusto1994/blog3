@@ -60,6 +60,8 @@ const Render = React.createClass({
         let categoria = this.refs.categoria.value.trim();
         let letra = this.refs.letra.value.trim();
 
+        console.log(letra);
+
         if (!nome || !categoria) {
             alertify.error("O Nome da Musica e a Categoria devem ser informadas.");
         }
@@ -68,6 +70,8 @@ const Render = React.createClass({
         let categoriaNome = "category";
         const PRAISES = '/user/category/' + categoriaID + '-' + categoriaNome;
 
+        return false;
+/*
         $.ajax({
             type: "POST",
             url: "/api/musica/adicionar",
@@ -100,6 +104,7 @@ const Render = React.createClass({
                 unblock_screen();
             }
         });
+        */
     },
 
     render: function () {
@@ -144,8 +149,7 @@ const Render = React.createClass({
                     <label className="label text-black">Letra</label>
                     <p className="control">
                         <textarea className="textarea form-control" id="letra" name="letra" ref="letra"
-                                  placeholder="Informe a letra se dispon&iacute;vel."
-                                  style={TEXTAREA}></textarea>
+                                  placeholder="Informe a letra se dispon&iacute;vel."></textarea>
                     </p>
                     <p className="control">
                         <button className="button is-danger is-fullwidth" type="submit">Salvar</button>
