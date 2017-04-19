@@ -1,6 +1,8 @@
 {% extends 'base-new.html.twig' %}
 
 {% block stylesheet %}
+    {{ parent() }}
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
     <style>
         pre {
             background-color: transparent; border: none
@@ -17,19 +19,24 @@
         <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
+                    <div class="card wow fadeInUp animated slide">
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
-                                    <h2>{{ musica.nome }}</h2>
+                                    <p class="title is-3">{{ musica.nome }}</p>
+                                    <hr class="small">
+                                    <button class="button is-primary is-small" id="btnComCifra">Com Cifra</button>
+                                    <button class="button is-primary is-small" id="btnSemCifra">Sem Cifra</button>
+                                    <button class="button is-primary is-small" id="btnCores">Cores</button>
+                                    <button class="button is-primary is-small" id="btnInverter">Inverter Cores</button>
+                                    <br>
+                                    <br>
                                     <div class="control is-grouped" id="fontlinks">
                                         <p class="control has-addon">
-                                            <button id="incfont" class="button is-light is-small buttonfont">
+                                            <button id="incfont" class="button is-primary is-small buttonfont">
                                                 A+
                                             </button>
-                                        </p>
-                                        <p class="control">
-                                            <button id="decfont" class="button is-light is-small buttonfont">
+                                            <button id="decfont" class="button is-primary is-small buttonfont">
                                                 A-
                                             </button>
                                         </p>
@@ -44,7 +51,36 @@
         </div>
     </article>
 
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
+
     <script>
+
+        $("#btnComCifra").click(function () {
+            $('.chord').css('display', 'inline');
+            $('.transpose-keys').show();
+            $('.pipe').css('display', 'inline');
+        });
+
+        $("#btnSemCifra").click(function () {
+            $('.chord').css('display', 'none');
+            $('.transpose-keys').hide();
+            $('.pipe').css('display', 'none');
+        });
+
+        $("#btnInverter").click(function () {
+            $('span').css('color', 'white');
+            $('h2').css('color', 'white');
+            $('a').css('color', 'white');
+            $('.buttonfont').css('color', 'white');
+            $('a').css('background', 'black');
+            $('div').css('background', 'black');
+            $('.buttonfont').css('background', 'black');
+        });
+
+        $("#btnCores").click(function () {
+           window.location.reload();
+        });
+
         $("#content").transpose({key: 'C'});
         $('#incfont').click(function () {
             curSize = parseInt($('#content').css('font-size')) + 2;

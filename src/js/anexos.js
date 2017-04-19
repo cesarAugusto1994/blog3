@@ -265,7 +265,7 @@ $(function () {
 
         render: function () {
             return (
-                <div className="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
+                <div className="card" style={styleCard}>
                     <div className="card-content">
                         <p className="title is-5">Coment&aacute;rios</p>
                         <div className="comments">
@@ -474,7 +474,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.sourceView} className="button is-danger is-small">LETRA</a>
+                <a href={this.props.sourceView} className="button is-danger is-small">TELA CHEIA</a>
             );
         }
     }
@@ -548,7 +548,7 @@ $(function () {
         render() {
             return (
                 <div>
-                    <div className="card wow fadeInUp animated slide" style={styleCard}>
+                    <div className="card" style={styleCard}>
                         <div className="card-content">
                             <div className="media">
                                 <div className="media-content">
@@ -579,6 +579,10 @@ $(function () {
         render() {
             return (
             <div className="control is-grouped" id="fontlinks">
+                <p className="control has-addon">
+                    <button className="button is-primary is-small" id="btnComCifra">Com Cifra</button>
+                    <button className="button is-primary is-small" id="btnSemCifra">Sem Cifra</button>
+                </p>
                 <p className="control has-addon">
                     <button id="incfont" className="button is-light is-small buttonfont">
                         A+
@@ -1198,5 +1202,18 @@ $(function () {
         $('.c').css('font-family', 'tahoma');
         $('#content').css('font-size', 12);
         $('#content').css('font-family', 'tahoma');
+
+        $("#btnComCifra").click(function () {
+            $('.chord').css('display', 'inline');
+            $('.transpose-keys').show();
+            $('.pipe').css('display', 'inline');
+        });
+
+        $("#btnSemCifra").click(function () {
+            $('.chord').css('display', 'none');
+            $('.transpose-keys').hide();
+            $('.pipe').css('display', 'none');
+        });
+
     }
 });

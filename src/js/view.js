@@ -103,7 +103,7 @@ if (document.getElementById("view")) {
         curSize = parseInt($('#content-view').css('font-size')) + 2;
         curSize2 = parseInt($('.c').css('font-size')) + 2;
         if (curSize <= 32)
-            $('#content').css('font-size', curSize);
+            $('#content-view').css('font-size', curSize);
         if (curSize2 <= 32)
             $('.c').css('font-size', curSize2);
     });
@@ -111,13 +111,15 @@ if (document.getElementById("view")) {
         curSize = parseInt($('#content-view').css('font-size')) - 2;
         curSize2 = parseInt($('.c').css('font-size')) - 2;
         if (curSize >= 5)
-            $('#content').css('font-size', curSize);
+            $('#content-view').css('font-size', curSize);
         if (curSize2 >= 5)
             $('.c').css('font-size', curSize2);
     });
 
+    $("pre").transpose({key: 'C'});
     $('.c').css('font-size', 12);
+    $('.c').css('font-family', 'tahoma');
     $('#content-view').css('font-size', 12);
-    $("#content-view").transpose({key: 'C'});
+    $('#content-view').css('font-family', 'tahoma');
 
 }

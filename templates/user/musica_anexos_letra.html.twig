@@ -1,0 +1,72 @@
+{% extends 'base-new.html.twig' %}
+
+{% block stylesheet %}
+    <style>
+        pre {
+            background-color: transparent; border: none
+        }
+        .card {
+            width: 100%; min-width: 150px
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <article>
+        <div class="container wow fadeInUp animated slide" data-wow-delay=".6s">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="card wow fadeInUp animated slide" data-wow-delay=".3s" style={styleCard}>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <h2>{{ musica.nome }}</h2>
+                                    <div class="control is-grouped" id="fontlinks">
+                                        <p class="control has-addon">
+                                            <button id="incfont" class="button is-light is-small buttonfont">
+                                                A+
+                                            </button>
+                                        </p>
+                                        <p class="control">
+                                            <button id="decfont" class="button is-light is-small buttonfont">
+                                                A-
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <pre id="content" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <script>
+        $('#incfont').click(function () {
+            curSize = parseInt($('#content-view').css('font-size')) + 2;
+            curSize2 = parseInt($('.c').css('font-size')) + 2;
+            if (curSize <= 32)
+                $('#content-view').css('font-size', curSize);
+            if (curSize2 <= 32)
+                $('.c').css('font-size', curSize2);
+        });
+        $('#decfont').click(function () {
+            curSize = parseInt($('#content-view').css('font-size')) - 2;
+            curSize2 = parseInt($('.c').css('font-size')) - 2;
+            if (curSize >= 5)
+                $('#content-view').css('font-size', curSize);
+            if (curSize2 >= 5)
+                $('.c').css('font-size', curSize2);
+        });
+
+        $("pre").transpose({key: 'C'});
+        $('.c').css('font-size', 12);
+        $('.c').css('font-family', 'tahoma');
+        $('#content-view').css('font-size', 12);
+        $('#content-view').css('font-family', 'tahoma');
+    </script>
+
+{% endblock %}

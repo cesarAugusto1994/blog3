@@ -229,9 +229,9 @@
           line = lines[i];
 
           if (isChordLine(line))
-              output.push("<span>" + wrapChords(line) + "</span>");
+              output.push("<span class='chord'>" + wrapChords(line) + "</span>");
           else
-              output.push("<span>" + line + "</span>");
+              output.push("<span>" + line.replace(/\|/g,'<span class="pipe">|</span >') + "</span>");
       };
 
       $(this).html(output.join("\n"));

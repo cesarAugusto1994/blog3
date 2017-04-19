@@ -2145,7 +2145,7 @@
 	        render: function () {
 	            return React.createElement(
 	                'div',
-	                { className: 'card wow fadeInUp animated slide', 'data-wow-delay': '.3s', style: styleCard },
+	                { className: 'card', style: styleCard },
 	                React.createElement(
 	                    'div',
 	                    { className: 'card-content' },
@@ -2403,7 +2403,7 @@
 	            return React.createElement(
 	                'a',
 	                { href: this.props.sourceView, className: 'button is-danger is-small' },
-	                'LETRA'
+	                'TELA CHEIA'
 	            );
 	        }
 	    }
@@ -2499,7 +2499,7 @@
 	                null,
 	                React.createElement(
 	                    'div',
-	                    { className: 'card wow fadeInUp animated slide', style: styleCard },
+	                    { className: 'card', style: styleCard },
 	                    React.createElement(
 	                        'div',
 	                        { className: 'card-content' },
@@ -2538,6 +2538,20 @@
 	            return React.createElement(
 	                'div',
 	                { className: 'control is-grouped', id: 'fontlinks' },
+	                React.createElement(
+	                    'p',
+	                    { className: 'control has-addon' },
+	                    React.createElement(
+	                        'button',
+	                        { className: 'button is-primary is-small', id: 'btnComCifra' },
+	                        'Com Cifra'
+	                    ),
+	                    React.createElement(
+	                        'button',
+	                        { className: 'button is-primary is-small', id: 'btnSemCifra' },
+	                        'Sem Cifra'
+	                    )
+	                ),
 	                React.createElement(
 	                    'p',
 	                    { className: 'control has-addon' },
@@ -3249,6 +3263,18 @@
 	        $('.c').css('font-family', 'tahoma');
 	        $('#content').css('font-size', 12);
 	        $('#content').css('font-family', 'tahoma');
+
+	        $("#btnComCifra").click(function () {
+	            $('.chord').css('display', 'inline');
+	            $('.transpose-keys').show();
+	            $('.pipe').css('display', 'inline');
+	        });
+
+	        $("#btnSemCifra").click(function () {
+	            $('.chord').css('display', 'none');
+	            $('.transpose-keys').hide();
+	            $('.pipe').css('display', 'none');
+	        });
 	    }
 	});
 
@@ -3393,19 +3419,21 @@
 	    $('#incfont').click(function () {
 	        curSize = parseInt($('#content-view').css('font-size')) + 2;
 	        curSize2 = parseInt($('.c').css('font-size')) + 2;
-	        if (curSize <= 32) $('#content').css('font-size', curSize);
+	        if (curSize <= 32) $('#content-view').css('font-size', curSize);
 	        if (curSize2 <= 32) $('.c').css('font-size', curSize2);
 	    });
 	    $('#decfont').click(function () {
 	        curSize = parseInt($('#content-view').css('font-size')) - 2;
 	        curSize2 = parseInt($('.c').css('font-size')) - 2;
-	        if (curSize >= 5) $('#content').css('font-size', curSize);
+	        if (curSize >= 5) $('#content-view').css('font-size', curSize);
 	        if (curSize2 >= 5) $('.c').css('font-size', curSize2);
 	    });
 
+	    $("pre").transpose({ key: 'C' });
 	    $('.c').css('font-size', 12);
+	    $('.c').css('font-family', 'tahoma');
 	    $('#content-view').css('font-size', 12);
-	    $("#content-view").transpose({ key: 'C' });
+	    $('#content-view').css('font-family', 'tahoma');
 	}
 
 /***/ },
