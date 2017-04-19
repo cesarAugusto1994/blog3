@@ -118,8 +118,8 @@ $(function () {
                         <ul>
                             <li><a href="/admin/praises/added">Musicas Adicionadas</a></li>
                             <li><a href="/user/sugestoes">Sugestões</a></li>
-                            <li><a href="/admin/post/form">Novo Post</a></li>
-                            <li><a href="/admin/posts/grid">Lista Post</a></li>
+                            <li><a href="/user/palavra/add">Novo Post</a></li>
+                            <li><a href="/user/palavra/listagem">Lista Post</a></li>
                             <li><a href="/admin/blog">Configura&ccedil;&otilde;es</a></li>
                             <li><a href="/admin/usuarios/list">Usu&aacute;rios</a></li>
                         </ul>

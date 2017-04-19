@@ -13,6 +13,7 @@ class UploadImages
 {
     const ORIGIN_POTS = 'post';
     const ORIGIN_CONFIG = 'config';
+    const ORIGIN_CONFIG_BLOG = 'config.blog';
     const ORIGIN_AVATAR = 'avatar';
     const ORIGIN_MENU = 'menu';
     const ORIGIN_COLECAO = 'colecao';
@@ -87,6 +88,9 @@ class UploadImages
                 return __DIR__ . '/../../../web/assets/blog/img/posts/';
                 break;
             case 'config':
+                return __DIR__ . '/../../../web/assets/blog/img/config/';
+                break;
+            case self::ORIGIN_CONFIG_BLOG :
                 return __DIR__ . '/../../../web/assets/blog/img/config/';
                 break;
             case 'avatar':

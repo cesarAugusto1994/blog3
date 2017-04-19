@@ -65,6 +65,46 @@ $menu->post('blog', function (\Symfony\Component\HttpFoundation\Request $request
     
 })->bind('blog_settings_save');
 
+$menu->post('blog/config', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    if ($request->get('id')) {
+
+        /**
+         * @var \App\Entities\Config $config
+         */
+        $config = $app['config.repository']->find($request->get('id'));
+
+        if  (!empty($request->get('nome'))) {
+            $config->setNome($request->get('nome'));
+        }
+
+        $config->setSubtitulo($request->get('subtitulo'));
+
+        if (!empty($_FILES['background']['size'])) {
+            $config->setBackground($app['upload.service']->upload($_FILES['background'], 'config.blog', $config->getBackground()));
+        }
+
+        $app['config.repository']->save($config);
+
+        return $app->redirect('/admin/blog');
+    }
+
+    $config = new \App\Entities\Config();
+
+    $config->setNome($request->get('nome'));
+    $config->setSubtitulo($request->get('subtitulo'));
+
+    if (!empty($_FILES['background']['size'])) {
+        $config->setBackground($app['upload.service']->upload($_FILES['background'], 'config', $config->getBackground()));
+    }
+
+    $config->setEnviaEmail(false);
+    $app['config.repository']->save($config);
+
+    return $app->redirect('/admin/blog');
+
+})->bind('blog2_settings_save');
+
 $menu->get('menu', function() use ($app) {
 
     return $app->redirect('/admin/blog');

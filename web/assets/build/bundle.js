@@ -1123,7 +1123,7 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
-	                                    { href: '/admin/post/form' },
+	                                    { href: '/user/palavra/add' },
 	                                    'Novo Post'
 	                                )
 	                            ),
@@ -1132,7 +1132,7 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
-	                                    { href: '/admin/posts/grid' },
+	                                    { href: '/user/palavra/listagem' },
 	                                    'Lista Post'
 	                                )
 	                            ),

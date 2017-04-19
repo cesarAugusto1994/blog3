@@ -1,0 +1,115 @@
+{% extends "template-new.html.twig" %}
+
+{% block title %}{{ post.titulo }}{% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+    <section class="global-page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <h2>{{ post.titulo }}</h2>
+                        <div class="portfolio-meta">
+                            <span>Posted by <a href="{{ path('author', { author : post.usuario.id }) }}">{{ post.usuario.nome }}</a> on {{ post.cadastro|date('F d, Y') }}</span>|
+                            <span>{% for tag in post.tags %}
+                                    {% if tag|length > 0 %}
+                                        <a class="tag is-small {{ random(['is-dark', 'is-danger', 'is-primary', 'is-info', 'is-success']) }}" href="{{ path('tag', { id : tag.id, tag : tag.nome }) }}">{{ tag.nome }}</a>
+                                   {% endif %}
+                                {% endfor %}
+                            </span>
+                            {% if is_granted('ROLE_ADMIN') or post.usuario.id == app.usuario.id %}
+                                <a class="button is-small {{ random(['is-dark', 'is-white', 'is-link', 'is-danger', 'is-primary', 'is-light', 'is-info', 'is-success']) }}" href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Editar Post</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="single-post">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="post-img">
+                        <img class="img-responsive" alt="" src="{% if post.background is not null %}{{ asset(app['dir.post'] ~ post.background ) }}{% endif %}">
+                    </div>
+                    <div class="post-content">
+                        {{ post.descricao|raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    {% if posts_relacionados %}
+                        {% for post_r in posts_relacionados %}
+                            {% if post_r.id != post.id %}
+                                <div class="col-lg-4 col-md-4">
+                                    <div class="card" style="height: 400px;">
+                                        <a href="{{ path('post', { postId : post_r.id, postTitulo : post_r.titulo|slice(0, 45)|replace({'.': '-', ' ' : '-' })|lower }) }}">
+                                            <div class="card-image">
+                                                <figure class="image is-4by3">
+                                                    <img style="cursor: default" src="{% if post_r.background is not null %}{{ asset('assets/blog/img/posts/' ~ post_r.background ) }}{% else %}{{ asset(app['background.post.default']) }}{% endif %}" alt="">
+                                                </figure>
+                                            </div>
+                                            <header class="card-header">
+                                                <p class="card-header-title">
+                                                    {{ post_r.titulo }}
+                                                </p>
+                                            </header>
+                                        </a>
+                                        <div class="card-content">
+                                            <div class="content">
+                                                <small>{{ post_r.tempoPostagem }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div id="disqus_thread" style="padding: 2em;"></div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+        /*
+         var disqus_config = function () {
+         this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+         };
+         */
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = '//site-14.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <script src="https://code.getmdl.io/1.2.0/material.min.js"></script>
+    <script id="dsq-count-scr" src="//site-14.disqus.com/count.js" async></script>
+
+{% endblock %}

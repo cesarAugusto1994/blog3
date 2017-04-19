@@ -10,12 +10,12 @@
 
 {% block content %}
 
-    <header class="intro-header" style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+    <header class="intro-header" style="background-image: url('{% if app['config.blog'].background is not null %}{{ asset(app['dir.img'] ~ app['config.blog'].background) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Criar Post</h1>
+                        <h1>Criar Mensagem</h1>
                     </div>
                 </div>
             </div>
@@ -26,11 +26,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <form method="post" class="form-horizontal" action="{{ path('newPost') }}"
+                    <form method="post" class="form-horizontal" action="{{ path('criarPost') }}"
                           enctype="multipart/form-data">
 
                         <p class="control has-icon">
-                            <input class="input" type="text" placeholder="Titulo" name="titulo" required>
+                            <input class="input is-large" type="text" autofocus placeholder="Titulo" name="titulo" required>
                             <i class="fa fa-edit"></i>
                         </p>
                         <p class="control has-icon">
@@ -38,8 +38,7 @@
                             <i class="fa fa-image"></i>
                         </p>
                         <p class="control">
-                            <input type="text" class="form-control" id="tag" name="tags" data-role="tagsinput"
-                                   placeholder="tags"/>
+                            <input type="text" class="bootstrap-tagsinput" id="tag" name="tags" data-role="tagsinput" placeholder="tags"/>
                         </p>
                         <p class="control">
                             <textarea class="textarea form-control" id="descricao" name="descricao"

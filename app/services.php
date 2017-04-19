@@ -163,8 +163,11 @@ $app['menus'] = function () use ($app) {
 };
 
 $app['config'] = function () use ($app) {
-    $configs = $app['config.repository']->findAll();
-    return $configs[0];
+    return $app['config.repository']->find(1);
+};
+
+$app['config.blog'] = function () use ($app) {
+    return $app['config.repository']->find(2);
 };
 
 $app['widgets'] = function () use ($app) {
@@ -241,7 +244,7 @@ $app['database'] = function () use ($app) {
 };
 
 $app['dir.img'] = function () use ($app) {
-    return $app['dir.base'] . 'assets/blog/img/config/';
+    return $app['dir.base3'] . 'assets/blog/img/config/';
 };
 $app['dir.post'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/img/posts/';
@@ -268,7 +271,7 @@ $app['dir.album'] = function () use ($app) {
 $app['background.default'] = $app['dir.base3'] . 'assets/blog/img/wallpaper.jpg';
 $app['background.post.default'] = $app['dir.base3'] . 'assets/blog/img/wallpaper.jpg';
 $app['avatar.default'] = function () use ($app) {
-    return $app['dir.base'] . 'assets/blog/img/defaults/avatar.png';
+    return $app['dir.base3'] . 'assets/blog/img/defaults/avatar.png';
 };
 
 $app['default.url'] = function () {

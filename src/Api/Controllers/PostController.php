@@ -53,7 +53,7 @@ class PostController
     {
         $post = $app['posts.repository']->find($id);
 
-        return $app['twig']->render('/user/post.html.twig', [
+        return $app['twig']->render('/blog/post.html.twig', [
             'post' => $post,
             'posts_relacionados' => []
         ]);
@@ -138,7 +138,7 @@ class PostController
      */
     public function editarPost($id, Application $app)
     {
-        return $app['twig']->render('/user/edit_post.html.twig', [
+        return $app['twig']->render('/blog/editar.html.twig', [
             'post' => $app['posts.repository']->find($id),
         ]);
     }

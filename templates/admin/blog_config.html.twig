@@ -65,6 +65,49 @@
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
+                                    <p class="title is-3">Blog</p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <form method="post" class="form-horizontal"
+                                      action="{{ path('blog2_settings_save') }}" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="{{ app['config.blog'].id }}">
+                                    <p class="control">Nome Blog
+                                        <input class="input" type="text" placeholder="Nome" name="nome"
+                                               value="{{ app['config.blog'].nome }}" required>
+                                    </p>
+                                    <p class="control">Descri&ccedil;&atilde;o
+                                        <input class="input" type="text" placeholder="Descri&ccedil;&atilde;o"
+                                               name="subtitulo" value="{{ app['config.blog'].subtitulo }}" required>
+                                    </p>
+                                    <p class="control">Background
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                            <img style="height: 100%" src="{% if app['config.blog'].background is not null %}{{ asset(app['dir.img'] ~ app['config.blog'].background ) }}{% else %}{{ asset('holder.js/100%x100%') }}{% endif %}"
+                                                 data-src="{{ asset('holder.js/100%x100%') }}" alt="...">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                        <div>
+                                            <span class="button is-light is-small is-fullwidth btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
+                                            <a href="#" class="button is-danger is-inverted is-small is-fullwidth fileinput-exists" data-dismiss="fileinput">Remover</a>
+                                        </div>
+                                    </div>
+                                    </p>
+                                    <hr class="small">
+                                    <p class="control">
+                                        <button class="button is-success" type="submit">
+                                            Salvar
+                                        </button>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div><br>
+
+                    <div class="card is-fullwidth wow fadeInUp animated slide" data-wow-delay=".6s">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
                                     <p class="title is-3">Menus</p>
                                 </div>
                             </div>

@@ -6,24 +6,54 @@
  * Time: 08:17
  */
 use Silex\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
-$home = $app['controllers_factory'];
+$blog = $app['controllers_factory'];
 
-$home->get('/', function ($page = 1) use ($app) {
-
+$blog->get('/', function ($page = 1) use ($app) {
     return $app['post.controller']->posts($page, $app);
-
 })->bind('palavra');
 
-$home->get('/page/{page}', function($page, $userPage = false) use($app) {
+$blog->get('/add', function () use ($app) {
+    return $app['twig']->render('/blog/criar.html.twig');
+})->bind('form_post');
+
+$blog->get('/listagem', function() use ($app) {
+    return $app['twig']->render('/blog/listagem.html.twig', [
+        'posts' => $app['posts.repository']->findBy([], ['cadastro' => 'DESC'])
+    ]);
+})->bind('listagem_posts');
+
+$blog->get('/page/{page}', function($page, $userPage = false) use($app) {
     if($userPage){
         return $app['post.controller']->posts($page, $app);
     }
     return $app['index.controller']->index($page, $app);
 })->bind('palavra_page');
 
-$home->get('/{postId}-{postTitulo}', function ($postId, $postTitulo) use ($app){
+$blog->get('/{postId}-{postTitulo}', function ($postId, $postTitulo) use ($app){
     return $app['post.controller']->post($postId, $app);
 })->bind('palavra_post');
 
-return $home;
+$blog->post('/criar', function (Request $request) use ($app) {
+    return $app['post.controller']->criar($request, $app);
+})->bind('criarPost');
+
+$blog->get('/{id}-{name}/editar', function($id, $name) use ($app) {
+    return $app['post.controller']->editarPost($id, $app);
+})->bind('editar_post');
+
+$blog->post('/salvar-edicao', function(Request $request) use ($app) {
+    return $app['post.controller']->editar($request, $app);
+})->bind('salvar_post')->method('PUT|POST');
+
+$blog->get('/{id}/status', function($id) use ($app) {
+    return $app['post.controller']->alterarStatus((int)$id, $app);
+})->bind('set_status_post');
+
+$blog->get('/tag/{id}/{tag}', function($id, $tag) use ($app) {
+    return $app['post.controller']->postsByTags($tag, $app);
+})->bind('palavra_tag');
+
+
+return $blog;
