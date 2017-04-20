@@ -1,0 +1,59 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Emails{% endblock %}
+{% block headerNome %}Emails{% endblock %}
+
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if app.session.flashbag.has('mensagem') %}
+                        {% for alert in app.session.flashbag.get('mensagem') %}
+                            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                        {% endfor %}
+                    {% endif %}
+
+                    <a href="{{ path('email_criar') }}" class="button is-danger">Criar Email</a>
+                    <hr class="small"/>
+
+                    <table class="table is-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Data Envio</th>
+                            <th>Assunto</th>
+                            <th>Mensagem</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Data Envio</th>
+                            <th>Assunto</th>
+                            <th>Mensagem</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                            {% for email in emails %}
+                                <tr>
+                                    <td>{{ email.id }}</td>
+                                    <td>{{ email.usuario.nome }}</td>
+                                    <td>{{ email.dataHora|date('d/m/Y H:i:s') }}</td>
+                                    <td>{{ email.tipo }}</td>
+                                    <td>{{ email.mensagem|raw }}</td>
+                                </tr>
+                            {% endfor  %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

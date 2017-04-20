@@ -1141,6 +1141,24 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
+	                                    { href: '/user/manager/email/criar' },
+	                                    'Criar Email'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
+	                                    { href: '/user/manager/email/listagem' },
+	                                    'Lista Emails'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
 	                                    { href: '/admin/blog' },
 	                                    'Configura\xE7\xF5es'
 	                                )

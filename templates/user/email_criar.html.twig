@@ -3,6 +3,11 @@
 {% block title %}Enviar Email{% endblock %}
 {% block headerNome %}Enviar Email{% endblock %}
 
+{% block stylesheet %}
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=91a9atfos2ittmhqexk1fymksio2pivke5ur2dogysceaim4"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+{% endblock %}
+
 {% block content %}
 
     <article>
@@ -10,30 +15,46 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    {% if mensagem is defined %}
+                        <a href="{{ path('listagem_emails') }}" class="button is-danger">Listagem de Emails</a>
+                        <hr class="small"/>
 
-                        <article class="message is-primary">
-                            <div class="message-header">
-                                <p>Mensagem</p>
+                        <form method="post" class="form-horizontal" action="{{ path('form_email_criar') }}">
+
+                            <div class="field">
+                                <p class="control">
+                                    <textarea class="textarea" name="mensagem" autofocus id="mensagem" ref="mensagem"
+                                              placeholder="Digite sua mensagem"></textarea>
+                                </p>
                             </div>
-                            <div class="message-body">
-                                {{ mensagem }}
+                            <div class="field">
+                                <p class="control">
+                                    <span class="select">
+                                       <select name="usuario">
+                                            {% for usuario in usuarios %}
+                                                <option value="{{ usuario.id }}">{{ usuario.id }} - {{ usuario.nome }}   -   {{ usuario.email }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </span>
+                                </p>
+
                             </div>
-                        </article>
 
-                    {% else %}
+                            <div class="field">
+                                <p class="control is-grouped-centered">
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="todos">
+                                        Enviar à Todos
+                                    </label>
+                                </p>
+                            </div>
 
-                        <form method="post" class="form-horizontal wow fadeInUp animated slide" action="{{ path('form_email_criar') }}">
-                            <p class="control">
-                                <textarea class="textarea" name="mensagem" autofocus id="mensagem" ref="mensagem"
-                                          placeholder="Digite sua mensagem"></textarea>
-                            </p>
-                            <p class="control">
-                                <button class="button is-danger is-fullwidth" type="submit">Enviar para todos</button>
-                            </p>
+                            <div class="field">
+                                <p class="control">
+                                    <button class="button is-danger is-fullwidth" type="submit">Enviar</button>
+                                </p>
+                            </div>
+
                         </form>
-
-                    {% endif %}
 
                 </div>
             </div>
