@@ -25,7 +25,7 @@ $email->get('criar', function () use ($app) {
 $email->post('enviar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
     $mensagem = $request->request->get('mensagem');
-    $assunto = 'Informativo';
+    $assunto = $request->request->get('assunto');
     $config = $app['config'];
 
     if ($request->request->get('todos')) {
@@ -33,7 +33,7 @@ $email->post('enviar', function (\Symfony\Component\HttpFoundation\Request $requ
         /**
          * @var Usuarios $usuario
          */
-        $usuarios = $app['usuarios.repository']->findBy([], [], 1, 0);
+        $usuarios = $app['usuarios.repository']->findAll();
 
         $app['db']->beginTransaction();
 
@@ -70,9 +70,8 @@ $email->post('enviar', function (\Symfony\Component\HttpFoundation\Request $requ
     /**
      * @var Usuarios $usuario
      */
-    $usuario = $app['usuarios.repository']->find(1);
+    $usuario = $app['usuarios.repository']->find($request->request->get('usuario'));
 
-    #$request->request->get('usuario')
     $array = [
         'mensagem' => $mensagem,
         'site' => $config->getNome(),

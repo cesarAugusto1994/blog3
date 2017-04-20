@@ -22,7 +22,7 @@ $musica->get('praise-success', function() use ($app) {
     return $app['twig']->render('/user/musica-sucesso.html.twig');;
 })->bind('praise_success');
 
-$musica->get('view/{id}', function($id) use ($app) {
+$musica->get('praise/{id}-{nome}/fullscreen', function($id, $nome) use ($app) {
     $musica = $app['musica.repository']->find($id);
     return $app['twig']->render('/user/view.html.twig', ['musica' => $musica]);
 })->bind('musica_view');

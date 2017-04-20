@@ -18,10 +18,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p class="title is-3">{{ musica.nome }}</p>
+                    <p class="title is-5">Opções</p>
                     <hr class="small">
                     <button class="button is-primary is-small" id="btnComCifra">Com Cifra</button>
                     <button class="button is-primary is-small" id="btnSemCifra">Sem Cifra</button>
+                    <br>
+                    <br>
                     <button class="button is-primary is-small" id="btnCores">Cores</button>
                     <button class="button is-primary is-small" id="btnInverter">Inverter Cores</button>
                     <br>
@@ -36,6 +38,8 @@
                             </button>
                         </p>
                     </div>
+                    <p class="title is-3">{{ musica.nome }}</p>
+                    <hr class="small">
                     <pre id="content" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
 
                 </div>
@@ -85,23 +89,23 @@
 
         $("#content").transpose({key: 'C'});
         $('#incfont').click(function () {
-            curSize = parseInt($('#content').css('font-size')) + 2;
-            curSize2 = parseInt($('.c').css('font-size')) + 2;
+            curSize = parseInt($('#content').css('font-size')) + 1;
+            curSize2 = parseInt($('.c').css('font-size')) + 1;
             if (curSize <= 32)
                 $('#content').css('font-size', curSize);
             if (curSize2 <= 32)
                 $('.c').css('font-size', curSize2);
         });
         $('#decfont').click(function () {
-            curSize = parseInt($('#content').css('font-size')) - 2;
-            curSize2 = parseInt($('.c').css('font-size')) - 2;
+            curSize = parseInt($('#content').css('font-size')) - 1;
+            curSize2 = parseInt($('.c').css('font-size')) - 1;
             if (curSize >= 5)
                 $('#content').css('font-size', curSize);
             if (curSize2 >= 5)
                 $('.c').css('font-size', curSize2);
         });
-        $('.c').css('font-size', 12);
-        $('#content').css('font-size', 12);
+        $('.c').css('font-size', 14);
+        $('#content').css('font-size', 14);
     </script>
 
 {% endblock %}

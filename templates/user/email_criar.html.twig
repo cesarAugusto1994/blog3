@@ -20,16 +20,19 @@
 
                         <form method="post" class="form-horizontal" action="{{ path('form_email_criar') }}">
 
+                            <p class="control">
+                                <input class="input" type="text" name="assunto" placeholder="Assunto" required>
+                            </p>
+
                             <div class="field">
                                 <p class="control">
-                                    <textarea class="textarea" name="mensagem" autofocus id="mensagem" ref="mensagem"
-                                              placeholder="Digite sua mensagem"></textarea>
+                                    <textarea class="textarea" name="mensagem" id="mensagem" autofocus placeholder="Mensagem"></textarea>
                                 </p>
                             </div>
                             <div class="field">
                                 <p class="control">
                                     <span class="select">
-                                       <select name="usuario">
+                                       <select name="usuario" required>
                                             {% for usuario in usuarios %}
                                                 <option value="{{ usuario.id }}">{{ usuario.id }} - {{ usuario.nome }}   -   {{ usuario.email }}</option>
                                             {% endfor %}
