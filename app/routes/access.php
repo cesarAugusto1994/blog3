@@ -29,13 +29,38 @@ $app->get('/user/', function () use ($app) {
 
 $app->post('/admin/login_check', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
-})->bind('login_check');
+})->bind('login_check')->after(function () use ($app) {
 
+    if ($app['security.token_storage']->getToken()) {
+
+        $sessao = null;
+
+        if ($app['session']->getId()) {
+            $sessao = $app['session']->getId();
+        }
+
+        $token = $app['security.token_storage']->getToken();
+
+        if ($token->getUser()) {
+            $usuario = $app['usuarios.repository']->find($token->getUser()->getId());
+            $login = new Login();
+            $login->setUsuario($usuario);
+            $login->setSessao($sessao);
+            $login->setDataLogin(new DateTime('now'));
+
+            $app['db']->beginTransaction();
+            $app['login.repository']->save($login);
+            $app['db']->commit();
+
+            $app['session']->set('sessao', $sessao);
+        }
+    }
+
+});
 
 $app->get('/admin/logout', function () use ($app) {
-}
 
-)->bind('logout')->after(function () use ($app) {
+})->bind('logout')->after(function () use ($app) {
     $app['session']->clear();
     return $app->redirect('/login');
 });

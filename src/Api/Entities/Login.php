@@ -34,10 +34,22 @@ class Login
     private $usuario;
 
     /**
-     * @ORM\Column(name="data_hora", type="datetime")
+     * @ORM\Column(name="data_login", type="datetime")
      * @var \DateTime
      */
-    private $data_hora;
+    private $dataLogin;
+
+    /**
+     * @ORM\Column(name="data_logout", type="datetime", nullable=true)
+     * @var \DateTime
+     */
+    private $dataLogout;
+
+    /**
+     * @ORM\Column(name="sessao", type="string", length=50)
+     * @var string
+     */
+    private $sessao;
 
     /**
      * @return int
@@ -66,16 +78,48 @@ class Login
     /**
      * @return \DateTime
      */
-    public function getDataHora()
+    public function getDataLogin()
     {
-        return $this->data_hora;
+        return $this->dataLogin;
     }
 
     /**
-     * @param \DateTime $data_hora
+     * @param \DateTime $dataLogin
      */
-    public function setDataHora($data_hora)
+    public function setDataLogin($dataLogin)
     {
-        $this->data_hora = $data_hora;
+        $this->dataLogin = $dataLogin;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDataLogout()
+    {
+        return $this->dataLogout;
+    }
+
+    /**
+     * @param \DateTime $dataLogout
+     */
+    public function setDataLogout($dataLogout)
+    {
+        $this->dataLogout = $dataLogout;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSessao()
+    {
+        return $this->sessao;
+    }
+
+    /**
+     * @param string $sessao
+     */
+    public function setSessao($sessao)
+    {
+        $this->sessao = $sessao;
     }
 }

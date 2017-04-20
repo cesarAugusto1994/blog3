@@ -355,6 +355,8 @@ $app['usuario.email.service'] = function ($email) use ($app) {
 
 $app['usuario.sessao'] = function () use ($app) {
 
+
+
     /**
      * @var Usuarios $user
      */
