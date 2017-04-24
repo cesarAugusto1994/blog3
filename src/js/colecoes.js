@@ -15,13 +15,12 @@ $(function () {
     class BtnEditar extends React.Component {
 
         render() {
+
+            let editar = "/user/colecao/" + this.props.colecao.id + "-" + this.props.colecao.nome.toLowerCase().replace(/ /g, '_') + "/editar";
+
             return (
-                <a className="button is-primary is-small openMenu"
-                   data-toggle="modal"
-                   data-target="#myModal"
-                   data-id={ this.props.colecao.id }
-                   data-nome={ this.props.colecao.nome }
-                   data-descricao={ this.props.colecao.nome }>Editar</a>
+                <a className="button is-primary is-small"
+                href={editar}>Editar</a>
             )
         }
 
@@ -73,13 +72,19 @@ $(function () {
                 btn =  <span className="tag is-light">{this.props.colecao.qtde_categorias}</span>;
 
                 menu = (
-                <div className="btn-group">
-                    <button type="button" className="button is-light is-small is-pulled-left dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span className="caret"></span>
-                    </button>
-                    <ul className="dropdown-menu">
-                        <li>{editar}{mudarStatus}{btn}</li>
-                    </ul>
+                <div className="control is-grouped">
+
+                    <p className="control">
+                        {editar}
+                    </p>
+
+                    <p className="control">
+                        {mudarStatus}
+                    </p>
+
+                    <p className="control">
+                        {btn}
+                    </p>
                 </div>
                 );
             }
@@ -91,10 +96,10 @@ $(function () {
                     </div>
                     <figcaption>
                         <h4>
-                            {menu}
                             <a href={this.props.categoriasUrl}>
                                 {this.props.colecao.nome}
                             </a>
+                            {menu}
                         </h4>
                     </figcaption>
                 </figure>

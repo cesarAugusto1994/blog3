@@ -298,7 +298,7 @@ $app['dir.menu'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/img/menu/';
 };
 $app['dir.colecao'] = function () use ($app) {
-    return $app['dir.base'] . 'assets/blog/img/colecoes/';
+    return $app['dir.base3'] . 'assets/blog/img/colecoes/';
 };
 $app['dir.anexo'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/musicas/';

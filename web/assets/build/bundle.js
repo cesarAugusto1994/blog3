@@ -3823,14 +3823,13 @@
 	    class BtnEditar extends React.Component {
 
 	        render() {
+
+	            let editar = "/user/colecao/" + this.props.colecao.id + "-" + this.props.colecao.nome.toLowerCase().replace(/ /g, '_') + "/editar";
+
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-primary is-small openMenu',
-	                    'data-toggle': 'modal',
-	                    'data-target': '#myModal',
-	                    'data-id': this.props.colecao.id,
-	                    'data-nome': this.props.colecao.nome,
-	                    'data-descricao': this.props.colecao.nome },
+	                { className: 'button is-primary is-small',
+	                    href: editar },
 	                'Editar'
 	            );
 	        }
@@ -3892,22 +3891,21 @@
 
 	                menu = React.createElement(
 	                    'div',
-	                    { className: 'btn-group' },
+	                    { className: 'control is-grouped' },
 	                    React.createElement(
-	                        'button',
-	                        { type: 'button', className: 'button is-light is-small is-pulled-left dropdown-toggle ', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
-	                        React.createElement('span', { className: 'caret' })
+	                        'p',
+	                        { className: 'control' },
+	                        editar
 	                    ),
 	                    React.createElement(
-	                        'ul',
-	                        { className: 'dropdown-menu' },
-	                        React.createElement(
-	                            'li',
-	                            null,
-	                            editar,
-	                            mudarStatus,
-	                            btn
-	                        )
+	                        'p',
+	                        { className: 'control' },
+	                        mudarStatus
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        { className: 'control' },
+	                        btn
 	                    )
 	                );
 	            }
@@ -3926,12 +3924,12 @@
 	                    React.createElement(
 	                        'h4',
 	                        null,
-	                        menu,
 	                        React.createElement(
 	                            'a',
 	                            { href: this.props.categoriasUrl },
 	                            this.props.colecao.nome
-	                        )
+	                        ),
+	                        menu
 	                    )
 	                )
 	            );

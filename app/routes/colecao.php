@@ -44,6 +44,13 @@ $colecao->get('colecoes/grid', function() use ($app){
 
 })->bind('colecoes_grid');
 
+$colecao->get('/colecao/{id}-{nome}/editar', function ($id, $nome) use ($app) {
+
+    $colecao = $app['colecao.repository']->find($id);
+    return $app['twig']->render('/user/colecao/editar.html.twig', ['colecao' => $colecao]);
+
+})->bind('colecao_editar');
+
 $colecao->post('colecao/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     
     if ($request->get('id')) {
@@ -65,14 +72,9 @@ $colecao->post('colecao/save', function (\Symfony\Component\HttpFoundation\Reque
         $app['colecao.repository']->save($colecao);
         $app['db']->commit();
 
-        $mensagem = 'Coleção '.$colecao->getNome().' editada com sucesso.';
+        $app['session']->getFlashBag()->add('mensagem', 'Coleção '.$colecao->getNome().' editada com sucesso.');
 
-        return $app->json(
-            [
-                'class' => 'success',
-                'message' => $mensagem
-            ]
-        );
+        return $app->redirect('/user/collections');
 
     }
     

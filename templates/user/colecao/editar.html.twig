@@ -1,0 +1,53 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Editar Cole&ccedil;&atilde;o{% endblock %}
+
+{% block header %}{{ parent() }}{% endblock %}
+
+{% block headerNome %}Editar Cole&ccedil;&atilde;o{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <form method="post" class="form-horizontal wow fadeInUp animated slide" action="{{ path('save_colecao') }}"
+                          enctype="multipart/form-data">
+                        <p class="control">
+                            <input type="hidden" name="id" value="{{ colecao.id }}">
+                        </p>
+
+                        <label>Nome Cole&ccedil;&atilde;o</label>
+                        <p class="control">
+                            <input class="input" type="text" placeholder="Nome" name="nome" value="{{ colecao.nome }}" required>
+                        </p>
+
+                        <label>Descrição</label>
+                        <p class="control">
+                            <input class="input" type="text" placeholder="Descrição" name="descricao" value="{{ colecao.descricao }}" required>
+                        </p>
+
+                        <p class="control">Imagem de Fundo</p>
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail" style="border: none; width: 150px; height: 150px;">
+                                <img style="height: 100%" src="{% if colecao.imagem %}{{ asset(app['dir.colecao'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default'] ) }}{% endif %}"
+                                     data-src="{% if colecao.imagem %}{{ asset(app['dir.colecao'] ~ colecao.imagem ) }}{% else %}{{ asset(app['background.default'] ) }}{% endif %}" alt="usuario">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                            <div>
+                                <span class="button is-light is-small is-fullwidth btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
+                                <a href="#" class="button is-danger is-inverted is-small is-fullwidth fileinput-exists" data-dismiss="fileinput">Remover</a>
+                            </div>
+                        </div>
+
+                        <p class="control">
+                            <button class="button is-danger is-fullwidth" type="submit">Salvar</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}
