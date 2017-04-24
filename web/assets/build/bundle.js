@@ -1159,6 +1159,24 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
+	                                    { href: '/user/manager/acesso' },
+	                                    'Acesso'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
+	                                    { href: '/user/manager/comentarios' },
+	                                    'Comentarios'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
 	                                    { href: '/admin/blog' },
 	                                    'Configura\xE7\xF5es'
 	                                )
@@ -2409,7 +2427,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { href: this.props.source, className: 'button is-light is-small is-pulled-right' },
+	                { href: this.props.source, className: 'button is-light is-small' },
 	                'Editar Letra'
 	            );
 	        }
@@ -2454,7 +2472,7 @@
 	            return React.createElement(
 	                'a',
 	                { href: this.props.source, className: 'button is-light is-small' },
-	                'Adicionar Letra'
+	                'Editar Letra'
 	            );
 	        }
 	    }
@@ -2818,19 +2836,18 @@
 	            if (!this.props.dataMusica.letra) {
 	                letra = React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra });
 	            } else {
-	                letra = React.createElement(BtnView, { sourceView: this.props.sourceView });
+	                letra = React.createElement(BtnEditar, { source: this.props.source });
 	            }
 
 	            if (this.props.user == ROLE_ADMIN) {
 	                menu = React.createElement(
 	                    'div',
 	                    { className: 'block' },
-	                    React.createElement(BtnFavoritos, { handle: this.handleFavoritos, isFavorito: this.state.favorito,
-	                        dataMusica: this.props.dataMusica }),
+	                    React.createElement(BtnFavoritos, { handle: this.handleFavoritos, isFavorito: this.state.favorito, dataMusica: this.props.dataMusica }),
 	                    React.createElement(BtnEditarMusica, { source: this.props.sourceEditar }),
 	                    React.createElement(BtnAddLink, { openModal: this.openModalAddLink }),
 	                    React.createElement(BtnAdicionarArquivo, { openModal: this.openModal }),
-	                    letra
+	                    React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra })
 	                );
 	            } else {
 	                menu = React.createElement(
@@ -2849,7 +2866,7 @@
 	                    React.createElement(
 	                        'p',
 	                        { className: 'control' },
-	                        letra
+	                        React.createElement(BtnAddLetra, { source: this.props.sourceAddLetra })
 	                    )
 	                );
 	            }
@@ -2898,6 +2915,37 @@
 	                );
 	            }
 
+	            let linkArquivos = '/user/praise/' + this.props.musica + '-' + this.props.musicaNome.toLowerCase().replace(/ /g, '_') + '/arquivos';
+
+	            let letraCol = "";
+
+	            if (!this.props.musicaApenasAnexos) {
+
+	                letraCol = React.createElement(
+	                    'div',
+	                    { className: 'column is-half' },
+	                    React.createElement(
+	                        'figure',
+	                        { className: 'wow fadeInLeft animated portfolio-item' },
+	                        React.createElement(
+	                            'figcaption',
+	                            null,
+	                            React.createElement(
+	                                'h2',
+	                                null,
+	                                React.createElement('i', { className: 'fa fa-file-text-o', 'aria-hidden': 'true' }),
+	                                '\xA0',
+	                                React.createElement(
+	                                    'a',
+	                                    { href: this.props.sourceView, target: '_blank' },
+	                                    'LETRA'
+	                                )
+	                            )
+	                        )
+	                    )
+	                );
+	            }
+
 	            return React.createElement(
 	                'div',
 	                null,
@@ -2910,63 +2958,32 @@
 	                React.createElement('br', null),
 	                React.createElement(
 	                    'div',
-	                    null,
+	                    { className: 'columns' },
 	                    React.createElement(
-	                        'ul',
-	                        { className: 'tabs is-toggle is-fullwidth', role: 'tablist' },
+	                        'div',
+	                        { className: 'column is-half' },
 	                        React.createElement(
-	                            'li',
-	                            { role: 'presentation', className: 'active' },
+	                            'figure',
+	                            { className: 'wow fadeInLeft animated portfolio-item' },
 	                            React.createElement(
-	                                'a',
-	                                { href: '#profile', 'aria-controls': 'profile', role: 'tab', 'data-toggle': 'tab' },
-	                                'Arquivos'
-	                            )
-	                        ),
-	                        React.createElement(
-	                            'li',
-	                            { role: 'presentation' },
-	                            React.createElement(
-	                                'a',
-	                                { href: '#home', 'aria-controls': 'home', role: 'tab', 'data-toggle': 'tab' },
-	                                'Letra'
-	                            )
-	                        ),
-	                        React.createElement(
-	                            'li',
-	                            { role: 'presentation' },
-	                            React.createElement(
-	                                'a',
-	                                { href: '#messages', 'aria-controls': 'messages', role: 'tab', 'data-toggle': 'tab' },
-	                                'Informa\xE7\xF5es'
+	                                'figcaption',
+	                                null,
+	                                React.createElement(
+	                                    'h2',
+	                                    null,
+	                                    React.createElement('i', { className: 'fa fa-file-o', 'aria-hidden': 'true' }),
+	                                    '\xA0',
+	                                    React.createElement(
+	                                        'a',
+	                                        { href: linkArquivos },
+	                                        'ARQUIVOS'
+	                                    )
+	                                )
 	                            )
 	                        )
 	                    ),
-	                    React.createElement(
-	                        'div',
-	                        { className: 'tab-content' },
-	                        React.createElement(
-	                            'div',
-	                            { role: 'tabpanel', className: 'tab-pane active', id: 'profile' },
-	                            cardArquivos
-	                        ),
-	                        React.createElement(
-	                            'div',
-	                            { role: 'tabpanel', className: 'tab-pane', id: 'home' },
-	                            cardLetra
-	                        ),
-	                        React.createElement(
-	                            'div',
-	                            { role: 'tabpanel', className: 'tab-pane', id: 'messages' },
-	                            React.createElement(
-	                                CardLetra,
-	                                { label: 'Letra' },
-	                                'Em Breve'
-	                            )
-	                        )
-	                    )
-	                ),
-	                React.createElement('br', null)
+	                    letraCol
+	                )
 	            );
 	        }
 	    });
@@ -3030,6 +3047,8 @@
 	                    sourceAddLetra: this.props.sourceAddLetra,
 	                    sourceVideos: this.props.sourceVideos,
 	                    musica: this.props.musicaId,
+	                    musicaNome: this.props.musicaNome,
+	                    musicaApenasAnexos: this.props.musicaApenasAnexos,
 	                    dirAnexos: this.props.dirAnexos,
 	                    user: this.props.user,
 	                    userId: this.props.userId,
@@ -3077,6 +3096,8 @@
 	    const sourceMusicaTom = $("#comentarios").attr("data-source-musica-tom");
 
 	    const musicaId = $("#comentarios").attr("data-musica-id");
+	    const musicaNome = $("#comentarios").attr("data-musica-nome");
+	    const musicaApenasAnexos = $("#comentarios").attr("data-musica-apenas-anexos");
 	    const user = $("#comentarios").attr("data-user");
 	    const userId = $("#comentarios").data("user-id");
 	    const dirAvatar = $("#comentarios").attr("data-dir-avatar");
@@ -3091,6 +3112,8 @@
 	            sourceEditar: sourceEditar,
 	            sourceVideos: sourceVideos,
 	            musica: musicaId,
+	            musicaNome: musicaNome,
+	            musicaApenasAnexos: musicaApenasAnexos,
 	            dirAnexos: dirAnexos,
 	            source: source,
 	            user: user,

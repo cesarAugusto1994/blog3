@@ -21,6 +21,8 @@
          data-dir-avatar="{{ app['dir.avatar'] }}"
          data-dir-anexos="{{ app['dir.anexo'] }}"
          data-musica-id="{{ musica.id }}"
+         data-musica-nome="{{ musica.nome }}"
+         data-musica-apenas-anexos="{{ musica.apenasAnexos }}"
          data-source-view="{{ path('musica_view', { id : musica.id, nome : musica.nome|lower|replace(' ', '_')  }) }}"
          data-source-editar="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome|lower|replace(' ', '_') }) }}"
          data-source-add-letra="{{ path('view_editar_letra_musica', { id : musica.id }) }}"

@@ -1,21 +1,20 @@
 /**
- * Created by cesar on 12/09/16.
+ * Created by cesar on 24/04/17.
  */
-$(document).ready(function(){
 
-    var fd = new FormData();
-    var files = $('#filer_input').val();
+var fd = new FormData();
+var files = $('#filer_input').val();
 
-    $.each(files, function (index, value) {
-        fd.append('files[]', files[index]);
-    });
+$.each(files, function (index, value) {
+    fd.append('files[]', files[index]);
+});
 
-    //Example 2
-    $("#filer_input4").filer({
-        limit: null,
-        maxSize: null,
+$('#filer_input').filer(
+    {
+        limit: 20,
+        maxSize: 15,
         extensions: null,
-        changeInput: '<div class="jFiler-input-dragDrop"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i></div><div class="jFiler-input-text"><h3>Drag&Drop files here</h3> <span style="display:inline-block; margin: 15px 0">or</span></div><a class="jFiler-input-choose-btn blue">Browse Files</a></div></div>',
+        changeInput: '<div class="jFiler-input-dragDrop"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i></div><div class="jFiler-input-text"><h3>Arraste e solte arquivos aqui</h3> <span style="display:inline-block; margin: 15px 0">ou</span></div><a class="jFiler-input-choose-btn blue">Selecionar Arquivos</a></div></div>',
         showThumbs: true,
         theme: "dragdropbox",
         templates: {
@@ -88,8 +87,9 @@ $(document).ready(function(){
             dragLeave: null,
             drop: null,
         },
+
         uploadFile: {
-            url: "/user/musica/" + $('#musicaId').val() + "/anexos/upload",
+            url: "/user/musica/" + musicaId + "/anexos/upload",
             data: fd,
             type: 'POST',
             enctype: 'multipart/form-data',
@@ -116,6 +116,7 @@ $(document).ready(function(){
             onProgress: null,
             onComplete: null
         },
+
         files: null,
         addMore: false,
         clipBoardPaste: true,
@@ -126,11 +127,13 @@ $(document).ready(function(){
         beforeSelect: null,
         onSelect: null,
         afterShow: null,
+
         onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
             var filerKit = inputEl.prop("jFiler"),
                 file_name = filerKit.files_list[id].name;
             $.post('/user/musica/anexos/remover', {id: file_name, musica : musicaId});
         },
+
         onEmpty: null,
         options: null,
         dialogs: {
@@ -154,5 +157,5 @@ $(document).ready(function(){
                 filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB."
             }
         }
-    });
-})
+    }
+);

@@ -430,4 +430,14 @@ $musica->post('musica/editar', function(\Symfony\Component\HttpFoundation\Reques
 
 })->bind('save_musica');
 
+
+$musica->get('/praise/{id}-{nome}/arquivos', function($id, $nome) use ($app) {
+
+    $musica = $app['musica.repository']->find($id);
+    $anexos = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true], ['nome' => 'ASC']);
+
+    return $app['twig']->render('/user/musica/anexos.html.twig', ['anexos' => $anexos, 'musica' => $musica]);
+
+})->bind('app_attachments_from_praise');
+
 return $musica;

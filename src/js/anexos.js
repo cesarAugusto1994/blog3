@@ -465,7 +465,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.source} className="button is-light is-small is-pulled-right">Editar Letra</a>
+                <a href={this.props.source} className="button is-light is-small">Editar Letra</a>
             );
         }
     }
@@ -502,7 +502,7 @@ $(function () {
 
         render() {
             return (
-                <a href={this.props.source} className="button is-light is-small">Adicionar Letra</a>
+                <a href={this.props.source} className="button is-light is-small">Editar Letra</a>
             );
         }
     }
@@ -797,19 +797,18 @@ $(function () {
                 )
             } else {
                 letra = (
-                    <BtnView sourceView={this.props.sourceView}/>
+                    <BtnEditar source={this.props.source}/>
                 )
             }
 
             if (this.props.user == ROLE_ADMIN) {
                 menu = (
                     <div className="block">
-                        <BtnFavoritos handle={this.handleFavoritos} isFavorito={this.state.favorito}
-                                      dataMusica={this.props.dataMusica}/>
+                        <BtnFavoritos handle={this.handleFavoritos} isFavorito={this.state.favorito} dataMusica={this.props.dataMusica}/>
                         <BtnEditarMusica source={this.props.sourceEditar}/>
                         <BtnAddLink openModal={this.openModalAddLink}/>
                         <BtnAdicionarArquivo openModal={this.openModal}/>
-                        {letra}
+                        <BtnAddLetra source={this.props.sourceAddLetra}/>
                     </div>
                 )
             } else {
@@ -822,7 +821,7 @@ $(function () {
                             <BtnAdicionarArquivo openModal={this.openModal}/>
                         </p>
                         <p className="control">
-                            {letra}
+                            <BtnAddLetra source={this.props.sourceAddLetra}/>
                         </p>
                     </div>
                 )
@@ -868,28 +867,51 @@ $(function () {
                 )
             }
 
-            return (
+            let linkArquivos = '/user/praise/' + this.props.musica + '-' + this.props.musicaNome.toLowerCase().replace(/ /g, '_')  + '/arquivos';
 
+            let letraCol = "";
+
+            if (!this.props.musicaApenasAnexos) {
+
+                letraCol = (
+                    <div className="column is-half">
+                        <figure className="wow fadeInLeft animated portfolio-item">
+                            <figcaption>
+                                <h2>
+                                    <i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;
+                                    <a href={this.props.sourceView} target="_blank">LETRA</a>
+                                </h2>
+                            </figcaption>
+                        </figure>
+                    </div>
+                );
+            }
+
+            return (
                 <div>
                     <CardLetra label="Menu">
                         {menu}
                     </CardLetra>
                     {card}
                     <br/>
-                    <div>
-                        <ul className="tabs is-toggle is-fullwidth" role="tablist">
-                            <li role="presentation" className="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arquivos</a></li>
-                            <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Letra</a></li>
-                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Informações</a></li>
-                        </ul>
 
-                        <div className="tab-content">
-                            <div role="tabpanel" className="tab-pane active" id="profile">{cardArquivos}</div>
-                            <div role="tabpanel" className="tab-pane" id="home">{cardLetra}</div>
-                            <div role="tabpanel" className="tab-pane" id="messages"><CardLetra label="Letra">Em Breve</CardLetra></div>
+                    <div className="columns">
+
+                        <div className="column is-half">
+                            <figure className="wow fadeInLeft animated portfolio-item">
+                                <figcaption>
+                                    <h2>
+                                        <i className="fa fa-file-o" aria-hidden="true"></i>&nbsp;
+                                        <a href={linkArquivos}>ARQUIVOS</a>
+                                    </h2>
+                                </figcaption>
+                            </figure>
                         </div>
+
+                        {letraCol}
+
+
                     </div>
-                    <br/>
                 </div>
             )
         }
@@ -947,6 +969,8 @@ $(function () {
                         sourceAddLetra={this.props.sourceAddLetra}
                         sourceVideos={this.props.sourceVideos}
                         musica={this.props.musicaId}
+                        musicaNome={this.props.musicaNome}
+                        musicaApenasAnexos={this.props.musicaApenasAnexos}
                         dirAnexos={this.props.dirAnexos}
                         user={this.props.user}
                         userId={this.props.userId}
@@ -989,6 +1013,8 @@ $(function () {
     const sourceMusicaTom = $("#comentarios").attr("data-source-musica-tom");
 
     const musicaId = $("#comentarios").attr("data-musica-id");
+    const musicaNome = $("#comentarios").attr("data-musica-nome");
+    const musicaApenasAnexos = $("#comentarios").attr("data-musica-apenas-anexos");
     const user = $("#comentarios").attr("data-user");
     const userId = $("#comentarios").data("user-id");
     const dirAvatar = $("#comentarios").attr("data-dir-avatar");
@@ -1004,6 +1030,8 @@ $(function () {
                         sourceEditar={sourceEditar}
                         sourceVideos={sourceVideos}
                         musica={musicaId}
+                        musicaNome={musicaNome}
+                        musicaApenasAnexos={musicaApenasAnexos}
                         dirAnexos={dirAnexos}
                         source={source}
                         user={user}

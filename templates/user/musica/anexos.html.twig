@@ -1,0 +1,139 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}{{ musica.nome }} / Arquivos{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
+          rel="stylesheet"/>
+{% endblock %}
+
+{% block header %}{{ parent() }}{% endblock %}
+
+{% block headerNome %}{{ musica.nome }} / Arquivos{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <button id="btnAddArquivos" class="button is-danger" data-toggle="modal"
+                            data-target="#modal-musicas">Adicionar Arquivo
+                    </button>
+
+                    <hr class="small"/>
+
+                    {% for alert in app.session.flashbag.get('mensagem') %}
+                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                    {% endfor %}
+
+                    <div class="col-sm-12 col-xs-12">
+                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms"
+                                data-wow-delay="0ms">
+
+                            {% for anexo in anexos %}
+
+                                <figcaption>
+                                    <h4>
+                                        {{ anexo.nome }}
+                                    </h4>
+                                    <p>
+                                        <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                           target="_blank">
+                                            <button class="button is-small is-success is-outlined">
+                                                Visualizar
+                                            </button>
+                                        </a>
+                                        <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                           download>
+                                            <button class="button is-small is-primary is-outlined">
+                                                Baixar
+                                            </button>
+                                        </a>
+
+                                        {% if anexo.usuario.id == app.usuario.id or is_granted('ROLE_ADMIN') %}
+                                            <button class="button is-danger is-inverted is-small btnRemover"
+                                                    value="{{ anexo.id }}">Remover
+                                            </button>
+                                        {% endif %}
+                                    </p>
+                                </figcaption>
+
+                            {% endfor %}
+
+                        </figure>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <div id="modal-musicas" class="modal fade" tabIndex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Adicionar Arquivos</h4>
+                </div>
+                <form class="form-horizontal">
+                    <div class="modal-body">
+                        <input type="hidden" name="musica" id="musicaId" value="{{ musica.id }}"/>
+                        <input class="input" type="file" name="files[]" id="filer_input4" multiple/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal"
+                                onclick="window.location.reload()">Fechar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop.js') }}"
+            type="text/javascript"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(".btnRemover").click(function (e) {
+
+                e.preventDefault();
+
+                let id = $(this).val();
+
+                alertify.confirm("Deseja remover este arquivo?", function () {
+
+                    block_screen();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/musica/anexos/" + id + "/remover",
+                        cache: false,
+                        success: function (data) {
+                            unblock_screen();
+                            alertify.success(data.message);
+                            window.location.reload();
+                        },
+                        error: function () {
+                            unblock_screen();
+                            alertify.error("Ocorreu um erro.");
+                        }
+                    });
+                }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
+
+
+            })
+
+        });
+
+    </script>
+
+{% endblock %}

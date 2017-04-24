@@ -122,6 +122,8 @@ $(function () {
                             <li><a href="/user/palavra/listagem">Lista Post</a></li>
                             <li><a href="/user/manager/email/criar">Criar Email</a></li>
                             <li><a href="/user/manager/email/listagem">Lista Emails</a></li>
+                            <li><a href="/user/manager/acesso">Acesso</a></li>
+                            <li><a href="/user/manager/comentarios">Comentarios</a></li>
                             <li><a href="/admin/blog">Configura&ccedil;&otilde;es</a></li>
                             <li><a href="/admin/usuarios/list">Usu&aacute;rios</a></li>
                         </ul>

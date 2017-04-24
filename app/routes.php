@@ -75,6 +75,8 @@ $app->mount('/user', include __DIR__ . '/routes/favoritos.php');
 $app->mount('/user', include __DIR__ . '/routes/sugestao.php');
 
 $app->mount('/user/manager/email', include __DIR__ . '/routes/email.php');
+$app->mount('/user/manager/acesso', include __DIR__ . '/routes/login.php');
+$app->mount('/user/manager/comentarios', include __DIR__ . '/routes/comentarios.php');
 $app->mount('/user/palavra/', include __DIR__ . '/routes/blog/home.php');
 
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
