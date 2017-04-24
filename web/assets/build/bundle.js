@@ -1177,6 +1177,15 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
+	                                    { href: '/user/manager/logs' },
+	                                    'Logs'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
 	                                    { href: '/admin/blog' },
 	                                    'Configura\xE7\xF5es'
 	                                )

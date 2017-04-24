@@ -1,0 +1,53 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Logs{% endblock %}
+{% block headerNome %}Logs{% endblock %}
+
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if app.session.flashbag.has('mensagem') %}
+                        {% for alert in app.session.flashbag.get('mensagem') %}
+                            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                        {% endfor %}
+                    {% endif %}
+
+                    <table class="table is-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Mensagem</th>
+                            <th>Data</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Mensagem</th>
+                            <th>Data</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for log in logs %}
+                            <tr>
+                                <td>{{ log.id }}</td>
+                                <td>{{ log.usuario.id }} - {{ log.usuario.nome }}</td>
+                                <td>{{ log.mensagem|raw }}</td>
+                                <td>{{ log.cadastro|date('d/m/Y H:i:s') }}</td>
+                            </tr>
+                        {% endfor  %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

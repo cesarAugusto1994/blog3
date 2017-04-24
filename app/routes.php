@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 $app->get('/', function () use ($app) {
 
-    if(!empty($app['session']->get('user'))) {
+    if (!empty($app['session']->get('user'))) {
         return $app->redirect('/user/');
     }
 
@@ -34,6 +34,46 @@ $app->get('/user/pesquisar', function (\Symfony\Component\HttpFoundation\Request
     return $app['search.controller']->search($request->get('q'), $app);
 })->bind('pesquisar');
 
+
+$app->get('/user/search', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    $musicas = [];
+    $musicaAnexos = [];
+    $posts = [];
+
+    if ($request->get('go')) {
+
+        $musicas = $app['musica.repository']->search(
+            $request->get('q'),
+            $request->get('categoria'),
+            $request->get('colecao'),
+            $request->get('tom'));
+
+        if ($request->get('q')) {
+            $musicaAnexos = $app['musica.anexos.repository']->search($request->get('q'));
+            $posts = $app['posts.repository']->search($request->get('q'));
+        }
+
+    }
+
+    $colecoes = $app['colecao.repository']->findBy(['ativo' => true]);
+    $categorias = $app['categorias'];
+    $tons = $app['tonalidades'];
+
+    return $app['twig']->render(
+        'user/pesquisar.html.twig',
+        [
+            'musicas' => $musicas,
+            'musica_anexos' => $musicaAnexos,
+            'posts' => $posts,
+            'tons' => $tons,
+            'colecoes' => $colecoes,
+            'categoriasColecoes' => $categorias,
+        ]
+    );
+
+})->bind('pesquisar_3');
+
 $app->get('/pesquisar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['search.controller']->searchPublic($request->get('q'), $app);
 })->bind('pesquisar_home');
@@ -42,15 +82,15 @@ $app->get('/admin/usuarios/list', function () use ($app) {
     return $app['usuarios.controller']->getUsuarios($app);
 })->bind('usuarios');
 
-$app->get('/admin/usuario/{id}/status', function($id) use ($app) {
+$app->get('/admin/usuario/{id}/status', function ($id) use ($app) {
     return $app['usuarios.controller']->alteraStatus($id, $app);
 })->bind('usuario_status');
 
-$app->get('/user/mail', function() use ($app) {
+$app->get('/user/mail', function () use ($app) {
     return $app['usuario.email.service'];
 });
 
-$app->get('/user/cache', function() {
+$app->get('/user/cache', function () {
     return new Response('Foo', 200, array(
         'Cache-Control' => 's-maxage=5',
     ));
@@ -77,14 +117,15 @@ $app->mount('/user', include __DIR__ . '/routes/sugestao.php');
 $app->mount('/user/manager/email', include __DIR__ . '/routes/email.php');
 $app->mount('/user/manager/acesso', include __DIR__ . '/routes/login.php');
 $app->mount('/user/manager/comentarios', include __DIR__ . '/routes/comentarios.php');
+$app->mount('/user/manager/logs', include __DIR__ . '/routes/logs.php');
 $app->mount('/user/palavra/', include __DIR__ . '/routes/blog/home.php');
 
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
 $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
 
-include __DIR__.'/routes/post.php';
-include __DIR__.'/routes/musica_admin.php';
-include __DIR__.'/routes/access.php';
+include __DIR__ . '/routes/post.php';
+include __DIR__ . '/routes/musica_admin.php';
+include __DIR__ . '/routes/access.php';
 /*
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
     switch ($code) {

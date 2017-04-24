@@ -124,6 +124,7 @@ $(function () {
                             <li><a href="/user/manager/email/listagem">Lista Emails</a></li>
                             <li><a href="/user/manager/acesso">Acesso</a></li>
                             <li><a href="/user/manager/comentarios">Comentarios</a></li>
+                            <li><a href="/user/manager/logs">Logs</a></li>
                             <li><a href="/admin/blog">Configura&ccedil;&otilde;es</a></li>
                             <li><a href="/admin/usuarios/list">Usu&aacute;rios</a></li>
                         </ul>

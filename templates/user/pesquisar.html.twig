@@ -1,0 +1,160 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Pesquisar{% endblock %}
+{% block headerNome %}Pesquisar{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <div class="columns">
+
+                        <div class="column is-one-third">
+
+                            <form method="get" class="form-horizontal wow fadeInUp animated slide"
+                                  action="{{ path('pesquisar_3') }}">
+
+                                <input type="hidden" name="go" value="1" />
+
+                                <nav class="panel">
+                                    <p class="panel-heading">
+                                        Pesquisar
+                                    </p>
+                                    <div class="field has-addons">
+                                        <p class="control">
+                                            <input class="input" type="text" name="q" placeholder="Pesquisar">
+                                        </p>
+
+                                        <p class="control">
+                                            <label class="label text-black">Tonalidade</label>
+                                        <div class="select is-fullwidth">
+                                            <select name="tom" id="tom">
+                                                <option value=""></option>
+                                                {% for tom in tons %}
+                                                    <option value="{{ tom }}">{{ tom }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        </p>
+
+                                        <p class="control">
+                                            <label class="label text-black">Colecoes</label>
+                                        <div class="select is-fullwidth">
+                                            <select name="colecao" id="colecao">
+                                                <option value=""></option>
+                                                {% for colecao in colecoes %}
+                                                    <option value="{{ colecao.id }}">{{ colecao.nome }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        </p>
+
+                                        <p class="control">
+                                            <label class="label text-black">Categorias</label>
+                                        <div class="select is-fullwidth">
+                                            <select name="categoria" id="categoria">
+                                                <option value=""></option>
+                                                {% for colecao in categoriasColecoes %}
+                                                    <optgroup label="{{ colecao.nome }}">
+                                                        {% for categoria in colecao.categorias %}
+                                                            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                                                        {% endfor %}
+                                                    </optgroup>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        </p>
+
+                                        <p class="control">
+                                            <button class="button is-primary is-fullwidth">
+                                                Search
+                                            </button>
+                                        </p>
+
+                                    </div>
+
+                                </nav>
+
+                            </form>
+
+                        </div>
+
+
+                        <div class="column is-three-quarters">
+
+                            <nav class="panel">
+                                <p class="panel-heading">
+                                    Resultado
+                                </p>
+                            </nav>
+
+                            {% if musicas|length > 0 or musica_anexos|length > 0 or posts|length > 0 %}
+                                {% if musicas|length > 0 %}
+                                    <div class="card" style="width: 100%">
+                                        <div class="card-content">
+                                            <h4>Musicas</h4>
+                                            {% for musica in musicas %}
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading"><a
+                                                                    href="{{ path('musica_anexos', { id : musica.id, name : musica.nome }) }}">{% if musica.numero|length > 0 %}{{ musica.numero }} - {% endif %}{{ musica.nome }} ({{ musica.tom }})</a>
+                                                            <small> {{ musica.categoria.nome }}</small>
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <br>
+                                {% endif %}
+                                {% if musica_anexos|length > 0 %}
+                                    <div class="card" style="width: 100%">
+                                        <div class="card-content">
+                                            <h4>Arquivos</h4>
+                                            {% for anexo in musica_anexos %}
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">{{ anexo.nome }}</h4>
+                                                        <a href="{{ path('musica_anexos', { id : anexo.musica.id, name : anexo.musica.nome }) }}">
+                                                            <button class="button is-small is-white">
+                                                                Ir para musica
+                                                            </button>
+                                                        </a>
+                                                        <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                                           target="_blank">
+                                                            <button class="button is-small is-success is-outlined">
+                                                                Visualizar
+                                                            </button>
+                                                        </a>
+                                                        <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                                           download>
+                                                            <button class="button is-small is-primary is-outlined">
+                                                                Baixar
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <br>
+                                {% endif %}
+                            {% else %}
+                                Nenhum registro Encontrado.
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}
