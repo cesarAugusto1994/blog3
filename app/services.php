@@ -301,7 +301,7 @@ $app['dir.colecao'] = function () use ($app) {
     return $app['dir.base3'] . 'assets/blog/img/colecoes/';
 };
 $app['dir.anexo'] = function () use ($app) {
-    return $app['dir.base'] . 'assets/blog/musicas/';
+    return $app['dir.base3'] . 'assets/blog/musicas/';
 };
 $app['dir.album'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/img/albuns/';

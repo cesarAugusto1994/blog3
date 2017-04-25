@@ -1611,7 +1611,7 @@
 
 	                        return React.createElement(
 	                            "div",
-	                            { key: colecao.id, className: "col-sm-4 col-xs-12" },
+	                            { key: colecao.id, className: "col-sm-3 col-xs-6" },
 	                            React.createElement(
 	                                "figure",
 	                                { className: "wow fadeInLeft animated portfolio-item" },
