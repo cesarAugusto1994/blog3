@@ -4,6 +4,19 @@
 
 {% block header %}&nbsp;{% endblock %}
 
+{% block stylesheet %}
+    <style>
+        .colecao-imagem {
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            background-size: 100% 100%;
+        }
+    </style>
+
+{% endblock %}
+
 {% block content %}
 
     <div id="user" data-menu="{{ path('api_menu') }}"

@@ -295,6 +295,12 @@
                             data-target="#modal-musicas">Adicionar Arquivo
                     </button>
 
+                    <button id="btnAddVideos" class="button is-danger" data-toggle="modal"
+                            data-target="#modal-add-link">Adicionar Videos e Links
+                    </button>
+
+                    <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode|trim }}/videos" class="button is-primary">Videos</a>
+
                     <hr class="small"/>
 
                     {% for alert in app.session.flashbag.get('mensagem') %}
@@ -303,30 +309,34 @@
 
                     <div class="col-sm-12 col-xs-12">
 
+                        {% if musicas|length > 0 %}
 
-                        <div class="column add-bottom">
-                            <div id="mainwrap">
-                                <div id="nowPlay">
-                                    <span class="left" id="npAction">Paused...</span>
-                                    <span class="right" id="npTitle"></span>
-                                </div>
-                                <div id="audiowrap">
-                                    <div id="audio0">
-                                        <audio preload id="audio1" controls="controls">Your browser does not support HTML5 Audio!</audio>
+                            <div class="column add-bottom">
+                                <div id="mainwrap">
+                                    <div id="nowPlay">
+                                        <span class="left" id="npAction">Paused...</span>
+                                        <span class="right" id="npTitle"></span>
                                     </div>
-                                    <div id="tracks">
-                                        <a id="btnPrev">&laquo;</a>
-                                        <a id="btnNext">&raquo;</a>
+                                    <div id="audiowrap">
+                                        <div id="audio0">
+                                            <audio preload id="audio1" controls="controls">Your browser does not support
+                                                HTML5 Audio!
+                                            </audio>
+                                        </div>
+                                        <div id="tracks">
+                                            <a id="btnPrev">&laquo;</a>
+                                            <a id="btnNext">&raquo;</a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="plwrap">
-                                    <ul id="plList"></ul>
+                                    <div id="plwrap">
+                                        <ul id="plList"></ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms"
-                                data-wow-delay="0ms">
+                        {% endif %}
+
+                        <figure class="wow fadeInLeft animated portfolio-item">
 
                             {% for anexo in anexos %}
 
@@ -334,22 +344,35 @@
                                     <h4>
                                         {{ anexo.nome }}
                                     </h4>
+
                                     <p>
-                                        <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
-                                           target="_blank">
-                                            <button class="button is-small is-success is-outlined">
-                                                Visualizar
-                                            </button>
-                                        </a>
-                                        <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
-                                           download>
-                                            <button class="button is-small is-primary is-outlined">
-                                                Baixar
-                                            </button>
-                                        </a>
+                                        {% if not anexo.isExterno %}
+
+                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                               target="_blank">
+                                                <button class="button is-small is-success">
+                                                    Visualizar
+                                                </button>
+                                            </a>
+                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                               download>
+                                                <button class="button is-small is-primary">
+                                                    Baixar
+                                                </button>
+                                            </a>
+
+                                        {% else %}
+
+                                            <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|trim|url_encode }}/video/{{ anexo.id }}">
+                                                <button class="button is-small is-success">
+                                                    Ir para o Link
+                                                </button>
+                                            </a>
+
+                                        {% endif %}
 
                                         {% if anexo.usuario.id == app.usuario.id or is_granted('ROLE_ADMIN') %}
-                                            <button class="button is-danger is-inverted is-small btnRemover"
+                                            <button class="button is-danger is-small btnRemover"
                                                     value="{{ anexo.id }}">Remover
                                             </button>
                                         {% endif %}
@@ -358,7 +381,8 @@
 
                             {% else %}
 
-                                <p class="lead"><i class="fa fa-frown-o fa-6"></i> Nenhum arquivo encontrado para essa musica. Seja o primeiro &agrave; adicionar arquivos &agrave; esta m&uacute;sica. </p>
+                                <p class="lead"><i class="fa fa-frown-o fa-6"></i>
+                                    Nenhum arquivo encontrado. Seja o primeiro &agrave; adicionar arquivos. </p>
 
                             {% endfor %}
 
@@ -388,6 +412,48 @@
                         <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal"
                                 onclick="window.location.reload()">Fechar
                         </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-add-link" class="modal fade" tabIndex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Adicionar Videos e Links</h4>
+                </div>
+                <form class="form-horizontal" method="post" action="{{ path('save_musica_anexos', { musicaId : musica.id }) }}">
+                    <div class="modal-body">
+                        <input type="hidden" name="musica" id="musica" value="{{ musica.id }}"/>
+                        <p class="control">
+                            <label>Titulo</label>
+                            <input class="input" type="text" placeholder="Titulo" name="nome" id="nome"/>
+                        </p>
+                        <p class="control">
+                            <label>Tipo Arquivo</label>
+                            <span class="select is-fullwidth">
+                                <select name="tipo" id="tipo">
+                                    {% for tipo in tipos %}
+                                        <option value={{tipo.id}}>{{tipo.nome}}</option>
+                                    {% endfor %}
+                                </select>
+                            </span>
+                        </p>
+                        <p class="control">
+                            <label>Link</label>
+                            <input class="input" type="text" placeholder="Link" name="link" id="link" required/>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button is-danger is-pulled-left"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="submit" class="button is-success">Salvar</button>
                     </div>
                 </form>
             </div>

@@ -1495,6 +1495,8 @@
 	    const StyleImg = {
 	        minHeight: '160px',
 	        maxHeight: '160px',
+	        minWidth: '100%',
+	        maxWidth: '100%',
 	        width: 'auto'
 	    };
 
@@ -1543,7 +1545,7 @@
 	                                    React.createElement(
 	                                        "a",
 	                                        { href: menu.url },
-	                                        React.createElement("img", { style: StyleImg, src: root, className: "img-responsive", alt: "this is a title" }),
+	                                        React.createElement("img", { style: StyleImg, src: root, className: "img-responsive colecao-imagem", alt: "this is a title" }),
 	                                        React.createElement("div", { className: "overlay" })
 	                                    )
 	                                ),
@@ -1611,7 +1613,7 @@
 
 	                        return React.createElement(
 	                            "div",
-	                            { key: colecao.id, className: "col-sm-3 col-xs-6" },
+	                            { key: colecao.id, className: "col-sm-3 col-xs-12" },
 	                            React.createElement(
 	                                "figure",
 	                                { className: "wow fadeInLeft animated portfolio-item" },
@@ -1621,7 +1623,7 @@
 	                                    React.createElement(
 	                                        "a",
 	                                        { href: linkToCategorias },
-	                                        React.createElement("img", { style: StyleImg, src: root, className: "img-responsive", alt: "this is a title" }),
+	                                        React.createElement("img", { style: StyleImg, src: root, className: "img-responsive", alt: "..." }),
 	                                        React.createElement("div", { className: "overlay" })
 	                                    )
 	                                ),

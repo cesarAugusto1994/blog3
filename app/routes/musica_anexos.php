@@ -286,12 +286,9 @@ $anexos->post('/musica/{musicaId}/anexos/save', function($musicaId, \Symfony\Com
 
     $mensagem = 'Adicionou o arquivo '.$musicaAnexo->getNome();
 
-    return $app->json(
-        [
-            'class' => 'success',
-            'message' => $mensagem
-        ]
-    );
+    $app['session']->getFlashBag()->add('mensagem', $mensagem);
+
+    return $app->redirect('/user/praise/' . $musicaAnexo->getMusica()->getId() . '-' . urlencode(strtolower(trim($musicaAnexo->getMusica()->getNome()))) . '/arquivos');
 
 })->bind('save_musica_anexos');
 

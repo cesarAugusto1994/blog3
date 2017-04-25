@@ -436,9 +436,16 @@ $musica->get('/praise/{id}-{nome}/arquivos', function($id, $nome) use ($app) {
     $musica = $app['musica.repository']->find($id);
     $anexos = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true], ['nome' => 'ASC']);
     $tipo = $app['tipo.anexo.repository']->find(1);
+    $tipos = $app['tipo.anexo.repository']->findAll();
     $musicas = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'tipo' => $tipo, 'ativo' => true], ['nome' => 'ASC']);
 
-    return $app['twig']->render('/user/musica/anexos.html.twig', ['anexos' => $anexos, 'musica' => $musica, 'musicas' => $musicas]);
+    return $app['twig']->render('/user/musica/anexos.html.twig',
+        [
+            'anexos' => $anexos,
+            'tipos' => $tipos,
+            'musica' => $musica,
+            'musicas' => $musicas
+        ]);
 
 })->bind('app_attachments_from_praise');
 

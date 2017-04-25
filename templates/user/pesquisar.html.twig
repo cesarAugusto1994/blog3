@@ -25,7 +25,7 @@
                                     </p>
                                     <div class="field has-addons">
                                         <p class="control">
-                                            <input class="input" type="text" name="q" placeholder="Pesquisar">
+                                            <input class="input" type="text" autofocus name="q" value="{{ qRequest }}" placeholder="Pesquisar">
                                         </p>
 
                                         <p class="control">
@@ -34,7 +34,7 @@
                                             <select name="tom" id="tom">
                                                 <option value=""></option>
                                                 {% for tom in tons %}
-                                                    <option value="{{ tom }}">{{ tom }}</option>
+                                                    <option value="{{ tom }}" {% if tomRequest == tom %} selected="selected" {% endif %}>{{ tom }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -46,7 +46,7 @@
                                             <select name="colecao" id="colecao">
                                                 <option value=""></option>
                                                 {% for colecao in colecoes %}
-                                                    <option value="{{ colecao.id }}">{{ colecao.nome }}</option>
+                                                    <option value="{{ colecao.id }}" {% if colecaoRequest == colecao.id %} selected="selected" {% endif %}>{{ colecao.nome }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -60,7 +60,7 @@
                                                 {% for colecao in categoriasColecoes %}
                                                     <optgroup label="{{ colecao.nome }}">
                                                         {% for categoria in colecao.categorias %}
-                                                            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                                                            <option value="{{ categoria.id }}" {% if categoriaRequest == categoria.id %} selected="selected" {% endif %}>{{ categoria.nome }}</option>
                                                         {% endfor %}
                                                     </optgroup>
                                                 {% endfor %}
@@ -83,7 +83,7 @@
                         </div>
 
 
-                        <div class="column is-three-quarters">
+                        <div class="column is-three-quarters wow fadeInUp animated slide">
 
                             <nav class="panel">
                                 <p class="panel-heading">

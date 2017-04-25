@@ -72,6 +72,8 @@ $(function () {
     const StyleImg = {
         minHeight: '160px',
         maxHeight: '160px',
+        minWidth: '100%',
+        maxWidth: '100%',
         width: 'auto'
     };
     
@@ -108,7 +110,7 @@ $(function () {
                                 <figure className="wow fadeInLeft animated portfolio-item">
                                     <div className="img-wrapper">
                                         <a href={menu.url}>
-                                            <img style={StyleImg} src={root} className="img-responsive" alt="this is a title" />
+                                            <img style={StyleImg} src={root} className="img-responsive colecao-imagem" alt="this is a title" />
                                                 <div className="overlay"></div>
                                         </a>
                                     </div>
@@ -164,11 +166,11 @@ $(function () {
                             linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_');
 
                             return (
-                                <div key={colecao.id} className="col-sm-3 col-xs-6">
+                                <div key={colecao.id} className="col-sm-3 col-xs-12">
                                     <figure className="wow fadeInLeft animated portfolio-item">
                                         <div className="img-wrapper">
                                             <a href={linkToCategorias}>
-                                                <img style={StyleImg} src={root} className="img-responsive" alt="this is a title" />
+                                                <img style={StyleImg} src={root} className="img-responsive" alt="..." />
                                                 <div className="overlay"></div>
                                             </a>
                                         </div>

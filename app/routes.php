@@ -41,6 +41,11 @@ $app->get('/user/search', function (\Symfony\Component\HttpFoundation\Request $r
     $musicaAnexos = [];
     $posts = [];
 
+    $qRequest = "";
+    $tomRequest = "";
+    $categoriaRequest = "";
+    $colecaoRequest = "";
+
     if ($request->get('go')) {
 
         $musicas = $app['musica.repository']->search(
@@ -53,6 +58,11 @@ $app->get('/user/search', function (\Symfony\Component\HttpFoundation\Request $r
             $musicaAnexos = $app['musica.anexos.repository']->search($request->get('q'));
             $posts = $app['posts.repository']->search($request->get('q'));
         }
+
+        $qRequest = $request->get('q');
+        $tomRequest = $request->get('tom');
+        $categoriaRequest = $request->get('categoria');
+        $colecaoRequest = $request->get('colecao');
 
     }
 
@@ -69,6 +79,10 @@ $app->get('/user/search', function (\Symfony\Component\HttpFoundation\Request $r
             'tons' => $tons,
             'colecoes' => $colecoes,
             'categoriasColecoes' => $categorias,
+            'qRequest' => $qRequest,
+            'tomRequest' => $tomRequest,
+            'categoriaRequest' => $categoriaRequest,
+            'colecaoRequest' => $colecaoRequest,
         ]
     );
 
