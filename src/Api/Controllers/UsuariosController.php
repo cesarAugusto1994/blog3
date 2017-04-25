@@ -75,6 +75,19 @@ class UsuariosController
             $usuario->setEmail(strtolower($request->request->get('email')));
         }
 
+        if ($request->get('cidade') != $usuario->getCidade()) {
+            $usuario->setCidade($request->request->get('cidade'));
+        }
+
+        if ($request->request->get('estado') != $usuario->getUf()) {
+            $usuario->setUf($request->request->get('estado'));
+        }
+
+        if ($request->request->get('grupo') != $usuario->getGrupo()->getId()) {
+            $grupo = $app['grupo.repository']->find($request->request->get('grupo'));
+            $usuario->setGrupo($grupo);
+        }
+
         if ("ROLE_ADMIN" == $app['usuario']->getRoles()) {
             if ($request->get('role') != $usuario->getRoles()) {
                 $usuario->setRoles($request->get('role'));

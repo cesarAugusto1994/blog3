@@ -133,6 +133,8 @@ $app->mount('/user/manager/acesso', include __DIR__ . '/routes/login.php');
 $app->mount('/user/manager/comentarios', include __DIR__ . '/routes/comentarios.php');
 $app->mount('/user/manager/logs', include __DIR__ . '/routes/logs.php');
 $app->mount('/user/palavra/', include __DIR__ . '/routes/blog/home.php');
+$app->mount('/user/grupos/', include __DIR__ . '/routes/grupo.php');
+$app->mount('/user/grupo/', include __DIR__ . '/routes/grupo_musicas.php');
 
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
 $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');

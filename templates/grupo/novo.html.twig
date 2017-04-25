@@ -1,0 +1,98 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Adicionar o meu Grupo{% endblock %}
+{% block headerNome %}Adicionar o meu Grupo{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <form method="post" class="form-horizontal wow fadeInUp animated slide" action="{{ path('gl_save') }}">
+                        <input type="hidden" class="input is-large" name="usuario" value="{{ usuario.id }}"/>
+                        <label>Nome do Grupo</label>
+                        <p class="control">
+                            <input class="input is-large" name="grupo" autofocus/>
+                        </p>
+                        <label>Estado</label>
+                        <p class="control">
+                              <span class="select is-fullwidth">
+                                <select name="estado" id="estados">
+                                  <option value=""></option>
+                                </select>
+                              </span>
+                        </p>
+
+                        <label>Cidade</label>
+                        <p class="control">
+                              <span class="select is-fullwidth">
+                                <select name="cidade" id="cidades"></select>
+                              </span>
+                        </p>
+
+                        <p class="control">
+                            <button class="button is-danger is-fullwidth" type="submit">Salvar</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $.getJSON('/assets/blog/json/estados_cidades.json', function (data) {
+                var items = [];
+                var options = '<option value="">escolha um estado</option>';
+                $.each(data, function (key, val) {
+
+                    let uf = $('#uf').val();
+                    let selected = "";
+
+                    if (uf == val.nome) {
+                        selected="selected"
+                    }
+
+                    options += '<option value="' + val.nome + '" '+selected+'>' + val.nome + '</option>';
+                });
+                $("#estados").html(options);
+
+                $("#estados").change(function () {
+
+                    var options_cidades = '';
+                    var str = "";
+
+                    $("#estados option:selected").each(function () {
+                        str += $(this).text();
+                    });
+
+                    $.each(data, function (key, val) {
+                        if (val.nome == str) {
+                            $.each(val.cidades, function (key_city, val_city) {
+
+                                let city = $('#city').val();
+                                let selected = "";
+
+                                if (city == val_city) {
+                                    selected="selected"
+                                }
+
+
+                                options_cidades += '<option value="' + val_city + '"  ' + selected + '>' + val_city + '</option>';
+                            });
+                        }
+                    });
+                    $("#cidades").html(options_cidades);
+
+                }).change();
+
+            });
+
+        });
+
+    </script>
+
+{% endblock %}

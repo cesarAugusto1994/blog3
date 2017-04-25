@@ -39,7 +39,9 @@ $user->get('/{id}-{nome}', function($id, $nome) use($app) {
         return $app->redirect('/admin/usuarios/list');
     }
 
-    return $app['twig']->render('/user/perfil.html.twig', ['user' => $user]);
+    $grupo = $app['grupo.repository']->findAll();
+
+    return $app['twig']->render('/user/perfil.html.twig', ['user' => $user, 'cidades' => $app['cidades'], 'grupos' => $grupo]);
 
 })->bind('perfil');
 

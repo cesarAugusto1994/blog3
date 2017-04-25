@@ -1,0 +1,50 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Musicas do Grupo{% endblock %}
+{% block headerNome %}Musicas do Grupo{% endblock %}
+
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if app.session.flashbag.has('mensagem') %}
+                        {% for alert in app.session.flashbag.get('mensagem') %}
+                            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                        {% endfor %}
+                    {% endif %}
+
+                    <a href="{{ path('gl_add') }}" class="button is-danger">Criar Grupo</a>
+                    <hr class="small"/>
+
+                    <table class="table is-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for musica in musicas %}
+                            <tr>
+                                <td>{{ musica.id }}</td>
+                                <td>{{ musica.nome }}</td>
+                            </tr>
+                        {% endfor  %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

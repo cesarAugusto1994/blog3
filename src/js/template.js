@@ -107,6 +107,7 @@ $(function () {
             var linkToPerfil = "/user/" + this.props.user.id + '-' + this.props.user.nome.toLowerCase().replace(/ /g, '_');
             var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
             const favoritos = "/user/favorites";
+            let link = "/user/grupo/" + this.props.userGrupoId +  "-" +  this.props.userGrupoNome;
             var admin = "";
             var userProfile = "";
 
@@ -125,6 +126,7 @@ $(function () {
                             <li><a href="/user/manager/acesso">Acesso</a></li>
                             <li><a href="/user/manager/comentarios">Comentarios</a></li>
                             <li><a href="/user/manager/logs">Logs</a></li>
+                            <li><a href="/user/grupos">Grupos</a></li>
                             <li><a href="/admin/blog">Configura&ccedil;&otilde;es</a></li>
                             <li><a href="/admin/usuarios/list">Usu&aacute;rios</a></li>
                         </ul>
@@ -143,6 +145,7 @@ $(function () {
                     label: "logout",
                     link: "/admin/logout"
                 };
+
                 userProfile = <li className="dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                         <img style={StyleImg} src={rootAvatar}
@@ -152,6 +155,7 @@ $(function () {
                         <ul>
                             <li><a href={linkToPerfil}>Perfil</a></li>
                             <li><a href={favoritos}>Favoritos</a></li>
+                            <li><a href={link}>Meu Grupo</a></li>
                             <li><a href={linkToAtividades}>Atividades</a></li>
                         </ul>
                     </div>
@@ -190,6 +194,8 @@ $(function () {
                 <CardMenu>
                     <NavbarHeader configNome={this.props.configNome} configImg={this.props.configImg}/>
                     <Menu user={this.props.user} dirAvatar={this.props.dirAvatar}
+                          userGrupoId={this.props.userGrupoId}
+                          userGrupoNome={this.props.userGrupoNome}
                           avatarDefault={this.props.avatarDefault} pesquisar={this.props.pesquisar}/>
                 </CardMenu>
             )
@@ -201,6 +207,8 @@ $(function () {
     var userNome = $("#menu").data("usuario-nome");
     var userRoles = $("#menu").data("usuario-roles");
     var userAvatar = $("#menu").data("usuario-avatar");
+    var userGrupoId = $("#menu").data("usuario-grupo-id");
+    var userGrupoNome = $("#menu").data("usuario-grupo-nome");
 
     var configNome = $("#menu").data("config-nome");
     var configImg = $("#menu").data("config-img");
@@ -217,6 +225,7 @@ $(function () {
         ReactDOM.render(
             <div>
                 <Mount user={user} dirAvatar={dirAvatar} avatarDefault={avatarDefault} pesquisar={pesquisar}
+                       userGrupoId={userGrupoId} userGrupoNome={userGrupoNome}
                        configNome={configNome} configImg={configImg}/>
             </div>,
             document.getElementById("menu")

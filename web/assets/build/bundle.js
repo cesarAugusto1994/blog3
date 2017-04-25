@@ -1081,6 +1081,7 @@
 	            var linkToPerfil = "/user/" + this.props.user.id + '-' + this.props.user.nome.toLowerCase().replace(/ /g, '_');
 	            var linkToAtividades = "/user/" + this.props.user.id + "/atividades";
 	            const favoritos = "/user/favorites";
+	            let link = "/user/grupo/" + this.props.userGrupoId + "-" + this.props.userGrupoNome;
 	            var admin = "";
 	            var userProfile = "";
 
@@ -1186,6 +1187,15 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
+	                                    { href: '/user/grupos' },
+	                                    'Grupos'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
 	                                    { href: '/admin/blog' },
 	                                    'Configura\xE7\xF5es'
 	                                )
@@ -1215,6 +1225,7 @@
 	                    label: "logout",
 	                    link: "/admin/logout"
 	                };
+
 	                userProfile = React.createElement(
 	                    'li',
 	                    { className: 'dropdown' },
@@ -1248,6 +1259,15 @@
 	                                    'a',
 	                                    { href: favoritos },
 	                                    'Favoritos'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
+	                                    { href: link },
+	                                    'Meu Grupo'
 	                                )
 	                            ),
 	                            React.createElement(
@@ -1331,6 +1351,8 @@
 	                null,
 	                React.createElement(NavbarHeader, { configNome: this.props.configNome, configImg: this.props.configImg }),
 	                React.createElement(Menu, { user: this.props.user, dirAvatar: this.props.dirAvatar,
+	                    userGrupoId: this.props.userGrupoId,
+	                    userGrupoNome: this.props.userGrupoNome,
 	                    avatarDefault: this.props.avatarDefault, pesquisar: this.props.pesquisar })
 	            );
 	        }
@@ -1341,6 +1363,8 @@
 	    var userNome = $("#menu").data("usuario-nome");
 	    var userRoles = $("#menu").data("usuario-roles");
 	    var userAvatar = $("#menu").data("usuario-avatar");
+	    var userGrupoId = $("#menu").data("usuario-grupo-id");
+	    var userGrupoNome = $("#menu").data("usuario-grupo-nome");
 
 	    var configNome = $("#menu").data("config-nome");
 	    var configImg = $("#menu").data("config-img");
@@ -1358,6 +1382,7 @@
 	            'div',
 	            null,
 	            React.createElement(Mount, { user: user, dirAvatar: dirAvatar, avatarDefault: avatarDefault, pesquisar: pesquisar,
+	                userGrupoId: userGrupoId, userGrupoNome: userGrupoNome,
 	                configNome: configNome, configImg: configImg })
 	        ), document.getElementById("menu"));
 	    }

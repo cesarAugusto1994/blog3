@@ -142,6 +142,15 @@ $app['login.repository'] = function () use ($app) {
 $app['email.enviado.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\EmailEnviado::class);
 };
+$app['cidades.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\Cidades::class);
+};
+$app['grupo.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\Grupo::class);
+};
+$app['grupo.musicas.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\GrupoMusicas::class);
+};
 
 #################################################################################################
 #################################################################################################
@@ -151,6 +160,18 @@ $app['email.enviado.repository'] = function () use ($app) {
 
 $app['upload.service'] = function () use ($app) {
     return new \App\Controllers\UploadImages();
+};
+
+$app['cidades'] = function () use ($app) {
+
+    if (!empty($app['session']->get('cidades'))) {
+        return $app['session']->get('cidades');
+    }
+
+    $cidades = $app['cidades.repository']->findAll();
+    $app['session']->set('cidades', $cidades);
+
+    return $cidades;
 };
 
 $app['colecoes'] = function () use ($app) {

@@ -41,7 +41,26 @@ class Usuarios implements \JsonSerializable
      * @var string
      */
     private $email;
-    
+
+    /**
+     * @ORM\Column(name="cidade", type="string")
+     * @var string
+     */
+    private $cidade;
+
+    /**
+     * @ORM\Column(name="uf", type="string", length=50)
+     * @var string
+     */
+    private $uf;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Grupo")
+     * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id", nullable=true)
+     * @var Grupo
+     */
+    private $grupo;
+
     /**
      * @ORM\Column(name="password", type="string", length=50, nullable=false)
      * @var string
@@ -65,6 +84,22 @@ class Usuarios implements \JsonSerializable
      * @var Posts
      */
     private $posts;
+
+    /**
+     * @return Grupo
+     */
+    public function getGrupo()
+    {
+        return $this->grupo;
+    }
+
+    /**
+     * @param Grupo $grupo
+     */
+    public function setGrupo($grupo)
+    {
+        $this->grupo = $grupo;
+    }
 
     /**
      * @ORM\Column(name="cadastro", type="datetime")
@@ -116,6 +151,38 @@ class Usuarios implements \JsonSerializable
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCidade()
+    {
+        return $this->cidade;
+    }
+
+    /**
+     * @param string $cidade
+     */
+    public function setCidade($cidade)
+    {
+        $this->cidade = $cidade;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUf()
+    {
+        return $this->uf;
+    }
+
+    /**
+     * @param string $uf
+     */
+    public function setUf($uf)
+    {
+        $this->uf = $uf;
     }
     
     /**

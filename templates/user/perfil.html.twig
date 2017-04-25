@@ -10,22 +10,35 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    <a class="button is-danger is-small"
+                    <a class="button is-danger"
                        href="{{ path('usuario_atividades', { user : user.id }) }}">Atividades</a>
+
+                    <a class="button is-danger"
+                       href="{{ path('gl_add') }}">Adicionar o Meu Grupo de Louvor</a>
+
                     <hr>
 
-                    <form method="post" class="form-horizontal wow fadeInUp animated slide" data-wow-delay=".6s" action="{{ path('usuario_editar') }}"
+                    <form method="post" class="form-horizontal wow fadeInUp animated slide"
+                          action="{{ path('usuario_editar') }}"
                           enctype="multipart/form-data">
+                        <input type="hidden" name="city" id="city" value="{{ user.cidade }}">
+                        <input type="hidden" name="uf" id="uf" value="{{ user.uf }}">
                         <p class="control">Avatar</p>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <div class="fileinput-new thumbnail" style="border: none; width: 150px; height: 150px;">
-                                <img style="height: 100%" src="{% if user.avatar %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
-                                     data-src="{% if app.usuario.avatar %}{{ asset(app['dir.avatar'] ~ app.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}" alt="usuario">
+                                <img style="height: 100%"
+                                     src="{% if user.avatar %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
+                                     data-src="{% if app.usuario.avatar %}{{ asset(app['dir.avatar'] ~ app.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
+                                     alt="usuario">
                             </div>
-                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                            <div class="fileinput-preview fileinput-exists thumbnail"
+                                 style="max-width: 200px; max-height: 150px;"></div>
                             <div>
-                                <span class="button is-light is-small is-fullwidth btn-file"><span class="fileinput-new">Selecione uma imagem</span><span class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
-                                <a href="#" class="button is-danger is-inverted is-small is-fullwidth fileinput-exists" data-dismiss="fileinput">Remover</a>
+                                <span class="button is-light is-small is-fullwidth btn-file"><span
+                                            class="fileinput-new">Selecione uma imagem</span><span
+                                            class="fileinput-exists">Trocar</span><input type="file" name="background"></span>
+                                <a href="#" class="button is-danger is-inverted is-small is-fullwidth fileinput-exists"
+                                   data-dismiss="fileinput">Remover</a>
                             </div>
                         </div>
                         <p class="control">
@@ -34,12 +47,41 @@
 
                         <label>Nome Completo</label>
                         <p class="control">
-                            <input class="input" type="text" placeholder="Nome" name="nome" value="{{ user.nome }}" required>
+                            <input class="input" type="text" placeholder="Nome" name="nome" value="{{ user.nome }}"
+                                   required>
                         </p>
 
                         <label>E-mail</label>
                         <p class="control">
-                            <input class="input" type="text" placeholder="email" name="email" value="{{ user.email }}" required>
+                            <input class="input" type="text" placeholder="email" name="email" value="{{ user.email }}"
+                                   required>
+                        </p>
+
+                        <label>Estado</label>
+                        <p class="control">
+                              <span class="select is-fullwidth">
+                                <select name="estado" id="estados">
+                                  <option value=""></option>
+                                </select>
+                              </span>
+                        </p>
+
+                        <label>Cidade</label>
+                        <p class="control">
+                              <span class="select is-fullwidth">
+                                <select name="cidade" id="cidades"></select>
+                              </span>
+                        </p>
+
+                        <label>Grupo</label>
+                        <p class="control">
+                              <span class="select is-fullwidth">
+                                <select name="grupo">
+                                    {% for grupo in grupos %}
+                                        <option value="{{ grupo.id }}" {% if grupo.id == user.grupo.id %} selected {% endif %}>{{ grupo.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                              </span>
                         </p>
 
                         {% if app.usuario.roles == 'ROLE_ADMIN' %}
@@ -64,5 +106,60 @@
             </div>
         </div>
     </article>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $.getJSON('/assets/blog/json/estados_cidades.json', function (data) {
+                var items = [];
+                var options = '<option value="">escolha um estado</option>';
+                $.each(data, function (key, val) {
+
+                    let uf = $('#uf').val();
+                    let selected = "";
+
+                    if (uf == val.nome) {
+                        selected="selected"
+                    }
+
+                    options += '<option value="' + val.nome + '" '+selected+'>' + val.nome + '</option>';
+                });
+                $("#estados").html(options);
+
+                $("#estados").change(function () {
+
+                    var options_cidades = '';
+                    var str = "";
+
+                    $("#estados option:selected").each(function () {
+                        str += $(this).text();
+                    });
+
+                    $.each(data, function (key, val) {
+                        if (val.nome == str) {
+                            $.each(val.cidades, function (key_city, val_city) {
+
+                                let city = $('#city').val();
+                                let selected = "";
+
+                                if (city == val_city) {
+                                    selected="selected"
+                                }
+
+
+                                options_cidades += '<option value="' + val_city + '"  ' + selected + '>' + val_city + '</option>';
+                            });
+                        }
+                    });
+                    $("#cidades").html(options_cidades);
+
+                }).change();
+
+            });
+
+        });
+
+    </script>
 
 {% endblock %}
