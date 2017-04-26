@@ -151,6 +151,9 @@ $app['grupo.repository'] = function () use ($app) {
 $app['grupo.musicas.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\GrupoMusicas::class);
 };
+$app['grupo.usuarios.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\GrupoUsuarios::class);
+};
 
 #################################################################################################
 #################################################################################################
@@ -205,6 +208,45 @@ $app['categorias'] = function () use ($app) {
             $array[$key]['categorias'][] = [
                 "id" => $categoria->getId(),
                 "nome" => $categoria->getNome()
+            ];
+        }
+    }
+
+    $categoriasArray = array_merge($array);
+
+    $app['session']->set('categorias', $categoriasArray);
+    return $app['session']->get('categorias');
+};
+
+
+$app['categorias_musicas'] = function () use ($app) {
+
+    if (!empty($app['session']->get('categorias'))) {
+        return $app['session']->get('categorias');
+    }
+
+    $categorias = $app['categoria.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
+
+    $array = [];
+    /**
+     * @var Categoria $categoria
+     */
+    foreach ($categorias as $categoria) {
+
+        $key = $categoria->getColecao()->getId();
+
+        if (!isset($array[$key]['nome'])) {
+            $array[$key]['nome'] = $categoria->getColecao()->getNome();
+        }
+
+        if ($categoria->getColecao()->getNome() == $array[$key]['nome']) {
+
+            $array[$key]['nome'] = $categoria->getColecao()->getNome();
+
+            $array[$key]['categorias'][] = [
+                "id" => $categoria->getId(),
+                "nome" => $categoria->getNome(),
+                "musicas" => $app['musica.repository']->findBy(['categoria' => $categoria])
             ];
         }
     }

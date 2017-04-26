@@ -26,4 +26,13 @@ class GrupoMusicasRepository extends EntityRepository
         $this->_em->persist($grupoMusicas);
         $this->_em->flush($grupoMusicas);
     }
+
+    /**
+     * @param GrupoMusicas $grupoMusicas
+     */
+    public function remove(GrupoMusicas $grupoMusicas)
+    {
+        $this->_em->remove($grupoMusicas);
+        $this->_em->flush($grupoMusicas);
+    }
 }

@@ -1275,6 +1275,15 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
+	                                    { href: '/user/grupos' },
+	                                    'Grupos'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
 	                                    { href: linkToAtividades },
 	                                    'Atividades'
 	                                )

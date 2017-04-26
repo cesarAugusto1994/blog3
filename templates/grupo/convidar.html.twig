@@ -1,0 +1,34 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Convidar{% endblock %}
+{% block headerNome %}Convidar{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <form method="post" class="form-horizontal wow fadeInUp animated slide" action="{{ path('convidar') }}">
+
+                        <label>E-mail</label>
+                        <p class="control">
+                            <input type="email" name="email" placeholder="E-mail"/>
+                        </p>
+                        <label>Texto</label>
+                        <p class="control">
+                            <textarea class="textarea" name="mensagem" autofocus id="mensagem" ref="mensagem"
+                                      placeholder="Deixe a sua sugestão"></textarea>
+                        </p>
+                        <p class="control">
+                            <button class="button is-danger is-fullwidth" type="submit">Enviar</button>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

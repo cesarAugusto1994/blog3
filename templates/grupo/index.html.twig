@@ -20,34 +20,30 @@
                     <a href="{{ path('gl_add') }}" class="button is-danger">Criar Grupo</a>
                     <hr class="small"/>
 
-                    <table class="table is-striped">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Cidade</th>
-                            <th>Estado</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Cidade</th>
-                            <th>Estado</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        {% for grupo in grupos %}
-                            <tr>
-                                <td>{{ grupo.id }}</td>
-                                <td>{{ grupo.nome }}</td>
-                                <td>{{ grupo.cidade }}</td>
-                                <td>{{ grupo.uf }}</td>
-                            </tr>
-                        {% endfor  %}
-                        </tbody>
-                    </table>
+                    {% for grupo in grupos %}
+
+                        <li class="list-group-item">
+                            <p class="lead">
+                                {% if grupo.id in gruposUsuario %}
+                                    <a href="/user/grupo/{{ grupo.id }}-{{ grupo.nome }}">{{ grupo.nome }}</a>
+                                {% else %}
+                                    {{ grupo.nome }}
+                                {% endif %}
+                            </p>
+                            <p>
+                                {% if grupo.id in gruposUsuario %}
+                                    <a class="button is-danger"
+                                       href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}&leave=1">Deixargrupo</a>
+                                {% else %}
+                                    <a class="button is-success"
+                                       href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}">Participardeste
+                                        grupo</a>
+                                {% endif %}
+                            </p>
+                        </li>
+
+                    {% endfor %}
+
                 </div>
             </div>
         </div>
