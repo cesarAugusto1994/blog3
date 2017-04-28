@@ -240,6 +240,81 @@ $anexos->post('/musica/{musicaId}/anexos/upload', function($musicaId, \Symfony\C
 
 })->bind('musica_anexos_upload');
 
+
+$anexos->post('/anexos/upload', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    try {
+
+        if (!$request->files) {
+            throw new Exception('Arquivo(s) não informado(s).');
+        }
+
+        $uploader = new Uploader();
+        $data = $uploader->upload(
+            $_FILES['files'],
+            array(
+                'limit' => 100, 'maxSize' => 120, 'extensions' => null, 'required' => false, 'title' => array('name'), 'removeFiles' => true, 'replace' => true,
+                'perms' => null, 'onCheck' => null, 'onError' => null, 'onSuccess' => null, 'onUpload' => null, 'onComplete' => true, 'onRemove' => null
+            )
+        );
+
+        if ($data['hasErrors']) {
+            return $app->json(
+                [
+                    'class' => 'error',
+                    'message' => $data['errors']
+                ]
+            );
+        }
+
+        $mensagem = 'Nenhum arquivo foi encontrado.';
+
+        foreach ($_FILES['files']['name'] as $key => $name) {
+
+            if (empty($name)) {
+                continue;
+            }
+
+            $tipo = $app['tipo.anexo.repository']->find(
+                \App\Controllers\MediaFormat::getFormatTipo($_FILES['files']['type'][$key])
+            );
+
+            $musicaAnexo = new \Api\Entities\MusicaAnexos();
+            $musicaAnexo->setNome($request->get('nome') ? $request->get('nome') : $name);
+            //$musicaAnexo->setMusica($musica);
+            $musicaAnexo->setTipo($tipo);
+            $musicaAnexo->setLinkExterno(false);
+            $musicaAnexo->setLink($request->get('link') ? $request->get('link') : $name);
+            $musicaAnexo->setUsuario($app['usuario']);
+            $musicaAnexo->setCadastro(new \DateTime('now'));
+            $musicaAnexo->setAtivo(true);
+
+            $app['db']->beginTransaction();
+            $app['musica.anexos.repository']->save($musicaAnexo);
+            $app['db']->commit();
+
+            $mensagem = 'Adicionou o arquivo ' . $musicaAnexo->getNome();
+            $app['log.controller']->criar($mensagem);
+        }
+
+        return $app->json(
+            [
+                'class' => 'success',
+                'id' => $musicaAnexo->getId(),
+                'message' => $mensagem
+            ]
+        );
+    } catch(Exception $e) {
+        return $app->json(
+            [
+                'class' => 'error',
+                'message' => $e->getMessage()
+            ]
+        );
+    }
+
+})->bind('musica_anexos_upload');
+
 $anexos->post('/musica/{musicaId}/anexos/save', function($musicaId, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
     ini_set('display_errors', E_ALL);
@@ -355,6 +430,22 @@ $anexos->post('/musica/anexos/comentario/{comentarioId}/remover', function ($com
             'message' => $mensagem
         ]
     );
+});
+
+$anexos->get('/anexos/sem-vinculo', function () use ($app) {
+
+    $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true]);
+
+   return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos]);
+
+});
+
+$anexos->post('/anexos/{id}/remover', function () use ($app) {
+
+    $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true]);
+
+    return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos]);
+
 });
 
 return $anexos;

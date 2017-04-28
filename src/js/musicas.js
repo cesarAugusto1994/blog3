@@ -221,10 +221,12 @@ $(function () {
             let addMusica = (<BtnAdd categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>);
             let addMusica2 = '';
             let addMusica3 = '';
+            let addMusica4 = '';
 
             if (ROLE_ADMIN == this.props.user) {
                 addMusica2 = <BtnAdd2 categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>;
                 addMusica3 = <BtnAdd3 categoria={this.props.categoria} categoriaNome={this.props.categoriaNome}/>;
+                addMusica4 = <button id="btnAddArquivos" className="button is-danger is-small" data-toggle="modal"data-target="#modal-musicas">Adicionar Arquivos</button>
             }
 
             return (
@@ -232,6 +234,7 @@ $(function () {
                     {addMusica}
                     {addMusica2}
                     {addMusica3}
+                    {addMusica4}
                     <hr className="small"/>
                     <ListMusicas data={this.state.data} user={this.props.user} reloadMusicas={this.load}/>
                 </Base>

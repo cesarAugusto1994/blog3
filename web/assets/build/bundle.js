@@ -4385,10 +4385,16 @@
 	            let addMusica = React.createElement(BtnAdd, { categoria: this.props.categoria, categoriaNome: this.props.categoriaNome });
 	            let addMusica2 = '';
 	            let addMusica3 = '';
+	            let addMusica4 = '';
 
 	            if (ROLE_ADMIN == this.props.user) {
 	                addMusica2 = React.createElement(BtnAdd2, { categoria: this.props.categoria, categoriaNome: this.props.categoriaNome });
 	                addMusica3 = React.createElement(BtnAdd3, { categoria: this.props.categoria, categoriaNome: this.props.categoriaNome });
+	                addMusica4 = React.createElement(
+	                    "button",
+	                    { id: "btnAddArquivos", className: "button is-danger is-small", "data-toggle": "modal", "data-target": "#modal-musicas" },
+	                    "Adicionar Arquivos"
+	                );
 	            }
 
 	            return React.createElement(
@@ -4397,6 +4403,7 @@
 	                addMusica,
 	                addMusica2,
 	                addMusica3,
+	                addMusica4,
 	                React.createElement("hr", { className: "small" }),
 	                React.createElement(ListMusicas, { data: this.state.data, user: this.props.user, reloadMusicas: this.load })
 	            );

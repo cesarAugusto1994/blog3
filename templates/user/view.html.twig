@@ -16,35 +16,36 @@
 
     <article>
         <div class="container">
+
+            <nav class="navbar navbar-default navbar-fixed-bottom">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="collapsed navbar-toggle" data-toggle="collapse"
+                                    data-target="#bs-example-navbar-collapse-7" aria-expanded="false"><span
+                                        class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+                                        class="icon-bar"></span> <span class="icon-bar"></span></button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-7">
+                            <ul class="nav navbar-nav">
+                                <li class="is-primary"><a href="{{ path('view_editar_letra_musica', { id : musica.id }) }}">Editar Letra</a></li>
+                                <li><a id="btnComCifra">Com Cifra</a></li>
+                                <li><a id="btnSemCifra">Sem Cifra</a></li>
+                                <li><a id="btnCores">Cores</a></li>
+                                <li><a id="btnInverter">Inverter Cores</a></li>
+                                <li><a id="decfont">A-</a></li>
+                                <li><a id="incfont">A+</a></li>
+                            </ul>
+                        </div>
+                    </div>
+            </nav>
+
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p class="title is-5">Opções</p>
-                    <hr class="small">
-                    <a class="button is-danger is-small" href="{{ path('view_editar_letra_musica', { id : musica.id }) }}">Editar Letra</a>
-                    <br>
-                    <br>
-                    <button class="button is-primary is-small" id="btnComCifra">Com Cifra</button>
-                    <button class="button is-primary is-small" id="btnSemCifra">Sem Cifra</button>
-                    <br>
-                    <br>
-                    <button class="button is-primary is-small" id="btnCores">Cores</button>
-                    <button class="button is-primary is-small" id="btnInverter">Inverter Cores</button>
-                    <br>
-                    <br>
-                    <div class="control is-grouped" id="fontlinks">
-                        <p class="control has-addon">
-                            <button id="incfont" class="button is-primary is-small buttonfont">
-                                A+
-                            </button>
-                            <button id="decfont" class="button is-primary is-small buttonfont">
-                                A-
-                            </button>
-                        </p>
-                    </div>
                     <p class="title is-3">{{ musica.nome }}</p>
                     <hr class="small">
                     <pre id="content" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
-
+                    <br/>
+                    <br/>
                 </div>
             </div>
         </div>
@@ -81,7 +82,7 @@
         $("#btnCores").click(function () {
             $('span').css('color', 'black');
             $('p').css('color', 'black');
-            $('.chord > span').css('color', 'red');
+            $('.chord').css('color', 'red');
             $('.pipe').css('color', 'red');
             $('h2').css('color', 'black');
             $('a').css('color', 'red');

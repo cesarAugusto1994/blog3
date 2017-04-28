@@ -380,8 +380,8 @@ $app['default.url'] = function () {
     return 'bloggrupopolo-com.umbler.net';
 };
 
-$app['about'] = function () {
-    return 'Aenean placerat. In vulputate urna eu arcu. Aliquam erat volutpat. Suspendisse potenti. Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl.';
+$app['about'] = function () use ($app){
+    return $app['blog']->getAbout();
 };
 
 $app['default.card'] = function () use ($app) {

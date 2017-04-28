@@ -4,6 +4,16 @@
 
 {% block headerNome %}Musicas/Arquivos{% endblock %}
 
+{% block stylesheet %}
+    {{ parent() }}
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
+          rel="stylesheet"/>
+
+    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
+
+{% endblock %}
+
+
 {% block content %}
 
     {% if app.session.flashbag.has('mensagem') %}
@@ -19,5 +29,31 @@
          data-categoria-nome="{{ categoria.nome }}"
          data-colecao="{{ categoria.colecao.id }}"
          data-user="{{ app['usuario'].roles }}"></div>
+
+    <div id="modal-musicas" class="modal fade" tabIndex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Adicionar Arquivos</h4>
+                </div>
+                <form class="form-horizontal">
+                    <div class="modal-body">
+                        <input class="input" type="file" name="files[]" id="filer_input4" multiple/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal"
+                                onclick="window.location.reload()">Fechar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop2.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
 
 {% endblock %}

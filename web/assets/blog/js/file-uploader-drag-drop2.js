@@ -89,7 +89,7 @@ $(document).ready(function(){
             drop: null,
         },
         uploadFile: {
-            url: "/user/musica/" + $('#musicaId').val() + "/anexos/upload",
+            url: "/user/anexos/upload",
             data: fd,
             type: 'POST',
             enctype: 'multipart/form-data',

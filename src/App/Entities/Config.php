@@ -37,6 +37,12 @@ class Config
      * @var string
      */
     private $subtitulo;
+
+    /**
+     * @ORM\Column(name="about", type="text", nullable=true)
+     * @var string
+     */
+    private $about;
     
     /**
      * @ORM\Column(name="background", type="string", nullable=true)
@@ -88,6 +94,22 @@ class Config
     public function setSubtitulo($subtitulo)
     {
         $this->subtitulo = $subtitulo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbout()
+    {
+        return $this->about;
+    }
+
+    /**
+     * @param string $about
+     */
+    public function setAbout($about)
+    {
+        $this->about = $about;
     }
     
     /**

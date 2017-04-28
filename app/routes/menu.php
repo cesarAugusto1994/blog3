@@ -39,6 +39,7 @@ $menu->post('blog', function (\Symfony\Component\HttpFoundation\Request $request
         }
 
         $config->setSubtitulo($request->get('subtitulo'));
+        $config->setAbout($request->get('about'));
 
         if (!empty($_FILES['background']['size'])) {
             $config->setBackground($app['upload.service']->upload($_FILES['background'], 'config', $config->getBackground()));
