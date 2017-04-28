@@ -1107,7 +1107,16 @@
 	                                React.createElement(
 	                                    'a',
 	                                    { href: '/admin/praises/added' },
-	                                    'Musicas Adicionadas'
+	                                    'M\xFAsicas Adicionadas'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
+	                                    { href: '/user/anexos/sem-vinculo' },
+	                                    'Arquivos Sem Vinculo'
 	                                )
 	                            ),
 	                            React.createElement(
