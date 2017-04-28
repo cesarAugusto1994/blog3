@@ -1,0 +1,44 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Grupo - Participantes{% endblock %}
+{% block headerNome %}Grupo - Participantes{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if app.session.flashbag.has('mensagem') %}
+                        {% for alert in app.session.flashbag.get('mensagem') %}
+                            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% for usuario in usuarios %}
+
+                        <div class="col-sm-4 col-xs-12">
+                            <figure class="wow fadeInLeft animated portfolio-item">
+                                <div class="img-wrapper">
+                                    <img style="min-height: 160px; max-height: 160px; margin: auto;" src="{% if usuario.avatar %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="img-responsive" alt="this is a title" >
+                                    <div class="overlay"></div>
+                                </div>
+                                <figcaption>
+                                    <h4>
+                                        {{ usuario.nome }}
+                                    </h4>
+                                </figcaption>
+                            </figure>
+                        </div>
+
+                    {% else %}
+                        <p class="lead">Nenhum registro encontrado.</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

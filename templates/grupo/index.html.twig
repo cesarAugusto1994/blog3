@@ -25,7 +25,7 @@
                         <li class="list-group-item">
                             <p class="lead">
                                 {% if grupo.id in gruposUsuario %}
-                                    <a href="/user/grupo/{{ grupo.id }}-{{ grupo.nome }}">{{ grupo.nome }}</a>
+                                    <a href="/user/grupo/{{ grupo.id }}-{{ grupo.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ grupo.nome }}</a>
                                 {% else %}
                                     {{ grupo.nome }}
                                 {% endif %}

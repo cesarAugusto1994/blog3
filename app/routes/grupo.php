@@ -206,6 +206,20 @@ $grupo->get('/new', function () use ($app) {
 
 })->bind('gl_add');
 
+$grupo->get('/participantes', function (Request $request) use ($app) {
+
+    $grupo = $app['grupo.repository']->find($request->get('grupo'));
+
+    $grupoUsuarios = $app['grupo.usuarios.repository']->findBy(['grupo' => $grupo]);
+
+    $array = array_map(function($gUser) {
+        return $gUser->getUsuario();
+    }, $grupoUsuarios);
+
+    return $app['twig']->render('grupo/participantes.html.twig', ['usuarios' => $array]);
+
+})->bind('grupo_participantes');
+
 
 $grupo->post('/new-save', function (Request $request) use ($app) {
 
