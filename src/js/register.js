@@ -165,21 +165,21 @@ var FormRegister = React.createClass({
 
             <form onSubmit={this.handleForm} method="post" id="form">
                 <div className="form-group has-feedback">
-                    <input className="input" type="text" name="nome" placeholder="Nome Completo" id="nome" ref="nome"/>
+                    <input className="input" type="text" name="nome" placeholder=" Seu Nome Completo" id="nome" ref="nome"/>
                     <span className="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback">
-                    <input className="input" type="text" name="email" placeholder="E-mail" id="email" ref="email"/>
+                    <input className="input" type="email" name="email" placeholder="Seu E-mail" id="email" ref="email"/>
                     <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback" id="div-password">
-                    <input className="input" type="password" name="password" onChange={this.handlePassLength} placeholder="Senha" id="password"
+                    <input className="input" type="password" name="password" onChange={this.handlePassLength} placeholder="Digite Sua Senha" id="password"
                            ref="password"/>
                     <span className="help is-danger"></span>
                     <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
                 <div className="form-group has-feedback" id="div-password-confirm">
-                    <input className="input" type="password" name="password_confirm" onChange={this.handleConfirmPass} placeholder="Confirme a senha"
+                    <input className="input" type="password" name="password_confirm" onChange={this.handleConfirmPass} placeholder="Confirme a Senha"
                            id="password_confirm" ref="password_confirm"/>
                     <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>

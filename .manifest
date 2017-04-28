@@ -8,4 +8,4 @@ CACHE:
 ./web/assets/blog/css/main.css
 ./web/assets/blog/css/signin.css
 FALLBACK:
-/ /offline.html
+./web/offline.html
