@@ -29,13 +29,12 @@
                                 {% else %}
                                     {{ grupo.nome }}
                                 {% endif %}
-                            </p>
-                            <p>
+
                                 {% if grupo.id in gruposUsuario %}
-                                    <a class="button is-danger"
+                                    <a class="button is-danger is-pulled-right"
                                        href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}&leave=1">Deixargrupo</a>
                                 {% else %}
-                                    <a class="button is-success"
+                                    <a class="button is-success is-pulled-right"
                                        href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}">Participardeste
                                         grupo</a>
                                 {% endif %}

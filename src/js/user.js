@@ -252,6 +252,22 @@ $(function () {
 
     });
 
+
+    const Banner = React.createClass({
+
+        render : function () {
+
+            return (
+                <div>
+                    <CardBlue sectionName="Adicione ou Encontre o seu Grupo">
+                        <a href="/user/grupos" className="button is-large is-light wow fadeInDown">Acessar</a>
+                    </CardBlue>
+                </div>
+            )
+        }
+
+    });
+
     const menu = $("#user").data("menu");
     const dirMenu = $("#user").data("dir-menu");
     const colecao = $("#user").data("colecao");
@@ -266,6 +282,7 @@ $(function () {
         ReactDOM.render(
             <div>
                 <CardHero defaultBackground={defaultBackground} user={user} app={app}/>
+                <Banner source={videos}/>
                 <Colecao source={colecao} dirColecao={dirColecao} defaultBackground={defaultBackground}/>
                 <Musica source={musica}/>
                 <Videos source={videos}/>

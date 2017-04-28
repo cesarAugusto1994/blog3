@@ -6,9 +6,11 @@
  * Time: 16:28
  */
 
+use Api\Entities\EmailEnviado;
 use Api\Entities\Grupo;
 use Api\Entities\GrupoUsuarios;
 use Api\Entities\Usuarios;
+use Api\Services\Email;
 use Symfony\Component\HttpFoundation\Request;
 
 $grupo = $app['controllers_factory'];
@@ -33,19 +35,66 @@ $grupo->get('/', function () use ($app) {
 })->bind('grupo');
 
 
-$grupo->get('/convidar', function () use ($app) {
+$grupo->get('/convidar', function (Request $request) use ($app) {
 
-    $grupos = $app['grupo.repository']->findBy([], [], null, 1);
+    if (!$request->get('grupo')) {
+       return $app->redirect('/user/grupos');
+    }
 
-    $grupoUsuarios = $app['grupo.usuarios.repository']->findBy(['usuario' => $app['usuario']]);
+    $usuarios = $app['usuarios.repository']->findAll();
 
-    $array = array_map(function($gUser) {
-        return $gUser->getGrupo()->getId();
-    }, $grupoUsuarios);
-
-    return $app['twig']->render('grupo/convidar.html.twig');
+    $grupo = $app['grupo.repository']->find($request->get('grupo'));
+    return $app['twig']->render('grupo/convidar.html.twig', ['grupo' => $grupo, 'usuario' => $app['usuario'], 'usuarios' => $usuarios]);
 
 })->bind('convidar');
+
+$grupo->post('/convidar', function (Request $request) use ($app) {
+
+    /**
+     * @var Usuarios $user
+     */
+    $user = $app['usuarios.repository']->findOneBy(['email' => $request->request->get('user')]);
+    $userEmail = $app['usuarios.repository']->findOneBy(['email' => $request->request->get('email')]);
+
+    $nomeUsuario = "";
+
+    if ($userEmail) {
+        $nomeUsuario = $userEmail->getNome();
+        $user = $userEmail;
+    }
+
+    $config = $app['config'];
+    $assunto = "Convite";
+    $mensagem = $request->request->get('mensagem');
+
+    $array = [
+        'mensagem' => $mensagem,
+        'nome' => $nomeUsuario,
+        'site' => $config->getNome(),
+        'lema' => $config->getSubtitulo()
+    ];
+
+    $body = $app['twig']->render('/user/success.html.twig', $array);
+    $email = new Email($assunto, $app['email.padrao'], $body);
+    $email->send($request->request->get('email'), $app);
+
+    $emailEnviado = new EmailEnviado();
+    $emailEnviado->setUsuario($user);
+    $emailEnviado->setTipo($assunto);
+    $emailEnviado->setMensagem($mensagem);
+    $emailEnviado->setDataHora(new DateTime('now'));
+
+    $app['db']->beginTransaction();
+    $app['email.enviado.repository']->save($emailEnviado);
+    $app['db']->commit();
+
+    $grupo = $app['grupo.repository']->find($request->get('grupo'));
+
+    $app['session']->getFlashBag()->add('mensagem', 'E-mail enviado.');
+
+    return $app->redirect('/user/grupo/' . $grupo->getId() . '-' . urlencode(strtolower($grupo->getNome())));
+
+})->bind('convidar_save');
 
 $grupo->get('/add-repertorio/grupo/{id}-{nome}', function ($id, $nome, Request $request) use ($app) {
 

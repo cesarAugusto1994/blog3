@@ -1761,6 +1761,29 @@
 
 	    });
 
+	    const Banner = React.createClass({
+	        displayName: "Banner",
+
+
+	        render: function () {
+
+	            return React.createElement(
+	                "div",
+	                null,
+	                React.createElement(
+	                    CardBlue,
+	                    { sectionName: "Adicione ou Encontre o seu Grupo" },
+	                    React.createElement(
+	                        "a",
+	                        { href: "/user/grupos", className: "button is-large is-light wow fadeInDown" },
+	                        "Acessar"
+	                    )
+	                )
+	            );
+	        }
+
+	    });
+
 	    const menu = $("#user").data("menu");
 	    const dirMenu = $("#user").data("dir-menu");
 	    const colecao = $("#user").data("colecao");
@@ -1776,6 +1799,7 @@
 	            "div",
 	            null,
 	            React.createElement(CardHero, { defaultBackground: defaultBackground, user: user, app: app }),
+	            React.createElement(Banner, { source: videos }),
 	            React.createElement(Colecao, { source: colecao, dirColecao: dirColecao, defaultBackground: defaultBackground }),
 	            React.createElement(Musica, { source: musica }),
 	            React.createElement(Videos, { source: videos })

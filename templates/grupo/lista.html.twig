@@ -16,7 +16,7 @@
                         {% endfor %}
                     {% endif %}
 
-                    <a href="{{ path('convidar') }}" class="button is-primary">Convidar alguém</a>
+                    <a href="/user/grupos/convidar?grupo={{ grupo.id }}" class="button is-primary">Convidar alguém</a>
                     <a href="{{ path('grupo_add_repertorio', { id : grupo.id, nome : grupo.nome }) }}" class="button is-danger">Adicionar ao Repertório</a>
                     <hr class="small"/>
 

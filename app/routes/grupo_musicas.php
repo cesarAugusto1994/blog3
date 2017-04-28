@@ -14,7 +14,7 @@ $grupoMusicas = $app['controllers_factory'];;
 $grupoMusicas->get('{id}-{nome}', function ($id, $nome) use ($app) {
 
     $grupo = $app['grupo.repository']->find($id);
-    $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $id]);
+    $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $id], ['musica' => "DESC"]);
 
     $musicas = array_map(function ($grupoMusica) {
         return $grupoMusica->getMusica();
