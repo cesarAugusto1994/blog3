@@ -313,7 +313,7 @@ $anexos->post('/anexos/upload', function(\Symfony\Component\HttpFoundation\Reque
         );
     }
 
-})->bind('musica_anexos_upload');
+})->bind('anexos_upload');
 
 $anexos->post('/musica/{musicaId}/anexos/save', function($musicaId, \Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
