@@ -35,7 +35,7 @@
                         <tbody>
                         {% for musica in musicas %}
                             <tr>
-                                <td>{{ musica.numero }} {{ musica.nome }}</td>
+                                <td><a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.numero }} {{ musica.nome }}</a></td>
                             </tr>
                         {% endfor  %}
                         </tbody>

@@ -225,7 +225,19 @@ $grupo->post('/new-save', function (Request $request) use ($app) {
 
     $grupo = new Grupo();
 
-    $nome = $request->request->get('grupo') . ' - ' . $request->request->get('cidade') . ' - ' . $request->request->get('estado');
+    $nome = $request->request->get('grupo');
+
+    $grupoExiste = $app['grupo.repository']->findOneBy(
+        [
+            'nome' => $nome,
+            'cidade' => $request->request->get('cidade'),
+            'estado' => $request->request->get('estado'),
+        ]);
+
+    if ($grupoExiste) {
+        $app['session']->getFlashBag()->add('mensagem', 'Já existe um grupo com este nome.');
+        return $app->redirect('/user/grupos');
+    }
 
     $grupo->setNome($nome);
     $grupo->setCidade($request->request->get('cidade'));
