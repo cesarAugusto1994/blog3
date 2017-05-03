@@ -1649,48 +1649,42 @@
 	                React.createElement(
 	                    Card,
 	                    { sectionName: "Cole\xE7\xF5es" },
-	                    this.state.data.map(function (colecao) {
+	                    React.createElement(
+	                        "div",
+	                        { className: "tile is-ancestor" },
+	                        this.state.data.map(function (colecao) {
 
-	                        root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
-	                        linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_');
+	                            root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
+	                            linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_');
 
-	                        return React.createElement(
-	                            "div",
-	                            { key: colecao.id, className: "col-sm-3 col-xs-12" },
-	                            React.createElement(
-	                                "figure",
-	                                { className: "wow fadeInLeft animated portfolio-item" },
+	                            return React.createElement(
+	                                "div",
+	                                { key: colecao.id },
 	                                React.createElement(
 	                                    "div",
-	                                    { className: "img-wrapper" },
+	                                    { className: "tile is-parent wow fadeInLeft animated portfolio-item" },
 	                                    React.createElement(
-	                                        "a",
-	                                        { href: linkToCategorias },
-	                                        React.createElement("img", { style: StyleImg, src: root, className: "img-responsive", alt: "..." }),
-	                                        React.createElement("div", { className: "overlay" })
-	                                    )
-	                                ),
-	                                React.createElement(
-	                                    "figcaption",
-	                                    null,
-	                                    React.createElement(
-	                                        "h2",
-	                                        null,
+	                                        "article",
+	                                        { className: "tile  is-child notification is-primary" },
 	                                        React.createElement(
-	                                            "a",
-	                                            { href: linkToCategorias },
-	                                            colecao.nome
+	                                            "p",
+	                                            { className: "title" },
+	                                            React.createElement(
+	                                                "a",
+	                                                { href: linkToCategorias },
+	                                                colecao.nome
+	                                            )
+	                                        ),
+	                                        React.createElement(
+	                                            "p",
+	                                            { className: "subtitle" },
+	                                            colecao.descricao
 	                                        )
-	                                    ),
-	                                    React.createElement(
-	                                        "p",
-	                                        null,
-	                                        colecao.descricao
 	                                    )
 	                                )
-	                            )
-	                        );
-	                    })
+	                            );
+	                        })
+	                    )
 	                )
 	            );
 	        }

@@ -6,6 +6,8 @@
  * Time: 08:41
  */
 
+use Api\Entities\Musica;
+use Api\Entities\MusicaAnexos;
 use App\Controllers\Uploader;
 use Symfony\Component\BrowserKit\Request;
 
@@ -240,6 +242,57 @@ $anexos->post('/musica/{musicaId}/anexos/upload', function($musicaId, \Symfony\C
 
 })->bind('musica_anexos_upload');
 
+$anexos->post('/anexos/vincular', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    try {
+
+        if (!$request->request->get('musica')) {
+            return;
+        }
+
+        if (!$request->request->get('anexo')) {
+            return;
+        }
+
+        /**
+         * @var Musica $musica
+         */
+        $musica = $app['musica.repository']->find($request->request->get('musica'));
+
+        /**
+         * @var MusicaAnexos $anexo
+         */
+        $anexo = $app['musica.anexos.repository']->find($request->request->get('anexo'));
+        $anexo->setMusica($musica);
+
+        $app['db']->beginTransaction();
+        $app['musica.anexos.repository']->save($anexo);
+        $app['db']->commit();
+
+        $mensagem = 'Anexo vinculado à musica ' . $musica->getNome();
+
+        $app['session']->getFlashBag()->add('mensagem', $mensagem);
+
+        return $app->json(
+            [
+                'classe' => 'acerto',
+                'msg' => $mensagem
+            ]
+        );
+
+    } catch(Exception $e) {
+
+        $app['db']->rollBack();
+
+        return $app->json(
+            [
+                'classe' => 'erro',
+                'msg' => $e->getMessage()
+            ]
+        );
+    }
+
+})->bind('musica_anexos_vincular');
 
 $anexos->post('/anexos/upload', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
@@ -434,17 +487,36 @@ $anexos->post('/musica/anexos/comentario/{comentarioId}/remover', function ($com
 
 $anexos->get('/anexos/sem-vinculo', function () use ($app) {
 
+    $musicas = $app['musica.repository']->getMusicas();
+
+    $array = [];
+
+    /**
+     * @var Musica $musica
+     */
+    foreach ($musicas as $musica) {
+
+        $key = $musica->getCategoria()->getNome();
+
+        if (!isset($array[$key]['nome'])) {
+            $array[$key]['nome'] = $musica->getCategoria()->getNome();
+        }
+
+        $array[$key]['musicas'][] = $musica;
+    }
+
     $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true]);
 
-   return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos]);
+   return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos, 'musicas' => $array]);
 
 });
 
 $anexos->post('/anexos/{id}/remover', function () use ($app) {
 
+    $musicas = $app['musica.repository']->findBy(['apenasAnexos' => false]);
     $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true]);
 
-    return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos]);
+    return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos, 'musicas' => $musicas]);
 
 });
 

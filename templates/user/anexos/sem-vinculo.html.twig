@@ -74,6 +74,12 @@
                                             <button class="button is-danger is-small btnRemover"
                                                     value="{{ anexo.id }}">Remover
                                             </button>
+
+                                            <button class="button is-light is-small btnVincular"
+                                                    data-toggle="modal"
+                                                    data-target="#modal-vincular-musicas"
+                                                    value="{{ anexo.id }}">Vincular Musica
+                                            </button>
                                         {% endif %}
                                     </p>
                                 </figcaption>
@@ -116,6 +122,44 @@
         </div>
     </div>
 
+    <div id="modal-vincular-musicas" class="modal fade" tabIndex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Vincular Arquivos</h4>
+                </div>
+                <form class="form-horizontal" id="form-vincular">
+                    <div class="modal-body">
+                        <input type="hidden" name="anexo" id="anexo"/>
+                        <p class="control">
+                            <label>Selecione a Musica</label>
+                            <span class="select is-fullwidth">
+                                <select name="musica" id="musica">
+                                    {% for categoria in musicas %}
+                                        <optgroup label="{{ categoria.nome }}">
+                                        {% for musica in categoria.musicas %}
+                                            <option value={{ musica.id }}>{{ musica.numero }} {{ musica.nome }}</option>
+                                        {% endfor %}
+                                        </optgroup>
+                                    {% endfor %}
+                                </select>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal"
+                                onclick="window.location.reload()">Fechar
+                        </button>
+                        <button type="submit" class="button is-success is-pulled-right">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop2.js') }}"
             type="text/javascript"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
@@ -123,6 +167,41 @@
     <script>
 
         $(document).ready(function () {
+
+            $(".btnVincular").click(function () {
+                $("#anexo").val($(this).val());
+            });
+
+            $("#form-vincular").submit(function (e) {
+
+                e.preventDefault();
+
+                let musica = $("#musica").val();
+                let anexo = $("#anexo").val();
+
+                block_screen();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/anexos/vincular",
+                    data : {
+                        musica : musica,
+                        anexo : anexo,
+                    },
+                    cache: false,
+                    success: function (data) {
+                        unblock_screen();
+                        alertify.success(data.msg);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        unblock_screen();
+                        alertify.error("Ocorreu um erro.");
+                    }
+                });
+
+            });
+
 
             $(".btnRemover").click(function (e) {
 

@@ -61,4 +61,21 @@ class MusicaRepository extends EntityRepository
 
         return $query->getQuery()->getResult();
     }
+
+    /**
+     * @return array
+     */
+    public function getMusicas()
+    {
+        $query = $this->createQueryBuilder('m');
+        $query->select('m');
+        $query->innerJoin(Categoria::class, 'cat', 'WITH', 'cat.id = m.categoria');
+        $query->where('m.apenasAnexos = :apenas');
+        $query->where('cat.apenasAnexos = :apenas');
+        $query->setParameter('apenas', false);
+        $query->orderBy('cat.nome');
+        $query->orderBy('m.numero');
+
+        return $query->getQuery()->getResult();
+    }
 }
