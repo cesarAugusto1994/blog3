@@ -10,24 +10,28 @@
                 <div class="col-md-12 text-center">
                     <div class="block wow fadeInUp" data-wow-delay=".3s">
                         <section class="cd-intro">
+
+                            <article class="message is-danger">
+                                <div class="message-header">
+                                    <p><strong>Ocorreu um erro</strong>!</p>
+                                </div>
+                                <div class="message-body">
+                                    {{ mensagem }}
+                                </div>
+                            </article>
+
                             <div class="login-box">
 
                                 <div class="login-logo">
                                     <a href="/"><b>{{ app.blog.nome }}</b></a>
                                 </div>
 
-                                <div class="register-box-body">
-                                    <div class="alert alert-danger alert-dismissable" role="alert">
-                                        {{ mensagem }}
-                                    </div>
-                                </div>
-
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <a href="/" class="button is-light is-fullwidth">Inicio</a>
+                                        <a href="/" class="button is-primary is-fullwidth">Ir para o Inicio</a>
                                     </div>
                                     <div class="col-xs-6">
-                                        <a href="/i-forgot-my-password" class="button is-primary is-inverted is-fullwidth">Esqueci
+                                        <a href="/i-forgot-my-password" class="button is-danger is-fullwidth">Esqueci
                                             minha senha</a>
                                     </div>
                                 </div>
