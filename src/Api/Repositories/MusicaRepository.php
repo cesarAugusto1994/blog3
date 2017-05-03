@@ -73,8 +73,8 @@ class MusicaRepository extends EntityRepository
         $query->where('m.apenasAnexos = :apenas');
         $query->where('cat.apenasAnexos = :apenas');
         $query->setParameter('apenas', false);
-        $query->orderBy('cat.nome');
         $query->orderBy('m.numero');
+        $query->addOrderBy('cat.nome');
 
         return $query->getQuery()->getResult();
     }

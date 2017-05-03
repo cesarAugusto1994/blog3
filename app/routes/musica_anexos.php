@@ -505,7 +505,7 @@ $anexos->get('/anexos/sem-vinculo', function () use ($app) {
         $array[$key]['musicas'][] = $musica;
     }
 
-    $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true]);
+    $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true], ['nome' => 'ASC']);
 
    return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos, 'musicas' => $array]);
 
@@ -514,10 +514,9 @@ $anexos->get('/anexos/sem-vinculo', function () use ($app) {
 $anexos->post('/anexos/{id}/remover', function () use ($app) {
 
     $musicas = $app['musica.repository']->findBy(['apenasAnexos' => false]);
-    $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true]);
+    $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true], ['nome' => 'ASC']);
 
     return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos, 'musicas' => $musicas]);
-
 });
 
 return $anexos;

@@ -9,6 +9,8 @@
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+
 {% endblock %}
 
 {% block header %}{{ parent() }}{% endblock %}
@@ -75,9 +77,10 @@
                                                     value="{{ anexo.id }}">Remover
                                             </button>
 
-                                            <button class="button is-light is-small btnVincular"
+                                            <button class="button is-succees is-small btnVincular"
                                                     data-toggle="modal"
                                                     data-target="#modal-vincular-musicas"
+                                                    data-anexo="{{ anexo.nome }}"
                                                     value="{{ anexo.id }}">Vincular Musica
                                             </button>
                                         {% endif %}
@@ -134,19 +137,21 @@
                 <form class="form-horizontal" id="form-vincular">
                     <div class="modal-body">
                         <input type="hidden" name="anexo" id="anexo"/>
+                            <label>Arquivo Selecionado</label>
                         <p class="control">
-                            <label>Selecione a Musica</label>
-                            <span class="select is-fullwidth">
-                                <select name="musica" id="musica">
-                                    {% for categoria in musicas %}
-                                        <optgroup label="{{ categoria.nome }}">
+                            <input type="text" class="input" readonly="readonly" id="anexo-selecionado">
+                        </p>
+                        <label>Selecione a Musica</label>
+                        <p class="control">
+                            <select class="selectpicker show-tick" name="musica" id="musica" data-container="body" data-live-search="true" data-width="100%">
+                                {% for categoria in musicas %}
+                                    <optgroup label="{{ categoria.nome }}">
                                         {% for musica in categoria.musicas %}
                                             <option value={{ musica.id }}>{{ musica.numero }} {{ musica.nome }}</option>
                                         {% endfor %}
-                                        </optgroup>
-                                    {% endfor %}
-                                </select>
-                            </span>
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -163,6 +168,7 @@
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop2.js') }}"
             type="text/javascript"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 
     <script>
 
@@ -170,6 +176,8 @@
 
             $(".btnVincular").click(function () {
                 $("#anexo").val($(this).val());
+                $("#anexo-selecionado").val($(this).data('anexo'));
+
             });
 
             $("#form-vincular").submit(function (e) {
