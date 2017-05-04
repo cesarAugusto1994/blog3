@@ -20,7 +20,18 @@ $grupoMusicas->get('{id}-{nome}', function ($id, $nome) use ($app) {
         return $grupoMusica->getMusica();
     }, $grupoMusicas);
 
-    return $app['twig']->render('/grupo/lista.html.twig', ['musicas' => $musicas, 'grupo' => $grupo]);
+    $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $grupo]);
+
+    $musicasGrupo = array_map(function ($grupoMusica) {
+        return $grupoMusica->getMusica()->getId();
+    }, $grupoMusicas);
+
+    return $app['twig']->render('/grupo/lista.html.twig',
+        [
+            'musicas' => $musicas,
+            'grupo' => $grupo,
+            'musicasGrupo' => $musicasGrupo
+        ]);
 });
 
 $grupoMusicas->post('/add-repertorio', function (Request $request) use ($app) {
