@@ -1,6 +1,6 @@
 {% extends 'template-new.html.twig' %}
 
-{% block title %}{{ app['nome.blog'] }}{% endblock %}
+{% block title %}{{ app.blog.nome }}{% endblock %}
 
 {% block header %}&nbsp;{% endblock %}
 
@@ -28,6 +28,5 @@
          data-videos="{{ path('videos') }}"
          data-user="{{ app.usuario.nome }}"
          data-app="{{ app.blog.subtitulo }}"></div>
-         data-grid-colecoes="{{ app.blog.subtitulo }}"></div>
 
 {% endblock %}

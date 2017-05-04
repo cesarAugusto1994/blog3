@@ -237,6 +237,56 @@ $(function () {
 
     });
 
+    var Musica2 = React.createClass({
+
+        getInitialState : function () {
+            return {data : []}
+        },
+
+        load : function () {
+            $.get(this.props.source, function (result) {
+                this.setState({ data : result })
+            }.bind(this))
+        },
+
+        componentDidMount : function () {
+            this.load();
+        },
+
+        render : function () {
+
+            var linkToAnexos = '';
+
+            return (
+                <Card sectionName="Adicionadas Recentemente">
+                    <div className="tile">
+                        <div className="tile is-parent is-vertical">
+
+                            { this.state.data.map(function (musica) {
+
+                                linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
+
+                                return (
+
+                                    <article className="tile is-child notification" key={musica.id}>
+
+                                        <a href={linkToAnexos}>
+                                            <p className="title">{ musica.numero } { musica.nome }</p>
+                                        </a>
+
+                                    </article>
+
+                                )
+                            }) }
+
+                        </div>
+                    </div>
+                </Card>
+            )
+        }
+
+    });
+
     const Videos = React.createClass({
 
         render : function () {
@@ -244,7 +294,7 @@ $(function () {
             return (
                 <div>
                     <CardBlue sectionName="Videos">
-                        <a href="/user/musica/anexos/videos" className="button is-large is-danger wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Acessar</a>
+                        <a href="/user/musica/anexos/videos" className="button is-large is-danger wow fadeInDown">Acessar</a>
                     </CardBlue>
                 </div>
             )
@@ -284,7 +334,7 @@ $(function () {
                 <CardHero defaultBackground={defaultBackground} user={user} app={app}/>
                 <Banner source={videos}/>
                 <Colecao source={colecao} dirColecao={dirColecao} defaultBackground={defaultBackground}/>
-                <Musica source={musica}/>
+                <Musica2 source={musica}/>
                 <Videos source={videos}/>
             </div>,
             document.getElementById('user')

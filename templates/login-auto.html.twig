@@ -1,0 +1,65 @@
+{% extends 'template-login-new.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block header %}
+
+    <section id="hero-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="block wow fadeInUp">
+                        <section class="cd-intro">
+                            <div class="login-box">
+                                <div class="login-logo text-black">
+                                    <a href="/"><b>{{ app.blog.nome }}</b></a>
+                                </div>
+                                <div class="tile">
+                                    <div class="tile is-parent is-vertical">
+                                        <article class="tile is-child  notification is-success">
+                                            <p class="lead">Sucesso ao confirmar o E-mail, você será redirecionado(a) à tela de usuários.</p>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="login-redirect" data-username="{{ usuario.email }}" data-password="{{ usuario.senha }}"></div>
+
+    <script>
+
+        $(document).ready(function () {
+
+            let email = $("#login-redirect").data('username');
+            let password = $("#login-redirect").data('password');
+
+            $.ajax({
+                type: 'POST',
+                url: "/admin/login_check",
+                data: {
+                    _username: email,
+                    _password: password
+                },
+                cache: false,
+                success: function (data) {
+                    window.location.href = '/user/';
+                    return false;
+                },
+                error: function () {
+                    unblock_screen();
+                    $("#btnSubmit").removeClass("is-loading");
+                    alertify.error("opss, algo deu errado...");
+                    return false;
+                }
+            });
+        })
+
+    </script>
+
+
+{% endblock %}

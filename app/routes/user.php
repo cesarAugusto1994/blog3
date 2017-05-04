@@ -7,6 +7,7 @@
  */
 
 use Api\Entities\Usuarios;
+use Symfony\Component\HttpFoundation\Request;
 
 $user = $app['controllers_factory'];
 
@@ -19,7 +20,13 @@ $user->get('/{id}-{nome}/favorites', function($id, $nome) use ($app) {
 
 })->bind('user_favorites_2');
 
-$user->get('/{id}-{nome}', function($id, $nome) use($app) {
+$user->get('/{id}-{nome}', function($id, $nome, Request $request) use($app) {
+
+    $mensagem = "";
+
+    if ($request->get('first-access')) {
+        $mensagem = "Edite o seu perfil";
+    }
 
     $userSession = $app['session']->get('user');
     $userS = $app['usuarios.repository']->find($userSession->getId());
@@ -41,7 +48,7 @@ $user->get('/{id}-{nome}', function($id, $nome) use($app) {
 
     $grupo = $app['grupo.repository']->findAll();
 
-    return $app['twig']->render('/user/perfil.html.twig', ['user' => $user, 'cidades' => $app['cidades'], 'grupos' => $grupo]);
+    return $app['twig']->render('/user/perfil.html.twig', ['user' => $user, 'cidades' => $app['cidades'], 'grupos' => $grupo, 'mensagem' => $mensagem]);
 
 })->bind('perfil');
 

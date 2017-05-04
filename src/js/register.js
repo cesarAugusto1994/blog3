@@ -103,6 +103,8 @@ var FormRegister = React.createClass({
             cache: false,
             success: function (data) {
 
+                alertify.error(data.message);
+
                 let id = data.user.id;
                 let nome = data.user.nome;
 
@@ -115,7 +117,8 @@ var FormRegister = React.createClass({
                     },
                     cache: false,
                     success: function (data) {
-                        window.location.href = '/user/';
+                        window.location.href = '/user/' + id + '-' + nome.toLowerCase().replace(/ /g, '_') + '?first-access=1';
+                        //window.location.href = '/user/';
                         return false;
                     },
                     error: function () {

@@ -403,6 +403,8 @@
 	            cache: false,
 	            success: function (data) {
 
+	                alertify.error(data.message);
+
 	                let id = data.user.id;
 	                let nome = data.user.nome;
 
@@ -415,7 +417,8 @@
 	                    },
 	                    cache: false,
 	                    success: function (data) {
-	                        window.location.href = '/user/';
+	                        window.location.href = '/user/' + id + '-' + nome.toLowerCase().replace(/ /g, '_') + '?first-access=1';
+	                        //window.location.href = '/user/';
 	                        return false;
 	                    },
 	                    error: function () {
@@ -1649,42 +1652,48 @@
 	                React.createElement(
 	                    Card,
 	                    { sectionName: "Cole\xE7\xF5es" },
-	                    React.createElement(
-	                        "div",
-	                        { className: "tile is-ancestor" },
-	                        this.state.data.map(function (colecao) {
+	                    this.state.data.map(function (colecao) {
 
-	                            root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
-	                            linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_');
+	                        root = colecao.imagem ? _this.props.dirColecao + colecao.imagem : defaultBackground;
+	                        linkToCategorias = "/user/collection/" + colecao.id + "-" + colecao.nome.toLowerCase().replace(/ /g, '_');
 
-	                            return React.createElement(
-	                                "div",
-	                                { key: colecao.id },
+	                        return React.createElement(
+	                            "div",
+	                            { key: colecao.id, className: "col-sm-3 col-xs-12" },
+	                            React.createElement(
+	                                "figure",
+	                                { className: "wow fadeInLeft animated portfolio-item" },
 	                                React.createElement(
 	                                    "div",
-	                                    { className: "tile is-parent wow fadeInLeft animated portfolio-item" },
+	                                    { className: "img-wrapper" },
 	                                    React.createElement(
-	                                        "article",
-	                                        { className: "tile  is-child notification is-primary" },
+	                                        "a",
+	                                        { href: linkToCategorias },
+	                                        React.createElement("img", { style: StyleImg, src: root, className: "img-responsive", alt: "..." }),
+	                                        React.createElement("div", { className: "overlay" })
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "figcaption",
+	                                    null,
+	                                    React.createElement(
+	                                        "h2",
+	                                        null,
 	                                        React.createElement(
-	                                            "p",
-	                                            { className: "title" },
-	                                            React.createElement(
-	                                                "a",
-	                                                { href: linkToCategorias },
-	                                                colecao.nome
-	                                            )
-	                                        ),
-	                                        React.createElement(
-	                                            "p",
-	                                            { className: "subtitle" },
-	                                            colecao.descricao
+	                                            "a",
+	                                            { href: linkToCategorias },
+	                                            colecao.nome
 	                                        )
+	                                    ),
+	                                    React.createElement(
+	                                        "p",
+	                                        null,
+	                                        colecao.descricao
 	                                    )
 	                                )
-	                            );
-	                        })
-	                    )
+	                            )
+	                        );
+	                    })
 	                )
 	            );
 	        }
@@ -1741,6 +1750,64 @@
 
 	    });
 
+	    var Musica2 = React.createClass({
+	        displayName: "Musica2",
+
+
+	        getInitialState: function () {
+	            return { data: [] };
+	        },
+
+	        load: function () {
+	            $.get(this.props.source, function (result) {
+	                this.setState({ data: result });
+	            }.bind(this));
+	        },
+
+	        componentDidMount: function () {
+	            this.load();
+	        },
+
+	        render: function () {
+
+	            var linkToAnexos = '';
+
+	            return React.createElement(
+	                Card,
+	                { sectionName: "Adicionadas Recentemente" },
+	                React.createElement(
+	                    "div",
+	                    { className: "tile" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "tile is-parent is-vertical" },
+	                        this.state.data.map(function (musica) {
+
+	                            linkToAnexos = "/user/praise/" + musica.id + "-" + musica.nome.toLowerCase().replace(/ /g, '_');
+
+	                            return React.createElement(
+	                                "article",
+	                                { className: "tile is-child notification", key: musica.id },
+	                                React.createElement(
+	                                    "a",
+	                                    { href: linkToAnexos },
+	                                    React.createElement(
+	                                        "p",
+	                                        { className: "title" },
+	                                        musica.numero,
+	                                        " ",
+	                                        musica.nome
+	                                    )
+	                                )
+	                            );
+	                        })
+	                    )
+	                )
+	            );
+	        }
+
+	    });
+
 	    const Videos = React.createClass({
 	        displayName: "Videos",
 
@@ -1755,7 +1822,7 @@
 	                    { sectionName: "Videos" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "/user/musica/anexos/videos", className: "button is-large is-danger wow fadeInDown", "data-wow-delay": ".7s", "data-wow-duration": "500ms" },
+	                        { href: "/user/musica/anexos/videos", className: "button is-large is-danger wow fadeInDown" },
 	                        "Acessar"
 	                    )
 	                )
@@ -1804,7 +1871,7 @@
 	            React.createElement(CardHero, { defaultBackground: defaultBackground, user: user, app: app }),
 	            React.createElement(Banner, { source: videos }),
 	            React.createElement(Colecao, { source: colecao, dirColecao: dirColecao, defaultBackground: defaultBackground }),
-	            React.createElement(Musica, { source: musica }),
+	            React.createElement(Musica2, { source: musica }),
 	            React.createElement(Videos, { source: videos })
 	        ), document.getElementById('user'));
 	    }

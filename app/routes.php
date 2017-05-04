@@ -165,4 +165,5 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
             break;
     }
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
-});*/
+});
+*/

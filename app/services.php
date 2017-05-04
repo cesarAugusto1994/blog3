@@ -441,6 +441,9 @@ $app['usuario.sessao'] = function () use ($app) {
 };
 
 $app['usuario'] = function () use ($app) {
+
+    var_dump($app['usuario.sessao']['id']); //exit;
+
     return $app['usuarios.repository']->find($app['usuario.sessao']['id']);
 };
 

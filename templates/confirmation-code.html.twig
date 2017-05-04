@@ -1,0 +1,89 @@
+{% extends 'template-login-new.html.twig' %}
+
+{% block title %}Solicitar código de Autorização{% endblock %}
+
+{% block header %}
+
+    <section id="hero-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="block wow fadeInUp">
+                        <section class="cd-intro">
+                            <div class="login-box">
+
+                                <div class="login-logo">
+                                    <a href="/"><b>{{ app.blog.nome }}</b></a>
+                                </div>
+
+                                <div class="register-box-body">
+                                    <p class="login-box-msg">Solicitar código de Autorização</p>
+                                    <form  method="post">
+                                        <p class="title is-4" id="mensagem"></p>
+                                        <div class="form-group has-feedback">
+                                            <input class="input" autoFocus="autoFocus" autoComplete="off" type="email" name="email" placeholder="E-mail" id="email" ref="email"/>
+                                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <a href="login" class="button is-primary is-outlined is-fullwidth">In&iacute;cio</a>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <button type="submit" id="btnSubmit" class="button is-success is-fullwidth">Enviar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('form').submit(function (e) {
+
+                e.preventDefault();
+
+                const email = $("#email").val();
+
+                if (!email) {
+                    $("#email").focus();
+                    $("#email").addClass("is-danger");
+                    alertify.error("Deve Informar o E-mail");
+                    return false;
+                }
+
+                $("#email").removeClass("is-danger");
+                $("#btnSubmit").addClass("is-loading");
+
+                $.ajax({
+                    type: 'POST',
+                    url : "/new-conformation-code/save",
+                    data : $("form").serialize(),
+                    cache: false,
+                    success: function (data) {
+                        alertify.success(data.mensagem);
+                        $("#mensagem").text(data.mensagem);
+                        $("#btnSubmit").hide();
+                        $("#btnSubmit").attr('type', '');
+                    },
+                    error: function (data) {
+                        alertify.error(data.responseJSON.mensagem);
+                        $("#email").focus();
+                        $("#btnSubmit").removeClass("is-loading");
+                    }
+                })
+
+            });
+        })
+
+    </script>
+
+{% endblock %}

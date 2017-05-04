@@ -62,6 +62,12 @@ class Usuarios implements \JsonSerializable
     private $grupo;
 
     /**
+     * @ORM\Column(name="senha", type="string", length=50, nullable=false)
+     * @var string
+     */
+    private $senha;
+
+    /**
      * @ORM\Column(name="password", type="string", length=50, nullable=false)
      * @var string
      */
@@ -183,6 +189,22 @@ class Usuarios implements \JsonSerializable
     public function setUf($uf)
     {
         $this->uf = $uf;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    /**
+     * @param mixed $senha
+     */
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
     }
     
     /**

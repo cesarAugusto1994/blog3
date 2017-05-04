@@ -8,10 +8,10 @@
 
 use Api\Entities\EmailConfirmacao;
 use Api\Entities\EmailEnviado;
+use Api\Entities\GrupoUsuarios;
 use Api\Entities\Login;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
-use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 $app->get('/login', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
@@ -195,11 +195,25 @@ $app->get('forgotten-passord/token/{token}', function ($token) use ($app) {
     $dataAtual = new DateTime('now');
 
     if ($dataAtual > $emailConfirmacao->getValidade()) {
+
+        $statusEmail = $app['status.email.repository']->find(4);
+        $emailConfirmacao->setStatus($statusEmail);
+
+        $app['db']->beginTransaction();
+        $app['email.confirmacao.repository']->save($emailConfirmacao);
+        $app['db']->commit();
+
         return $app['twig']->render('token_invalido.html.twig', ['mensagem' => 'Token Expirado!']);
     }
 
+    $statusEmail = $app['status.email.repository']->find(2);
+
+    $emailConfirmacao->setStatus($statusEmail);
     $emailConfirmacao->setAtivoEm(new DateTime('now'));
+
+    $app['db']->beginTransaction();
     $app['email.confirmacao.repository']->save($emailConfirmacao);
+    $app['db']->commit();
 
     return $app['twig']->render('forgotten_password.html.twig', ['email' => $emailConfirmacao->getUsuario()->getEmail()]);
 
@@ -283,66 +297,101 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
 
 $app->match('register/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
-        if ($app['usuarios.repository']->findBy(['email' => $request->request->get('email')])) {
-            return $app->json(
-                ['class' => 'error', 'message' => 'Este e-mail já está cadastrado.']
-            );
-        }
-
-        $encoder = $app['security.encoder.digest'];
-        $password = $encoder->encodePassword($request->get('password'), '');
-
-        $usuario = new \Api\Entities\Usuarios();
-        $usuario->setNome(ucwords($request->request->get('nome')));
-        $usuario->setEmail(strtolower($request->request->get('email')));
-        $usuario->setPassword($password);
-        $usuario->setAvatar('avatar.png');
-        $usuario->setCadastro(new \DateTime('now'));
-        $usuario->setRoles('ROLE_USER');
-        $usuario->setAtivo(true);
-
-        $app['db']->beginTransaction();
-        $app['usuarios.repository']->save($usuario);
-        $app['db']->commit();
-
-        $config = $app['config'];
-        $assunto = "Confirmação de Cadastro";
-        $mensagem = "Seja Bem Vindo(a) ao Coletânea ICM.";
-
-        $array = [
-            'mensagem' => $mensagem,
-            'nome' => $request->request->get('nome'),
-            'site' => $config->getNome(),
-            'lema' => $config->getSubtitulo()
-        ];
-
-        $body = $app['twig']->render('/user/success.html.twig', $array);
-        $email = new Email($assunto, $app['email.padrao'], $body);
-        $email->send($request->request->get('email'), $app);
-
-        $emailEnviado = new EmailEnviado();
-        $emailEnviado->setUsuario($usuario);
-        $emailEnviado->setTipo($assunto);
-        $emailEnviado->setMensagem($mensagem);
-        $emailEnviado->setDataHora(new DateTime('now'));
-
-        $app['db']->beginTransaction();
-        $app['email.enviado.repository']->save($emailEnviado);
-        $app['db']->commit();
-
+    if ($app['usuarios.repository']->findBy(['email' => $request->request->get('email')])) {
         return $app->json(
-            [
-                'class' => 'success',
-                'user' => [
-                    'username' => $usuario->getEmail(),
-                    'password' => $usuario->getPassword(),
-                    'id' => $usuario->getId(),
-                    'nome' => $usuario->getNome()
-                ],
-                'message' => 'Usuario Registrado'
-            ]
+            ['class' => 'error', 'message' => 'Este e-mail já está cadastrado.']
         );
-    });
+    }
+
+    $encoder = $app['security.encoder.digest'];
+    $password = $encoder->encodePassword($request->get('password'), '');
+    $grupo = $app['grupo.repository']->find(1);
+
+    $usuario = new \Api\Entities\Usuarios();
+    $usuario->setNome(ucwords($request->request->get('nome')));
+    $usuario->setEmail(strtolower($request->request->get('email')));
+    $usuario->setSenha($request->get('password'));
+    $usuario->setPassword($password);
+    $usuario->setGrupo($grupo);
+    $usuario->setAvatar('avatar.png');
+    $usuario->setCadastro(new \DateTime('now'));
+    $usuario->setRoles('ROLE_USER');
+    $usuario->setAtivo(false);
+
+    $app['db']->beginTransaction();
+    $app['usuarios.repository']->save($usuario);
+    $app['db']->commit();
+
+    $grupoUsuarios = new GrupoUsuarios();
+    $grupoUsuarios->setGrupo($grupo);
+    $grupoUsuarios->setUsuario($usuario);
+
+    $app['db']->beginTransaction();
+    $app['grupo.usuarios.repository']->save($grupoUsuarios);
+    $app['db']->commit();
+
+    $uuid = $app['uuid.service'];
+
+    $link = "https://coletaneaicm.com/email/confirmation/" . $uuid . "/auth/" . $usuario->getEmail();
+
+    $dateTime = new DateTime('now');
+    $dataLimite = new DateTime('now');
+    $dataLimite->modify('+8 hours');
+
+    $statusEmail = $app['status.email.repository']->find(1);
+
+    $emailConfirmacao = new EmailConfirmacao();
+    $emailConfirmacao->setUsuario($usuario);
+    $emailConfirmacao->setToken($uuid);
+    $emailConfirmacao->setGeradoEm($dateTime);
+    $emailConfirmacao->setValidade($dataLimite);
+    $emailConfirmacao->setStatus($statusEmail);
+
+    $app['email.confirmacao.repository']->save($emailConfirmacao);
+
+    $config = $app['config'];
+    $assunto = "Confirmar E-mail";
+    $mensagem = "Seja Bem Vindo(a) ao Coletânea ICM, você está cadastrado, agora só falta confirmar o seu e-mail.";
+    $obs = "Este link é válido por 8 horas";
+
+    $array = [
+        'mensagem' => $mensagem,
+        'link' => $link,
+        'confirmarEmail' => 'Ou confirme pelo link abaixo:',
+        'nome' => $usuario->getNome(),
+        'site' => $config->getNome(),
+        'lema' => $config->getSubtitulo(),
+        'obs' => $obs,
+    ];
+
+    $body = $app['twig']->render('/user/email_confirmation.twig', $array);
+    $email = new Email($assunto, $app['email.padrao'], $body);
+    $email->send($request->request->get('email'), $app);
+
+    $emailEnviado = new EmailEnviado();
+    $emailEnviado->setUsuario($usuario);
+    $emailEnviado->setTipo($assunto);
+    $emailEnviado->setMensagem($mensagem);
+    $emailEnviado->setDataHora(new DateTime('now'));
+
+    $app['db']->beginTransaction();
+    $app['email.enviado.repository']->save($emailEnviado);
+    $app['db']->commit();
+
+    return $app->json(
+        [
+            'class' => 'success',
+            'bln' => true,
+            'user' => [
+                'username' => $usuario->getEmail(),
+                'password' => $usuario->getPassword(),
+                'id' => $usuario->getId(),
+                'nome' => $usuario->getNome()
+            ],
+            'message' => 'Usuario Registrado'
+        ]
+    );
+});
 
 $app->post('forgotten-password/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
@@ -394,7 +443,143 @@ $app->post('forgotten-password/save', function (\Symfony\Component\HttpFoundatio
                     'id' => $user->getId(),
                     'nome' => $user->getNome()
                 ],
+                'bln' => true,
                 'message' => 'Usuario Registrado'
             ]
         );
     });
+
+$app->get('/request-new-conformation-code', function () use ($app) {
+    return $app['twig']->render('confirmation-code.html.twig');
+});
+
+$app->post('/new-conformation-code/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
+    try {
+
+        $uuid = $app['uuid.service'];
+
+        /**
+         * @var Usuarios $usuario
+         */
+        $usuario = $app['usuarios.repository']->findOneBy(['email' => $request->request->get('email')]);
+
+        $link = "https://coletaneaicm.com/email/confirmation/" . $uuid . "/auth/" . $usuario->getEmail();
+
+        $dateTime = new DateTime('now');
+        $dataLimite = new DateTime('now');
+        $dataLimite->modify('+8 hours');
+
+        $statusEmail = $app['status.email.repository']->find(1);
+
+        $emailConfirmacao = new EmailConfirmacao();
+        $emailConfirmacao->setUsuario($usuario);
+        $emailConfirmacao->setToken($uuid);
+        $emailConfirmacao->setGeradoEm($dateTime);
+        $emailConfirmacao->setValidade($dataLimite);
+        $emailConfirmacao->setStatus($statusEmail);
+
+        $app['email.confirmacao.repository']->save($emailConfirmacao);
+
+        $config = $app['config'];
+        $assunto = "Confirmar E-mail Reenvio";
+        $mensagem = "Confirme o seu E-mail com o link abaixo.";
+        $obs = "Este link é válido por 8 horas";
+
+        $array = [
+            'mensagem' => $mensagem,
+            'link' => $link,
+            'confirmarEmail' => 'Ou confirme pelo link abaixo:',
+            'nome' => $usuario->getNome(),
+            'site' => $config->getNome(),
+            'lema' => $config->getSubtitulo(),
+            'obs' => $obs,
+        ];
+
+        $body = $app['twig']->render('/user/email_confirmation.twig', $array);
+        $email = new Email($assunto, $app['email.padrao'], $body);
+        $email->send($request->request->get('email'), $app);
+
+        $emailEnviado = new EmailEnviado();
+        $emailEnviado->setUsuario($usuario);
+        $emailEnviado->setTipo($assunto);
+        $emailEnviado->setMensagem($mensagem);
+        $emailEnviado->setDataHora(new DateTime('now'));
+
+        $app['db']->beginTransaction();
+        $app['email.enviado.repository']->save($emailEnviado);
+        $app['db']->commit();
+
+        return $app->json([
+            "classe" => "sucesso",
+            "mensagem" => "Um Email para a confirmação de cadastro foi enviado para o e-mail " . $request->request->get('email') . "",
+        ], 201);
+
+    } catch (Exception $e) {
+
+        return $app->json([
+            "classe" => "erro",
+            "mensagem" => $e->getMessage(),
+        ], 201);
+
+    }
+});
+
+$app->get('/email/confirmation/{token}/auth/{email}', function ($token, $email) use ($app) {
+
+    /**
+     * @var EmailConfirmacao $emailConfirmacao
+     */
+    $emailConfirmacao = $app['email.confirmacao.repository']->findOneBy(['token' => $token]);
+
+    if (!$emailConfirmacao) {
+        return $app['twig']->render('token_invalido_registro.html.twig', ['mensagem' => 'Código de autorização inválido!, solicite novo código de autorização.']);
+    }
+
+    $dataAtual = new DateTime('now');
+
+    if ($dataAtual > $emailConfirmacao->getValidade()) {
+
+        $statusEmail = $app['status.email.repository']->find(4);
+        $emailConfirmacao->setStatus($statusEmail);
+
+        $app['db']->beginTransaction();
+        $app['email.confirmacao.repository']->save($emailConfirmacao);
+        $app['db']->commit();
+
+        return $app['twig']->render('token_invalido_registro.html.twig', ['mensagem' => 'Código de Ativação Expirado!']);
+    }
+
+    $statusEmail = $app['status.email.repository']->find(2);
+
+    $emailConfirmacao->setStatus($statusEmail);
+    $emailConfirmacao->setAtivoEm(new DateTime('now'));
+
+    $app['db']->beginTransaction();
+    $app['email.confirmacao.repository']->save($emailConfirmacao);
+    $app['db']->commit();
+
+    /**
+     * @var Usuarios $usuario
+     */
+    $usuario = $app['usuarios.repository']->findOneBy(['email' => $email]);
+
+    return $app['twig']->render('login-auto.html.twig', ['usuario' => $usuario]);
+
+});
+
+$app->get('/register/success', function () use ($app) {
+
+    $array = [
+        'mensagem' => 'ola',
+        'link' => 'www.wwww..wwww',
+        'confirmarEmail' => 'Ou confirme pelo link abaixo:',
+        'nome' => 'Cesar',
+        'site' => 'Coletanea',
+        'lema' => 123,
+        'obs' => 'Validade'
+    ];
+
+    return $app['twig']->render('/user/email_confirmation.twig', $array);
+
+});

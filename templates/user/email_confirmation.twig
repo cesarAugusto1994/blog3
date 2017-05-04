@@ -1,28 +1,35 @@
 <html>
-<body style=" width: 660px; margin-left: 25px; color: black; border-color: #E8E8E8;">
+<body style=" width: 400px; margin-left: 25px; color: black; border-color: #E8E8E8;">
 
 <div style="position: relative; width: 100%; -moz-border-radius: 4px; border-radius: 1px; padding: 0.5em 1em; text-shadow: 0 1px 0 #fff;
      line-height: 1.5; margin: 10px auto;  border: solid; border-width: 2px; border-color: #E8E8E8;  background: white;">
-    <p style="font-size: 12px; margin-left: 10px;">Ol&aacute;, <span
-                style="font-size: 12px; color: firebrick; font-weight: bold;">{{ body }}</span>
+    <p style="font-size: 16px; margin-left: 10px;">Ol&aacute;, <span
+                style="font-size: 18px; color: firebrick; font-weight: bold;">{{ nome }}</span>
     </p>
-    <p style="font-size: 12px; margin-left: 10px;">
-        Voce esta cadastrado, so falta confirmar o email.
+    <p style="font-size: 14px; margin-left: 10px;">
+        {{ mensagem }}
     </p>
 
     <div style="text-align: center">
-        <a href="http://localhost:8081/index.php/confirm_email/{{ uuid }}">
-            <button style="height:28px; background: red;border: none;color: white;border-radius: 2px;cursor: pointer;">
-                Confirmar Cadastro
+        <a href="{{ link }}">
+            <button style="height:28px; background: red;border: none;color: white;border-radius: 2px;cursor: pointer; width: 33%">
+                Confirmar E-mail
             </button></a>
     </div>
 
-    <p style="font-size: 12px; margin-left: 10px;">Ou confirme pelo link abaixo:</p>
+    <p style="font-size: 14px; margin-left: 10px;">{{ confirmarEmail }}</p>
 
-    <p style="font-size: 12px; margin-left: 10px;">
-        <a style="color: red;" target="_blank" href="http://{{ app['default.url'] }}/confirmar_email/{{ uuid }}">http://{{ app['default.url'] }}/confirmar_email/{{ uuid }}</a>
+    <p style="font-size: 14px; margin-left: 10px;">
+        <a style="color: red;" target="_blank" href="{{ link }}">{{ link }}</a>
     </p>
 
+    <p style="font-size: 12px; color: firebrick; margin-left: 10px;">
+        {{ obs }}
+    </p>
+
+    <p style="font-size: 12px; margin-left: 10px;">
+        {{ lema }}
+    </p>
 </div>
 </body>
 </html>

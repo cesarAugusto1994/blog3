@@ -1,7 +1,7 @@
 {% extends 'template-new.html.twig' %}
 
-{% block title %}Perfil{% endblock %}
-{% block headerNome %}Perfil{% endblock %}
+{% block title %}Meu Perfil{% endblock %}
+{% block headerNome %}Meu Perfil{% endblock %}
 
 {% block content %}
 
@@ -17,6 +17,16 @@
                        href="{{ path('gl_add') }}">Adicionar o Meu Grupo de Louvor</a>
 
                     <hr>
+
+                    {% if mensagem|length > 0 %}
+                        <div class="tile">
+                            <div class="tile is-parent is-vertical">
+                                <article class="tile is-child  notification is-success">
+                                    <p class="lead">{{ mensagem }}.</p>
+                                </article>
+                            </div>
+                        </div>
+                    {% endif %}
 
                     <form method="post" class="form-horizontal wow fadeInUp animated slide"
                           action="{{ path('usuario_editar') }}"
