@@ -14,7 +14,7 @@ $playlist = $app['controllers_factory'];
 
 $playlist->get('/', function () use ($app) {
 
-    $playlists = $app['playlist.repository']->findAll();
+    $playlists = $app['playlist.repository']->findBy(['usuario' => $app['usuario']]);
 
     return $app['twig']->render('/playlist/index.html.twig', ['playlists' => $playlists]);
 

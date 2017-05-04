@@ -158,6 +158,7 @@ $(function () {
                             <li><a href={favoritos}>Favoritos</a></li>
                             <li><a href={link}>Meu Grupo</a></li>
                             <li><a href="/user/grupos">Grupos</a></li>
+                            <li><a href="/user/playlists">Minhas Playlists</a></li>
                             <li><a href={linkToAtividades}>Atividades</a></li>
                         </ul>
                     </div>

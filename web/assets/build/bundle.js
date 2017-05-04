@@ -1296,6 +1296,15 @@
 	                                null,
 	                                React.createElement(
 	                                    'a',
+	                                    { href: '/user/playlists' },
+	                                    'Minhas Playlists'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
 	                                    { href: linkToAtividades },
 	                                    'Atividades'
 	                                )
