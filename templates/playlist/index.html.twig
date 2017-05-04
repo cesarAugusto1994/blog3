@@ -1,0 +1,63 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Minhas Playlists{% endblock %}
+{% block headerNome %}Minhas Playlists{% endblock %}
+
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if app.session.flashbag.has('mensagem') %}
+                        {% for alert in app.session.flashbag.get('mensagem') %}
+                            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                        {% endfor %}
+                    {% endif %}
+
+                    <a href="{{ path('playlist_create') }}" class="button is-danger">Criar Playlist</a>
+                    <hr class="small"/>
+
+                    {% for playlist in playlists %}
+
+                        <li class="list-group-item">
+                            <p class="lead">
+
+                                <a href="/user/playlists/{{ playlist.id }}-{{ playlist.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ playlist.nome }}</a>
+
+
+                                {#
+
+                                {% if grupo.id in gruposUsuario %}
+                                    <a href="/user/grupo/{{ grupo.id }}-{{ grupo.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ grupo.nome }}</a>
+                                    <span class="tag">{{ grupo.cidade }}</span>
+                                    <span class="tag">{{ grupo.uf }}</span>
+                                {% else %}
+                                    {{ grupo.nome }}
+                                    <span class="tag">{{ grupo.cidade }}</span>
+                                    <span class="tag">{{ grupo.uf }}</span>
+                                {% endif %}
+
+                                {% if grupo.id in gruposUsuario %}
+                                    <a class="button is-danger is-pulled-right"
+                                       href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}&leave=1">Deixar Grupo</a>
+                                {% else %}
+                                    <a class="button is-success is-pulled-right"
+                                       href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}">Participar deste grupo</a>
+                                {% endif %}
+
+                                #}
+
+                            </p>
+                        </li>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Playlist - Musicas{% endblock %}
+{% block headerNome %}Playlist - Musicas{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if app.session.flashbag.has('mensagem') %}
+                        {% for alert in app.session.flashbag.get('mensagem') %}
+                            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                        {% endfor %}
+                    {% endif %}
+
+                    <a href="#" class="button is-success">Adicionar Musicas</a>
+
+                    <hr class="small"/>
+
+                    <table class="table is-striped">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Nome</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for musica in musicas %}
+                            <tr>
+                                <td><a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.numero }} {{ musica.nome }}</a>
+                                    {% if musica.id in musicasGrupo %}
+                                        <button class="button is-danger is-small btnARemoveMusica is-pulled-right"
+                                                data-grupo="{{ grupo.id }}"
+                                                value="{{ musica.id }}">Remover
+                                        </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor  %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('.btnARemoveMusica').click(function (e) {
+
+                let musica = $(this).val();
+                let grupo = $(this).data('grupo');
+
+                $(this).addClass('is-loading');
+
+                let _this = $(this);
+
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/grupo/add-repertorio",
+                    data: {
+                        musica: musica,
+                        grupo: grupo
+                    },
+                    cache: false,
+                    success: function (data) {
+
+                        alertify.success(data.mensagem);
+
+                        if (data.bln == 'add') {
+
+                            _this.parent().parent().hide();
+
+                            _this.removeClass('is-success');
+                            _this.removeClass('is-loading');
+                            _this.addClass('is-danger');
+                            _this.text('Remover');
+
+                        } else {
+
+                            _this.parent().parent().hide();
+
+                            _this.removeClass('is-danger');
+                            _this.removeClass('is-loading');
+                            _this.addClass('is-success');
+                            _this.text('Adicionar Ao Repertório');
+
+                        }
+
+                        unblock_screen();
+                    },
+                    error: function (data) {
+                        unblock_screen();
+                        alertify.error(data.mensagem);
+                    }
+                });
+                /*
+                 $(this).removeClass('is-success');
+                 $(this).removeClass('is-loading');
+                 $(this).addClass('is-danger');
+                 $(this).text('Remover');
+                 */
+            })
+
+        })
+
+
+    </script>
+
+{% endblock %}

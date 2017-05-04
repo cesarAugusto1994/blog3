@@ -154,6 +154,12 @@ $app['grupo.musicas.repository'] = function () use ($app) {
 $app['grupo.usuarios.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\GrupoUsuarios::class);
 };
+$app['playlist.musicas.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\PlaylistMusicas::class);
+};
+$app['playlist.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\Playlist::class);
+};
 
 #################################################################################################
 #################################################################################################

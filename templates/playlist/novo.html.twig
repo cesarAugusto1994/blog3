@@ -1,0 +1,27 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Adicionar Playlist{% endblock %}
+{% block headerNome %}Adicionar Playlist{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <form method="post" class="form-horizontal wow fadeInUp animated slide" action="{{ path('playlist_create_save') }}">
+                        <input type="hidden" class="input is-large" name="usuario" value="{{ usuario.id }}"/>
+                        <label>Nome da Playlist</label>
+                        <p class="control">
+                            <input class="input is-large" name="playlist" autofocus/>
+                        </p>
+                        <p class="control">
+                            <button class="button is-danger is-fullwidth" type="submit">Salvar</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

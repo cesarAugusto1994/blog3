@@ -136,6 +136,8 @@ $app->mount('/user/palavra/', include __DIR__ . '/routes/blog/home.php');
 $app->mount('/user/grupos/', include __DIR__ . '/routes/grupo.php');
 $app->mount('/user/grupo/', include __DIR__ . '/routes/grupo_musicas.php');
 
+$app->mount('/user/playlists/', include __DIR__ . '/routes/playlist.php');
+
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
 $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
 

@@ -17,7 +17,7 @@ $grupoMusicas->get('{id}-{nome}', function ($id, $nome) use ($app) {
     $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $id], ['musica' => "DESC"]);
 
     $musicas = array_map(function ($grupoMusica) {
-        return $grupoMusica->getMusica();
+        return $grupoMusica->getMusica()->getAnexos();
     }, $grupoMusicas);
 
     $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $grupo]);

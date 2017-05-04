@@ -13,10 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Grupo
  * @package Api\Entities
- * @ORM\Entity(repositoryClass="Api\Repositories\PlaylistRepository")
- * @ORM\Table(name="playlist")
+ * @ORM\Entity(repositoryClass="Api\Repositories\PlaylistMusicasRepository")
+ * @ORM\Table(name="playlist_musicas")
  */
-class Playlist
+class PlaylistMusicas
 {
     /**
      * @ORM\Id()
@@ -27,10 +27,18 @@ class Playlist
     private $id;
 
     /**
-     * @ORM\Column(name="nome", type="string")
-     * @var string
+     * @ORM\ManyToOne(targetEntity="Playlist")
+     * @ORM\JoinColumn(referencedColumnName="id", name="playlist_id")
+     * @var Playlist
      */
-    private $nome;
+    private $playlist;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Musica")
+     * @ORM\JoinColumn(referencedColumnName="id", name="musica_id")
+     * @var Musica
+     */
+    private $musica;
 
     /**
      * @ORM\ManyToOne(targetEntity="Usuarios")
@@ -54,22 +62,6 @@ class Playlist
     }
 
     /**
-     * @return string
-     */
-    public function getNome()
-    {
-        return $this->nome;
-    }
-
-    /**
-     * @param string $nome
-     */
-    public function setNome($nome)
-    {
-        $this->nome = $nome;
-    }
-
-    /**
      * @return Usuarios
      */
     public function getUsuario()
@@ -83,6 +75,38 @@ class Playlist
     public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
+    }
+
+    /**
+     * @return Playlist
+     */
+    public function getPlaylist()
+    {
+        return $this->playlist;
+    }
+
+    /**
+     * @param Playlist $playlist
+     */
+    public function setPlaylist($playlist)
+    {
+        $this->playlist = $playlist;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMusica()
+    {
+        return $this->musica;
+    }
+
+    /**
+     * @param mixed $musica
+     */
+    public function setMusica($musica)
+    {
+        $this->musica = $musica;
     }
 
     /**
