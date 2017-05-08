@@ -57,7 +57,7 @@ $(function () {
                     <div className="container">
                         <div className="col-md-12">
                             <div className="block">
-                                <h2 className="title wow fadeInDown" data-wow-delay=".1s">{this.props.sectionName}</h2>
+                                <h2 className="title">{this.props.sectionName}</h2>
                                 <div className="row">
                                     {this.props.children}
                                 </div>
@@ -167,7 +167,7 @@ $(function () {
 
                             return (
                                 <div key={colecao.id} className="col-sm-3 col-xs-12">
-                                    <figure className="wow fadeInLeft animated portfolio-item">
+                                    <figure>
                                         <div className="img-wrapper">
                                             <a href={linkToCategorias}>
                                                 <img style={StyleImg} src={root} className="img-responsive" alt="..." />

@@ -1532,7 +1532,7 @@
 	                            { className: "block" },
 	                            React.createElement(
 	                                "h2",
-	                                { className: "title wow fadeInDown", "data-wow-delay": ".1s" },
+	                                { className: "title" },
 	                                this.props.sectionName
 	                            ),
 	                            React.createElement(
@@ -1671,7 +1671,7 @@
 	                            { key: colecao.id, className: "col-sm-3 col-xs-12" },
 	                            React.createElement(
 	                                "figure",
-	                                { className: "wow fadeInLeft animated portfolio-item" },
+	                                null,
 	                                React.createElement(
 	                                    "div",
 	                                    { className: "img-wrapper" },

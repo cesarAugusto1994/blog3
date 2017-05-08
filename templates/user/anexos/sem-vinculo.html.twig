@@ -9,8 +9,6 @@
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-
     <style>
 
         .dropdown-menu>ul {
@@ -45,7 +43,7 @@
                     <div class="col-sm-12 col-xs-12">
 
 
-                        <figure class="wow fadeInLeft animated portfolio-item">
+                        <figure>
 
                             {% for anexo in anexos %}
 
@@ -85,7 +83,7 @@
                                                     value="{{ anexo.id }}">Remover
                                             </button>
 
-                                            <button class="button is-succees is-small btnVincular"
+                                            <button class="button is-dark is-outlined is-small btnVincular"
                                                     data-toggle="modal"
                                                     data-target="#modal-vincular-musicas"
                                                     data-anexo="{{ anexo.nome }}"
@@ -165,9 +163,7 @@
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal"
-                                onclick="window.location.reload()">Fechar
-                        </button>
+                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal">Fechar</button>
                         <button type="submit" class="button is-success is-pulled-right">Salvar</button>
                     </div>
                 </form>
@@ -178,7 +174,6 @@
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop2.js') }}"
             type="text/javascript"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 
     <script>
 
