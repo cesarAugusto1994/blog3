@@ -8,8 +8,9 @@
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/ico/favicon.ico') }}" rel='shortcut icon' type='image/x-icon'/>
     <meta name="description" content="">
-    <meta name="keywords" content="Louvores">
-    <meta name="author" content="Cesar Augusto">
+
+    <meta name="keywords" content="{{ app.about }}">
+    <meta name="author" content="{{ app.blog.nome }}">
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/alertify.min.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/themes/default.min.css') }}" rel=stylesheet>

@@ -11,6 +11,14 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 
+    <style>
+
+        .dropdown-menu>ul {
+            color: white;
+        }
+
+    </style>
+
 {% endblock %}
 
 {% block header %}{{ parent() }}{% endblock %}
@@ -41,7 +49,7 @@
 
                             {% for anexo in anexos %}
 
-                                <figcaption>
+                                <figcaption id="figcaption-{{ loop.index }}">
                                     <h4>
                                         {{ anexo.nome }}
                                     </h4>
@@ -81,6 +89,7 @@
                                                     data-toggle="modal"
                                                     data-target="#modal-vincular-musicas"
                                                     data-anexo="{{ anexo.nome }}"
+                                                    data-index="{{ loop.index }}"
                                                     value="{{ anexo.id }}">Vincular Musica
                                             </button>
                                         {% endif %}
@@ -136,6 +145,7 @@
                 </div>
                 <form class="form-horizontal" id="form-vincular">
                     <div class="modal-body">
+                        <input type="hidden" name="index" id="index"/>
                         <input type="hidden" name="anexo" id="anexo"/>
                             <label>Arquivo Selecionado</label>
                         <p class="control">
@@ -176,6 +186,7 @@
 
             $(".btnVincular").click(function () {
                 $("#anexo").val($(this).val());
+                $("#index").val($(this).data('index'));
                 $("#anexo-selecionado").val($(this).data('anexo'));
 
             });
@@ -200,7 +211,7 @@
                     success: function (data) {
                         unblock_screen();
                         alertify.success(data.msg);
-                        window.location.reload();
+                        $("#figcaption-" + $("#index").val()).hide();
                     },
                     error: function () {
                         unblock_screen();

@@ -34,9 +34,9 @@ class PlaylistMusicas
     private $playlist;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Musica")
+     * @ORM\ManyToOne(targetEntity="MusicaAnexos")
      * @ORM\JoinColumn(referencedColumnName="id", name="musica_id")
-     * @var Musica
+     * @var MusicaAnexos
      */
     private $musica;
 

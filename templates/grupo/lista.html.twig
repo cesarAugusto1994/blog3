@@ -1,7 +1,7 @@
 {% extends 'template-new.html.twig' %}
 
-{% block title %}Grupo{% endblock %}
-{% block headerNome %}Grupo{% endblock %}
+{% block title %}Grupo - {{ grupo.nome }}{% endblock %}
+{% block headerNome %}Grupo - {{ grupo.nome }}{% endblock %}
 
 {% block content %}
 
@@ -21,32 +21,19 @@
                     <a href="/user/grupos/participantes?grupo={{ grupo.id }}" class="button is-primary">Participantes</a>
                     <hr class="small"/>
 
-                    <table class="table is-striped">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Nome</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
+                    <figure class="wow fadeInLeft animated portfolio-item">
                         {% for musica in musicas %}
-                            <tr>
-                                <td><a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.numero }} {{ musica.nome }}</a>
-                                    {% if musica.id in musicasGrupo %}
-                                        <button class="button is-danger is-small btnARemoveMusica is-pulled-right"
-                                                data-grupo="{{ grupo.id }}"
-                                                value="{{ musica.id }}">Remover
-                                        </button>
-                                    {% endif %}
-                                </td>
-                            </tr>
+                        <figcaption>
+                            <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.numero }} {{ musica.nome }}</a>
+                                {% if musica.id in musicasGrupo %}
+                                    <button class="button is-danger is-small btnARemoveMusica is-pulled-right"
+                                            data-grupo="{{ grupo.id }}"
+                                            value="{{ musica.id }}">Remover
+                                    </button>
+                                {% endif %}
+                        </figcaption>
                         {% endfor  %}
-                        </tbody>
-                    </table>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -81,7 +68,7 @@
 
                         if (data.bln == 'add') {
 
-                            _this.parent().parent().hide();
+                            _this.parent().hide();
 
                             _this.removeClass('is-success');
                             _this.removeClass('is-loading');
@@ -90,7 +77,7 @@
 
                         } else {
 
-                            _this.parent().parent().hide();
+                            _this.parent().hide();
 
                             _this.removeClass('is-danger');
                             _this.removeClass('is-loading');
