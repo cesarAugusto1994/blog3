@@ -39,7 +39,7 @@ $(function () {
                 <section id="works" className="works">
                     <div className="container">
                         <div className="section-heading">
-                            <h1 className="title wow fadeInDown">{this.props.sectionName}</h1>
+                            <h1 className="title">{this.props.sectionName}</h1>
                         </div>
                         <div className="row">
                             {this.props.children}
@@ -310,7 +310,7 @@ $(function () {
             return (
                 <div>
                     <CardBlue sectionName="Adicione ou Encontre o seu Grupo">
-                        <a href="/user/grupos" className="button is-large is-light wow fadeInDown">Acessar</a>
+                        <a href="/user/grupos" className="button is-large is-light">Acessar</a>
                     </CardBlue>
                 </div>
             )

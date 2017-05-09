@@ -1502,7 +1502,7 @@
 	                        { className: "section-heading" },
 	                        React.createElement(
 	                            "h1",
-	                            { className: "title wow fadeInDown" },
+	                            { className: "title" },
 	                            this.props.sectionName
 	                        )
 	                    ),
@@ -1854,7 +1854,7 @@
 	                    { sectionName: "Adicione ou Encontre o seu Grupo" },
 	                    React.createElement(
 	                        "a",
-	                        { href: "/user/grupos", className: "button is-large is-light wow fadeInDown" },
+	                        { href: "/user/grupos", className: "button is-large is-light" },
 	                        "Acessar"
 	                    )
 	                )
@@ -3654,31 +3654,36 @@
 	            );
 	        }
 
-	    };
+	    }
+	    ;
 
 	    class BtnInativar extends React.Component {
 
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-danger is-inverted is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
+	                { className: 'button is-danger is-inverted is-small mudarStatus', onClick: this.props.acao,
+	                    'data-categoria': this.props.categoria.id },
 	                'Inativar'
 	            );
 	        }
 
-	    };
+	    }
+	    ;
 
 	    class BtnAtivar extends React.Component {
 
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-success is-inverted is-small mudarStatus', onClick: this.props.acao, 'data-categoria': this.props.categoria.id },
+	                { className: 'button is-success is-inverted is-small mudarStatus', onClick: this.props.acao,
+	                    'data-categoria': this.props.categoria.id },
 	                'Ativar'
 	            );
 	        }
 
-	    };
+	    }
+	    ;
 
 	    class BtnAddCategoria extends React.Component {
 	        render() {
@@ -3691,7 +3696,8 @@
 	                'Nova Categoria'
 	            );
 	        }
-	    };
+	    }
+	    ;
 
 	    const BlockCategorias = React.createClass({
 	        displayName: 'BlockCategorias',
@@ -3708,7 +3714,8 @@
 	                    React.createElement(
 	                        'p',
 	                        { className: 'control' },
-	                        React.createElement(MudarStatusCategoria, { categoria: this.props.categoria, reloadCategoria: this.props.reloadCategoria })
+	                        React.createElement(MudarStatusCategoria, { categoria: this.props.categoria,
+	                            reloadCategoria: this.props.reloadCategoria })
 	                    ),
 	                    React.createElement(
 	                        'p',
@@ -3822,8 +3829,8 @@
 	                'div',
 	                null,
 	                React.createElement(
-	                    'div',
-	                    { className: 'list-group' },
+	                    'figure',
+	                    null,
 	                    _this.props.categoria.map(function (categoria) {
 
 	                        const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_');
@@ -3831,8 +3838,9 @@
 	                        if (_this.props.user == ROLE_ADMIN) {
 	                            btns = React.createElement(
 	                                'div',
-	                                { className: 'pull-right' },
-	                                React.createElement(MudarStatusCategoria, { categoria: categoria, reloadCategoria: _this.props.reloadCategoria }),
+	                                null,
+	                                React.createElement(MudarStatusCategoria, { categoria: categoria,
+	                                    reloadCategoria: _this.props.reloadCategoria }),
 	                                React.createElement(BtnEditar, { categoria: categoria, acao: _this.props.openModal }),
 	                                React.createElement(
 	                                    'span',
@@ -3843,10 +3851,14 @@
 	                        }
 
 	                        return React.createElement(
-	                            'a',
-	                            { href: musicasUrl, key: categoria.id, className: 'list-group-item' },
-	                            categoria.nome,
-	                            btns
+	                            'figcaption',
+	                            null,
+	                            React.createElement(
+	                                'a',
+	                                { href: musicasUrl, key: categoria.id, className: 'list-group-item' },
+	                                categoria.nome,
+	                                btns
+	                            )
 	                        );
 	                    })
 	                )
@@ -3905,7 +3917,8 @@
 	                Base,
 	                null,
 	                opcoes,
-	                React.createElement(CategoriasList, { categoria: this.state.data, source: this.props.source, user: this.props.user, reloadCategoria: this.load, acao: this.openModal })
+	                React.createElement(CategoriasList, { categoria: this.state.data, source: this.props.source, user: this.props.user,
+	                    reloadCategoria: this.load, acao: this.openModal })
 	            );
 	        }
 	    });

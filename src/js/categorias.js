@@ -17,33 +17,38 @@ $(function () {
             let url = "/user/category/" + this.props.categoria.id + "-" + this.props.categoria.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
             return (
-                <a href={url} className="button is-light is-small" >Editar</a>
+                <a href={url} className="button is-light is-small">Editar</a>
             )
         }
 
-    };
+    }
+    ;
 
-    class BtnInativar extends React.Component{
+    class BtnInativar extends React.Component {
 
         render() {
             return (
-                <a className="button is-danger is-inverted is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Inativar</a>
+                <a className="button is-danger is-inverted is-small mudarStatus" onClick={this.props.acao}
+                   data-categoria={ this.props.categoria.id }>Inativar</a>
             )
         }
 
-    };
+    }
+    ;
 
-    class BtnAtivar extends React.Component{
+    class BtnAtivar extends React.Component {
 
         render() {
             return (
-                <a className="button is-success is-inverted is-small mudarStatus" onClick={this.props.acao} data-categoria={ this.props.categoria.id }>Ativar</a>
+                <a className="button is-success is-inverted is-small mudarStatus" onClick={this.props.acao}
+                   data-categoria={ this.props.categoria.id }>Ativar</a>
             )
         }
 
-    };
+    }
+    ;
 
-    class BtnAddCategoria extends React.Component{
+    class BtnAddCategoria extends React.Component {
         render() {
 
             const url = "/user/category/new?collection_id=" + this.props.colecao + "collection_name=" + this.props.colecaoNome.toLowerCase().replace(/ /g, '_');
@@ -52,7 +57,8 @@ $(function () {
                 <a href={url} className="button is-light is-small">Nova Categoria</a>
             );
         }
-    };
+    }
+    ;
 
     const BlockCategorias = React.createClass({
 
@@ -64,7 +70,8 @@ $(function () {
                 btns = (
                     <div className="control is-grouped is-centered">
                         <p className="control">
-                            <MudarStatusCategoria categoria={this.props.categoria} reloadCategoria={this.props.reloadCategoria}/>
+                            <MudarStatusCategoria categoria={this.props.categoria}
+                                                  reloadCategoria={this.props.reloadCategoria}/>
                         </p>
                         <p className="control">
                             <BtnEditar categoria={this.props.categoria} acao={this.props.acao}/>
@@ -94,13 +101,13 @@ $(function () {
 
     const MudarStatusCategoria = React.createClass({
 
-        loadStatus : function() {
+        loadStatus: function () {
             this.props.reloadCategoria();
-            this.setState({ ativo: !this.props.categoria.ativo });
+            this.setState({ativo: !this.props.categoria.ativo});
         },
 
-        getInitialState: function() {
-            return { ativo: this.props.categoria.ativo }
+        getInitialState: function () {
+            return {ativo: this.props.categoria.ativo}
         },
 
         handleInativarCategoria: function (e) {
@@ -157,17 +164,16 @@ $(function () {
             let btns = '';
 
 
-
             return (
                 <div>
-                    <div className="list-group">{ _this.props.categoria.map(function (categoria) {
+                    <figure>{ _this.props.categoria.map(function (categoria) {
 
                         const musicasUrl = "/user/category/" + categoria.id + "-" + categoria.nome.toLowerCase().replace(/ /g, '_');
 
                         if (_this.props.user == ROLE_ADMIN) {
-                            btns = (
-                                <div className="pull-right">
-                                    <MudarStatusCategoria categoria={categoria} reloadCategoria={_this.props.reloadCategoria}/>
+                            btns = (<div>
+                                    <MudarStatusCategoria categoria={categoria}
+                                                          reloadCategoria={_this.props.reloadCategoria}/>
                                     <BtnEditar categoria={categoria} acao={_this.props.openModal}/>
                                     <span className="badge">{categoria.qtde_musicas}</span>
                                 </div>
@@ -175,13 +181,15 @@ $(function () {
                         }
 
                         return (
-                            <a href={musicasUrl} key={categoria.id} className="list-group-item">
-                                {categoria.nome}
-                                {btns}
-                            </a>
+                            <figcaption>
+                                <a href={musicasUrl} key={categoria.id} className="list-group-item">
+                                    {categoria.nome}
+                                    {btns}
+                                </a>
+                            </figcaption>
                         )
                     }) }
-                    </div>
+                    </figure>
                 </div>
             )
         }
@@ -189,14 +197,14 @@ $(function () {
 
     const OpcoesList = React.createClass({
 
-        render : function () {
+        render: function () {
             return (
                 <div>
                     <BtnAddCategoria
                         colecao={this.props.colecao}
                         colecaoNome={this.props.colecaoNome}
                     />
-                    <hr className="small" />
+                    <hr className="small"/>
                 </div>
             );
         }
@@ -205,20 +213,20 @@ $(function () {
 
     const View = React.createClass({
 
-        getInitialState: function() {
+        getInitialState: function () {
             return {data: []};
         },
-        load : function () {
+        load: function () {
             const _this = this;
             $.get(_this.props.source, function (result) {
-                _this.setState({ data: result });
+                _this.setState({data: result});
             }.bind(_this));
         },
-        componentDidMount: function() {
+        componentDidMount: function () {
             this.load();
         },
 
-        render : function () {
+        render: function () {
 
             var opcoes = '';
 
@@ -233,7 +241,8 @@ $(function () {
             return (
                 <Base>
                     {opcoes}
-                    <CategoriasList categoria={this.state.data} source={this.props.source} user={this.props.user} reloadCategoria={this.load} acao={this.openModal}/>
+                    <CategoriasList categoria={this.state.data} source={this.props.source} user={this.props.user}
+                                    reloadCategoria={this.load} acao={this.openModal}/>
                 </Base>
             );
         }

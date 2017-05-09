@@ -17,17 +17,21 @@
                             <form method="get" class="form-horizontal wow fadeInUp animated slide"
                                   action="{{ path('pesquisar_3') }}">
 
-                                <input type="hidden" name="go" value="1" />
+                                <input type="hidden" name="go" value="1"/>
 
                                 <nav class="panel">
                                     <p class="panel-heading">
                                         Pesquisar
                                     </p>
-                                    <div class="field has-addons">
-                                        <p class="control">
-                                            <input class="input is-large" type="text" autofocus name="q" value="{{ qRequest }}" placeholder="Pesquisar">
-                                        </p>
 
+                                    <div class="field">
+                                        <p class="control">
+                                            <input class="input is-large" type="text" autofocus name="q"
+                                                   value="{{ qRequest }}" placeholder="Pesquisar">
+                                        </p>
+                                    </div>
+
+                                    <div class="field">
                                         <p class="control">
                                             <label class="label text-black">Tonalidade</label>
                                         <div class="select is-fullwidth">
@@ -39,9 +43,9 @@
                                             </select>
                                         </div>
                                         </p>
+                                    </div>
 
-                                        <br>
-                                        <br>
+                                    <div class="field">
 
                                         <p class="control">
                                             <label class="label text-black">Colecoes</label>
@@ -54,7 +58,9 @@
                                             </select>
                                         </div>
                                         </p>
+                                    </div>
 
+                                    <div class="field">
                                         <p class="control">
                                             <label class="label text-black">Categorias</label>
                                         <div class="select is-fullwidth">
@@ -70,6 +76,9 @@
                                             </select>
                                         </div>
                                         </p>
+                                    </div>
+
+                                    <div class="field">
 
                                         <p class="control">
                                             <button class="button is-primary is-fullwidth">
@@ -78,6 +87,7 @@
                                         </p>
 
                                     </div>
+
 
                                 </nav>
 
@@ -103,7 +113,8 @@
                                                 <div class="media">
                                                     <div class="media-body">
                                                         <h4 class="media-heading"><a
-                                                                    href="{{ path('musica_anexos', { id : musica.id, name : musica.nome }) }}">{% if musica.numero|length > 0 %}{{ musica.numero }} - {% endif %}{{ musica.nome }} ({{ musica.tom }})</a>
+                                                                    href="{{ path('musica_anexos', { id : musica.id, name : musica.nome }) }}">{% if musica.numero|length > 0 %}{{ musica.numero }} - {% endif %}{{ musica.nome }}
+                                                                ({{ musica.tom }})</a>
                                                             <small> {{ musica.categoria.nome }}</small>
                                                         </h4>
                                                     </div>
