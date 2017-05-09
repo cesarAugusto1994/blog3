@@ -105,7 +105,7 @@ $app->get('/user/email-send-all', function () use ($app) {
     /**
      * @var Usuarios $usuario
      */
-    $usuarios = $app['usuarios.repository']->findBy([], [], 200, 30);
+    $usuarios = $app['usuarios.repository']->findBy([]);
 
     foreach ($usuarios as $usuario) {
 

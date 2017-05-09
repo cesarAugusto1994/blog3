@@ -63,6 +63,7 @@ $favoritos->post('favoritos/add-remove', function (Request $request) use ($app) 
 
         return $app->json([
             'classe' => 'sucesso',
+            'bln' => true,
             'mensagem' =>  $musica->getNome() . ' foi adicionada aos seus favoritos.',
         ]);
 
@@ -72,6 +73,7 @@ $favoritos->post('favoritos/add-remove', function (Request $request) use ($app) 
 
     return $app->json([
         'classe' => 'sucesso',
+        'bln' => false,
         'mensagem' =>  $musica->getNome() . ' foi removida aos seus favoritos.',
     ]);
 

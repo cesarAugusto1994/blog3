@@ -4,36 +4,424 @@
 
 {% block stylesheet %}
     {{ parent() }}
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}"
+          rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
+          rel="stylesheet"/>
+    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
 {% endblock %}
 
-{% block headerNome %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
+{% block headerNome %}{{ musica.numero }} {{ musica.nome }}{% endblock %}
 {% block headerSubtitulo %}{{ musica.categoria.colecao.nome }} / {{ musica.categoria.nome }}{{ app['nome.blog'] }}{% endblock %}
 
 {% block content %}
 
-    <div id="comentarios"
-         data-source="{{ path('api_comentarios', { musicaId : musica.id }) }}"
-         data-source-arquivos="{{ path('api_attachments_from_praise', { id : musica.id, nome : musica.nome|lower|replace(' ', '_') }) }}"
-         data-user="{{ app.usuario.roles }}"
-         data-user-id="{{ app.usuario.id }}"
-         data-dir-avatar="{{ app['dir.avatar'] }}"
-         data-dir-anexos="{{ app['dir.anexo'] }}"
-         data-musica-id="{{ musica.id }}"
-         data-musica-nome="{{ musica.nome }}"
-         data-musica-apenas-anexos="{{ musica.apenasAnexos }}"
-         data-source-view="{{ path('musica_view', { id : musica.id, nome : musica.nome|lower|replace(' ', '_')  }) }}"
-         data-source-editar="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome|lower|replace(' ', '_') }) }}"
-         data-source-add-letra="{{ path('view_editar_letra_musica', { id : musica.id }) }}"
-         data-source-musica="{{ path('api_praise', { id : musica.id, nome : musica.nome|lower|replace(' ', '_') }) }}"
-         data-source-musica-letra="{{ musica.letra }}"
-         data-source-musica-tom="{{ musica.tom }}"
-         data-source-videos="{{ path('videos') }}">
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <div class="box">
+
+                    <input type="hidden" id="hasfiles" name="hasfiles" value="{{ hasfiles }}">
+                    <input type="hidden" id="musica" name="musica" value="{{ musica.id }}">
+
+                    <button class="button is-inverted is-small" id="btnFavoritos"
+                            data-is-favorito="{{ isFavorito }}"></button>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="/user/praises/{{ musica.id }}-{{ musica.nome|lower|url_encode|trim }}/edit"
+                           class="button is-primary is-small">Editar</a>
+                    {% endif %}
+
+                    <button id="btnAddArquivos" class="button is-primary is-inverted is-small" data-toggle="modal"
+                            data-target="#modal-musicas">Adicionar Arquivo
+                    </button>
+                    <button id="btnAddVideos" class="button is-primary is-small is-inverted" data-toggle="modal"
+                            data-target="#modal-add-link">Adicionar Videos e Links
+                    </button>
+                    <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode|trim }}/videos"
+                       class="button is-danger is-inverted is-small">Videos</a>
+                    <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode|trim }}/fullscreen"
+                       class="button is-danger is-small">Letra</a>
+
+                    </div>
+
+                    {% for alert in app.session.flashbag.get('mensagem') %}
+                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                    {% endfor %}
+
+                    <div class="col-sm-12 col-xs-12">
+
+                        {% if musicas|length > 0 %}
+
+                            <div class="column add-bottom">
+                                <div id="mainwrap">
+                                    <div id="nowPlay">
+                                        <span class="left" id="npAction">Paused...</span>
+                                        <span class="right" id="npTitle"></span>
+                                    </div>
+                                    <div id="audiowrap">
+                                        <div id="audio0">
+                                            <audio preload id="audio1" controls="controls">Your browser does not support
+                                                HTML5 Audio!
+                                            </audio>
+                                        </div>
+                                        <div id="tracks">
+                                            <a id="btnPrev">&laquo;</a>
+                                            <a id="btnNext">&raquo;</a>
+                                        </div>
+                                    </div>
+                                    <div id="plwrap">
+                                        <ul id="plList"></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+                        <figure>
+
+                            {% for anexo in anexos %}
+
+                                <figcaption>
+                                    <h4>
+                                        {{ anexo.nome }}
+                                    </h4>
+
+                                    <p>
+                                        {% if not anexo.isExterno %}
+                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
+                                               target="_blank">
+                                                <button class="button is-small is-success">
+                                                    Visualizar
+                                                </button>
+                                            </a>
+                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                               download>
+                                                <button class="button is-small is-primary">
+                                                    Baixar
+                                                </button>
+                                            </a>
+
+                                        {% else %}
+                                            <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|trim|url_encode }}/video/{{ anexo.id }}">
+                                                <button class="button is-small is-success">
+                                                    Ir para o Link
+                                                </button>
+                                            </a>
+                                        {% endif %}
+                                        {% if anexo.usuario.id == app.usuario.id or is_granted('ROLE_ADMIN') %}
+                                            <button class="button is-danger is-small btnRemover"
+                                                    value="{{ anexo.id }}">Remover
+                                            </button>
+                                        {% endif %}
+
+
+                                        {% if anexo.tipo.id == 1 %}
+                                            <a>
+                                                <button class="button is-success is-small is-outlined is-pulled-right">
+                                                    Adicionar a minha playlist
+                                                </button>
+                                            </a>
+                                        {% endif %}
+
+                                    </p>
+                                </figcaption>
+
+                            {% endfor %}
+
+                        </figure>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <div id="modal-musicas" class="modal fade" tabIndex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Adicionar Arquivos</h4>
+                </div>
+                <form class="form-horizontal">
+                    <div class="modal-body">
+                        <input type="hidden" name="musica" id="musicaId" value="{{ musica.id }}"/>
+                        <input class="input" type="file" name="files[]" id="filer_input4" multiple/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal"
+                                onclick="window.location.reload()">Fechar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
+    <div id="modal-add-link" class="modal fade" tabIndex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Adicionar Videos e Links</h4>
+                </div>
+                <form class="form-horizontal" method="post"
+                      action="{{ path('save_musica_anexos', { musicaId : musica.id }) }}">
+                    <div class="modal-body">
+                        <input type="hidden" name="musica" id="musica" value="{{ musica.id }}"/>
+                        <p class="control">
+                            <label>Titulo</label>
+                            <input class="input" type="text" placeholder="Titulo" name="nome" id="nome"/>
+                        </p>
+                        <p class="control">
+                            <label>Tipo Arquivo</label>
+                            <span class="select is-fullwidth">
+                                <select name="tipo" id="tipo">
+                                    {% for tipo in tipos %}
+                                        <option value={{ tipo.id }}>{{ tipo.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </span>
+                        </p>
+                        <p class="control">
+                            <label>Link</label>
+                            <input class="input" type="text" placeholder="Link" name="link" id="link" required/>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button is-danger is-pulled-left"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="submit" class="button is-success">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
+    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop.js') }}"
+            type="text/javascript"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
+
+    <script>
+
+        function fav() {
+            if ($("#btnFavoritos").data('is-favorito')) {
+                $("#btnFavoritos").addClass("is-danger");
+                $("#btnFavoritos").text("Remover dos Favoritos")
+            } else {
+                $("#btnFavoritos").addClass("is-success");
+                $("#btnFavoritos").text("Adicionar aos Favoritos")
+            }
+        }
+
+        $(document).ready(function () {
+
+            fav();
+
+            $("#btnFavoritos").click(function (e) {
+
+                setFavorito = false;
+
+                if ($("#btnFavoritos").data('is-favorito') == true) {
+                    setFavorito = true;
+                }
+
+                block_screen();
+                let id = $("#musica").val();
+
+                $("#btnFavoritos").addClass("is-loading");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/favoritos/add-remove",
+                    data: {
+                        "id": id,
+                    },
+                    cache: false,
+                    success: function (data) {
+
+                        if (true === data.bln) {
+
+                            $("#btnFavoritos").removeClass("is-success");
+                            $("#btnFavoritos").addClass("is-danger");
+                            $("#btnFavoritos").text("Remover dos Favoritos")
+
+                        } else {
+
+                            $("#btnFavoritos").removeClass("is-danger");
+                            $("#btnFavoritos").addClass("is-success");
+                            $("#btnFavoritos").text("Adicionar aos Favoritos")
+
+                        }
+
+                        alertify.success(data.mensagem);
+                    },
+                    error: function () {
+                        alertify.error("Ocorreu um erro.");
+                    }
+                });
+
+                unblock_screen();
+                $("#btnFavoritos").removeClass("is-loading");
+
+
+            });
+
+            $(".btnRemover").click(function (e) {
+
+                e.preventDefault();
+
+                let id = $(this).val();
+                let _this = $(this);
+
+                alertify.confirm("Deseja remover este arquivo?", function () {
+
+                    block_screen();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/musica/anexos/" + id + "/remover",
+                        cache: false,
+                        success: function (data) {
+                            _this.parent().parent().hide();
+                            unblock_screen();
+                            alertify.success(data.message);
+                        },
+                        error: function () {
+                            unblock_screen();
+                            alertify.error("Ocorreu um erro.");
+                        }
+                    });
+                }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
+            });
+
+            var b = document.documentElement;
+            b.setAttribute('data-useragent', navigator.userAgent);
+            b.setAttribute('data-platform', navigator.platform);
+
+            jQuery(function ($) {
+
+                if ($("#hasfiles").val() == false) {
+                    return false;
+                }
+
+                songs = [];
+
+                {% for anexo in musicas %}
+                songs.push(
+                    {
+                        "track": {{ loop.index }},
+                        "name": "{{ anexo.nome }}",
+                        "file": "{{ anexo.nome }}",
+                        "user": "{{ anexo.usuario.nome }}",
+                        "date": "{{ anexo.cadastro|date('d/m/y H:i') }}",
+                    }
+                );
+                {% endfor %}
+
+                tracks = songs;
+
+                var supportsAudio = !!document.createElement('audio').canPlayType;
+                if (supportsAudio) {
+                    var index = 0,
+                        playing = false,
+                        mediaPath = "{{ app['dir.anexo'] }}",
+                        extension = '',
+                        tracks = tracks,
+                        buildPlaylist = $.each(tracks, function (key, value) {
+                            var trackNumber = value.track,
+                                trackName = value.name,
+                                trackLength = value.length;
+                            if (trackNumber.toString().length === 1) {
+                                trackNumber = '0' + trackNumber;
+                            } else {
+                                trackNumber = '' + trackNumber;
+                            }
+                            $('#plList').append('<li><div class="plItem"><div class="plNum">' + trackNumber + '.</div><div class="plTitle">' + trackName + '</div><div class="plLength">' + '' + '</div></div></li>');
+                        }),
+                        trackCount = tracks.length,
+                        npAction = $('#npAction'),
+                        npTitle = $('#npTitle'),
+                        audio = $('#audio1').bind('play', function () {
+                            playing = true;
+                            npAction.text('Now Playing...');
+                        }).bind('pause', function () {
+                            playing = false;
+                            npAction.text('Paused...');
+                        }).bind('ended', function () {
+                            npAction.text('Paused...');
+                            if ((index + 1) < trackCount) {
+                                index++;
+                                loadTrack(index);
+                                audio.play();
+                            } else {
+                                audio.pause();
+                                index = 0;
+                                loadTrack(index);
+                            }
+                        }).get(0),
+                        btnPrev = $('#btnPrev').click(function () {
+                            if ((index - 1) > -1) {
+                                index--;
+                                loadTrack(index);
+                                if (playing) {
+                                    audio.play();
+                                }
+                            } else {
+                                audio.pause();
+                                index = 0;
+                                loadTrack(index);
+                            }
+                        }),
+                        btnNext = $('#btnNext').click(function () {
+                            if ((index + 1) < trackCount) {
+                                index++;
+                                loadTrack(index);
+                                if (playing) {
+                                    audio.play();
+                                }
+                            } else {
+                                audio.pause();
+                                index = 0;
+                                loadTrack(index);
+                            }
+                        }),
+                        li = $('#plList li').click(function () {
+                            var id = parseInt($(this).index());
+                            if (id !== index) {
+                                playTrack(id);
+                            }
+                        }),
+                        loadTrack = function (id) {
+                            $('.plSel').removeClass('plSel');
+                            $('#plList li:eq(' + id + ')').addClass('plSel');
+                            npTitle.text(tracks[id].name + ' - ' + tracks[id].user + ' - ' + tracks[id].date);
+                            index = id;
+                            audio.src = mediaPath + tracks[id].file;
+                        },
+                        playTrack = function (id) {
+                            loadTrack(id);
+                            audio.play();
+                        };
+                    extension = audio.canPlayType('audio/mpeg') ? '.mp3' : audio.canPlayType('audio/ogg') ? '.ogg' : '';
+                    loadTrack(index);
+                }
+            });
+
+
+        });
+
+    </script>
 
 {% endblock %}

@@ -18,13 +18,25 @@ $anexos->get('/praise/{id}-{name}', function($id, $name) use ($app) {
      * @var \Api\Entities\Musica $musica
      */
     $musica = $app['musica.repository']->find($id);
-    $tipos = $app['tipo.anexo.repository']->findBy(['ativo' => true]);
+
+    $musica = $app['musica.repository']->find($id);
+    $anexos = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true], ['nome' => 'ASC']);
+    $tipo = $app['tipo.anexo.repository']->find(1);
+    $tipos = $app['tipo.anexo.repository']->findAll();
+    $musicas = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'tipo' => $tipo, 'ativo' => true], ['nome' => 'ASC']);
+
+    $usuario = $app['usuarios.repository']->find($app['usuario']);
+    $favorito = $app['favoritos.repository']->findOneBy(['usuario' => $usuario,'musica' => $musica]);
 
     return $app['twig']->render(
         '/user/musica_anexos.html.twig',
         [
             'musica' => $musica,
             'tipos' => $tipos,
+            'anexos' => $anexos,
+            'musicas' => $musicas,
+            'hasfiles' => (!empty($anexos)),
+            'isFavorito' => (!empty($favorito))
         ]
     );
 

@@ -680,7 +680,7 @@ $(function () {
             const _this = this;
 
             return (
-                <ul className="list-group">
+                <figure>
                     {this.props.anexos.map(function (anexo) {
 
                         let arquivo = _this.props.dirAnexos + anexo.nome;
@@ -708,7 +708,7 @@ $(function () {
                         }
 
                         return (
-                            <li className="list-group-item" key={anexo.id}>
+                            <figcaption key={anexo.id}>
                                 <p>{anexo.nome}</p>
                                 <p>
                                 <small>Enviado por { anexo.usuario } em { anexo.cadastro }</small>
@@ -716,10 +716,10 @@ $(function () {
                                 {link}
                                 {btn}
                                 </p>
-                            </li>
+                            </figcaption>
                         )
                     })}
-                </ul>
+                </figure>
             );
         }
     });
@@ -871,22 +871,6 @@ $(function () {
 
             let letraCol = "";
 
-            if (!this.props.musicaApenasAnexos) {
-
-                letraCol = (
-                    <div className="column is-half">
-                        <figure className="wow fadeInLeft animated portfolio-item">
-                            <figcaption>
-                                <h2>
-                                    <i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;
-                                    <a href={this.props.sourceView} target="_blank">LETRA</a>
-                                </h2>
-                            </figcaption>
-                        </figure>
-                    </div>
-                );
-            }
-
             return (
                 <div>
                     <CardLetra label="Menu">
@@ -896,17 +880,6 @@ $(function () {
                     <br/>
 
                     <div className="columns">
-
-                        <div className="column is-half">
-                            <figure className="wow fadeInLeft animated portfolio-item">
-                                <figcaption>
-                                    <h2>
-                                        <i className="fa fa-file-o" aria-hidden="true"></i>&nbsp;
-                                        <a href={linkArquivos}>ARQUIVOS</a>
-                                    </h2>
-                                </figcaption>
-                            </figure>
-                        </div>
 
                         {letraCol}
 
@@ -1201,12 +1174,6 @@ $(function () {
                 }
             }
         );
-
-        $("#comentario").emojioneArea({
-            autoHideFilters: true,
-            autocomplete: true,
-            useSprite: true,
-        });
 
         $('#incfont').click(function () {
             curSize = parseInt($('#content').css('font-size')) + 2;

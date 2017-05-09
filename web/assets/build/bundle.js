@@ -2851,8 +2851,8 @@
 	            const _this = this;
 
 	            return React.createElement(
-	                'ul',
-	                { className: 'list-group' },
+	                'figure',
+	                null,
 	                this.props.anexos.map(function (anexo) {
 
 	                    let arquivo = _this.props.dirAnexos + anexo.nome;
@@ -2880,8 +2880,8 @@
 	                    }
 
 	                    return React.createElement(
-	                        'li',
-	                        { className: 'list-group-item', key: anexo.id },
+	                        'figcaption',
+	                        { key: anexo.id },
 	                        React.createElement(
 	                            'p',
 	                            null,
@@ -3067,33 +3067,6 @@
 
 	            let letraCol = "";
 
-	            if (!this.props.musicaApenasAnexos) {
-
-	                letraCol = React.createElement(
-	                    'div',
-	                    { className: 'column is-half' },
-	                    React.createElement(
-	                        'figure',
-	                        { className: 'wow fadeInLeft animated portfolio-item' },
-	                        React.createElement(
-	                            'figcaption',
-	                            null,
-	                            React.createElement(
-	                                'h2',
-	                                null,
-	                                React.createElement('i', { className: 'fa fa-file-text-o', 'aria-hidden': 'true' }),
-	                                '\xA0',
-	                                React.createElement(
-	                                    'a',
-	                                    { href: this.props.sourceView, target: '_blank' },
-	                                    'LETRA'
-	                                )
-	                            )
-	                        )
-	                    )
-	                );
-	            }
-
 	            return React.createElement(
 	                'div',
 	                null,
@@ -3107,29 +3080,6 @@
 	                React.createElement(
 	                    'div',
 	                    { className: 'columns' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'column is-half' },
-	                        React.createElement(
-	                            'figure',
-	                            { className: 'wow fadeInLeft animated portfolio-item' },
-	                            React.createElement(
-	                                'figcaption',
-	                                null,
-	                                React.createElement(
-	                                    'h2',
-	                                    null,
-	                                    React.createElement('i', { className: 'fa fa-file-o', 'aria-hidden': 'true' }),
-	                                    '\xA0',
-	                                    React.createElement(
-	                                        'a',
-	                                        { href: linkArquivos },
-	                                        'ARQUIVOS'
-	                                    )
-	                                )
-	                            )
-	                        )
-	                    ),
 	                    letraCol
 	                )
 	            );
@@ -3426,12 +3376,6 @@
 	                    filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB."
 	                }
 	            }
-	        });
-
-	        $("#comentario").emojioneArea({
-	            autoHideFilters: true,
-	            autocomplete: true,
-	            useSprite: true
 	        });
 
 	        $('#incfont').click(function () {
