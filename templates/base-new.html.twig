@@ -7,8 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/ico/favicon.ico') }}" rel='shortcut icon' type='image/x-icon'/>
-    <meta name="description" content="{{ app.about }}">
 
+    {% block meta %}{% endblock %}
+
+    <meta property="og:image" content="{{ asset(app['dir.base3'] ~ 'assets/blog/ico/favicon.ico') }}">
+
+    <meta name="description" content="{{ app.about }}">
     <meta name="keywords" content="{{ app.about }}">
     <meta name="author" content="{{ app.blog.nome }}">
 

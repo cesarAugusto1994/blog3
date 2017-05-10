@@ -1,5 +1,13 @@
 {% extends 'template-new.html.twig' %}
 
+{% block meta %}
+
+    <meta property="og:title" content="{{ musica.nome }}">
+    <meta property="og:type" content="{{ musica.categoria.nome }}">
+    <meta property="og:description" content="{{ musica.letra }}">
+
+{% endblock %}
+
 {% block title %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
 
 {% block stylesheet %}
@@ -43,8 +51,12 @@
                     </button>
                     <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode|trim }}/videos"
                        class="button is-danger is-inverted is-small">Videos</a>
-                    <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode|trim }}/fullscreen"
-                       class="button is-danger is-small">Letra</a>
+
+                    {% if musica.letra|length > 0 %}
+                        <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode|trim }}/fullscreen" class="button is-danger is-small">Letra</a>
+                    {% else %}
+                        <a href="{{ path('view_editar_letra_musica', { id : musica.id }) }}" class="button is-danger is-small">Adicionar Letra</a>
+                    {% endif %}
 
                     </div>
 
@@ -240,7 +252,7 @@
                         <button type="button" class="button is-danger is-pulled-left"
                                 data-dismiss="modal">Cancelar
                         </button>
-                        <button type="submit" class="button is-success">Salvar</button>
+                        <button type="submit" class="button is-success" data-dismiss="modal">Salvar</button>
                     </div>
                 </form>
             </div>
