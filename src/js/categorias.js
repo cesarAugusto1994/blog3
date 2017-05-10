@@ -17,7 +17,7 @@ $(function () {
             let url = "/user/category/" + this.props.categoria.id + "-" + this.props.categoria.nome.toLowerCase().replace(/ /g, '_') + "/edit";
 
             return (
-                <a href={url} className="button is-light is-small">Editar</a>
+                <a href={url} className="button is-light is-small is-pulled-right">Editar</a>
             )
         }
 
@@ -28,7 +28,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-danger is-inverted is-small mudarStatus" onClick={this.props.acao}
+                <a className="button is-danger is-inverted is-small is-pulled-right mudarStatus" onClick={this.props.acao}
                    data-categoria={ this.props.categoria.id }>Inativar</a>
             )
         }
@@ -40,7 +40,7 @@ $(function () {
 
         render() {
             return (
-                <a className="button is-success is-inverted is-small mudarStatus" onClick={this.props.acao}
+                <a className="button is-success is-inverted is-small is-pulled-right mudarStatus" onClick={this.props.acao}
                    data-categoria={ this.props.categoria.id }>Ativar</a>
             )
         }
@@ -172,17 +172,17 @@ $(function () {
 
                         if (_this.props.user == ROLE_ADMIN) {
                             btns = (<div>
+                                    <span className="badge is-pulled-right">{categoria.qtde_musicas}</span>
                                     <MudarStatusCategoria categoria={categoria}
                                                           reloadCategoria={_this.props.reloadCategoria}/>
                                     <BtnEditar categoria={categoria} acao={_this.props.openModal}/>
-                                    <span className="badge">{categoria.qtde_musicas}</span>
                                 </div>
                             );
                         }
 
                         return (
                             <figcaption>
-                                <a href={musicasUrl} key={categoria.id} className="list-group-item">
+                                <a href={musicasUrl} key={categoria.id}>
                                     {categoria.nome}
                                     {btns}
                                 </a>

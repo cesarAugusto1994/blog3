@@ -7,6 +7,7 @@
  */
 
 use Api\Entities\Playlist;
+use Api\Entities\PlaylistMusicas;
 use Symfony\Component\HttpFoundation\Request;
 
 $playlist = $app['controllers_factory'];
@@ -46,9 +47,11 @@ $playlist->get('/new', function () use ($app) {
 
 $playlist->post('/create-new-plalist', function (Request $request) use ($app) {
 
-    $playlists = $app['playlist.repository']->findAll();
-
-    $playlistFind = $app['playlist.repository']->findOneBy(['nome' => $request->request->get('playlist')]);
+    $playlistFind = $app['playlist.repository']->findOneBy(
+        [
+            'nome' => $request->request->get('playlist'),
+            'usuario' => $app['usuario']
+        ]);
 
     if ($playlistFind) {
         $app['session']->getFlashBag()->add('mensagem', 'Já existe uma playlist com este nome.');
@@ -67,11 +70,89 @@ $playlist->post('/create-new-plalist', function (Request $request) use ($app) {
     $app['db']->commit();
 
     $app['session']->getFlashBag()->add('mensagem', 'Playlist Criada.');
-
-
-    return $app['twig']->render('/playlist/index.html.twig', ['playlists' => $playlists]);
+    return $app->redirect('/user/playlists');
 
 })->bind('playlist_create_save');
+
+$playlist->post('/remove/{id}', function ($id) use ($app) {
+
+    $playlist = $app['playlist.repository']->find($id);
+    $playlistMusicas = $app['playlist.musicas.repository']->findBy(['playlist' => $playlist]);
+
+    $app['db']->beginTransaction();
+    foreach ($playlistMusicas as $play) {
+        $app['playlist.musicas.repository']->remove($play);
+    }
+    $app['playlist.repository']->remove($playlist);
+    $app['db']->commit();
+
+    return $app->json([
+        'classe' => 'acerto',
+        'bln' => 'remove',
+        'message' => 'Playlist removida.'
+    ]);
+
+});
+
+
+$playlist->post('/add-playlist', function (Request $request) use ($app) {
+
+    try {
+
+        if (!$request->request->get('musica')) {
+            return;
+        }
+
+        if (!$request->request->get('playlist')) {
+            return;
+        }
+
+        $playlist = $app['playlist.repository']->find($request->request->get('playlist'));
+        $musica = $app['musica.anexos.repository']->find($request->request->get('musica'));
+        $playlistMusicas = $app['playlist.musicas.repository']->findOneBy(['playlist' => $playlist, 'musica' => $musica]);
+
+        if ($playlistMusicas) {
+
+            $playlistMusicas = $app['playlist.musicas.repository']->findOneBy(['playlist' => $playlist, 'musica' => $musica]);
+
+            $app['db']->beginTransaction();
+            $app['playlist.musicas.repository']->remove($playlistMusicas);
+            $app['db']->commit();
+
+            return $app->json([
+                'classe' => 'acerto',
+                'bln' => 'remove',
+                'mensagem' => 'Musica removida da playlist.'
+            ]);
+        }
+
+        $playlistMusicas = new PlaylistMusicas();
+        $playlistMusicas->setPlaylist($playlist);
+        $playlistMusicas->setMusica($musica);
+        $playlistMusicas->setCadastro(new DateTime());
+        $playlistMusicas->setUsuario($app['usuario']);
+
+        $app['db']->beginTransaction();
+        $app['playlist.musicas.repository']->save($playlistMusicas);
+        $app['db']->commit();
+
+        return $app->json([
+            'classe' => 'acerto',
+            'bln' => 'add',
+            'mensagem' => 'Musica adicionada à playlist.'
+        ]);
+
+    } catch (Exception $e) {
+
+        return $app->json([
+            'classe' => 'erro',
+            'bln' => 'remove',
+            'mensagem' => $e->getMessage()
+        ]);
+
+    }
+
+})->bind('play_musica_add');
 
 
 

@@ -152,7 +152,7 @@ $(function () {
             const _this = this;
 
             return (
-                <div className="list-group">
+                <figure>
                     {
                         this.props.data.map(function (musica) {
 
@@ -180,14 +180,16 @@ $(function () {
                             }
 
                             return (
-                                <a href={linkAnexos} key={musica.id} className="list-group-item">
-                                    {musicaStr}
-                                    {btns}
-                                </a>
+                                <figcaption>
+                                    <a href={linkAnexos} key={musica.id}>
+                                        {musicaStr}
+                                        {btns}
+                                    </a>
+                                </figcaption>
                             )
                         })
                     }
-                </div>
+                </figure>
             )
         }
     });

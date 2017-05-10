@@ -3593,7 +3593,7 @@
 
 	            return React.createElement(
 	                'a',
-	                { href: url, className: 'button is-light is-small' },
+	                { href: url, className: 'button is-light is-small is-pulled-right' },
 	                'Editar'
 	            );
 	        }
@@ -3606,7 +3606,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-danger is-inverted is-small mudarStatus', onClick: this.props.acao,
+	                { className: 'button is-danger is-inverted is-small is-pulled-right mudarStatus', onClick: this.props.acao,
 	                    'data-categoria': this.props.categoria.id },
 	                'Inativar'
 	            );
@@ -3620,7 +3620,7 @@
 	        render() {
 	            return React.createElement(
 	                'a',
-	                { className: 'button is-success is-inverted is-small mudarStatus', onClick: this.props.acao,
+	                { className: 'button is-success is-inverted is-small is-pulled-right mudarStatus', onClick: this.props.acao,
 	                    'data-categoria': this.props.categoria.id },
 	                'Ativar'
 	            );
@@ -3783,14 +3783,14 @@
 	                            btns = React.createElement(
 	                                'div',
 	                                null,
-	                                React.createElement(MudarStatusCategoria, { categoria: categoria,
-	                                    reloadCategoria: _this.props.reloadCategoria }),
-	                                React.createElement(BtnEditar, { categoria: categoria, acao: _this.props.openModal }),
 	                                React.createElement(
 	                                    'span',
-	                                    { className: 'badge' },
+	                                    { className: 'badge is-pulled-right' },
 	                                    categoria.qtde_musicas
-	                                )
+	                                ),
+	                                React.createElement(MudarStatusCategoria, { categoria: categoria,
+	                                    reloadCategoria: _this.props.reloadCategoria }),
+	                                React.createElement(BtnEditar, { categoria: categoria, acao: _this.props.openModal })
 	                            );
 	                        }
 
@@ -3799,7 +3799,7 @@
 	                            null,
 	                            React.createElement(
 	                                'a',
-	                                { href: musicasUrl, key: categoria.id, className: 'list-group-item' },
+	                                { href: musicasUrl, key: categoria.id },
 	                                categoria.nome,
 	                                btns
 	                            )
@@ -4344,8 +4344,8 @@
 	            const _this = this;
 
 	            return React.createElement(
-	                "div",
-	                { className: "list-group" },
+	                "figure",
+	                null,
 	                this.props.data.map(function (musica) {
 
 	                    let linkAnexos = "/user/praise/" + musica.id + '-' + musica.nome.toLowerCase().replace(/ /g, '_');
@@ -4380,10 +4380,14 @@
 	                    }
 
 	                    return React.createElement(
-	                        "a",
-	                        { href: linkAnexos, key: musica.id, className: "list-group-item" },
-	                        musicaStr,
-	                        btns
+	                        "figcaption",
+	                        null,
+	                        React.createElement(
+	                            "a",
+	                            { href: linkAnexos, key: musica.id },
+	                            musicaStr,
+	                            btns
+	                        )
 	                    );
 	                })
 	            );

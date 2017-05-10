@@ -17,12 +17,14 @@
                         {% endfor %}
                     {% endif %}
 
-                    <a href="{{ path('playlist_create') }}" class="button is-danger">Criar Playlist</a>
+                    <a href="{{ path('playlist_create') }}" class="button is-success">Criar Playlist</a>
                     <hr class="small"/>
+
+                    <figure>
 
                     {% for playlist in playlists %}
 
-                        <li class="list-group-item">
+                        <figcaption>
                             <p class="lead">
 
                                 <a href="/user/playlists/{{ playlist.id }}-{{ playlist.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ playlist.nome }}</a>
@@ -50,14 +52,50 @@
 
                                 #}
 
+                                <button class="button is-danger is-pulled-right btnRemovePlaylist" value="{{ playlist.id }}">Remover</button>
+
                             </p>
-                        </li>
+                        </figcaption>
 
                     {% endfor %}
+
+                    </figure>
 
                 </div>
             </div>
         </div>
     </article>
+
+    <script>
+
+        $(".btnRemovePlaylist").click(function (e) {
+
+            e.preventDefault();
+
+            let id = $(this).val();
+            let _this = $(this);
+
+            alertify.confirm("Deseja remover esta playlist?", function () {
+
+                block_screen();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/playlists/remove/" + id,
+                    cache: false,
+                    success: function (data) {
+                        _this.parent().parent().hide();
+                        unblock_screen();
+                        alertify.success(data.message);
+                    },
+                    error: function () {
+                        unblock_screen();
+                        alertify.error("Ocorreu um erro.");
+                    }
+                });
+            }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
+        });
+
+    </script>
 
 {% endblock %}

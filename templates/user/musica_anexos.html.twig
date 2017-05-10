@@ -9,6 +9,7 @@
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
           rel="stylesheet"/>
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 {% endblock %}
 
 {% block headerNome %}{{ musica.numero }} {{ musica.nome }}{% endblock %}
@@ -120,7 +121,11 @@
 
                                         {% if anexo.tipo.id == 1 %}
                                             <a>
-                                                <button class="button is-success is-small is-outlined is-pulled-right">
+                                                <button class="button is-success is-small is-outlined is-pulled-right btnplaylist"
+                                                        data-toggle="modal"
+                                                        data-anexo="{{ anexo.id }}"
+                                                        data-anexo-nome="{{ anexo.nome }}"
+                                                        data-target="#modal-playlists">
                                                     Adicionar a minha playlist
                                                 </button>
                                             </a>
@@ -157,6 +162,42 @@
                         <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal"
                                 onclick="window.location.reload()">Fechar
                         </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-playlists" class="modal fade" tabIndex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Minhas PLaylists</h4>
+                </div>
+                <form class="form-horizontal" id="formAddPlaylist">
+                    <div class="modal-body">
+                        <input type="hidden" name="musica_playlist" readonly disabled id="musica_playlist"/>
+                        <label>Arquivo Selecionando</label>
+                        <p class="control">
+                            <input type="text" class="input" id="musica_playlist_nome"/>
+                        </p>
+                        <label>Selecione a Playlist</label>
+                        <p class="control">
+                            <select class="selectpicker show-tick" name="playlist" id="playlist" data-container="body"
+                                    data-live-search="true" data-width="100%">
+                                {% for playlist in playlists %}
+                                    <option value={{ playlist.id }}>{{ playlist.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="button is-success" id="btnAddPlaylist">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -212,6 +253,7 @@
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop.js') }}"
             type="text/javascript"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 
     <script>
 
@@ -277,6 +319,68 @@
 
 
             });
+
+
+            $(".btnplaylist").click(function (e) {
+
+                e.preventDefault();
+
+                let anexo = $(this).data('anexo');
+                let anexoNome = $(this).data('anexo-nome');
+                $("#musica_playlist").val(anexo);
+                $("#musica_playlist_nome").val(anexoNome);
+
+            });
+
+            $("#formAddPlaylist").submit(function (e) {
+
+                e.preventDefault();
+
+                $(this).addClass('is-loading');
+
+                let _this = $(this);
+                let playlist = $("#playlist").val();
+                let anexo = $("#musica_playlist").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/playlists/add-playlist",
+                    data: {
+                        musica: anexo,
+                        playlist: playlist
+                    },
+                    cache: false,
+                    success: function (data) {
+
+                        alertify.success(data.mensagem);
+
+                        if (data.bln == 'add') {
+
+                            _this.removeClass('is-success');
+                            _this.removeClass('is-loading');
+                            _this.addClass('is-danger');
+                            //_this.text('Remover');
+
+                        } else {
+
+                            _this.removeClass('is-danger');
+                            _this.removeClass('is-loading');
+                            _this.addClass('is-success');
+                            //_this.text('Adicionar Ao Repertório');
+
+                        }
+
+                        unblock_screen();
+                    },
+                    error: function (data) {
+                        unblock_screen();
+                        console.log(data.mensagem);
+                        alertify.error(data.mensagem);
+                    }
+                });
+
+            });
+
 
             $(".btnRemover").click(function (e) {
 
