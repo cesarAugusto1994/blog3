@@ -10,6 +10,7 @@ use Api\Entities\Categoria;
 use Api\Entities\Musica;
 use Api\Entities\Usuarios;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 $musica = $app['controllers_factory'];
 
@@ -448,5 +449,24 @@ $musica->get('/praise/{id}-{nome}/arquivos', function($id, $nome) use ($app) {
         ]);
 
 })->bind('app_attachments_from_praise');
+
+$app->get('/praises/create/from/file', function (Request $request) use ($app) {
+
+    $file = file('/assets/blog/export/coletanea excel.csv');
+
+    $dados = file_get_contents($file);
+
+    var_dump($dados);
+
+    foreach ($dados as $dado) {
+
+
+
+    }
+
+
+
+
+})->bind('app_create_praise_from_file');
 
 return $musica;

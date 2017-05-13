@@ -29,11 +29,15 @@ class MediaFormat
         switch ($media) {
             case 'application/pdf':
             case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+            case 'application/vnd.openxmlformats-officedocument.presentationml.template' :
+            case 'application/vnd.openxmlformats-officedocument.presentationml.slideshow' :
+            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation' :
+            case 'application/vnd.ms-powerpointtd' :
+            case 'application/msword':
+            case 'text/plain':
                 return 3;
-                break;
             case 'audio/mpeg':
             case 'audio/mp3':
-            case 'application/octet-stream' :
                 return 1;
                 break;
             case 'image/jpeg':
@@ -41,10 +45,13 @@ class MediaFormat
             case 'image/gif' :
             case 'image/png' :
                 return 2;
-                break;
+            case 'audio/x-midi' :
+            case 'video/mpeg' :
+            case 'application/ogg' :
+            case 'application/x-tar' :
+            case 'audio/x-wav' :
             default:
-                return 1;
-                break;
+                return 5;
         }
     }
 }

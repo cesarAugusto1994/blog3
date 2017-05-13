@@ -160,6 +160,9 @@ $app['playlist.musicas.repository'] = function () use ($app) {
 $app['playlist.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\Playlist::class);
 };
+$app['anexo.download.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\AnexoDownload::class);
+};
 
 #################################################################################################
 #################################################################################################

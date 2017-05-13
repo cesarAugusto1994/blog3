@@ -98,21 +98,33 @@
                             {% for anexo in anexos %}
 
                                 <figcaption>
-                                    <h4>
+                                    <p class="title is-3">
                                         {{ anexo.nome }}
-                                    </h4>
+
+                                        {% if anexo.tipo.id == 1 %}
+                                            <a>
+                                                <button class="button is-success is-small is-pulled-right btnplaylist"
+                                                        data-toggle="modal"
+                                                        data-anexo="{{ anexo.id }}"
+                                                        data-anexo-nome="{{ anexo.nome }}"
+                                                        data-target="#modal-playlists">
+                                                    Adicionar a minha playlist
+                                                </button>
+                                            </a>
+                                        {% endif %}
+
+                                    </p>
 
                                     <p>
                                         {% if not anexo.isExterno %}
-                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.link }}"
-                                               target="_blank">
-                                                <button class="button is-small is-success">
+                                            <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : false }) }}">
+                                                <button class="button is-small is-inverted is-success">
                                                     Visualizar
                                                 </button>
                                             </a>
-                                            <a href="{{ app['dir.base2'] }}/assets/blog/musicas/{{ anexo.nome }}"
+                                            <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : true}) }}"
                                                download>
-                                                <button class="button is-small is-primary">
+                                                <button class="button is-small is-inverted is-primary">
                                                     Baixar
                                                 </button>
                                             </a>
@@ -125,22 +137,9 @@
                                             </a>
                                         {% endif %}
                                         {% if anexo.usuario.id == app.usuario.id or is_granted('ROLE_ADMIN') %}
-                                            <button class="button is-danger is-small btnRemover"
+                                            <button class="button is-danger is-small is-inverted btnRemover"
                                                     value="{{ anexo.id }}">Remover
                                             </button>
-                                        {% endif %}
-
-
-                                        {% if anexo.tipo.id == 1 %}
-                                            <a>
-                                                <button class="button is-success is-small is-outlined is-pulled-right btnplaylist"
-                                                        data-toggle="modal"
-                                                        data-anexo="{{ anexo.id }}"
-                                                        data-anexo-nome="{{ anexo.nome }}"
-                                                        data-target="#modal-playlists">
-                                                    Adicionar a minha playlist
-                                                </button>
-                                            </a>
                                         {% endif %}
 
                                     </p>

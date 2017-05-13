@@ -6,6 +6,7 @@
  * Time: 08:41
  */
 
+use Api\Entities\AnexoDownload;
 use Api\Entities\Musica;
 use Api\Entities\MusicaAnexos;
 use App\Controllers\Uploader;
@@ -522,16 +523,49 @@ $anexos->get('/anexos/sem-vinculo', function () use ($app) {
 
     $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true], ['nome' => 'ASC']);
 
-   return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos, 'musicas' => $array]);
+    $categorias = $app['categorias'];
+
+   return $app['twig']->render('/user/anexos/sem-vinculo.html.twig',
+       [
+           'anexos' => $anexos,
+           'musicas' => $array,
+           'categoriasColecoes' => $categorias,
+       ]);
 
 });
 
 $anexos->post('/anexos/{id}/remover', function () use ($app) {
 
+    $categorias = $app['categorias'];
+
     $musicas = $app['musica.repository']->findBy(['apenasAnexos' => false]);
     $anexos = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true], ['nome' => 'ASC']);
 
-    return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos, 'musicas' => $musicas]);
+    return $app['twig']->render('/user/anexos/sem-vinculo.html.twig', ['anexos' => $anexos, 'musicas' => $musicas, 'categoriasColecoes' => $categorias]);
 });
+
+$anexos->get('/anexos/{id}/download/{link}/{down}', function ($id, $link, $down) use ($app) {
+
+    $anexo = $app['musica.anexos.repository']->find($id);
+
+    if (!$anexo) {
+        throw new Exception('Arquivo não encontrado.');
+    }
+
+    if ($down) {
+        $anexosDown = new AnexoDownload();
+        $anexosDown->setAnexo($anexo);
+        $anexosDown->setUsuario($app['usuario']);
+
+        $app['db']->beginTransaction();
+        $app['anexo.download.repository']->save($anexosDown);
+        $app['db']->commit();
+    }
+
+    $url = $app['dir.base2'] . '/assets/blog/musicas/' . $link;
+
+    return $app->redirect($url);
+
+})->bind('anexo_download')->value('down', false);
 
 return $anexos;
