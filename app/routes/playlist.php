@@ -154,6 +154,18 @@ $playlist->post('/add-playlist', function (Request $request) use ($app) {
 
 })->bind('play_musica_add');
 
+$playlist->get('{id}-{nome}/play', function ($id, $nome) use ($app) {
 
+    $playlist = $app['playlist.repository']->find($id);
+
+    $playlistMusicas = $app['playlist.musicas.repository']->findBy(['playlist' => $playlist]);
+
+    $musicas = array_map(function ($playlistMusica) {
+        return $playlistMusica->getMusica();
+    }, $playlistMusicas);
+
+    return $app['twig']->render('/playlist/play.html.twig', ['playlist' => $playlist, 'musicas' => $musicas]);
+
+})->bind('playlist_play');
 
 return $playlist;

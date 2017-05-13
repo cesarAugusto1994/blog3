@@ -17,7 +17,7 @@
                     {% endif %}
 
                     <a href="#" class="button is-success">Adicionar Musicas</a>
-                    <a href="#" class="button is-danger">Play</a>
+                    <a href="{{ path('playlist_play', { id : playlist.id, nome : playlist.nome }) }}" class="button is-danger">Play</a>
 
                     <hr class="small"/>
 
