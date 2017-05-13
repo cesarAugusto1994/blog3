@@ -58,6 +58,7 @@
                                             <a>
                                                 <button class="button is-danger is-small is-pulled-right btnplaylist"
                                                         data-toggle="modal"
+                                                        data-playlist="{{ playlist.id }}"
                                                         data-anexo="{{ musica.id }}"
                                                         data-anexo-nome="{{ musica.nome }}"
                                                         data-target="#modal-playlists">
@@ -88,22 +89,15 @@
 
                 e.preventDefault();
 
+                let _this = $(this);
+                let playlist = $(this).data('playlist');
                 let anexo = $(this).data('anexo');
-                let anexoNome = $(this).data('anexo-nome');
-                $("#musica_playlist").val(anexo);
-                $("#musica_playlist_nome").val(anexoNome);
 
-            });
+                alertify.confirm("Deseja remover este arquivo da sua playlist?", function () {
 
-            $("#formAddPlaylist").submit(function (e) {
-
-                e.preventDefault();
+                block_screen();
 
                 $(this).addClass('is-loading');
-
-                let _this = $(this);
-                let playlist = $("#playlist").val();
-                let anexo = $("#musica_playlist").val();
 
                 $.ajax({
                     type: "POST",
@@ -114,25 +108,8 @@
                     },
                     cache: false,
                     success: function (data) {
-
                         alertify.success(data.mensagem);
-
-                        if (data.bln == 'add') {
-
-                            _this.removeClass('is-success');
-                            _this.removeClass('is-loading');
-                            _this.addClass('is-danger');
-                            //_this.text('Remover');
-
-                        } else {
-
-                            _this.removeClass('is-danger');
-                            _this.removeClass('is-loading');
-                            _this.addClass('is-success');
-                            //_this.text('Adicionar Ao Repertório');
-
-                        }
-
+                        _this.parent().parent().parent().hide();
                         unblock_screen();
                     },
                     error: function (data) {
@@ -141,6 +118,8 @@
                         alertify.error(data.mensagem);
                     }
                 });
+
+                }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
 
             });
 
