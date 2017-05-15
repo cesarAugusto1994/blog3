@@ -313,7 +313,6 @@ $app->match('register/save', function (\Symfony\Component\HttpFoundation\Request
     $usuario->setSenha($request->get('password'));
     $usuario->setPassword($password);
     $usuario->setGrupo($grupo);
-    $usuario->setAvatar('avatar.png');
     $usuario->setCadastro(new \DateTime('now'));
     $usuario->setRoles('ROLE_USER');
     $usuario->setAtivo(false);
