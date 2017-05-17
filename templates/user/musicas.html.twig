@@ -32,9 +32,12 @@
 
                             <figcaption>
                                 <p class="title is-5">
-                                     <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
-                                    <span class="badge is-small is-pulled-right">{{musica.countAnexos}}</span>
-                                     <a href="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome|lower|url_encode }) }}" class="button is-info is-inverted is-pulled-right is-small">Editar</a>
+                                    <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <span class="badge is-small is-pulled-right">{{ musica.countAnexos }}</span>
+                                        <a href="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome|lower|url_encode }) }}"
+                                           class="button is-info is-inverted is-pulled-right is-small">Editar</a>
+                                    {% endif %}
                                 </p>
                             </figcaption>
 
