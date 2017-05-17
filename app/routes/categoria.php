@@ -36,7 +36,7 @@ $categorias->get('/category/{id}-{nome}', function ($id, $nome) use ($app) {
             ), 'categoria' => $categoria
         ]
     );
-});
+})->bind('category_songs');
 
 $categorias->get('/category/{id}-{nome}/edit', function ($id, $nome) use ($app) {
 
@@ -48,7 +48,7 @@ $categorias->get('/category/{id}-{nome}/edit', function ($id, $nome) use ($app) 
             'categoria' => $categoria
         ]
     );
-});
+})->bind('category_edit');
 
 $categorias->get('categoria/nova', function (Request $request) use ($app) {
 

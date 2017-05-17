@@ -11,6 +11,7 @@ use Api\Entities\Musica;
 use Api\Entities\Usuarios;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $musica = $app['controllers_factory'];
 
@@ -450,22 +451,100 @@ $musica->get('/praise/{id}-{nome}/arquivos', function($id, $nome) use ($app) {
 
 })->bind('app_attachments_from_praise');
 
-$app->get('/praises/create/from/file', function (Request $request) use ($app) {
+$musica->get('/praise/create/from/file', function (Request $request) use ($app) {
 
-    $file = file('/assets/blog/export/coletanea excel.csv');
+    try {
 
-    $dados = file_get_contents($file);
+        exit('Nunca executar essa rota');
 
-    var_dump($dados);
+        $file = file(__DIR__ . '/../../web/assets/blog/export/coletanea.csv');
 
-    foreach ($dados as $dado) {
+        foreach ($file as $key => $dado) {
 
+            $col = explode(";", $dado);
 
+            if (empty($col[0]) || empty($col[1])) {
+                continue;
+            }
 
+            $musica = $app['musica.repository']->findOneBy(['numero' => $col[1]]);
+
+            if ($musica) {
+                continue;
+            }
+
+            $categoria = 0;
+
+            if (3 == strlen(trim($col[1]))) {
+
+                $categoria = 11;
+
+            } elseif (4 == strlen(trim($col[1]))) {
+
+                $s = substr((int)trim($col[1]), 0, 1);
+
+                switch ($s) {
+                    case 1 :
+                        $categoria = 12;
+                        break;
+                    case 2 :
+                        $categoria = 10;
+                        break;
+                    case 3 :
+                        $categoria = 13;
+                        break;
+                    case 4 :
+                        $categoria = 14;
+                        break;
+                    case 5 :
+                        $categoria = 15;
+                        break;
+                    case 6 :
+                        $categoria = 16;
+                        break;
+                    case 7 :
+                        if ($col[1] >= 7750 && $col[1] < 7899) {
+                            $categoria = 45;
+                        } else {
+                            $categoria = 17;
+                        }
+                        break;
+                    case 8 :
+                        $categoria = 18;
+                        break;
+                    case 9 :
+                        $categoria = 19;
+                        break;
+                }
+            }
+
+            $categoriaEntity = $app['categoria.repository']->find($categoria);
+
+            $encoding = 'UTF-8'; // ou ISO-8859-1...
+            $nome = mb_convert_case($col[0], MB_CASE_UPPER, $encoding);
+
+            $musica = new Musica();
+            $musica->setNome((strtoupper(trim($nome))));
+            $musica->setNumero(trim($col[1]));
+            $musica->setCategoria($categoriaEntity);
+            $musica->setTom("C");
+            $musica->setUsuario($app['usuario']);
+            $musica->setCadastro(new DateTime('now'));
+            $musica->setAtivo(true);
+            $musica->setNovo(false);
+            $musica->setApenasAnexos(false);
+
+            $app['db']->beginTransaction();
+            $app['musica.repository']->save($musica);
+            $app['db']->commit();
+
+        }
+
+    } catch (Exception $e) {
+        echo $e->getMessage();
     }
 
-
-
+    return new Response('Musicas Adicionadas');
 
 })->bind('app_create_praise_from_file');
 

@@ -8,11 +8,35 @@
 
 {% block content %}
 
-    <div id="categorias"
-         data-colecao="{{ colecao.id }}"
-         data-colecao-nome="{{ colecao.nome }}"
-         data-source="{{ path('api_categorias', { id : colecao.id, nome : colecao.nome }) }}"
-         data-user="{{ app.usuario.roles }}"
-    ></div>
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-{% endblock %}
+                <figure>
+
+                    {% for categoria in categorias %}
+
+                        <figcaption>
+                            <p class="title is-5">
+                                <a href="{{ path('category_songs', { id : categoria.id, nome : categoria.nome|lower|url_encode }) }}">
+                                    {{ categoria.nome }}
+                                </a>
+
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <span class="badge is-small is-pulled-right">{{ categoria.countMusicas }}</span>
+                                    <a href="{{ path('category_edit', { id : categoria.id, nome : categoria.nome|lower|url_encode }) }}" class="button is-light is-small is-pulled-right">Editar</a>
+                                {% endif %}
+                            </p>
+                        </figcaption>
+
+                        {% endfor %}
+
+                    </figure>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        {% endblock %}

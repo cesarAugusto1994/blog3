@@ -8,30 +8,35 @@
 
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/ico/favicon.ico') }}" rel='shortcut icon' type='image/x-icon'/>
 
-    {% block meta %}{% endblock %}
-
-    <meta property="og:image" content="{{ asset(app['dir.base3'] ~ 'assets/blog/ico/favicon.ico') }}">
-
     <meta name="description" content="{{ app.about }}">
     <meta name="keywords" content="{{ app.about }}">
     <meta name="author" content="{{ app.blog.nome }}">
 
+    {% block meta %}{% endblock %}
+
+    <meta name="image" property="og:image" content="{{ asset(app['dir.base3'] ~ 'assets/blog/ico/favicon.ico') }}">
+
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}"
+          rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/bulma2.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css"
+          rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/alertify.min.css') }}" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/css/themes/default.min.css') }}" rel=stylesheet>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/snackbarjs/1.1.0/snackbar.min.css" rel=stylesheet>
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/snackbarjs/themes-css/material.css') }}" rel=stylesheet>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.11/css/AdminLTE.min.css" rel="stylesheet">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/bulma.css') }}" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/AdminLTE.min.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/dist/css/style.min.css') }}" rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/main.css') }}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css" rel=stylesheet>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <style type="text/css">
         html {
             background-color: white;
         }
+
         #hero-area {
             background: url('{{ app['background'] }}') no-repeat 50%;
             background-size: 100% 100%;
@@ -42,51 +47,59 @@
 
     <title>{{ app['nome.blog'] }} - {% block title %}{% endblock %}</title>
 
-    <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/snackbarjs/dist/snackbar.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/react/react.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/react/react-dom.min.js') }}"></script>
-    <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/alertify.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/vendor/jasny-bootstrap/dist/js/jasny-bootstrap.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/vendor/modernizr-2.6.2.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/wow.min.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/slider.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/jquery.fancybox.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/main.js') }}"></script>
-    <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/main.js') }}"></script>
-
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-92071680-1', 'auto');
-        ga('send', 'pageview');
-
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            if($("#snackbarid").length > 0) {
-                $("#snackbarid").snackbar("show");
-            }
-        });
-    </script>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 <body>
 {% block body %}{% endblock %}
-<script src="{{ asset(app['dir.base'] ~ 'assets/build/bundle.js?v4') }}"></script>
+
+<script src="{{ asset(app['dir.base'] ~ 'assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/plugins/snackbarjs/dist/snackbar.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/vendor/react/react.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/vendor/react/react-dom.min.js') }}"></script>
+<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/plugins/alertifyjs/alertify.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/vendor/jasny-bootstrap/dist/js/jasny-bootstrap.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/vendor/modernizr-2.6.2.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/wow.min.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/slider.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/jquery.fancybox.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/blog-new/js/main.js') }}"></script>
+<script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/main.js') }}"></script>
+
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-92071680-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($("#snackbarid").length > 0) {
+            $("#snackbarid").snackbar("show");
+        }
+    });
+</script>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<script src="{{ asset(app['dir.base'] ~ 'assets/build/bundle.js?v5') }}"></script>
 </body>
 </html>
