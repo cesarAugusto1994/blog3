@@ -2,16 +2,15 @@
 
 {% block meta %}
 
-    <meta property="og:title" content="{{ musica.nome }}">
-    <meta property="og:type" content="{{ musica.categoria.nome }}">
-    <meta property="og:description" content="{{ musica.letra }}">
+    <meta name="title" property="og:title" content="{{ musica.nome }}">
+    <meta name="type" property="og:type" content="{{ musica.categoria.nome }}">
+    <meta name="description" property="og:description" content="{{ musica.letra }}">
 
 {% endblock %}
 
 {% block title %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
 
 {% block stylesheet %}
-    {{ parent() }}
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}"
           rel="stylesheet">
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
@@ -261,15 +260,15 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-
+{% block js %}
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop.js') }}"
             type="text/javascript"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader.js') }}" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-
     <script>
 
         function fav() {
@@ -542,5 +541,4 @@
         });
 
     </script>
-
 {% endblock %}

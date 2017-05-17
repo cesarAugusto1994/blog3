@@ -100,6 +100,8 @@
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+{% block js %}{% endblock %}
+
 <script src="{{ asset(app['dir.base'] ~ 'assets/build/bundle.js?v5') }}"></script>
 </body>
 </html>
