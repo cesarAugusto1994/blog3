@@ -95,48 +95,55 @@ $app->get('i-forgot-my-password', function () use ($app) {
 
 $app->get('/user/email-send-all', function () use ($app) {
 
-    $assunto = 'Lembrete';
+    try {
 
-    $config = $app['config'];
-    $mensagem = "Estamos precisando de sua ajuda para divulgar este projeto, nos ajude a divulgar nas redes socias <a
-                href='https://coletaneaicm.com'>Coletânea ICM</a>;
-        Obrigado :).";
+        $assunto = 'Lembrete';
 
-    /**
-     * @var Usuarios $usuario
-     */
-    $usuarios = $app['usuarios.repository']->findBy([]);
+        $config = $app['config'];
+        $mensagem = "Estamos precisando de sua ajuda para divulgar este projeto. <a
+                href='https://coletaneaicm.com'>https://coletaneaicm.com</a>;
+        Muito Obrigado.";
 
-    foreach ($usuarios as $usuario) {
+        /**
+         * @var Usuarios $usuario
+         */
+        $usuarios = $app['usuarios.repository']->findAll();
 
-        $array = [
-            'mensagem' => $mensagem,
-            'site' => $config->getNome(),
-            'lema' => $config->getSubtitulo(),
-            'nome' => $usuario->getNome()
-        ];
+        foreach ($usuarios as $usuario) {
 
-        $body = $app['twig']->render('user/email_user.html.twig', $array);
+            $array = [
+                'mensagem' => $mensagem,
+                'site' => $config->getNome(),
+                'lema' => $config->getSubtitulo(),
+                'nome' => $usuario->getNome()
+            ];
 
-        $email = new Email($assunto, $app['email.padrao'], $body);
-        $email->send($usuario->getEmail(), $app);
+            $body = $app['twig']->render('user/success.html.twig', $array);
 
-        $emailEnviado = new EmailEnviado();
-        $emailEnviado->setUsuario($usuario);
-        $emailEnviado->setTipo($assunto);
-        $emailEnviado->setMensagem($mensagem);
-        $emailEnviado->setDataHora(new DateTime('now'));
+            $email = new Email($assunto, $app['email.padrao'], $body);
+            $email->send($usuario->getEmail(), $app);
 
-        $app['db']->beginTransaction();
-        $app['email.enviado.repository']->save($emailEnviado);
-        $app['db']->commit();
+            $emailEnviado = new EmailEnviado();
+            $emailEnviado->setUsuario($usuario);
+            $emailEnviado->setTipo($assunto);
+            $emailEnviado->setMensagem($mensagem);
+            $emailEnviado->setDataHora(new DateTime('now'));
 
+            $app['db']->beginTransaction();
+            $app['email.enviado.repository']->save($emailEnviado);
+            $app['db']->commit();
+        }
+
+        return $app->json([
+            "classe" => "sucesso",
+            "mensagem" => "E-mail enviado.",
+        ], 201);
+    } catch (Exception $e) {
+        return $app->json([
+            "classe" => "erro",
+            "mensagem" => $e->getMessage(),
+        ], 201);
     }
-
-    return $app->json([
-        "classe" => "sucesso",
-        "mensagem" => "E-mail enviado.",
-    ], 201);
 });
 
 $app->get('/user/email-send', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
