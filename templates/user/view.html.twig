@@ -7,7 +7,11 @@
     <style>
         pre {
             background-color: transparent;
-            border: none
+            border: none;
+            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        pre > span {
+            font-size: 16px;
         }
     </style>
 {% endblock %}
@@ -52,7 +56,10 @@
             </div>
         </div>
     </article>
+    
+{% endblock %}
 
+{% block js %}
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
 
     <script>
@@ -80,6 +87,7 @@
             $('a').css('background', 'black');
             $('div').css('background', 'black');
             $('article').css('background', 'black');
+            $('body').css('background', 'black');
         });
 
         $("#btnCores").click(function () {
@@ -93,6 +101,7 @@
             $('a').css('background', '#eee');
             $('div').css('background', 'white');
             $('article').css('background', 'white');
+            $('body').css('background', 'white');
         });
 
         $("#content").transpose({key: 'C'});
@@ -115,5 +124,4 @@
         $('.c').css('font-size', 14);
         $('#content').css('font-size', 14);
     </script>
-
 {% endblock %}
