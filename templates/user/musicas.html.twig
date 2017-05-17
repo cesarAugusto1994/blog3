@@ -5,12 +5,7 @@
 {% block headerNome %}Musicas/Arquivos{% endblock %}
 
 {% block stylesheet %}
-    {{ parent() }}
-    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
-          rel="stylesheet"/>
-
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
-
 {% endblock %}
 
 
@@ -22,38 +17,39 @@
         {% endfor %}
     {% endif %}
 
-    <div id="musicas"
-         data-source="{{ path('api_praises_form_category', { id : categoria.id, nome : categoria.nome|url_encode }) }}"
-         data-add-musica="{{ path('view_adicionar_musica', { categoria : categoria.id }) }}"
-         data-categoria="{{ categoria.id }}"
-         data-categoria-nome="{{ categoria.nome }}"
-         data-colecao="{{ categoria.colecao.id }}"
-         data-user="{{ app['usuario'].roles }}"></div>
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-    <div id="modal-musicas" class="modal fade" tabIndex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                    <h4 class="modal-title">Adicionar Arquivos</h4>
+                    <figure>
+
+                        <figcaption>
+                            <a class="button is-success" href="/user/praise/new?category_id={{ categoria.id }}&category_name={{ categoria.nome }}">Adicionar Musica</a>
+                        </figcaption>
+
+                        {% for musica in musicas %}
+
+                            <figcaption>
+                                <p class="title is-5">
+                                     <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
+                                    <span class="badge is-small is-pulled-right">{{musica.countAnexos}}</span>
+                                     <a href="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome|lower|url_encode }) }}" class="button is-info is-inverted is-pulled-right is-small">Editar</a>
+                                </p>
+                            </figcaption>
+
+                        {% endfor %}
+
+                    </figure>
+
                 </div>
-                <form class="form-horizontal">
-                    <div class="modal-body">
-                        <input class="input" type="file" name="files[]" id="filer_input4" multiple/>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal"
-                                onclick="window.location.reload()">Fechar
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
+    </article>
 
+{% endblock %}
+
+{% block js %}
     <script src="{{ asset(app['dir.base'] ~ 'assets/blog/js/file-uploader-drag-drop2.js') }}" type="text/javascript"></script>
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/js/jquery.filer.min.js') }}"></script>
-
 {% endblock %}
