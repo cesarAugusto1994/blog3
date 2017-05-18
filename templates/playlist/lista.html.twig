@@ -21,34 +21,71 @@
 
                     <hr class="small"/>
 
-                    <table class="table is-striped">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Nome</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
+                    <figure>
                         {% for musica in musicas %}
-                            <tr>
-                                <td><a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.nome }}</a>
-                                </td>
-                            </tr>
+                            <figcaption>
+                                <p class="title is-3"><a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.nome }}</a>
+                                    <button class="button is-danger is-outlined is-pulled-right btnplaylist"
+                                            data-toggle="modal"
+                                            data-playlist="{{ playlist.id }}"
+                                            data-anexo="{{ musica.id }}"
+                                            data-anexo-nome="{{ musica.nome }}"
+                                            data-target="#modal-playlists">
+                                        Remover da minha playlist
+                                    </button>
+                                </p>
+                            </figcaption>
                         {% endfor  %}
-                        </tbody>
-                    </table>
+                    </figure>
                 </div>
             </div>
         </div>
     </article>
 
+{% endblock %}
+
+{% block js %}
     <script>
 
         $(document).ready(function () {
+
+            $(".btnplaylist").click(function (e) {
+
+                e.preventDefault();
+
+                let _this = $(this);
+                let playlist = $(this).data('playlist');
+                let anexo = $(this).data('anexo');
+
+                alertify.confirm("Deseja remover este arquivo da sua playlist?", function () {
+
+                    block_screen();
+
+                    $(this).addClass('is-loading');
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/playlists/add-playlist",
+                        data: {
+                            musica: anexo,
+                            playlist: playlist
+                        },
+                        cache: false,
+                        success: function (data) {
+                            alertify.success(data.mensagem);
+                            _this.parent().parent().hide();
+                            unblock_screen();
+                        },
+                        error: function (data) {
+                            unblock_screen();
+                            console.log(data.mensagem);
+                            alertify.error(data.mensagem);
+                        }
+                    });
+
+                }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
+
+            });
 
             $('.btnARemoveMusica').click(function (e) {
 
@@ -112,5 +149,4 @@
 
 
     </script>
-
 {% endblock %}

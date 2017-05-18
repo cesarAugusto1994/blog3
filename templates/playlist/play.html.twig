@@ -21,7 +21,6 @@
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
 
-
                     <div class="column add-bottom">
                         <div id="mainwrap">
                             <div id="nowPlay">
@@ -44,44 +43,16 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <figure>
-
-                            {% for musica in musicas %}
-
-                                <figcaption>
-                                    <p class="title is-3">
-                                        {{ musica.nome }}
-
-                                        {% if musica.tipo.id == 1 %}
-                                            <a>
-                                                <button class="button is-danger is-small is-pulled-right btnplaylist"
-                                                        data-toggle="modal"
-                                                        data-playlist="{{ playlist.id }}"
-                                                        data-anexo="{{ musica.id }}"
-                                                        data-anexo-nome="{{ musica.nome }}"
-                                                        data-target="#modal-playlists">
-                                                    Remover da minha playlist
-                                                </button>
-                                            </a>
-                                        {% endif %}
-
-                                    </p>
-
-                                </figcaption>
-
-                            {% endfor %}
-
-                        </figure>
-                    </div>
-
                 </div>
             </div>
+        </div>
     </article>
 
-    <script>
+{% endblock %}
 
+{% block js %}
+
+    <script>
 
         $(document).ready(function () {
 
@@ -95,29 +66,29 @@
 
                 alertify.confirm("Deseja remover este arquivo da sua playlist?", function () {
 
-                block_screen();
+                    block_screen();
 
-                $(this).addClass('is-loading');
+                    $(this).addClass('is-loading');
 
-                $.ajax({
-                    type: "POST",
-                    url: "/user/playlists/add-playlist",
-                    data: {
-                        musica: anexo,
-                        playlist: playlist
-                    },
-                    cache: false,
-                    success: function (data) {
-                        alertify.success(data.mensagem);
-                        _this.parent().parent().parent().hide();
-                        unblock_screen();
-                    },
-                    error: function (data) {
-                        unblock_screen();
-                        console.log(data.mensagem);
-                        alertify.error(data.mensagem);
-                    }
-                });
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/playlists/add-playlist",
+                        data: {
+                            musica: anexo,
+                            playlist: playlist
+                        },
+                        cache: false,
+                        success: function (data) {
+                            alertify.success(data.mensagem);
+                            _this.parent().parent().parent().hide();
+                            unblock_screen();
+                        },
+                        error: function (data) {
+                            unblock_screen();
+                            console.log(data.mensagem);
+                            alertify.error(data.mensagem);
+                        }
+                    });
 
                 }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
 

@@ -29,29 +29,6 @@
 
                                 <a href="/user/playlists/{{ playlist.id }}-{{ playlist.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ playlist.nome }}</a>
 
-
-                                {#
-
-                                {% if grupo.id in gruposUsuario %}
-                                    <a href="/user/grupo/{{ grupo.id }}-{{ grupo.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ grupo.nome }}</a>
-                                    <span class="tag">{{ grupo.cidade }}</span>
-                                    <span class="tag">{{ grupo.uf }}</span>
-                                {% else %}
-                                    {{ grupo.nome }}
-                                    <span class="tag">{{ grupo.cidade }}</span>
-                                    <span class="tag">{{ grupo.uf }}</span>
-                                {% endif %}
-
-                                {% if grupo.id in gruposUsuario %}
-                                    <a class="button is-danger is-pulled-right"
-                                       href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}&leave=1">Deixar Grupo</a>
-                                {% else %}
-                                    <a class="button is-success is-pulled-right"
-                                       href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}">Participar deste grupo</a>
-                                {% endif %}
-
-                                #}
-
                                 <button class="button is-danger is-pulled-right btnRemovePlaylist" value="{{ playlist.id }}">Remover</button>
 
                             </p>
@@ -65,6 +42,10 @@
             </div>
         </div>
     </article>
+
+{% endblock %}
+
+{% block js %}
 
     <script>
 

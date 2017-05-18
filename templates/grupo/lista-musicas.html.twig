@@ -134,6 +134,10 @@
         </div>
     </article>
 
+{% endblock %}
+
+{% block js %}
+
     <script>
 
         $(document).ready(function () {
@@ -185,12 +189,12 @@
                         alertify.error(data.mensagem);
                     }
                 });
-/*
-                $(this).removeClass('is-success');
-                $(this).removeClass('is-loading');
-                $(this).addClass('is-danger');
-                $(this).text('Remover');
-*/
+                /*
+                 $(this).removeClass('is-success');
+                 $(this).removeClass('is-loading');
+                 $(this).addClass('is-danger');
+                 $(this).text('Remover');
+                 */
             })
 
         })
