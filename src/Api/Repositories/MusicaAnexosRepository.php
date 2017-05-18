@@ -8,6 +8,7 @@
 
 namespace Api\Repositories;
 
+use Api\Entities\Musica;
 use Api\Entities\MusicaAnexos;
 use Doctrine\ORM\EntityRepository;
 
@@ -45,6 +46,7 @@ class MusicaAnexosRepository extends EntityRepository
             ->select('m')
             ->where('m.nome LIKE :search')
             ->andWhere('m.ativo = :ativo')
+            ->andWhere('m.tipo = 1')
             ->setParameter(':search', '%'.$search.'%')
             ->setParameter(':ativo', true)
             ->getQuery()->getResult();

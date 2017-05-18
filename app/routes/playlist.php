@@ -36,6 +36,43 @@ $playlist->get('/{id}-{nome}', function ($id, $nome) use ($app) {
 })->bind('playlist_musicas');
 
 
+$playlist->get('/add-repertorio/playlist/{id}-{nome}', function ($id, $nome, Request $request) use ($app) {
+
+    $musicas = [];
+    $musicaAnexos = [];
+    $qRequest = "";
+
+    if ($request->get('go')) {
+
+        if ($request->get('q')) {
+            $musicaAnexos = $app['musica.anexos.repository']->search($request->get('q'));
+        }
+
+        $qRequest = $request->get('q');
+    }
+
+    $playlist = $app['playlist.repository']->find($id);
+
+    $playlistMusicas = $app['playlist.musicas.repository']->findBy(['playlist' => $playlist]);
+
+    $musicasPlaylist = array_map(function ($grupoMusica) {
+        return $grupoMusica->getMusica()->getId();
+    }, $playlistMusicas);
+
+    return $app['twig']->render(
+        'playlist/lista-musicas.html.twig',
+        [
+            'musicas' => $musicas,
+            'musica_anexos' => $musicaAnexos,
+            'qRequest' => $qRequest,
+            'playlist' => $playlist,
+            'musicasPlaylist' => $musicasPlaylist
+        ]
+    );
+
+})->bind('playlist_add_repertorio');
+
+
 
 $playlist->get('/new', function () use ($app) {
 

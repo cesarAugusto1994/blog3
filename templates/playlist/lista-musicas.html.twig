@@ -1,0 +1,217 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Playlist{% endblock %}
+{% block headerNome %}Playlist{% endblock %}
+
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    {% if app.session.flashbag.has('mensagem') %}
+                        {% for alert in app.session.flashbag.get('mensagem') %}
+                            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="columns">
+
+                        <div class="column is-one-third">
+
+                            <form method="get" class="form-horizontal"
+                                  action="{{ path('playlist_add_repertorio', { id : playlist.id, nome : playlist.nome }) }}">
+
+                                <input type="hidden" name="go" value="1" />
+
+                                <nav class="panel">
+                                    <p class="panel-heading">
+                                        Pesquisar
+                                    </p>
+                                        <p class="control">
+                                            <input class="input is-large" type="text" autofocus name="q" value="{{ qRequest }}" placeholder="Pesquisar">
+                                        </p>
+
+                                        <p class="control">
+                                            <button class="button is-primary is-fullwidth">
+                                                Search
+                                            </button>
+                                        </p>
+                                </nav>
+                            </form>
+                        </div>
+
+
+                        <div class="column is-three-quarters wow fadeInUp animated slide">
+
+                                <nav class="panel">
+                                    <p class="panel-heading">
+                                        Resultado
+                                    </p>
+                                </nav>
+
+                                <div class="card" style="width: 100%">
+                                    <div class="card-content">
+                                        <figure>
+                                            {% for anexo in musica_anexos %}
+                                                <figcaption>
+                                                        <p class="title is-5">
+                                                            {% if anexo.musica.nome is defined %}
+                                                                <a href="{{ path('musica_anexos', { id : anexo.musica.id, name : anexo.musica.nome }) }}">{{ anexo.nome }}</a>
+                                                            {% else %}
+                                                                {{ anexo.nome }}
+                                                            {% endif %}
+                                                            {% if anexo.id in musicasPlaylist %}
+                                                                <button class="button is-danger is-small btnAddMusica is-pulled-right btnplaylist"
+                                                                        data-playlist="{{ playlist.id }}"
+                                                                        value="{{ anexo.id }}">Remover
+                                                                </button>
+                                                            {% else %}
+                                                                <button class="button is-success is-small btnAddMusica is-pulled-right btnplaylist"
+                                                                        data-playlist="{{ playlist.id }}"
+                                                                        value="{{ anexo.id }}">Adicionar à Playlist
+                                                                </button>
+                                                            {% endif %}
+
+                                                        </p>
+                                                    {% if anexo.musica.nome is defined %}
+                                                        <small> Musica: {{ anexo.musica.nome }}</small>
+                                                    {% endif %}
+                                                </figcaption>
+                                            {% else %}
+                                            <figcaption>
+                                                <p class="title">Nenhum registro Encontrado.</p>
+                                            </figcaption>
+                                        {% endfor %}
+                                        </figure>
+                                    </div>
+                                </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#formAddPlaylist").click(function (e) {
+
+                e.preventDefault();
+
+                $(this).addClass('is-loading');
+
+                let _this = $(this);
+                let playlist = $("#playlist").val();
+                let anexo = $("#musica_playlist").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/playlists/add-playlist",
+                    data: {
+                        musica: anexo,
+                        playlist: playlist
+                    },
+                    cache: false,
+                    success: function (data) {
+
+                        alertify.success(data.mensagem);
+
+                        if (data.bln == 'add') {
+
+                            _this.removeClass('is-success');
+                            _this.removeClass('is-loading');
+                            _this.addClass('is-danger');
+                            //_this.text('Remover');
+
+                        } else {
+
+                            _this.removeClass('is-danger');
+                            _this.removeClass('is-loading');
+                            _this.addClass('is-success');
+                            //_this.text('Adicionar Ao Repertório');
+
+                        }
+
+                        unblock_screen();
+                    },
+                    error: function (data) {
+                        unblock_screen();
+                        console.log(data.mensagem);
+                        alertify.error(data.mensagem);
+                    }
+                });
+
+            });
+
+
+            $('.btnAddMusica').click(function (e) {
+
+                let _this = $(this);
+                let playlist = $(this).data('playlist');
+                let anexo = $(this).val();
+
+                e.preventDefault();
+
+                $(this).addClass('is-loading');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/playlists/add-playlist",
+                    data: {
+                        musica: anexo,
+                        playlist: playlist
+                    },
+                    cache: false,
+                    success: function (data) {
+
+                        alertify.success(data.mensagem);
+
+                        if (data.bln == 'add') {
+
+                            _this.removeClass('is-success');
+                            _this.removeClass('is-loading');
+                            _this.addClass('is-danger');
+                            _this.text('Remover');
+
+                        } else {
+
+                            _this.removeClass('is-danger');
+                            _this.removeClass('is-loading');
+                            _this.addClass('is-success');
+                            _this.text('Adicionar Ao Repertório');
+
+                        }
+
+                        unblock_screen();
+                    },
+                    error: function (data) {
+                        unblock_screen();
+                        alertify.error(data.mensagem);
+                    }
+                });
+                /*
+                 $(this).removeClass('is-success');
+                 $(this).removeClass('is-loading');
+                 $(this).addClass('is-danger');
+                 $(this).text('Remover');
+                 */
+            })
+
+        })
+
+
+    </script>
+
+{% endblock %}

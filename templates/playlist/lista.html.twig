@@ -16,22 +16,27 @@
                         {% endfor %}
                     {% endif %}
 
-                    <a href="#" class="button is-success">Adicionar Musicas</a>
+                    <a href="{{ path('playlist_add_repertorio', { id : playlist.id, nome : playlist.nome }) }}" class="button is-success">Adicionar Musicas</a>
                     <a href="{{ path('playlist_play', { id : playlist.id, nome : playlist.nome }) }}" class="button is-danger">Play</a>
 
                     <hr class="small"/>
 
                     <figure>
-                        {% for musica in musicas %}
+                        {% for anexo in musicas %}
                             <figcaption>
-                                <p class="title is-3"><a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.nome }}</a>
-                                    <button class="button is-danger is-outlined is-pulled-right btnplaylist"
+                                <p class="title is-5">
+                                    {% if anexo.musica.id is defined %}
+                                        <a href="/user/praise/{{ anexo.musica.id }}-{{ anexo.musica.nome|lower|url_encode }}">{{ anexo.nome }}</a>
+                                    {% else %}
+                                        {{ anexo.nome }}
+                                    {% endif %}
+                                    <button class="button is-danger is-outlined is-small is-pulled-right btnplaylist"
                                             data-toggle="modal"
                                             data-playlist="{{ playlist.id }}"
-                                            data-anexo="{{ musica.id }}"
-                                            data-anexo-nome="{{ musica.nome }}"
+                                            data-anexo="{{ anexo.id }}"
+                                            data-anexo-nome="{{ anexo.nome }}"
                                             data-target="#modal-playlists">
-                                        Remover da minha playlist
+                                        Remover
                                     </button>
                                 </p>
                             </figcaption>
