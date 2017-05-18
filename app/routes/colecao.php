@@ -26,7 +26,7 @@ $colecao->get('/collection/{id}-{nome}', function ($id, $nome) use ($app) {
         '/user/categorias.html.twig',
         ['categorias' => $categorias, 'colecao' => $colecao]
     );
-});
+})->bind('view_collection');
 
 $colecao->get('colecao/{colecao}', function($colecao) use ($app){
 

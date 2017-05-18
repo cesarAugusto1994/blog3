@@ -367,7 +367,7 @@ $app['dir.widgets'] = function () use ($app) {
     return $app['dir.base'] . 'assets/blog/img/widgets/';
 };
 $app['dir.menu'] = function () use ($app) {
-    return $app['dir.base'] . 'assets/blog/img/menu/';
+    return $app['dir.base3'] . 'assets/blog/img/menu/';
 };
 $app['dir.colecao'] = function () use ($app) {
     return $app['dir.base3'] . 'assets/blog/img/colecoes/';

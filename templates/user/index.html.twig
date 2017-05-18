@@ -19,14 +19,158 @@
 
 {% block content %}
 
-    <div id="user" data-menu="{{ path('api_menu') }}"
-         data-dir-menu="{{ app['dir.menu'] }}"
-         data-colecao="{{ path('api_colecoes') }}"
-         data-dir-colecao="{{ app['dir.colecao'] }}"
-         data-default-background="{{ app['background'] }}"
-         data-musica="{{ path('api_musicas_recentes') }}"
-         data-videos="{{ path('videos') }}"
-         data-user="{{ app.usuario.nome }}"
-         data-app="{{ app.blog.subtitulo }}"></div>
+    <section id="hero-area">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="block wow fadeInUp">
+                    <section class="cd-intro">
+                        <h1 class="wow fadeInUp animated cd-headline slide">
+                            <span>Ol&aacute;,{{ app.usuario.nome }}.</span><br />
+                        </h1>
+                    </section>
+                    <div class="container is-half">
+                        <p class="title is-3 wow fadeInUp animated">
+                            {{app.blog.subtitulo}}
+                        </p>
+                    </div>
+                    <a class="button is-light is-large" href="#works" data-section="#works">Iniciar</a>
+                    <a class="button is-primary is-large" href="/user/praise/new">Sugerir Louvor</a>
+                    <a class="button is-danger is-large" href="/user/sugestao">Sugestão</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="call-to-action">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="block">
+                    <h2 class="title">Adicione ou Encontre o seu Grupo</h2>
+                    <div class="row">
+                        <a href="/user/grupos" class="button is-danger is-large is-light">Acessar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!--
+    <section id="works" class="works">
+        <div class="container">
+            <div class="section-heading">
+                <h1 class="title">Inicio</h1>
+            </div>
+            <div class="row">
+
+                {% for menu in menus %}
+
+                    <div class="col-sm-4 col-xs-12">
+                        <figure class="wow fadeInLeft animated portfolio-item">
+                            <div class="img-wrapper">
+                                <a href="{{ menu.url }}">
+                                    <img src="{{ app['dir.menu'] ~ app['config'].background  }}" class="img-responsive colecao-imagem" alt="this is a title" />
+                                    <div class="overlay"></div>
+                                </a>
+                            </div>
+                            <figcaption>
+                                <p class="title is-3">
+                                    <a href="{{ menu.url }}">
+                                        {{menu.nome}}
+                                    </a>
+                                </p>
+                                <p>
+                                    {{menu.descricao}}
+                                </p>
+                            </figcaption>
+                        </figure>
+                    </div>
+
+                {% endfor %}
+                
+            </div>
+        </div>
+    </section>
+-->
+    <section>
+        <div class="container">
+            <div class="section-heading">
+                <h1 class="title">Coleções</h1>
+            </div>
+            <div class="row">
+
+                {% for colecao in colecoes %}
+
+                    <div class="col-sm-3 col-xs-12">
+                        <figure>
+                            <div class="img-wrapper">
+                                <a href="{{ path('view_collection', { id : colecao.id, nome : colecao.nome|lower|url_encode }) }}">
+                                    <img src="{{ app['dir.colecao'] ~ colecao.imagem }}" class="img-responsive" alt="..." />
+                                    <div class="overlay"></div>
+                                </a>
+                            </div>
+                            <figcaption>
+                                <p class="title is-3">
+                                    <a href="{{ path('view_collection', { id : colecao.id, nome : colecao.nome|lower|url_encode }) }}">
+                                        {{colecao.nome}}
+                                    </a>
+                                </p>
+                                <p>
+                                    {{colecao.descricao}}
+                                </p>
+                            </figcaption>
+                        </figure>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+    <section id="call-to-action">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="block">
+                    <h2 class="title">Adicione sua playlists</h2>
+                    <div class="row">
+                        <a href="{{ path('playlist') }}" class="button is-danger is-large is-light">Acessar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-heading">
+                <h1 class="title">Últimas Adições</h1>
+            </div>
+            <div class="row">
+                <figure>
+                {% for musica in musicas %}
+                    <figcaption>
+                        <p class="title is-3">
+                            <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
+                        </p>
+                    </figcaption>
+                {% endfor %}
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section id="call-to-action">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="block">
+                    <h2 class="title">Videos</h2>
+                    <div class="row">
+                        <a href="/user/musica/anexos/videos" class="button is-danger is-large is-light">Acessar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}
