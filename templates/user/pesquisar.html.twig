@@ -112,11 +112,12 @@
                                             {% for musica in musicas %}
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h4 class="media-heading"><a
-                                                                    href="{{ path('musica_anexos', { id : musica.id, name : musica.nome }) }}">{% if musica.numero|length > 0 %}{{ musica.numero }} - {% endif %}{{ musica.nome }}
+                                                        <p class="title is-5">
+                                                            <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome }) }}">{% if musica.numero|length > 0 %}{{ musica.numero }} - {% endif %}{{ musica.nome }}
                                                                 ({{ musica.tom }})</a>
                                                             <small> {{ musica.categoria.nome }}</small>
-                                                        </h4>
+
+                                                        </p>
                                                     </div>
                                                 </div>
                                             {% endfor %}
@@ -131,8 +132,10 @@
                                             {% for anexo in musica_anexos %}
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h4 class="media-heading">{{ anexo.nome }}</h4>
-                                                        <a href="{{ path('musica_anexos', { id : anexo.musica.id, name : anexo.musica.nome }) }}">
+                                                        <p class="title is-5">{{ anexo.nome }}</p>
+                                                            {% if musica.id is defined %}
+                                                            <a href="{{ path('musica_anexos', { id : anexo.musica.id, name : anexo.musica.nome }) }}">
+                                                            {% endif %}
                                                             <button class="button is-small is-white">
                                                                 Ir para musica
                                                             </button>

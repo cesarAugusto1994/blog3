@@ -40,6 +40,11 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="/user/praises/{{ musica.id }}-{{ musica.nome|lower|url_encode|trim }}/edit"
                            class="button is-primary is-small">Editar</a>
+                        <button id="btnAddAnexos" class="button is-danger is-inverted is-small"
+                                data-musica="{{ musica.id }}"
+                                data-toggle="modal"
+                                data-target="#modal-add-anexos">Adicionar Anexos
+                        </button>
                     {% endif %}
 
                     <button id="btnAddArquivos" class="button is-primary is-inverted is-small" data-toggle="modal"
@@ -203,6 +208,38 @@
         </div>
     </div>
 
+
+    <div id="modal-add-anexos" class="modal fade" tabIndex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Arquivos</h4>
+                </div>
+                <form class="form-horizontal" id="formAddAnexo">
+                    <div class="modal-body">
+                        <input type="hidden" name="musica_anexo" readonly disabled id="musica_anexo"/>
+                        <label>Selecione um Anexo</label>
+                        <p class="control">
+                            <select class="selectpicker show-tick" name="anexo_vincular" id="anexo_vincular" data-container="body"
+                                    data-live-search="true" data-width="100%">
+                                {% for anexo in anexosPendentes %}
+                                    <option value="{{ anexo.id }}">{{ anexo.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="button is-success" id="btnAddPlaylist">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-add-link" class="modal fade" tabIndex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -316,6 +353,41 @@
                 unblock_screen();
                 $("#btnFavoritos").removeClass("is-loading");
 
+
+            });
+
+            $("#btnAddAnexos").click(function (e) {
+                e.preventDefault();
+                $("#musica_anexo").val($(this).data('musica'));
+            });
+
+            $("#formAddAnexo").submit(function (e) {
+                e.preventDefault();
+
+                let _this = $(this);
+                let musica = $("#musica_anexo").val();
+                let anexo = $("#anexo_vincular").val();
+
+                block_screen();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/anexos/vincular",
+                    data : {
+                        musica : musica,
+                        anexo : anexo,
+                    },
+                    cache: false,
+                    success: function (data) {
+                        unblock_screen();
+                        alertify.success(data.msg);
+                        window.location.reload();
+                    },
+                    error: function (data) {
+                        unblock_screen();
+                        alertify.error(data.msg);
+                    }
+                });
 
             });
 

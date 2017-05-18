@@ -31,6 +31,8 @@ $anexos->get('/praise/{id}-{name}', function($id, $name) use ($app) {
 
     $playlists = $app['playlist.repository']->findBy(['usuario' => $app['usuario']]);
 
+    $anexosPendentes = $app['musica.anexos.repository']->findBy(['musica' => null, 'ativo' => true], ['nome' => 'ASC']);
+
     return $app['twig']->render(
         '/user/musica_anexos.html.twig',
         [
@@ -40,7 +42,8 @@ $anexos->get('/praise/{id}-{name}', function($id, $name) use ($app) {
             'musicas' => $musicas,
             'hasfiles' => (!empty($anexos)),
             'isFavorito' => (!empty($favorito)),
-            'playlists' => $playlists
+            'playlists' => $playlists,
+            'anexosPendentes' => $anexosPendentes
         ]
     );
 
