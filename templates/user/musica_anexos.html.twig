@@ -99,19 +99,6 @@
                                 <figcaption>
                                     <p class="title is-3">
                                         {{ anexo.nome }}
-
-                                        {% if anexo.tipo.id == 1 %}
-                                            <a>
-                                                <button class="button is-success is-small is-pulled-right btnplaylist"
-                                                        data-toggle="modal"
-                                                        data-anexo="{{ anexo.id }}"
-                                                        data-anexo-nome="{{ anexo.nome }}"
-                                                        data-target="#modal-playlists">
-                                                    Adicionar a minha playlist
-                                                </button>
-                                            </a>
-                                        {% endif %}
-
                                     </p>
 
                                     <p>
@@ -127,7 +114,6 @@
                                                     Baixar
                                                 </button>
                                             </a>
-
                                         {% else %}
                                             <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|trim|url_encode }}/video/{{ anexo.id }}">
                                                 <button class="button is-small is-success">
@@ -140,14 +126,13 @@
                                                     value="{{ anexo.id }}">Remover
                                             </button>
                                         {% endif %}
-
                                     </p>
                                 </figcaption>
 
                             {% else %}
-
-                                <p class="title is-3">Nenhum Arquivo foi encontrado.</p>
-
+                                <figcaption>
+                                    <p class="title is-3">Nenhum Arquivo foi encontrado.</p>
+                                </figcaption>
                             {% endfor %}
 
                         </figure>
