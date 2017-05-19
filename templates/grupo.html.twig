@@ -1,0 +1,31 @@
+{% extends 'template-public.html.twig' %}
+
+{% block title %}Grupo - {{ grupo.nome }}{% endblock %}
+{% block headerNome %}Grupo - {{ grupo.nome }}{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <figure>
+                        {% for musica in musicas %}
+                        <figcaption>
+                            <p class="title is-4">
+                            <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.numero }} {{ musica.nome }}</a>
+                            </p>
+                        </figcaption>
+                        {% else  %}
+                            <figcaption>
+                                <p class="title is-3">Nenhum registro encontrado.</p>
+                            </figcaption>
+                        {% endfor  %}
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

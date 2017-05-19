@@ -1,14 +1,15 @@
-{% extends 'template-new.html.twig' %}
+{% extends 'template-public.html.twig' %}
 
-{% block title %}{{ playlist.nome }}{% endblock %}
-
-{% block stylesheet %}
-    {{ parent() }}
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
+{% block meta %}
+    <meta name="title" property="og:title" content="{{ musica.nome }}">
+    <meta name="type" property="og:type" content="{{ musica.categoria.nome }}">
+    <meta name="description" property="og:description" content="{{ musica.letra }}">
 {% endblock %}
 
-{% block headerNome %}{{ playlist.nome }}{% endblock %}
-{% block headerSubtitulo %}{{ playlist.nome }}{% endblock %}
+{% block title %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
+
+{% block headerNome %}{{ musica.numero }} {{ musica.nome }}{% endblock %}
+{% block headerSubtitulo %}{{ musica.categoria.colecao.nome }} / {{ musica.categoria.nome }}{{ app['nome.blog'] }}{% endblock %}
 
 {% block content %}
 
@@ -17,40 +18,69 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    {% for alert in app.session.flashbag.get('mensagem') %}
-                        <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
-                    {% endfor %}
+                    <div class="col-sm-12 col-xs-12">
 
-                    <a class="button is-small is-primary is-inverted" id="compartilhar">Compartilhar Link</a>
-                    <hr class="small"/>
+                        {% if musicas|length > 0 %}
 
-                    <div class="column add-bottom">
-                        <div id="mainwrap">
-                            <div id="nowPlay">
-                                <span class="left" id="npAction">Paused...</span>
-                                <span class="right" id="npTitle"></span>
-                            </div>
-                            <div id="audiowrap">
-                                <div id="audio0">
-                                    <audio preload id="audio1" controls="controls">Your browser does not support
-                                        HTML5 Audio!
-                                    </audio>
+                            <div class="column add-bottom">
+                                <div id="mainwrap">
+                                    <div id="nowPlay">
+                                        <span class="left" id="npAction">Paused...</span>
+                                        <span class="right" id="npTitle"></span>
+                                    </div>
+                                    <div id="audiowrap">
+                                        <div id="audio0">
+                                            <audio preload id="audio1" controls="controls">Your browser does not support
+                                                HTML5 Audio!
+                                            </audio>
+                                        </div>
+                                        <div id="tracks">
+                                            <a id="btnPrev">&laquo;</a>
+                                            <a id="btnNext">&raquo;</a>
+                                        </div>
+                                    </div>
+                                    <div id="plwrap">
+                                        <ul id="plList"></ul>
+                                    </div>
                                 </div>
-                                <div id="tracks">
-                                    <a id="btnPrev">&laquo;</a>
-                                    <a id="btnNext">&raquo;</a>
-                                </div>
                             </div>
-                            <div id="plwrap">
-                                <ul id="plList"></ul>
-                            </div>
-                        </div>
+
+                        {% endif %}
+
+                        <figure>
+
+                            {% for anexo in anexos %}
+
+                                <figcaption>
+                                    <p class="title is-3">
+                                        {{ anexo.nome }}
+                                    </p>
+
+                                    <p>
+                                        {% if not anexo.isExterno %}
+                                            <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : true}) }}"
+                                               download>
+                                                <button class="button is-small is-inverted is-primary">
+                                                    Baixar
+                                                </button>
+                                            </a>
+                                        {% endif %}
+                                    </p>
+                                </figcaption>
+
+                            {% else %}
+                                <figcaption>
+                                    <p class="title is-3">Nenhum Arquivo foi encontrado.</p>
+                                </figcaption>
+                            {% endfor %}
+
+                        </figure>
                     </div>
+
                 </div>
             </div>
         </div>
     </article>
-
 {% endblock %}
 
 {% block js %}
@@ -58,50 +88,6 @@
     <script>
 
         $(document).ready(function () {
-
-            $("#compartilhar").click(function (e) {
-                e.preventDefault();
-                let link = 'Compartilhe este link: <a target="_blank" href="https://coletaneaicm.com/public/playlist/{{ playlist.id }}-{{ playlist.nome }}">https://coletaneaicm.com/public/playlist/{{ playlist.id }}-{{ playlist.nome }}</a>';
-                alertify.alert(link);
-            });
-
-            $(".btnplaylist").click(function (e) {
-
-                e.preventDefault();
-
-                let _this = $(this);
-                let playlist = $(this).data('playlist');
-                let anexo = $(this).data('anexo');
-
-                alertify.confirm("Deseja remover este arquivo da sua playlist?", function () {
-
-                    block_screen();
-
-                    $(this).addClass('is-loading');
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/user/playlists/add-playlist",
-                        data: {
-                            musica: anexo,
-                            playlist: playlist
-                        },
-                        cache: false,
-                        success: function (data) {
-                            alertify.success(data.mensagem);
-                            _this.parent().parent().parent().hide();
-                            unblock_screen();
-                        },
-                        error: function (data) {
-                            unblock_screen();
-                            console.log(data.mensagem);
-                            alertify.error(data.mensagem);
-                        }
-                    });
-
-                }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
-
-            });
 
             var b = document.documentElement;
             b.setAttribute('data-useragent', navigator.userAgent);
@@ -215,10 +201,7 @@
                     loadTrack(index);
                 }
             });
-
-
         });
 
     </script>
-
 {% endblock %}

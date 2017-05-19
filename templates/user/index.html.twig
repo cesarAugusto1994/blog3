@@ -33,7 +33,6 @@
                             {{app.blog.subtitulo}}
                         </p>
                     </div>
-                    <a class="button is-light is-large" href="#works" data-section="#works">Iniciar</a>
                     <a class="button is-primary is-large" href="/user/praise/new">Sugerir Louvor</a>
                     <a class="button is-danger is-large" href="/user/sugestao">Sugestão</a>
                 </div>
@@ -147,7 +146,7 @@
                 <figure>
                 {% for musica in musicas %}
                     <figcaption>
-                        <p class="title is-3">
+                        <p class="title is-4">
                             <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
                         </p>
                     </figcaption>

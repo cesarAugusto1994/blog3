@@ -17,7 +17,7 @@
                         {% endfor %}
                     {% endif %}
 
-                    <a href="{{ path('gl_add') }}" class="button is-danger">Criar Grupo</a>
+                    <a href="{{ path('gl_add') }}" class="button is-small is-danger">Criar Grupo</a>
                     <hr class="small"/>
 
                     <figure>
@@ -25,11 +25,9 @@
                     {% for grupo in grupos %}
 
                         <figcaption>
-                            <p class="lead">
+                            <p class="title is-4">
                                 {% if grupo.id in gruposUsuario %}
                                     <a href="/user/grupo/{{ grupo.id }}-{{ grupo.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ grupo.nome }}</a>
-                                    <span class="tag">{{ grupo.cidade }}</span>
-                                    <span class="tag">{{ grupo.uf }}</span>
                                 {% else %}
                                     {{ grupo.nome }}
                                     <span class="tag">{{ grupo.cidade }}</span>
@@ -37,10 +35,10 @@
                                 {% endif %}
 
                                 {% if grupo.id in gruposUsuario %}
-                                    <a class="button is-danger is-pulled-right"
+                                    <a class="button is-danger is-small is-inverted is-mobile is-pulled-right"
                                        href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}&leave=1">Deixar Grupo</a>
                                 {% else %}
-                                    <a class="button is-success is-pulled-right"
+                                    <a class="button is-success is-small is-inverted is-pulled-right"
                                        href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}">Participar deste grupo</a>
                                 {% endif %}
                             </p>

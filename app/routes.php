@@ -110,6 +110,53 @@ $app->get('/user/cache', function () {
     ));
 });
 
+$app->get('public/{id}-{nome}', function ($id, $nome) use ($app) {
+
+    $musica = $app['musica.repository']->find($id);
+    $tipo = $app['tipo.anexo.repository']->find(1);
+    $musicas = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'tipo' => $tipo, 'ativo' => true], ['nome' => 'ASC']);
+    $anexos = $app['musica.anexos.repository']->findBy(['musica' => $musica, 'ativo' => true]);
+
+   return $app['twig']->render('index.twig', ['musica' => $musica, 'musicas' => $musicas, 'anexos' => $anexos]);
+
+});
+
+$app->get('public/group/{id}-{nome}', function ($id, $nome) use ($app) {
+
+    $grupo = $app['grupo.repository']->find($id);
+    $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $id], ['musica' => "DESC"]);
+
+    $musicas = array_map(function ($grupoMusica) {
+        return $grupoMusica->getMusica();
+    }, $grupoMusicas);
+
+    $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $grupo]);
+
+    $musicasGrupo = array_map(function ($grupoMusica) {
+        return $grupoMusica->getMusica()->getId();
+    }, $grupoMusicas);
+
+    return $app['twig']->render('grupo.html.twig',
+        [
+            'musicas' => $musicas,
+            'grupo' => $grupo,
+            'musicasGrupo' => $musicasGrupo
+        ]);
+});
+
+$app->get('/public/playlist/{id}-{nome}', function ($id, $nome) use ($app) {
+
+    $playlist = $app['playlist.repository']->find($id);
+
+    $playlistMusicas = $app['playlist.musicas.repository']->findBy(['playlist' => $playlist]);
+
+    $musicas = array_map(function ($playlistMusica) {
+        return $playlistMusica->getMusica();
+    }, $playlistMusicas);
+
+    return $app['twig']->render('playlist.html.twig', ['playlist' => $playlist, 'musicas' => $musicas]);
+});
+
 $app->mount('/api', include __DIR__ . '/routes/api_categoria.php');
 $app->mount('/api', include __DIR__ . '/routes/api_musica.php');
 $app->mount('/api', include __DIR__ . '/routes/api_colecao.php');
@@ -144,7 +191,7 @@ $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
 include __DIR__ . '/routes/post.php';
 include __DIR__ . '/routes/musica_admin.php';
 include __DIR__ . '/routes/access.php';
-/*
+
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
     switch ($code) {
         case 400 :
@@ -168,4 +215,4 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
     }
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
 });
-*/
+

@@ -16,21 +16,24 @@
                         {% endfor %}
                     {% endif %}
 
-                    <a href="/user/grupos/convidar?grupo={{ grupo.id }}" class="button is-primary">Convidar alguém</a>
-                    <a href="{{ path('grupo_add_repertorio', { id : grupo.id, nome : grupo.nome }) }}" class="button is-success">Adicionar ao Repertório</a>
-                    <a href="/user/grupos/participantes?grupo={{ grupo.id }}" class="button is-primary">Participantes</a>
+                    <a href="/user/grupos/convidar?grupo={{ grupo.id }}" class="button is-small is-primary">Convidar alguém</a>
+                    <a href="{{ path('grupo_add_repertorio', { id : grupo.id, nome : grupo.nome }) }}" class="button is-small is-success">Adicionar ao Repertório</a>
+                    <a href="/user/grupos/participantes?grupo={{ grupo.id }}" class="button is-small is-light">Participantes</a>
+                    <a class="button is-small is-primary is-inverted" id="compartilhar">Compartilhar Link</a>
                     <hr class="small"/>
 
-                    <figure class="wow fadeInLeft animated portfolio-item">
+                    <figure>
                         {% for musica in musicas %}
                         <figcaption>
+                            <p class="title is-4">
                             <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.numero }} {{ musica.nome }}</a>
                                 {% if musica.id in musicasGrupo %}
-                                    <button class="button is-danger is-small btnARemoveMusica is-pulled-right"
+                                    <button class="button is-danger is-small is-inverted btnARemoveMusica is-pulled-right"
                                             data-grupo="{{ grupo.id }}"
                                             value="{{ musica.id }}">Remover
                                     </button>
                                 {% endif %}
+                            </p>
                         </figcaption>
                         {% endfor  %}
                     </figure>
@@ -46,6 +49,12 @@
     <script>
 
         $(document).ready(function () {
+
+            $("#compartilhar").click(function (e) {
+                e.preventDefault();
+                let link = 'Compartilhe este link: <a target="_blank" href="https://coletaneaicm.com/public/group/{{ grupo.id }}-{{ grupo.nome }}">https://coletaneaicm.com/public/group/{{ grupo.id }}-{{ grupo.nome }}</a>';
+                alertify.alert(link);
+            });
 
             $('.btnARemoveMusica').click(function (e) {
 
@@ -97,16 +106,9 @@
                         alertify.error(data.mensagem);
                     }
                 });
-                /*
-                 $(this).removeClass('is-success');
-                 $(this).removeClass('is-loading');
-                 $(this).addClass('is-danger');
-                 $(this).text('Remover');
-                 */
             })
 
         })
-
 
     </script>
 

@@ -24,13 +24,13 @@
                     <figure>
                         {% for anexo in musicas %}
                             <figcaption>
-                                <p class="title is-5">
+                                <p class="title is-4">
                                     {% if anexo.musica.id is defined %}
                                         <a href="/user/praise/{{ anexo.musica.id }}-{{ anexo.musica.nome|lower|url_encode }}">{{ anexo.nome }}</a>
                                     {% else %}
                                         {{ anexo.nome }}
                                     {% endif %}
-                                    <button class="button is-danger is-outlined is-small is-pulled-right btnplaylist"
+                                    <button class="button is-danger is-inverted is-small is-pulled-right btnplaylist"
                                             data-toggle="modal"
                                             data-playlist="{{ playlist.id }}"
                                             data-anexo="{{ anexo.id }}"

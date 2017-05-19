@@ -102,12 +102,12 @@
                                                         <h4 class="media-heading"><a
                                                                     href="{{ path('musica_anexos', { id : musica.id, name : musica.nome }) }}">{% if musica.numero|length > 0 %}{{ musica.numero }} - {% endif %}{{ musica.nome }} ({{ musica.tom }})</a>
                                                             {% if musica.id in musicasGrupo %}
-                                                                <button class="button is-danger btnAddMusica is-pulled-right"
+                                                                <button class="button is-danger is-small is-inverted btnAddMusica is-pulled-right"
                                                                         data-grupo="{{ grupo.id }}"
                                                                         value="{{ musica.id }}">Remover
                                                                 </button>
                                                             {% else %}
-                                                                <button class="button is-success btnAddMusica is-pulled-right"
+                                                                <button class="button is-success is-small is-inverted btnAddMusica is-pulled-right"
                                                                         data-grupo="{{ grupo.id }}"
                                                                         value="{{ musica.id }}">Adicionar Ao Repertório
                                                                 </button>

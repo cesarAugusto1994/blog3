@@ -17,7 +17,7 @@
                         {% endfor %}
                     {% endif %}
 
-                    <a href="{{ path('playlist_create') }}" class="button is-success">Criar Playlist</a>
+                    <a href="{{ path('playlist_create') }}" class="button is-small is-success">Criar Playlist</a>
                     <hr class="small"/>
 
                     <figure>
@@ -25,9 +25,9 @@
                     {% for playlist in playlists %}
 
                         <figcaption>
-                            <p class="title is-3">
-                                <a href="/user/playlists/{{ playlist.id }}-{{ playlist.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ playlist.nome }}</a>
-                                <button class="button is-danger is-pulled-right btnRemovePlaylist" value="{{ playlist.id }}">Remover</button>
+                            <p class="title is-4">
+                                <a  class="is-full-mobile" href="/user/playlists/{{ playlist.id }}-{{ playlist.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ playlist.nome }}</a>
+                                <button class="button is-danger is-pulled-right is-small is-full-mobile btnRemovePlaylist" value="{{ playlist.id }}">Remover</button>
                             </p>
                         </figcaption>
 
