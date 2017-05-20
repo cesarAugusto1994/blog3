@@ -1,0 +1,47 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Downloads{% endblock %}
+
+{% block header %}{{ parent() }}{% endblock %}
+
+{% block headerNome %}Downloads{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Arquivo</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for down in downloads %}
+
+                            <tr>
+                                <td>{{ down.usuario.nome }}</td>
+                                <td>{{ down.anexo.nome }}</td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Arquivo</th>
+                        </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

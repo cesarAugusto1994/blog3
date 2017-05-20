@@ -6,8 +6,66 @@
 
 {% block content %}
 
-    <div id="favoritos"
-         data-source="{{ path('api_user_favorites') }}"
-         data-user="{{ app.usuario.roles }}"></div>
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <figure>
+                        {% for favorito in favoritos %}
+                            <figcaption>
+                                <p class="title is-3">
+                                    <a href="">{{ favorito.musica.numero }} {{ favorito.musica.nome }}</a>
+                                    <button class="button is-danger is-small is-pulled-right btnremover" value="{{ favorito.musica.id }}">Remover</button>
+                                </p>
+                            </figcaption>
+                        {% endfor %}
+                    </figure>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+
+        $(".btnremover").click(function (e) {
+
+            e.preventDefault();
+
+            const _this = $(this);
+            let fav = $(this).val();
+
+            $("#add-remove").addClass("is-loading");
+
+            block_screen(500);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/favoritos/add-remove",
+                data: {
+                    "id": fav,
+                },
+                cache: false,
+                success: function (data) {
+                    unblock_screen();
+                    _this.parent().parent().hide();
+                    alertify.success(data.mensagem);
+                },
+                error: function () {
+                    unblock_screen();
+                    alertify.error("Ocorreu um erro.");
+                }
+            });
+
+            $("#add-remove").removeClass("is-loading");
+
+        })
+
+    </script>
 
 {% endblock %}

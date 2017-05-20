@@ -8,7 +8,7 @@
 
 {% endblock %}
 
-{% block title %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
+{% block title %}{{ musica.numero }} {{ musica.nome }}{% endblock %}
 
 {% block stylesheet %}
     {{ parent() }}

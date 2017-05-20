@@ -10,13 +10,10 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    <a class="button is-danger"
+                    <a class="button is-primary"
                        href="{{ path('usuario_atividades', { user : user.id }) }}">Atividades</a>
 
-                    <a class="button is-danger"
-                       href="{{ path('gl_add') }}">Adicionar o Meu Grupo de Louvor</a>
-
-                    <hr>
+                    <hr class="small">
 
                     {% if mensagem|length > 0 %}
                         <div class="tile">
@@ -28,15 +25,15 @@
                         </div>
                     {% endif %}
 
-                    <form method="post" class="form-horizontal wow fadeInUp animated slide"
+                    <form method="post" class="form-horizontal"
                           action="{{ path('usuario_editar') }}"
                           enctype="multipart/form-data">
                         <input type="hidden" name="city" id="city" value="{{ user.cidade }}">
                         <input type="hidden" name="uf" id="uf" value="{{ user.uf }}">
-                        <p class="control">Avatar</p>
+                        <p class="control">Imagem</p>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <div class="fileinput-new thumbnail" style="border: none; width: 150px; height: 150px;">
-                                <img style="height: 100%"
+                            <div class="fileinput-new thumbnail" style="border: none; width: 200px; height: 250px;background: no-repeat center;background-size: cover;">
+                                <img style="max-height: 100%;max-width:100%;width: auto;height: auto;"
                                      src="{% if user.avatar %}{{ asset(app['dir.avatar'] ~ user.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
                                      data-src="{% if app.usuario.avatar %}{{ asset(app['dir.avatar'] ~ app.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default'] ) }}{% endif %}"
                                      alt="usuario">
@@ -94,7 +91,7 @@
                               </span>
                         </p>
 
-                        {% if app.usuario.roles == 'ROLE_ADMIN' %}
+                        {% if is_granted('ROLE_ADMIN') %}
                             <label>Previl&eacute;gios</label>
                             <p class="control">
                               <span class="select is-fullwidth">
@@ -107,6 +104,8 @@
                               </span>
                             </p>
                         {% endif %}
+
+                        <br>
 
                         <p class="control">
                             <button class="button is-primary is-fullwidth" type="submit">Salvar</button>

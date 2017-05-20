@@ -13,7 +13,8 @@ $favoritos = $app['controllers_factory'];
 
 $favoritos->get('favorites', function() use ($app) {
 
-    return $app['twig']->render('/user/favoritos.html.twig');
+    $favorito = $app['favoritos.repository']->findBy(['usuario' => $app['usuario']]);
+    return $app['twig']->render('/user/favoritos.html.twig', ['favoritos' => $favorito]);
 
 })->bind('favorites_view');
 

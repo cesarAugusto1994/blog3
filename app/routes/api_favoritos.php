@@ -45,21 +45,20 @@ $favoritos->post('favoritos/add-remove', function (Request $request) use ($app) 
         throw new Exception('Id Request vazio.');
     }
 
-    $userSession = $app['session']->get('user');
-
-    $usuario = $app['usuarios.repository']->find($userSession->getId());
     $musica = $app['musica.repository']->find($request->request->get('id'));
 
-    $favorito = $app['favoritos.repository']->findBy(['usuario' => $usuario,'musica' => $musica]);
+    $favorito = $app['favoritos.repository']->findOneBy(['usuario' => $app['usuario'], 'musica' => $musica]);
 
     if (empty($favorito)) {
 
         $fav = new Favoritos();
         $fav->setMusica($musica);
-        $fav->setUsuario($usuario);
+        $fav->setUsuario($app['usuario']);
         $fav->setCadastro(new DateTime('now'));
 
+        $app['db']->beginTransaction();
         $app['favoritos.repository']->save($fav);
+        $app['db']->commit();
 
         return $app->json([
             'classe' => 'sucesso',
@@ -69,12 +68,14 @@ $favoritos->post('favoritos/add-remove', function (Request $request) use ($app) 
 
     }
 
-    $app['favoritos.repository']->remove($favorito[0]);
+    $app['db']->beginTransaction();
+    $app['favoritos.repository']->remove($favorito);
+    $app['db']->commit();
 
     return $app->json([
         'classe' => 'sucesso',
         'bln' => false,
-        'mensagem' =>  $musica->getNome() . ' foi removida aos seus favoritos.',
+        'mensagem' =>  $musica->getNome() . ' foi removido aos seus favoritos.',
     ]);
 
 });
