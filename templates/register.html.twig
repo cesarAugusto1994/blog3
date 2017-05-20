@@ -1,12 +1,213 @@
 {% extends 'template-login-new.html.twig' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Registre-se{% endblock %}
 
 {% block header %}
 
-    <div id="register"
-         data-background="{{ app['config'].background }}"
-         data-dir-img="{{ app['dir.img'] }}"
-         data-app="{{ app.blog.nome }}"></div>
+    <section id="hero-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="block wow fadeInUp">
+                        <section class="cd-intro">
+                            <div class="login-box">
+
+                                <div class="login-logo">
+                                    <a href="/"><b>{{ app.blog.nome }}</b></a>
+                                </div>
+
+                                <div class="register-box-body">
+                                    <p class="login-box-msg">Registrar novo usu&aacute;rio</p>
+
+
+                                    <form method="post" id="form">
+                                        <div class="form-group has-feedback">
+                                            <input class="input" type="text" name="nome"
+                                                   placeholder=" Seu Nome Completo" id="nome"/>
+                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <input class="input" type="email" name="email" placeholder="Seu E-mail"
+                                                   id="email"/>
+                                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                        </div>
+                                        <div class="form-group has-feedback" id="div-password">
+                                            <input class="input" type="password" name="password"
+                                                   placeholder="Digite Sua Senha" id="password"
+                                            />
+                                            <span class="help is-danger"></span>
+                                            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                                        </div>
+                                        <div class="form-group has-feedback" id="div-password-confirm">
+                                            <input class="input" type="password" name="password_confirm"
+                                                   placeholder="Confirme a Senha"
+                                                   id="password_confirm" />
+                                            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <a href="login" class="button is-primary is-link is-fullwidth">Já possuo
+                                                    conta!</a>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <button type="submit" id="btnSubmit"
+                                                        class="button is-success is-outlined is-fullwidth">Salvar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+
+        function pass(e) {
+
+            e.preventDefault();
+
+            if (6 < $(this).length) {
+                $(this).addClass("is-danger");
+                $("#div-password > .help").text("Sua Senha deve conter mais de 6 caracteres.");
+            } else {
+                $(this).removeClass("is-danger");
+                $(this).addClass("is-success");
+                $("#div-password > .help").text("");
+            }
+
+        }
+
+        function confirm(e) {
+
+            e.preventDefault();
+
+            if ($(this).val() != $("#password").val()) {
+                $("#password_confirm").addClass("is-danger");
+            } else {
+                $("#password_confirm").removeClass("is-danger");
+                $("#password_confirm").addClass("is-success");
+            }
+        }
+
+        $(document).ready(function () {
+
+            $("#password").change(pass);
+            $("#password_confirm").change(confirm);
+
+            $('form').submit(function (e) {
+
+                e.preventDefault();
+
+                var nome = $("#nome").val();
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var password_confirm = $("#password_confirm").val();
+
+                if (!nome) {
+                    $("#nome").focus();
+                    $("#nome").addClass("is-danger");
+                    alertify.error("Deve Informar o seu Nome");
+                    return false;
+                }
+
+                $("#nome").removeClass("is-danger");
+
+                if (!email) {
+                    $("#email").focus();
+                    $("#email").addClass("is-danger");
+                    alertify.error("Deve Informar o E-mail");
+                    return false;
+                }
+
+                $("#email").removeClass("is-danger");
+
+                if (!password) {
+                    $("#password").focus();
+                    $("#password").addClass("is-danger");
+                    alertify.error("Deve Informar uma senha");
+                    return false;
+                }
+
+                $("#password").removeClass("is-danger");
+
+                if (password != password_confirm) {
+                    $("#password").addClass("is-danger");
+                    $("#password_confirm").addClass("is-danger");
+                    alertify.error("As Senhas n&atilde;o s&atilde;o iguais.");
+                    return false;
+                }
+
+                $("#password").removeClass("is-danger");
+                $("#password_confirm").removeClass("is-danger");
+
+                $("#btnSubmit").addClass("is-loading");
+
+                block_screen();
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/register/save",
+                    data: $("#form").serialize(),
+                    cache: false,
+                    success: function (data) {
+
+                        alertify.error(data.message);
+
+                        if ('success' === data.class) {
+
+                            let id = data.user.id;
+                            let nome = data.user.nome;
+
+                            $.ajax({
+                                type: 'POST',
+                                url: "/admin/login_check",
+                                data: {
+                                    _username: email,
+                                    _password: password
+                                },
+                                cache: false,
+                                success: function (data) {
+                                    window.location.href = '/user/' + id + '-' + nome.toLowerCase().replace(/ /g, '_') + '?first-access=1';
+                                    //window.location.href = '/user/';
+                                    return false;
+                                },
+                                error: function () {
+                                    unblock_screen();
+                                    $("#btnSubmit").removeClass("is-loading");
+                                    alertify.error("opss, algo deu errado...");
+                                    return false;
+                                }
+                            });
+
+                        }
+
+
+
+                    },
+                    error: function () {
+                        unblock_screen();
+                        $("#btnSubmit").removeClass("is-loading");
+                        alertify.error("opss, algo deu errado...");
+                    }
+                })
+
+            })
+
+        })
+
+    </script>
+
 
 {% endblock %}
