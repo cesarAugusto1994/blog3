@@ -15,7 +15,7 @@
                         {% for favorito in favoritos %}
                             <figcaption>
                                 <p class="title is-3">
-                                    <a href="">{{ favorito.musica.numero }} {{ favorito.musica.nome }}</a>
+                                    <a href="{{ path('musica_anexos', { id : favorito.musica.id, name : favorito.musica.nome|lower|url_encode }) }}">{{ favorito.musica.numero }} {{ favorito.musica.nome }}</a>
                                     <button class="button is-danger is-small is-pulled-right btnremover" value="{{ favorito.musica.id }}">Remover</button>
                                 </p>
                             </figcaption>

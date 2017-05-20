@@ -141,7 +141,9 @@
 
                         {% endif %}
 
-                        {% if musica.letra|length > 0 %}
+                    </div>
+
+                    {% if musica.letra|length > 0 %}
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingOne">
@@ -159,68 +161,66 @@
                                 </div>
                             </div>
                         </div>
-                        {% endif %}
-                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="headingOne">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
-                                            <i class="more-less glyphicon glyphicon-plus"></i>
-                                            Arquivos
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                    <div class="panel-body">
-                                        <figure>
+                    {% endif %}
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                        <i class="more-less glyphicon glyphicon-plus"></i>
+                                        Arquivos
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <figure>
 
-                                            {% for anexo in anexos %}
+                                        {% for anexo in anexos %}
 
-                                                <figcaption>
-                                                    <p class="title is-3">
-                                                        {{ anexo.nome }}
-                                                    </p>
+                                            <figcaption>
+                                                <p class="title is-3">
+                                                    {{ anexo.nome }}
+                                                </p>
 
-                                                    <p>
-                                                        {% if not anexo.isExterno %}
-                                                            <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : false }) }}">
-                                                                <button class="button is-small is-inverted is-success">
-                                                                    Visualizar
-                                                                </button>
-                                                            </a>
-                                                            <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : true}) }}"
-                                                               download>
-                                                                <button class="button is-small is-inverted is-primary">
-                                                                    Baixar
-                                                                </button>
-                                                            </a>
-                                                        {% else %}
-                                                            <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|trim|url_encode }}/video/{{ anexo.id }}">
-                                                                <button class="button is-small is-success">
-                                                                    Ir para o Link
-                                                                </button>
-                                                            </a>
-                                                        {% endif %}
-                                                        {% if anexo.usuario.id == app.usuario.id or is_granted('ROLE_ADMIN') %}
-                                                            <button class="button is-danger is-small is-inverted btnRemover"
-                                                                    value="{{ anexo.id }}">Remover
+                                                <p>
+                                                    {% if not anexo.isExterno %}
+                                                        <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : false }) }}">
+                                                            <button class="button is-small is-inverted is-success">
+                                                                Visualizar
                                                             </button>
-                                                        {% endif %}
-                                                    </p>
-                                                </figcaption>
+                                                        </a>
+                                                        <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : true}) }}"
+                                                           download>
+                                                            <button class="button is-small is-inverted is-primary">
+                                                                Baixar
+                                                            </button>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|trim|url_encode }}/video/{{ anexo.id }}">
+                                                            <button class="button is-small is-success">
+                                                                Ir para o Link
+                                                            </button>
+                                                        </a>
+                                                    {% endif %}
+                                                    {% if anexo.usuario.id == app.usuario.id or is_granted('ROLE_ADMIN') %}
+                                                        <button class="button is-danger is-small is-inverted btnRemover"
+                                                                value="{{ anexo.id }}">Remover
+                                                        </button>
+                                                    {% endif %}
+                                                </p>
+                                            </figcaption>
 
-                                            {% else %}
-                                                <figcaption>
-                                                    <p class="title is-3">Nenhum Arquivo foi encontrado.</p>
-                                                </figcaption>
-                                            {% endfor %}
+                                        {% else %}
+                                            <figcaption>
+                                                <p class="title is-3">Nenhum Arquivo foi encontrado.</p>
+                                            </figcaption>
+                                        {% endfor %}
 
-                                        </figure>
-                                    </div>
+                                    </figure>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
