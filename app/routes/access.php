@@ -29,6 +29,7 @@ $app->get('/user/', function () use ($app) {
     $menus = $app['menu.repository']->findBy(['ativo' => true]);
     $colecoes = $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
     $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
+    $app['notificacoes'] = count($app['notificacao.repository']->findBy(['usuario' => $app['usuario']]));
 
     return $app['twig']->render('/user/index.html.twig',
         [

@@ -97,6 +97,8 @@ $app->register(new \Silex\Provider\FormServiceProvider());
 $app->register(new HttpFragmentServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
+$app['notificacoes'] = 0;
+
 include_once __DIR__ . '/../app/services.php';
 include_once __DIR__ . '/../app/providers.php';
 include_once __DIR__ . '/../app/routes.php';

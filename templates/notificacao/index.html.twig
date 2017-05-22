@@ -1,0 +1,80 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Notificações{% endblock %}
+
+{% block header %}{{ parent() }}{% endblock %}
+
+{% block headerNome %}Notificações{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <input type="hidden" value="{{ usuario.id }}" id="usuario" />
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Mensagem</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for notificacao in notificacoes %}
+
+                            <tr>
+                                <td><p class="title is-5">
+                                        <a href="{{ path('perfil', { id : notificacao.usuario.id, nome : notificacao.usuario.nome }) }}">{{ notificacao.usuario.nome }}</a>
+                                    </p></td>
+                                <td><p class="title is-6">{{ notificacao.mensagem }}</p></td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Mensagem</th>
+                        </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+
+        $(document).ready(function () {
+
+            let usuario = $("#usuario").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/user/notificacoes/visualizada",
+                data: {
+                    usuario : usuario,
+                },
+                cache: false,
+                success: function (data) {
+                },
+                error: function (data) {
+                    unblock_screen();
+                    alertify.error(data.mensagem);
+                }
+            });
+
+        })
+
+    </script>
+
+{% endblock %}

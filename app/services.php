@@ -166,6 +166,9 @@ $app['anexo.download.repository'] = function () use ($app) {
 $app['grupo.musicas.situacao.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Api\Entities\GrupoMusicaSituacao::class);
 };
+$app['notificacao.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Api\Entities\Notificacao::class);
+};
 
 #################################################################################################
 #################################################################################################

@@ -187,6 +187,7 @@ $app->mount('/user/grupo/', include __DIR__ . '/routes/grupo_musicas.php');
 
 $app->mount('/user/playlists/', include __DIR__ . '/routes/playlist.php');
 $app->mount('/user/downloads/', include __DIR__ . '/routes/download.php');
+$app->mount('/user/notificacoes/', include __DIR__ . '/routes/notificacao.php');
 
 $app->mount('/admin', include __DIR__ . '/routes/menu.php');
 $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
@@ -204,7 +205,7 @@ $app->get('/validate/{email}', function ($email) use ($app) {
         return 'The email is valid';
     }
 });
-
+/*
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
     switch ($code) {
         case 400 :
@@ -228,4 +229,4 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
     }
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
 });
-
+*/

@@ -7,6 +7,7 @@
  */
 
 use Api\Entities\GrupoMusicas;
+use Api\Entities\Notificacao;
 use Symfony\Component\HttpFoundation\Request;
 
 $grupoMusicas = $app['controllers_factory'];;
@@ -81,6 +82,23 @@ $grupoMusicas->post('/add-repertorio', function (Request $request) use ($app) {
 
         $app['db']->beginTransaction();
         $app['grupo.musicas.repository']->save($grupoMusica);
+        $app['db']->commit();
+
+        $grupoUsuarios = $app['grupo.usuarios.repository']->findBy(['grupo' => $grupo]);
+
+        $app['db']->beginTransaction();
+
+        foreach ($grupoUsuarios as $grupoUsuario) {
+            $notificacao = new Notificacao();
+            $notificacao->setUsuario($grupoUsuario->getUsuario());
+            $notificacao->setMensagem('O louvor ' . $musica->getNome() . ' foi adicionado ao grupo ' . $grupo->getNome());
+            $notificacao->setVisualizada(false);
+            $notificacao->setDataHora(new DateTime('now'));
+
+
+            $app['notificacao.repository']->save($notificacao);
+        }
+
         $app['db']->commit();
 
         return $app->json([
