@@ -41,6 +41,13 @@ class GrupoMusicas
     private $musica;
 
     /**
+     * @ORM\ManyToOne(targetEntity="GrupoMusicaSituacao")
+     * @ORM\JoinColumn(name="situacao_id", referencedColumnName="id", nullable=true)
+     * @var GrupoMusicaSituacao
+     */
+    private $situacao;
+
+    /**
      * @return int
      */
     public function getId()
@@ -78,6 +85,22 @@ class GrupoMusicas
     public function setMusica($musica)
     {
         $this->musica = $musica;
+    }
+
+    /**
+     * @return Situacao
+     */
+    public function getSituacao()
+    {
+        return $this->situacao;
+    }
+
+    /**
+     * @param Situacao $situacao
+     */
+    public function setSituacao($situacao)
+    {
+        $this->situacao = $situacao;
     }
 
 }

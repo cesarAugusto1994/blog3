@@ -12,9 +12,10 @@
         <div class="container">
             <div class="row">
 
-                <a class="button is-danger is-small" id="btnEnviarEmailParaTodos"
+                <a class="button is-danger" id="btnEnviarEmailParaTodos"
                    href="#">Enviar e-mail para todos</a>
-                <hr>
+
+                <hr class="small">
 
                 <table class="table is-striped">
                     <thead>
@@ -22,12 +23,7 @@
                         <th><abbr title="Position">ID</abbr></th>
                         <th>Foto</th>
                         <th>Nome</th>
-                        <th><abbr title="Played">Email</abbr></th>
-                        <th><abbr title="Won">Cadastro</abbr></th>
-                        <th><abbr title="Drawn">Situacao</abbr></th>
-                        <th><abbr title="Drawn">Atividades</abbr></th>
-                        <th><abbr title="Drawn">E-mail</abbr></th>
-                        <th><abbr title="Drawn">Favoritos</abbr></th>
+                        <th><abbr title="Drawn">Opções</abbr></th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -35,12 +31,7 @@
                         <th><abbr title="Position">ID</abbr></th>
                         <th>Foto</th>
                         <th>Nome</th>
-                        <th><abbr title="Played">Email</abbr></th>
-                        <th><abbr title="Won">Cadastro</abbr></th>
-                        <th><abbr title="Drawn">Situacao</abbr></th>
-                        <th><abbr title="Drawn">Atividades</abbr></th>
-                        <th><abbr title="Drawn">E-mail</abbr></th>
-                        <th><abbr title="Drawn">Favoritos</abbr></th>
+                        <th><abbr title="Drawn">Opções</abbr></th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -48,32 +39,33 @@
                         <tr>
                             <td>{{ usuario.id }}</td>
                             <td>
-                                <img style="min-height: 64px; max-height: 64px;" src="{% if usuario.avatar %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}" class="media-object" alt="..." >
+                                <img style="min-height: 64px; max-height: 64px;"
+                                     src="{% if usuario.avatar %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['default.card']) }}{% endif %}"
+                                     class="media-object" alt="...">
                             </td>
                             <td>
-                                <a href="{{ path('perfil', { id : usuario.id, nome : usuario.nome }) }}">{{ usuario.nome }}</a>
-                            </td>
-                            <td>{{ usuario.email }}</td>
-                            <td>{{ usuario.cadastro|date('d/m/y H:i:s') }}</td>
-                            <td>
-                                <a class="button {% if usuario.ativo %} is-danger {% else %} is-success {% endif %} is-small"
-                                   href="{{ path('usuario_status', { id : usuario.id }) }}"
-                                   style="text-decoration: none">
-                                    <span>{% if usuario.ativo %} Inativar {% else %} Ativar {% endif %}</span>
-                                </a>
-                            </td>
-                            <td><a class="button is-primary is-small"
-                                   href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
+                                <p class="title is-4">
+                                    <a href="{{ path('perfil', { id : usuario.id, nome : usuario.nome }) }}">{{ usuario.nome }}</a>
+                                </p>
+                                <p>{{ usuario.email }}</p>
+                                <p>{{ usuario.cadastro|date('d/m/y H:i:s') }}</p>
                             </td>
                             <td>
-                                <button class="button is-small enviarEmail" value="{{ usuario.id }}">
-                                    Enviar Email
-                                </button>
-                            </td>
-                            <td>
-                                <a href="{{ path('user_favorites_2', { id : usuario.id, nome : usuario.nome|lower }) }}" target="_blank" class="button is-small is-success">
-                                    Favoritos
-                                </a>
+                                <p><a class="button is-primary is-small is-fullwidth"
+                                      href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
+                                </p>
+                                <p>
+                                    <button class="button is-small is-danger is-fullwidth enviarEmail"
+                                            value="{{ usuario.id }}">
+                                        Enviar Email
+                                    </button>
+                                </p>
+                                <p>
+                                    <a href="{{ path('user_favorites_2', { id : usuario.id, nome : usuario.nome|lower }) }}"
+                                       target="_blank" class="button is-small is-success is-fullwidth">
+                                        Favoritos
+                                    </a>
+                                </p>
                             </td>
                         </tr>
                     {% endfor %}

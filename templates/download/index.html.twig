@@ -16,6 +16,7 @@
                     <table class="table">
                         <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Usuario</th>
                             <th>Arquivo</th>
                         </tr>
@@ -24,8 +25,11 @@
                         {% for down in downloads %}
 
                             <tr>
-                                <td>{{ down.usuario.nome }}</td>
-                                <td>{{ down.anexo.nome }}</td>
+                                <td>{{ down.id }}</td>
+                                <td><p class="title is-5">
+                                        <a href="{{ path('perfil', { id : down.usuario.id, nome : down.usuario.nome }) }}">{{ down.usuario.nome }}</a>
+                                    </p></td>
+                                <td><p class="title is-6">{{ down.anexo.nome }}</p></td>
                             </tr>
 
                         {% endfor %}

@@ -29,7 +29,7 @@ class GrupoUsuarios
     /**
      * @ORM\ManyToOne(targetEntity="Grupo")
      * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id")
-     * @var Musica
+     * @var Grupo
      */
     private $grupo;
 
@@ -41,6 +41,12 @@ class GrupoUsuarios
     private $usuario;
 
     /**
+     * @ORM\Column(name="administrador", type="boolean")
+     * @var boolean
+     */
+    private $administrador;
+
+    /**
      * @return int
      */
     public function getId()
@@ -49,7 +55,7 @@ class GrupoUsuarios
     }
 
     /**
-     * @return Musica
+     * @return Grupo
      */
     public function getGrupo()
     {
@@ -57,7 +63,7 @@ class GrupoUsuarios
     }
 
     /**
-     * @param Musica $grupo
+     * @param Grupo $grupo
      */
     public function setGrupo($grupo)
     {
@@ -80,6 +86,20 @@ class GrupoUsuarios
         $this->usuario = $usuario;
     }
 
+    /**
+     * @return bool
+     */
+    public function isAdministrador()
+    {
+        return $this->administrador;
+    }
 
+    /**
+     * @param bool $administrador
+     */
+    public function setAdministrador($administrador)
+    {
+        $this->administrador = $administrador;
+    }
 
 }

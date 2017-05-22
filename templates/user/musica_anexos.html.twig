@@ -112,36 +112,32 @@
                         <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
                     {% endfor %}
 
-                    <div class="col-sm-12 col-xs-12">
+                    {% if musicas|length > 0 %}
 
-                        {% if musicas|length > 0 %}
-
-                            <div class="column add-bottom">
-                                <div id="mainwrap">
-                                    <div id="nowPlay">
-                                        <span class="left" id="npAction">Paused...</span>
-                                        <span class="right" id="npTitle"></span>
+                        <div class="column add-bottom">
+                            <div id="mainwrap">
+                                <div id="nowPlay">
+                                    <span class="left" id="npAction">Paused...</span>
+                                    <span class="right" id="npTitle"></span>
+                                </div>
+                                <div id="audiowrap">
+                                    <div id="audio0">
+                                        <audio preload id="audio1" controls="controls">Your browser does not support
+                                            HTML5 Audio!
+                                        </audio>
                                     </div>
-                                    <div id="audiowrap">
-                                        <div id="audio0">
-                                            <audio preload id="audio1" controls="controls">Your browser does not support
-                                                HTML5 Audio!
-                                            </audio>
-                                        </div>
-                                        <div id="tracks">
-                                            <a id="btnPrev">&laquo;</a>
-                                            <a id="btnNext">&raquo;</a>
-                                        </div>
-                                    </div>
-                                    <div id="plwrap">
-                                        <ul id="plList"></ul>
+                                    <div id="tracks">
+                                        <a id="btnPrev">&laquo;</a>
+                                        <a id="btnNext">&raquo;</a>
                                     </div>
                                 </div>
+                                <div id="plwrap">
+                                    <ul id="plList"></ul>
+                                </div>
                             </div>
+                        </div>
 
-                        {% endif %}
-
-                    </div>
+                    {% endif %}
 
                     {% if musica.letra|length > 0 %}
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -162,6 +158,7 @@
                             </div>
                         </div>
                     {% endif %}
+
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingOne">
@@ -179,7 +176,7 @@
                                         {% for anexo in anexos %}
 
                                             <figcaption>
-                                                <p class="title is-3">
+                                                <p class="title is-4">
                                                     {{ anexo.nome }}
                                                 </p>
 

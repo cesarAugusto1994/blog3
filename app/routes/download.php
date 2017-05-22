@@ -14,7 +14,7 @@ $down = $app['controllers_factory'];
 
 $down->get('/', function () use ($app) {
 
-    $downloads = $app['anexo.download.repository']->findBy([]);
+    $downloads = $app['anexo.download.repository']->findBy([], ['id' => 'DESC']);
 
     return $app['twig']->render('/download/index.html.twig', ['downloads' => $downloads]);
 

@@ -18,63 +18,113 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    <div class="col-sm-12 col-xs-12">
+                    {% if musicas|length > 0 %}
 
-                        {% if musicas|length > 0 %}
+                        <div class="column add-bottom">
+                            <div id="mainwrap">
+                                <div id="nowPlay">
+                                    <span class="left" id="npAction">Paused...</span>
+                                    <span class="right" id="npTitle"></span>
+                                </div>
+                                <div id="audiowrap">
+                                    <div id="audio0">
+                                        <audio preload id="audio1" controls="controls">Your browser does not support
+                                            HTML5 Audio!
+                                        </audio>
+                                    </div>
+                                    <div id="tracks">
+                                        <a id="btnPrev">&laquo;</a>
+                                        <a id="btnNext">&raquo;</a>
+                                    </div>
+                                </div>
+                                <div id="plwrap">
+                                    <ul id="plList"></ul>
+                                </div>
+                            </div>
+                        </div>
 
-                            <div class="column add-bottom">
-                                <div id="mainwrap">
-                                    <div id="nowPlay">
-                                        <span class="left" id="npAction">Paused...</span>
-                                        <span class="right" id="npTitle"></span>
-                                    </div>
-                                    <div id="audiowrap">
-                                        <div id="audio0">
-                                            <audio preload id="audio1" controls="controls">Your browser does not support
-                                                HTML5 Audio!
-                                            </audio>
-                                        </div>
-                                        <div id="tracks">
-                                            <a id="btnPrev">&laquo;</a>
-                                            <a id="btnNext">&raquo;</a>
-                                        </div>
-                                    </div>
-                                    <div id="plwrap">
-                                        <ul id="plList"></ul>
+                    {% endif %}
+
+
+                    {% if musica.letra|length > 0 %}
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="more-less glyphicon glyphicon-plus"></i>
+                                            Letra
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <pre id="content" data-key="{{ musica.tom }}">{{ musica.letra }}</pre>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    {% endif %}
 
-                        {% endif %}
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                        <i class="more-less glyphicon glyphicon-plus"></i>
+                                        Arquivos
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <figure>
 
-                        <figure>
+                                        {% for anexo in anexos %}
 
-                            {% for anexo in anexos %}
+                                            <figcaption>
+                                                <p class="title is-4">
+                                                    {{ anexo.nome }}
+                                                </p>
 
-                                <figcaption>
-                                    <p class="title is-3">
-                                        {{ anexo.nome }}
-                                    </p>
+                                                <p>
+                                                    {% if not anexo.isExterno %}
+                                                        <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : false }) }}">
+                                                            <button class="button is-small is-inverted is-success">
+                                                                Visualizar
+                                                            </button>
+                                                        </a>
+                                                        <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : true}) }}"
+                                                           download>
+                                                            <button class="button is-small is-inverted is-primary">
+                                                                Baixar
+                                                            </button>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|trim|url_encode }}/video/{{ anexo.id }}">
+                                                            <button class="button is-small is-success">
+                                                                Ir para o Link
+                                                            </button>
+                                                        </a>
+                                                    {% endif %}
+                                                    {% if anexo.usuario.id == app.usuario.id or is_granted('ROLE_ADMIN') %}
+                                                        <button class="button is-danger is-small is-inverted btnRemover"
+                                                                value="{{ anexo.id }}">Remover
+                                                        </button>
+                                                    {% endif %}
+                                                </p>
+                                            </figcaption>
 
-                                    <p>
-                                        {% if not anexo.isExterno %}
-                                            <a href="{{ path('anexo_download', { id: anexo.id ,link : anexo.link, down : true}) }}"
-                                               download>
-                                                <button class="button is-small is-inverted is-primary">
-                                                    Baixar
-                                                </button>
-                                            </a>
-                                        {% endif %}
-                                    </p>
-                                </figcaption>
+                                        {% else %}
+                                            <figcaption>
+                                                <p class="title is-3">Nenhum Arquivo foi encontrado.</p>
+                                            </figcaption>
+                                        {% endfor %}
 
-                            {% else %}
-                                <figcaption>
-                                    <p class="title is-3">Nenhum Arquivo foi encontrado.</p>
-                                </figcaption>
-                            {% endfor %}
-
-                        </figure>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

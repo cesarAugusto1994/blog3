@@ -138,6 +138,7 @@ $app->get('public/group/{id}-{nome}', function ($id, $nome) use ($app) {
 
     return $app['twig']->render('grupo.html.twig',
         [
+            'grupoMusicas' => $grupoMusicas,
             'musicas' => $musicas,
             'grupo' => $grupo,
             'musicasGrupo' => $musicasGrupo

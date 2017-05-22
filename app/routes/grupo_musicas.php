@@ -14,11 +14,16 @@ $grupoMusicas = $app['controllers_factory'];;
 $grupoMusicas->get('{id}-{nome}', function ($id, $nome) use ($app) {
 
     $grupo = $app['grupo.repository']->find($id);
-    $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $id], ['musica' => "DESC"]);
+    $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $id], ['musica' => "ASC"]);
+    $grupoUsuarios = $app['grupo.usuarios.repository']->findBy(['grupo' => $id]);
 
-    $musicas = array_map(function ($grupoMusica) {
-        return $grupoMusica->getMusica();
-    }, $grupoMusicas);
+    $usuarios = array_map(function ($grupo) {
+        if ($grupo->isAdministrador()) {
+            return $grupo->getUsuario()->getId();
+        }
+    }, $grupoUsuarios);
+
+    $isAdm = in_array($app['usuario']->getId(), $usuarios);
 
     $grupoMusicas = $app['grupo.musicas.repository']->findBy(['grupo' => $grupo]);
 
@@ -28,9 +33,10 @@ $grupoMusicas->get('{id}-{nome}', function ($id, $nome) use ($app) {
 
     return $app['twig']->render('/grupo/lista.html.twig',
         [
-            'musicas' => $musicas,
+            'grupoMusicas' => $grupoMusicas,
             'grupo' => $grupo,
-            'musicasGrupo' => $musicasGrupo
+            'musicasGrupo' => $musicasGrupo,
+            'adm' => (bool)$isAdm
         ]);
 });
 
@@ -65,10 +71,13 @@ $grupoMusicas->post('/add-repertorio', function (Request $request) use ($app) {
             ]);
         }
 
+
+        $situacao = $app['grupo.musicas.situacao.repository']->find(1);
+
         $grupoMusica = new GrupoMusicas();
         $grupoMusica->setGrupo($grupo);
         $grupoMusica->setMusica($musica);
-
+        $grupoMusica->setSituacao($situacao);
 
         $app['db']->beginTransaction();
         $app['grupo.musicas.repository']->save($grupoMusica);
@@ -91,5 +100,46 @@ $grupoMusicas->post('/add-repertorio', function (Request $request) use ($app) {
     }
 
 })->bind('gl_musica_add');
+
+$grupoMusicas->post('situacao', function (Request $request) use ($app) {
+
+    try {
+
+        if (!$request->request->get('grupo')) {
+            throw new Exception('Grupo não Informado.');
+        }
+        if (!$request->request->get('musica')) {
+            throw new Exception('Musica não Informada.');
+        }
+        if (!$request->request->get('situacao')) {
+            throw new Exception('Situação não Informada.');
+        }
+
+        $grupo = $app['grupo.repository']->find($request->request->get('grupo'));
+        $musica = $app['musica.repository']->find($request->request->get('musica'));
+        $situacao = $app['grupo.musicas.situacao.repository']->find($request->request->get('situacao'));
+
+        /**
+         * @var GrupoMusicas $grupoMusicas
+         */
+        $grupoMusicas = $app['grupo.musicas.repository']->findOneBy(['grupo' => $grupo, 'musica' => $musica]);
+
+        $grupoMusicas->setSituacao($situacao);
+
+        $app['db']->beginTransaction();
+        $app['grupo.musicas.repository']->save($grupoMusicas);
+        $app['db']->commit();
+
+        return $app->json([
+            'classe' => 'sucesso',
+            'mensagem' => 'Situação alterada.'
+        ]);
+    } catch (Exception $e) {
+        return $app->json([
+            'classe' => 'erro',
+            'mensagem' => $e->getMessage()
+        ]);
+    }
+});
 
 return $grupoMusicas;

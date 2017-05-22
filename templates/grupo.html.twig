@@ -11,15 +11,22 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
                     <figure>
-                        {% for musica in musicas %}
+                        {% for grupo in grupoMusicas %}
                         <figcaption>
                             <p class="title is-4">
-                            <a href="/user/praise/{{ musica.id }}-{{ musica.nome|lower|url_encode }}">{{ musica.numero }} {{ musica.nome }}</a>
+                            <a href="/public/{{ grupo.musica.id }}-{{ grupo.musica.nome|lower|url_encode }}">{{ grupo.musica.numero }} {{ grupo.musica.nome }}</a>
+                                {% if grupo.situacao.id == 1 %}
+                                    <span class="tag is-success">{{ grupo.situacao.label }}</span>
+                                {% elseif grupo.situacao.id == 2 %}
+                                    <span class="tag is-danger">{{ grupo.situacao.label }}</span>
+                                {% else %}
+                                    <span class="tag is-primary">{{ grupo.situacao.label }}</span>
+                                {% endif %}
                             </p>
                         </figcaption>
                         {% else  %}
                             <figcaption>
-                                <p class="title is-3">Nenhum registro encontrado.</p>
+                                <p class="title is-4">Nenhum registro encontrado.</p>
                             </figcaption>
                         {% endfor  %}
                     </figure>

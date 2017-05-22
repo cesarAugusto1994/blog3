@@ -21,7 +21,7 @@ $grupo->get('/', function () use ($app) {
 
     $grupoUsuarios = $app['grupo.usuarios.repository']->findBy(['usuario' => $app['usuario']]);
 
-    $array = array_map(function($gUser) {
+    $array = array_map(function ($gUser) {
         return $gUser->getGrupo()->getId();
     }, $grupoUsuarios);
 
@@ -38,13 +38,14 @@ $grupo->get('/', function () use ($app) {
 $grupo->get('/convidar', function (Request $request) use ($app) {
 
     if (!$request->get('grupo')) {
-       return $app->redirect('/user/grupos');
+        return $app->redirect('/user/grupos');
     }
 
     $usuarios = $app['usuarios.repository']->findAll();
 
     $grupo = $app['grupo.repository']->find($request->get('grupo'));
-    return $app['twig']->render('grupo/convidar.html.twig', ['grupo' => $grupo, 'usuario' => $app['usuario'], 'usuarios' => $usuarios]);
+    return $app['twig']->render('grupo/convidar.html.twig',
+        ['grupo' => $grupo, 'usuario' => $app['usuario'], 'usuarios' => $usuarios]);
 
 })->bind('convidar');
 
@@ -212,11 +213,20 @@ $grupo->get('/participantes', function (Request $request) use ($app) {
 
     $grupoUsuarios = $app['grupo.usuarios.repository']->findBy(['grupo' => $grupo]);
 
-    $array = array_map(function($gUser) {
+    $usuarios = array_filter($grupoUsuarios, function ($grupo) {
+        return true == $grupo->isAdministrador();
+    });
+
+    $usuarios = array_map(function ($grupo) {
+        return $grupo->getUsuario()->getId();
+    }, $usuarios);
+
+    $array = array_map(function ($gUser) {
         return $gUser->getUsuario();
     }, $grupoUsuarios);
 
-    return $app['twig']->render('grupo/participantes.html.twig', ['usuarios' => $array]);
+    return $app['twig']->render('grupo/participantes.html.twig',
+        ['usuarios' => $array, 'grupo' => $grupo, 'users' => $usuarios]);
 
 })->bind('grupo_participantes');
 
@@ -257,9 +267,44 @@ $grupo->post('/new-save', function (Request $request) use ($app) {
     $app['usuarios.repository']->save($usuario);
     $app['db']->commit();
 
+    $grupoUsuarios = new GrupoUsuarios();
+    $grupoUsuarios->setGrupo($grupo);
+    $grupoUsuarios->setUsuario($usuario);
+    $grupoUsuarios->setAdministrador(true);
+
+    $app['db']->beginTransaction();
+    $app['grupo.usuarios.repository']->save($grupoUsuarios);
+    $app['db']->commit();
+
     return $app->redirect('/user/grupos');
 
 })->bind('gl_save');
+
+
+$grupo->post('/participante/admin', function (Request $request) use ($app) {
+
+    if (!$request->request->get('id')) {
+        throw new Exception('Usuario não informado');
+    }
+
+    $usuario = $app['usuarios.repository']->find($request->request->get('id'));
+    $grupo = $app['grupo.repository']->find($request->request->get('grupo'));
+
+    /**
+     * @var GrupoUsuarios $grupo
+     */
+    $grupo = $app['grupo.usuarios.repository']->findOneBy(['grupo' => $grupo, 'usuario' => $usuario]);
+    $grupo->setAdministrador(true);
+
+    $app['db']->beginTransaction();
+    $app['grupo.usuarios.repository']->save($grupo);
+    $app['db']->commit();
+
+    return $app->json([
+        'classe' => 'sucesso',
+        'mensagem' => $usuario->getNome() . ' foi adicionando como administrador do grupo.',
+    ]);
+});
 
 
 return $grupo;
