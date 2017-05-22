@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
+$app['notificacoes'] = count($app['notificacao.repository']->findBy(['usuario' => $app['usuario'], 'visualizada' => false]));
+
 $app->get('/', function () use ($app) {
 
     if (!empty($app['session']->get('user'))) {

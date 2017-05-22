@@ -101,8 +101,6 @@ $grupoMusicas->post('/add-repertorio', function (Request $request) use ($app) {
 
         $app['db']->commit();
 
-        $app['notificacoes'] = count($app['notificacao.repository']->findBy(['usuario' => $app['usuario'], 'visualizada' => false]));
-
         return $app->json([
             'classe' => 'acerto',
             'bln' => 'add',
