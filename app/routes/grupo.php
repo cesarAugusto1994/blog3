@@ -189,6 +189,7 @@ $grupo->get('/request', function (Request $request) use ($app) {
     $grupoUsuarios = new GrupoUsuarios();
     $grupoUsuarios->setGrupo($grupo);
     $grupoUsuarios->setUsuario($usuario);
+    $grupoUsuarios->setAdministrador(false);
 
     $app['db']->beginTransaction();
     $app['grupo.usuarios.repository']->save($grupoUsuarios);
