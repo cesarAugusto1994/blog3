@@ -13,6 +13,7 @@ use Api\Entities\Login;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints as Assert;
 
 $app->get('/login', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['twig']->render('login-new.html.twig',
@@ -318,6 +319,14 @@ $app->match('register/save', function (\Symfony\Component\HttpFoundation\Request
     if ($app['usuarios.repository']->findBy(['email' => $request->request->get('email')])) {
         return $app->json(
             ['class' => 'error', 'message' => 'Este e-mail já está cadastrado.']
+        );
+    }
+
+    $errors = $app['validator']->validate($request->get('password'), new Assert\Email());
+
+    if (count($errors) > 0) {
+        return $app->json(
+            ['class' => 'error', 'message' => 'O formato do e-mail não é válido.']
         );
     }
 

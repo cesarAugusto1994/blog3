@@ -8,6 +8,7 @@
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints as Assert;
 
 $app->get('/', function () use ($app) {
 
@@ -193,7 +194,17 @@ $app->mount('/admin', include __DIR__ . '/routes/admin_musica.php');
 include __DIR__ . '/routes/post.php';
 include __DIR__ . '/routes/musica_admin.php';
 include __DIR__ . '/routes/access.php';
-/*
+
+$app->get('/validate/{email}', function ($email) use ($app) {
+    $errors = $app['validator']->validate($email, new Assert\Email());
+
+    if (count($errors) > 0) {
+        return (string) $errors;
+    } else {
+        return 'The email is valid';
+    }
+});
+
 $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $request, $code) use ($app) {
     switch ($code) {
         case 400 :
@@ -217,4 +228,4 @@ $app->error(function (\Exception $e, \Symfony\Component\HttpFoundation\Request $
     }
     return $app['twig']->render('errors/error.html.twig', ['code' => $code, 'message' => $message, 'erro' => $e->getMessage()]);
 });
-*/
+

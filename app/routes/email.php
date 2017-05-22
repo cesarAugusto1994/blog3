@@ -9,6 +9,7 @@
 use Api\Entities\EmailEnviado;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
+use Symfony\Component\Validator\Constraints as Assert;
 
 $email = $app['controllers_factory'];
 
@@ -38,6 +39,12 @@ $email->post('enviar', function (\Symfony\Component\HttpFoundation\Request $requ
         $app['db']->beginTransaction();
 
         foreach ($usuarios as $usuario) {
+
+            $errors = $app['validator']->validate($usuario->getEmail(), new Assert\Email());
+
+            if ($errors) {
+                continue;
+            }
 
             $array = [
                 'mensagem' => $mensagem,
