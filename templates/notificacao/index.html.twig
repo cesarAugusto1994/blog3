@@ -18,26 +18,24 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Usuario</th>
                             <th>Mensagem</th>
+                            <th>Horários</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for notificacao in notificacoes %}
 
                             <tr>
-                                <td><p class="title is-5">
-                                        <a href="{{ path('perfil', { id : notificacao.usuario.id, nome : notificacao.usuario.nome }) }}">{{ notificacao.usuario.nome }}</a>
-                                    </p></td>
                                 <td><p class="title is-6">{{ notificacao.mensagem }}</p></td>
+                                <td><p class="title is-6">{{ notificacao.dataHora|date('d/m/Y H:i:s') }}</p></td>
                             </tr>
 
                         {% endfor %}
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>Usuario</th>
                             <th>Mensagem</th>
+                            <th>Horários</th>
                         </tr>
                         </tfoot>
 

@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
-$app['notificacoes'] = count($app['notificacao.repository']->findBy(['usuario' => $app['usuario'], 'visualizada' => false]));
-
 $app->get('/', function () use ($app) {
 
     if (!empty($app['session']->get('user'))) {
@@ -102,16 +100,6 @@ $app->get('/admin/usuarios/list', function () use ($app) {
 $app->get('/admin/usuario/{id}/status', function ($id) use ($app) {
     return $app['usuarios.controller']->alteraStatus($id, $app);
 })->bind('usuario_status');
-
-$app->get('/user/mail', function () use ($app) {
-    return $app['usuario.email.service'];
-});
-
-$app->get('/user/cache', function () {
-    return new Response('Foo', 200, array(
-        'Cache-Control' => 's-maxage=5',
-    ));
-});
 
 $app->get('public/{id}-{nome}', function ($id, $nome) use ($app) {
 

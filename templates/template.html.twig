@@ -34,14 +34,14 @@
                     {% if is_granted('ROLE_USER') %}
                         <li>
                             <a href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usu&aacute;rio
-                                <small> {{ app['usuario.sessao'].nome }}</small>
+                                <small> {{ app.usuario.nome }}</small>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="{{ path('perfil', { user : app['usuario.sessao'].id }) }}">Perfil</a>
+                                    <a href="{{ path('perfil', { user : app.usuario.id }) }}">Perfil</a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('usuario_atividades', { user : app['usuario.sessao'].id }) }}">Atividades</a>
+                                    <a href="{{ path('usuario_atividades', { user : app.usuario.id }) }}">Atividades</a>
                                 </li>
                             </ul>
                         </li>

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 $notificacao = $app['controllers_factory'];
 
 $notificacao->get('/', function () use ($app) {
-    $notificacoes = $app['notificacao.repository']->findBy(['usuario' => $app['usuario']]);
+    $notificacoes = $app['notificacao.repository']->findBy(['usuario' => $app['usuario']], ['id' => 'DESC']);
     return $app['twig']->render('/notificacao/index.html.twig', ['notificacoes' => $notificacoes, 'usuario' => $app['usuario']]);
 })->bind('notificaoes_user');
 
@@ -31,6 +31,8 @@ $notificacao->post('/visualizada', function (Request $request) use ($app) {
     }
 
     $app['db']->commit();
+
+    $app['notificacoes'] = 0;
 
     return $app->json([
        'classe' => 'sucesso',

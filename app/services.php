@@ -391,9 +391,6 @@ $app['avatar.default'] = function () use ($app) {
     return $app['dir.base3'] . 'assets/blog/img/defaults/avatar.png';
 };
 
-$app['default.url'] = function () {
-    return 'bloggrupopolo-com.umbler.net';
-};
 
 $app['about'] = function () use ($app){
     return $app['blog']->getAbout();
@@ -411,90 +408,22 @@ $app['uuid.service'] = function () {
     return Ramsey\Uuid\Uuid::uuid4();
 };
 
-$app['usuario.email.service'] = function ($email) use ($app) {
-
-    $assunto = 'Bem Vindo Ao site.';
-    $from = 'cezzaar@gmail.com';
-
-    $config = $app['config'];
-
-    $array = [
-        'site' => $config->getNome(),
-        'lema' => $config->getSubtitulo()
-    ];
-
-    $body = $app['twig']->render('user/email_template.twig', $array);
-
-    $email = new Email($assunto, $from, $body);
-    $email->send($email, $app);
-
-    return new Response('E-mail enviado!', 201);
-};
-
-$app['usuario.sessao'] = function () use ($app) {
-
-
-
-    /**
-     * @var Usuarios $user
-     */
-    $user = $app['session']->get('user');
-
-    if (empty($user)) {
-        return [
-            'id' => 2,
-            'nome' => "Anonimous",
-            'email' => "usuario@usuario.com"
-        ];
-    }
-
-    return [
-        'id' => $user->getId(),
-        'nome' => $user->getNome(),
-        'email' => $user->getUsername()
-    ];
-};
 
 $app['usuario'] = function () use ($app) {
-    return $app['usuarios.repository']->find($app['usuario.sessao']['id']);
-};
 
-$app['envia.email'] = function () use ($app) {
-    $config = $app['config.repository']->findAll();
-    return $config ? $config[0]->isEnviaEmail() : 0;
+    if ($app['security.token_storage']->getToken()) {
+
+        $token = $app['security.token_storage']->getToken();
+
+        if ($token->getUser()) {
+            return $app['usuarios.repository']->find($token->getUser()->getId());
+        }
+    }
+
+    return $app->redirect('login');
+
 };
 
 $app['email.padrao'] = function () {
     return 'contato.coletaneaicm@gmail.com';
-};
-
-$app['email.confirmacao'] = function () use ($app) {
-
-    $email = 'contato.coletaneaicm@gmail.com';
-
-    /**
-     * @var Usuarios $usuario
-     */
-    $usuario = $app['usuarios.repository']->findOneBy(['email' => $email]);
-
-    if (!$usuario) {
-        return;
-    }
-
-    $config = $app['config'];
-
-    $assunto = "Confirmação de Cadastro.";
-    $from = $email;
-
-    $array = [
-        'nome' => $usuario->getNome(),
-        'site' => $config->getNome(),
-        'lema' => $config->getSubtitulo()
-    ];
-
-    return $app['twig']->render('/user/success.html.twig', $array);
-
-    //$email = new Email($assunto, $from, $body);
-    //$email->send($email, $app);
-
 };

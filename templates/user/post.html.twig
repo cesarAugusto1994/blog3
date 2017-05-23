@@ -43,7 +43,7 @@
                                 {% endif %}
                                 {% endfor %}
                             </span>
-                            {% if post.usuario.id == app['usuario.sessao'].id or is_granted('ROLE_USER') %}
+                            {% if post.usuario.id == app.usuario.id or is_granted('ROLE_USER') %}
                                 <a class="button is-small {{ random(['is-dark', 'is-white', 'is-link', 'is-danger', 'is-primary', 'is-light', 'is-info', 'is-success']) }}" href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '+' })|lower }) }}">Editar Post</a>
                             {% endif %}
                         </div>

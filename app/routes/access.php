@@ -29,7 +29,6 @@ $app->get('/user/', function () use ($app) {
     $menus = $app['menu.repository']->findBy(['ativo' => true]);
     $colecoes = $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
     $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
-    $app['notificacoes'] = count($app['notificacao.repository']->findBy(['usuario' => $app['usuario'], 'visualizada' => false]));
 
     return $app['twig']->render('/user/index.html.twig',
         [
@@ -38,7 +37,11 @@ $app->get('/user/', function () use ($app) {
             'musicas' => $musicas,
         ]);
 
-})->bind('user');
+})->bind('user')->before(function () use ($app) {
+    if (isset($app['usuario'])) {
+        $app['notificacoes'] = count($app['notificacao.repository']->findBy(['usuario' => $app['usuario'], 'visualizada' => false]));
+    }
+});
 
 $app->post('/admin/login_check', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
