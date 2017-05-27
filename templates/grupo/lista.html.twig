@@ -146,10 +146,7 @@
 
             $('.btnARemoveMusica').click(function (e) {
 
-
                 e.preventDefault();
-
-                alertify.confirm("Deseja remover este louvor do grupo?", function () {
 
                     let musica = $(this).val();
                     let grupo = $(this).data('grupo');
@@ -157,7 +154,6 @@
                     $(this).addClass('is-loading');
 
                     let _this = $(this);
-
 
                     $.ajax({
                         type: "POST",
@@ -171,7 +167,7 @@
 
                             alertify.success(data.mensagem);
 
-                            if (data.bln == 'add') {
+                            if (data.bln === 'add') {
 
                                 _this.parent().parent().hide();
 
@@ -198,7 +194,6 @@
                             alertify.error(data.mensagem);
                         }
                     });
-                }).setting("labels", {"ok": "Sim", "cancel": "Cancelar"});
             })
 
         })

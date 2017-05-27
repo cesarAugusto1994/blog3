@@ -269,6 +269,13 @@ $grupo->get('/participantes', function (Request $request) use ($app) {
 
 })->bind('grupo_participantes');
 
+$grupo->get('/participante/{id}-{nome}', function ($id, $nome) use ($app) {
+
+    $usuario = $app['usuarios.repository']->find($id);
+
+    return $app['twig']->render('/grupo/perfil-participante.html.twig', ['usuario' => $usuario]);
+
+})->bind('grupo_participante');
 
 $grupo->post('/new-save', function (Request $request) use ($app) {
 

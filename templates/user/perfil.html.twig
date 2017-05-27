@@ -80,17 +80,6 @@
                               </span>
                         </p>
 
-                        <label>Grupo</label>
-                        <p class="control">
-                              <span class="select is-fullwidth">
-                                <select name="grupo">
-                                    {% for grupo in grupos %}
-                                        <option value="{{ grupo.id }}" {% if grupo.id == user.grupo.id %} selected {% endif %}>{{ grupo.nome }}</option>
-                                    {% endfor %}
-                                </select>
-                              </span>
-                        </p>
-
                         {% if is_granted('ROLE_ADMIN') %}
                             <label>Previl&eacute;gios</label>
                             <p class="control">
@@ -115,6 +104,10 @@
             </div>
         </div>
     </article>
+
+{% endblock %}
+
+{% block js %}
 
     <script type="text/javascript">
 

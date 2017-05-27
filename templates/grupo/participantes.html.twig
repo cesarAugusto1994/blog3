@@ -19,18 +19,18 @@
                     {% for usuario in usuarios %}
 
                         <div class="col-sm-4 col-xs-12">
-                            <figure class="wow fadeInLeft animated portfolio-item">
+                            <figure>
                                 <div class="img-wrapper">
                                     <img style="min-height: 160px; max-height: 160px; margin: auto;"
                                          src="{% if usuario.avatar %}{{ asset(app['dir.avatar'] ~ usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}"
-                                         class="img-responsive" alt="this is a title">
+                                         class="img-responsive" alt="{{ usuario.nome }}">
                                     <div class="overlay"></div>
                                 </div>
                                 <figcaption>
                                     <p class="title is-5" title="{{ usuario.nome }}">
-                                        {{ usuario.nome|slice(0, 7) }}.
+                                        <a href="{{ path('grupo_participante', { id : usuario.id, nome : usuario.nome|lower|url_encode } ) }}">{{ usuario.nome|slice(0, 7) }}</a>.
                                         {% if usuario.id not in users %}
-                                            <button class="button is-success is-pulled-right is-small btnSetAdmin" data-grupo="{{ grupo.id }}" value="{{ usuario.id }}">Tornar Administrador</button>
+                                            <button class="button is-success is-pulled-right is-small btnSetAdmin" data-grupo="{{ grupo.id }}" value="{{ usuario.id }}">Administrador</button>
                                         {% else %}
                                             <button class="button is-danger is-small is-pulled-right">Administrador</button>
                                         {% endif %}

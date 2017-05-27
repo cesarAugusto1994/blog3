@@ -23,9 +23,6 @@
             border: none;
             font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-        pre > span {
-            font-size: 16px;
-        }
         .panel-group .panel {
             border-radius: 0;
             box-shadow: none;
@@ -570,7 +567,7 @@
 
             jQuery(function ($) {
 
-                if ($("#hasfiles").val() == false) {
+                if ($("#hasfiles").val() === false) {
                     return false;
                 }
 
