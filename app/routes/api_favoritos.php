@@ -37,46 +37,55 @@ $favoritos->get('favorites', function() use ($app) {
 
 $favoritos->post('favoritos/add-remove', function (Request $request) use ($app) {
 
-    if (0 == $request->request->count()) {
-        throw new Exception('Request vazio.');
-    }
+    try {
 
-    if (empty($request->request->get('id'))) {
-        throw new Exception('Id Request vazio.');
-    }
+        if (0 == $request->request->count()) {
+            throw new Exception('Request vazio.');
+        }
 
-    $musica = $app['musica.repository']->find($request->request->get('id'));
+        if (empty($request->request->get('id'))) {
+            throw new Exception('Id Request vazio.');
+        }
 
-    $favorito = $app['favoritos.repository']->findOneBy(['usuario' => $app['usuario'], 'musica' => $musica]);
+        $musica = $app['musica.repository']->find($request->request->get('id'));
 
-    if (empty($favorito)) {
+        $favorito = $app['favoritos.repository']->findOneBy(['usuario' => $app['usuario'], 'musica' => $musica]);
 
-        $fav = new Favoritos();
-        $fav->setMusica($musica);
-        $fav->setUsuario($app['usuario']);
-        $fav->setCadastro(new DateTime('now'));
+        if (empty($favorito)) {
+
+            $fav = new Favoritos();
+            $fav->setMusica($musica);
+            $fav->setUsuario($app['usuario']);
+            $fav->setCadastro(new DateTime('now'));
+
+            $app['db']->beginTransaction();
+            $app['favoritos.repository']->save($fav);
+            $app['db']->commit();
+
+            return $app->json([
+                'classe' => 'sucesso',
+                'bln' => true,
+                'mensagem' => $musica->getNome() . ' foi adicionada aos seus favoritos.',
+            ]);
+
+        }
 
         $app['db']->beginTransaction();
-        $app['favoritos.repository']->save($fav);
+        $app['favoritos.repository']->remove($favorito);
         $app['db']->commit();
 
         return $app->json([
             'classe' => 'sucesso',
-            'bln' => true,
-            'mensagem' =>  $musica->getNome() . ' foi adicionada aos seus favoritos.',
+            'bln' => false,
+            'mensagem' => $musica->getNome() . ' foi removido aos seus favoritos.',
         ]);
-
+    } catch (Exception $e) {
+        return $app->json([
+            'classe' => 'erro',
+            'bln' => true,
+            'mensagem' => $e->getMessage()
+        ]);
     }
-
-    $app['db']->beginTransaction();
-    $app['favoritos.repository']->remove($favorito);
-    $app['db']->commit();
-
-    return $app->json([
-        'classe' => 'sucesso',
-        'bln' => false,
-        'mensagem' =>  $musica->getNome() . ' foi removido aos seus favoritos.',
-    ]);
 
 });
 

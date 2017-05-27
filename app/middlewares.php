@@ -40,4 +40,8 @@ $app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($
     if(empty($user)) {
         $app->redirect('logout');
     }
+
+    if (isset($app['usuario'])) {
+        $app['notificacoes'] = count($app['notificacao.repository']->findBy(['usuario' => $app['usuario'], 'visualizada' => false]));
+    }
 });

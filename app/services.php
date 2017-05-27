@@ -408,20 +408,31 @@ $app['uuid.service'] = function () {
     return Ramsey\Uuid\Uuid::uuid4();
 };
 
+$app['usuario.sessao'] = function () use ($app) {
+
+    /**
+     * @var Usuarios $user
+     */
+    $user = $app['session']->get('user');
+
+    if (empty($user)) {
+        return[];
+    }
+
+    return [
+        'id' => $user->getId(),
+        'nome' => $user->getNome(),
+        'email' => $user->getUsername()
+    ];
+};
 
 $app['usuario'] = function () use ($app) {
 
-    if ($app['security.token_storage']->getToken()) {
-
-        $token = $app['security.token_storage']->getToken();
-
-        if ($token->getUser()) {
-            return $app['usuarios.repository']->find($token->getUser()->getId());
-        }
+    if (!isset($app['usuario.sessao']['id'])) {
+        return $app->redirect('login');
     }
 
-    return $app->redirect('login');
-
+    return $app['usuarios.repository']->find($app['usuario.sessao']['id']);
 };
 
 $app['email.padrao'] = function () {

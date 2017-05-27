@@ -6,10 +6,9 @@
     <meta name="description" property="og:description" content="{{ musica.letra }}">
 {% endblock %}
 
-{% block title %}{% if musica.numero %}{{ musica.numero }} - {% endif %}{{ musica.nome }}{% endblock %}
-
+{% block title %}{{ musica.numero }} {{ musica.nome }}{% endblock %}
 {% block headerNome %}{{ musica.numero }} {{ musica.nome }}{% endblock %}
-{% block headerSubtitulo %}{{ musica.categoria.colecao.nome }} / {{ musica.categoria.nome }}{{ app['nome.blog'] }}{% endblock %}
+{% block headerSubtitulo %}{% endblock %}
 
 {% block content %}
 
@@ -138,6 +137,26 @@
     <script>
 
         $(document).ready(function () {
+
+            $("#content").transpose({key: 'C'});
+            $('#incfont').click(function () {
+                curSize = parseInt($('#content').css('font-size')) + 1;
+                curSize2 = parseInt($('.c').css('font-size')) + 1;
+                if (curSize <= 32)
+                    $('#content').css('font-size', curSize);
+                if (curSize2 <= 32)
+                    $('.c').css('font-size', curSize2);
+            });
+            $('#decfont').click(function () {
+                curSize = parseInt($('#content').css('font-size')) - 1;
+                curSize2 = parseInt($('.c').css('font-size')) - 1;
+                if (curSize >= 5)
+                    $('#content').css('font-size', curSize);
+                if (curSize2 >= 5)
+                    $('.c').css('font-size', curSize2);
+            });
+            $('.c').css('font-size', 14);
+            $('#content').css('font-size', 14);
 
             var b = document.documentElement;
             b.setAttribute('data-useragent', navigator.userAgent);

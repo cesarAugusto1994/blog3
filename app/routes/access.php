@@ -10,6 +10,7 @@ use Api\Entities\EmailConfirmacao;
 use Api\Entities\EmailEnviado;
 use Api\Entities\GrupoUsuarios;
 use Api\Entities\Login;
+use Api\Entities\Notificacao;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,10 +38,6 @@ $app->get('/user/', function () use ($app) {
             'musicas' => $musicas,
         ]);
 
-})->bind('user')->before(function () use ($app) {
-    if (isset($app['usuario'])) {
-        $app['notificacoes'] = count($app['notificacao.repository']->findBy(['usuario' => $app['usuario'], 'visualizada' => false]));
-    }
 });
 
 $app->post('/admin/login_check', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
@@ -406,6 +403,18 @@ $app->match('register/save', function (\Symfony\Component\HttpFoundation\Request
 
     $app['db']->beginTransaction();
     $app['email.enviado.repository']->save($emailEnviado);
+    $app['db']->commit();
+
+    $usuario = $app['usuarios.repository']->find(1);
+
+    $notificacao = new Notificacao();
+    $notificacao->setUsuario($usuario);
+    $notificacao->setMensagem($usuario->getNome() . ' se registrou no site.');
+    $notificacao->setVisualizada(false);
+    $notificacao->setDataHora(new DateTime('now'));
+
+    $app['db']->beginTransaction();
+    $app['notificacao.repository']->save($notificacao);
     $app['db']->commit();
 
     return $app->json(

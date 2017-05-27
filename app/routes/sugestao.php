@@ -7,6 +7,7 @@
  */
 
 use Api\Entities\EmailEnviado;
+use Api\Entities\Notificacao;
 use Api\Entities\Sugestao;
 use Api\Entities\SugestaoResposta;
 use Api\Entities\Usuarios;
@@ -94,6 +95,18 @@ $sugestao->post('/sugestao/form', function (Request $request) use ($app){
 
     $app['db']->beginTransaction();
     $app['sugestao.repository']->save($sugestao);
+    $app['db']->commit();
+
+    $usuario = $app['usuarios.repository']->find(1);
+
+    $notificacao = new Notificacao();
+    $notificacao->setUsuario($usuario);
+    $notificacao->setMensagem($app['usuario']->getNome() . ' fez uma sugestão.');
+    $notificacao->setVisualizada(false);
+    $notificacao->setDataHora(new DateTime('now'));
+
+    $app['db']->beginTransaction();
+    $app['notificacao.repository']->save($notificacao);
     $app['db']->commit();
 
     return $app['twig']->render('/user/sugestao.html.twig', ['user' => $app['usuario'], 'mensagem' => 'Sugestão enviada ao Administrador.']);

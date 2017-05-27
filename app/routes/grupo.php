@@ -9,6 +9,7 @@
 use Api\Entities\EmailEnviado;
 use Api\Entities\Grupo;
 use Api\Entities\GrupoUsuarios;
+use Api\Entities\Notificacao;
 use Api\Entities\Usuarios;
 use Api\Services\Email;
 use Symfony\Component\HttpFoundation\Request;
@@ -175,6 +176,21 @@ $grupo->get('/request', function (Request $request) use ($app) {
         $app['grupo.usuarios.repository']->remove($grupoUsuarios);
         $app['db']->commit();
 
+        $grupoUsuarios2 = $app['grupo.usuarios.repository']->findBy(['grupo' => $grupo]);
+        $app['db']->beginTransaction();
+        /**
+         * @var GrupoUsuarios $grupoUsuario
+         */
+        foreach ($grupoUsuarios2 as $grupoUsuario) {
+            $notificacao = new Notificacao();
+            $notificacao->setUsuario($grupoUsuario->getUsuario());
+            $notificacao->setMensagem($grupoUsuario->getUsuario()->getNome() . ' deixou o grupo ' . $grupo->getNome() . '.');
+            $notificacao->setVisualizada(false);
+            $notificacao->setDataHora(new DateTime('now'));
+            $app['notificacao.repository']->save($notificacao);
+        }
+        $app['db']->commit();
+
         $app['session']->getFlashBag()->add('mensagem', 'Você saiu do grupo.');
 
         return $app->redirect('/user/grupos/');
@@ -185,14 +201,36 @@ $grupo->get('/request', function (Request $request) use ($app) {
      */
     $usuario = $app['usuarios.repository']->find($request->get('user'));
     $grupo = $app['grupo.repository']->find($request->get('grupo'));
+    $grupoUsuarios = $app['grupo.usuarios.repository']->findOneBy(['grupo' => $grupo]);
 
-    $grupoUsuarios = new GrupoUsuarios();
-    $grupoUsuarios->setGrupo($grupo);
-    $grupoUsuarios->setUsuario($usuario);
-    $grupoUsuarios->setAdministrador(false);
+    $gU = new GrupoUsuarios();
+    $gU->setGrupo($grupo);
+    $gU->setUsuario($usuario);
+    $gU->setAdministrador(false);
 
     $app['db']->beginTransaction();
-    $app['grupo.usuarios.repository']->save($grupoUsuarios);
+    $app['grupo.usuarios.repository']->save($gU);
+    $app['db']->commit();
+
+    $grupoUsuarios2 = $app['grupo.usuarios.repository']->findBy(['grupo' => $grupo]);
+
+    $app['db']->beginTransaction();
+    /**
+     * @var GrupoUsuarios $grupoUsuario
+     */
+    foreach ($grupoUsuarios2 as $grupoUsuario) {
+
+        if ($usuario->getId() == $grupoUsuario->getUsuario()->getId()) {
+            continue;
+        }
+
+        $notificacao = new Notificacao();
+        $notificacao->setUsuario($grupoUsuario->getUsuario());
+        $notificacao->setMensagem($grupoUsuario->getUsuario()->getNome() . ' entrou para o grupo ' . $grupo->getNome() . '.');
+        $notificacao->setVisualizada(false);
+        $notificacao->setDataHora(new DateTime('now'));
+        $app['notificacao.repository']->save($notificacao);
+    }
     $app['db']->commit();
 
     $app['session']->getFlashBag()->add('mensagem', 'Você entrou no grupo ' . $grupo->getNome() . '.');
