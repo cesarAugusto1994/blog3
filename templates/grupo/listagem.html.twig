@@ -1,0 +1,54 @@
+{% extends 'template-new.html.twig' %}
+
+{% block title %}Usuários Grupos{% endblock %}
+
+{% block header %}{{ parent() }}{% endblock %}
+
+{% block headerNome %}Usuários Grupos{% endblock %}
+
+{% block content %}
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Grupos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for lista in listagem %}
+                            <tr>
+                                <td><p class="title is-5">
+                                        <a href="{{ path('perfil', { id : lista.id, nome : lista.nome|lower|url_encode }) }}">{{ lista.nome }}</a>
+                                    </p></td>
+                                <td>
+                                    {% if lista.grupos is defined %}
+                                        {% for grupo in lista.grupos %}
+                                            <p class="title is-6">{{ grupo }}</p>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Grupos</th>
+                        </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

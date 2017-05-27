@@ -277,6 +277,41 @@ $grupo->get('/participante/{id}-{nome}', function ($id, $nome) use ($app) {
 
 })->bind('grupo_participante');
 
+
+$grupo->get('/listagem', function () use ($app) {
+
+    $usuarios = $app['usuarios.repository']->findAll();
+
+    $listagem = [];
+
+    foreach ($usuarios as $key => $usuario) {
+
+        $grupoUsuarios = $app['grupo.usuarios.repository']->findBy(['usuario' => $usuario]);
+
+        if (!empty($grupoUsuarios)) {
+
+            foreach ($grupoUsuarios as $grupoUsuario) {
+
+                if ($grupoUsuario->getGrupo()->getId() == 1) {
+                    continue;
+                }
+
+                $listagem[$key]['id'] = $usuario->getId();
+                $listagem[$key]['nome'] = $usuario->getNome();
+
+                $listagem[$key]['grupos'][] = $grupoUsuario->getGrupo()->getNome();
+
+            }
+
+        }
+
+    }
+
+    return $app['twig']->render('/grupo/listagem.html.twig', ['listagem' => array_merge($listagem)]);
+
+})->bind('grupos_participantes_listagem');
+
+
 $grupo->post('/new-save', function (Request $request) use ($app) {
 
     $grupo = new Grupo();
