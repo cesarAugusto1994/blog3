@@ -31,6 +31,8 @@ $app->get('/user/', function () use ($app) {
     $colecoes = $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
     $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
     $anexos = $app['musica.anexos.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 4);
+    $tipo = $app['tipo.anexo.repository']->find(4);
+    $videos = $app['musica.anexos.repository']->findBy(['tipo' => $tipo], ['cadastro' => 'DESC'], 4);
 
     return $app['twig']->render('/user/index.html.twig',
         [
@@ -38,6 +40,7 @@ $app->get('/user/', function () use ($app) {
             'menus' => $menus,
             'musicas' => $musicas,
             'anexos' => $anexos,
+            'videos' => $videos
         ]);
 
 });

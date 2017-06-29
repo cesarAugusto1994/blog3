@@ -409,11 +409,13 @@ $anexos->post('/musica/{musicaId}/anexos/save', function($musicaId, \Symfony\Com
     $tipo = $app['tipo.anexo.repository']->find($request->get('tipo'));
 
     $link = $request->get('link');
+    $linkHash = "";
 
     if ($tipo->getNome() == 'Video') {
         preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $request->get('link'), $matches);
         if (!empty($matches[0])) {
             $link = "https://www.youtube.com/embed/" . $matches[0];
+            $linkHash = $matches[0];
         }
     }
 
@@ -422,7 +424,7 @@ $anexos->post('/musica/{musicaId}/anexos/save', function($musicaId, \Symfony\Com
     $musicaAnexo->setMusica($musica);
     $musicaAnexo->setTipo($tipo);
     $musicaAnexo->setLinkExterno(true);
-    $musicaAnexo->setLink($link);
+    $musicaAnexo->setLink($linkHash);
     $musicaAnexo->setUsuario($usuario);
     $musicaAnexo->setCadastro(new \DateTime('now'));
     $musicaAnexo->setAtivo(true);

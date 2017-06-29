@@ -38,6 +38,7 @@
                     <a class="button is-danger is-large" href="/user/sugestao">Reportar Erro</a>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -49,27 +50,27 @@
                     <br/>
                     <div class="row">
                         {% for anexo in anexos %}
-                        <div class="col-md-3 col-sm-12">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <figure class="image is-48x48">
-                                                <img src="{% if anexo.usuario.avatar %}{{ asset(app['dir.avatar'] ~ anexo.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}" alt="Image">
-                                            </figure>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <figure class="image is-48x48">
+                                                    <img src="{% if anexo.usuario.avatar %}{{ asset(app['dir.avatar'] ~ anexo.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}" alt="Image">
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <p class="title is-4"><a href="{{ path('users_view', { id : anexo.usuario.id , nome : anexo.usuario.nome|lower|replace(' ', '-') }) }}">{{ anexo.usuario.nome }}</a></p>
+                                            </div>
                                         </div>
-                                        <div class="media-content">
-                                            <p class="title is-4"><a href="{{ path('users_view', { id : anexo.usuario.id , nome : anexo.usuario.nome|lower|replace(' ', '-') }) }}">{{ anexo.usuario.nome }}</a></p>
+                                        <div class="content">
+                                            Adicionou o arquivo {{ anexo.nome }}
+                                            <br>
+                                            <small>{{ anexo.cadastro|date('H:i:s d/F/y') }}</small>
                                         </div>
-                                    </div>
-                                    <div class="content">
-                                        Adicionou o arquivo {{ anexo.nome }}
-                                        <br>
-                                        <small>{{ anexo.cadastro|date('H:i:s d/F/y') }}</small>
                                     </div>
                                 </div>
-                            </div>
-                            <br>
+                                <br>
                             </div>
                         {% endfor %}
                     </div>
@@ -166,8 +167,29 @@
             <div class="col-md-12">
                 <div class="block">
                     <h2 class="title">Videos</h2>
+
+                    {% for video in videos %}
+                        <div class="col-sm-3 col-xs-12">
+                            <figure>
+                                <div class="img-wrapper" style="width: 100%;">
+                                    {% if video.link is not null %}
+                                        <iframe  width="100%" height="100%" src="https://www.youtube.com/embed/{{ video.link }}"
+                                                 frameborder="0" allowfullscreen></iframe>
+                                    {% endif %}
+                                </div>
+                                <br>
+                                <br>
+                                <figcaption>
+                                    <h4>
+                                        <a href="{{ path('musica_anexos', { id : video.musica.id, name : video.musica.nome }) }}" title="{{ video.nome }}">{{ video.nome|slice(0, 15) }}</a>
+                                    </h4>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    {% endfor %}
+
                     <div class="row">
-                        <a href="/user/musica/anexos/videos" class="button is-danger is-large is-light">Acessar</a>
+                        <a href="/user/musica/anexos/videos" class="button is-danger is-large is-light">Ver mais...</a>
                     </div>
                 </div>
             </div>
