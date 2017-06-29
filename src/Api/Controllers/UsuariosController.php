@@ -67,11 +67,11 @@ class UsuariosController
          */
         $usuario = $app['usuarios.repository']->find($request->get('id'));
 
-        if ($request->get('nome') != $usuario->getNome()) {
+        if (!empty($request->get('nome')) && $request->get('nome') != $usuario->getNome()) {
             $usuario->setNome(ucwords($request->get('nome')));
         }
 
-        if ($request->get('email') != $usuario->getEmail()) {
+        if (!empty($request->get('email')) && $request->get('email') != $usuario->getEmail()) {
             $usuario->setEmail(strtolower($request->request->get('email')));
         }
 
@@ -83,12 +83,7 @@ class UsuariosController
             $usuario->setUf($request->request->get('estado'));
         }
 
-        if ($request->request->get('grupo') != $usuario->getGrupo()->getId()) {
-            $grupo = $app['grupo.repository']->find($request->request->get('grupo'));
-            $usuario->setGrupo($grupo);
-        }
-
-        if ("ROLE_ADMIN" == $app['usuario']->getRoles()) {
+        if (Usuarios::ROLE_ADMIN == $app['usuario']->getRoles()) {
             if ($request->get('role') != $usuario->getRoles()) {
                 $usuario->setRoles($request->get('role'));
             }

@@ -71,7 +71,7 @@
                             </a>
                             <div class="dropdown-menu">
                                 <ul>
-                                    <li><a href="/user/{{ app.usuario.id }}-{{ app.usuario.nome }}">Perfil</a></li>
+                                    <li><a href="/user/{{ app.usuario.id }}-{{ app.usuario.nome|lower|replace(' ', '-') }}">Perfil</a></li>
                                     <li><a href="{{ path('notificaoes_user') }}">Notificações</a></li>
                                     <li><a href="/user/favorites">Favoritos</a></li>
                                     <li><a href="/user/grupos">Grupos</a></li>

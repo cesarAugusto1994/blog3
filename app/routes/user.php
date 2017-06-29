@@ -62,7 +62,9 @@ $user->get('/{user}/atividades', function($user) use($app) {
 })->bind('usuario_atividades')->value('user', 1);
 
 $user->post('/user/perfil/editar', function(\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+
     return $app['usuarios.controller']->editar($request, $app);
+
 })->bind('usuario_editar');
 
 $user->get('/{id}-{nome}/view', function($id, $nome) use($app) {
