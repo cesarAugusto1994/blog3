@@ -30,12 +30,14 @@ $app->get('/user/', function () use ($app) {
     $menus = $app['menu.repository']->findBy(['ativo' => true]);
     $colecoes = $app['colecao.repository']->findBy(['ativo' => true], ['nome' => 'ASC']);
     $musicas = $app['musica.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 6);
+    $anexos = $app['musica.anexos.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC'], 4);
 
     return $app['twig']->render('/user/index.html.twig',
         [
             'colecoes' => $colecoes,
             'menus' => $menus,
             'musicas' => $musicas,
+            'anexos' => $anexos,
         ]);
 
 });

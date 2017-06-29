@@ -12,12 +12,12 @@
         <div class="container">
             <div class="row">
 
-                <a class="button is-danger" id="btnEnviarEmailParaTodos"
-                   href="#">Enviar e-mail para todos</a>
+                <a class="button is-light is-small" id="btnEnviarEmailParaTodos"
+                   href="#">Enviar e-mail</a>
 
                 <hr class="small">
 
-                <table class="table is-striped">
+                <table class="table is-bordered is-responsive is-hovered">
                     <thead>
                     <tr>
                         <th><abbr title="Position">ID</abbr></th>
@@ -51,18 +51,18 @@
                                 <p>{{ usuario.cadastro|date('d/m/y H:i:s') }}</p>
                             </td>
                             <td>
-                                <p><a class="button is-primary is-small is-fullwidth"
+                                <p><a class="button is-default is-small is-fullwidth"
                                       href="{{ path('usuario_atividades', { user : usuario.id }) }}">Atividades</a>
                                 </p>
                                 <p>
-                                    <button class="button is-small is-danger is-fullwidth enviarEmail"
+                                    <button class="button is-small is-default is-fullwidth enviarEmail"
                                             value="{{ usuario.id }}">
                                         Enviar Email
                                     </button>
                                 </p>
                                 <p>
                                     <a href="{{ path('user_favorites_2', { id : usuario.id, nome : usuario.nome|lower }) }}"
-                                       target="_blank" class="button is-small is-success is-fullwidth">
+                                       target="_blank" class="button is-small is-default is-fullwidth">
                                         Favoritos
                                     </a>
                                 </p>

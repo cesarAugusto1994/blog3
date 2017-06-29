@@ -65,5 +65,13 @@ $user->post('/user/perfil/editar', function(\Symfony\Component\HttpFoundation\Re
     return $app['usuarios.controller']->editar($request, $app);
 })->bind('usuario_editar');
 
+$user->get('/{id}-{nome}/view', function($id, $nome) use($app) {
+
+    $user = $app['usuarios.repository']->find($id);
+
+    return $app['twig']->render('/user/perfil-public.html.twig', ['usuario' => $user]);
+
+})->bind('users_view');
+
 
 return $user;

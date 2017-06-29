@@ -45,6 +45,43 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="block">
+                    <h2 class="title is-4">Acontecimentos</h2>
+                    <br/>
+                    <div class="row">
+                        {% for anexo in anexos %}
+                        <div class="col-md-3 col-sm-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <figure class="image is-48x48">
+                                                <img src="{% if anexo.usuario.avatar %}{{ asset(app['dir.avatar'] ~ anexo.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}" alt="Image">
+                                            </figure>
+                                        </div>
+                                        <div class="media-content">
+                                            <p class="title is-4"><a href="{{ path('users_view', { id : anexo.usuario.id , nome : anexo.usuario.nome|lower|replace(' ', '-') }) }}">{{ anexo.usuario.nome }}</a></p>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        Adicionou o arquivo {{ anexo.nome }}
+                                        <br>
+                                        <small>{{ anexo.cadastro|date('H:i:s d/F/y') }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="call-to-action">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="block">
                     <h2 class="title is-4">Adicione ou Encontre o seu Grupo</h2>
                     <div class="row">
                         <a href="/user/grupos" class="button is-danger is-large is-light">Acessar</a>
