@@ -45,7 +45,7 @@
                             </td>
                             <td>
                                 <p class="title is-4">
-                                    <a href="{{ path('perfil', { id : usuario.id, nome : usuario.nome }) }}">{{ usuario.nome }}</a>
+                                    <a href="{{ path('perfil', { id : usuario.id, nome : usuario.nome|lower|replace(' ', '-') }) }}">{{ usuario.nome }}</a>
                                 </p>
                                 <p>{{ usuario.email }}</p>
                                 <p>{{ usuario.cadastro|date('d/m/y H:i:s') }}</p>
@@ -61,7 +61,7 @@
                                     </button>
                                 </p>
                                 <p>
-                                    <a href="{{ path('user_favorites_2', { id : usuario.id, nome : usuario.nome|lower }) }}"
+                                    <a href="{{ path('user_favorites_2', { id : usuario.id, nome : usuario.nome|lower|replace(' ', '-') }) }}"
                                        target="_blank" class="button is-small is-default is-fullwidth">
                                         Favoritos
                                     </a>
@@ -82,6 +82,8 @@
 
 
     <script>
+
+        $('table').DataTable();
 
         $(document).ready(function () {
             $("#btnEnviarEmailParaTodos").click(enviarEmailParaTodosUsuarios);

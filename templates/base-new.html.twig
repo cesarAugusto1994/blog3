@@ -43,6 +43,7 @@
         }
     </style>
     <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet"/>
 
     {% block stylesheet %}{% endblock %}
 
@@ -100,6 +101,8 @@
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 
 {% block js %}{% endblock %}
 
