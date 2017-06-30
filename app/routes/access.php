@@ -328,14 +328,6 @@ $app->match('register/save', function (\Symfony\Component\HttpFoundation\Request
         );
     }
 
-    $errors = $app['validator']->validate($request->get('password'), new Assert\Email());
-
-    if (count($errors) > 0) {
-        return $app->json(
-            ['class' => 'error', 'message' => 'O formato do e-mail não é válido.']
-        );
-    }
-
     $encoder = $app['security.encoder.digest'];
     $password = $encoder->encodePassword($request->get('password'), '');
     $grupo = $app['grupo.repository']->find(1);
@@ -347,8 +339,8 @@ $app->match('register/save', function (\Symfony\Component\HttpFoundation\Request
     $usuario->setPassword($password);
     $usuario->setGrupo($grupo);
     $usuario->setCadastro(new \DateTime('now'));
-    $usuario->setRoles('ROLE_USER');
-    $usuario->setAtivo(false);
+    $usuario->setRoles(Usuarios::ROLE_USER);
+    $usuario->setAtivo(true);
 
     $app['db']->beginTransaction();
     $app['usuarios.repository']->save($usuario);

@@ -10,6 +10,53 @@
 {% block headerNome %}{{ musica.numero }} {{ musica.nome }}{% endblock %}
 {% block headerSubtitulo %}{% endblock %}
 
+{% block stylesheet %}
+    {{ parent() }}
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.css') }}"
+          rel="stylesheet">
+    <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
+          rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <style>
+        pre {
+            background-color: transparent;
+            border: none;
+        }
+        .panel-group .panel {
+            border-radius: 0;
+            box-shadow: none;
+            border-color: #EEEEEE;
+        }
+
+        .panel-default > .panel-heading {
+            padding: 0;
+            border-radius: 0;
+            color: #212121;
+            background-color: #FAFAFA;
+            border-color: #EEEEEE;
+        }
+
+        .panel-title {
+            font-size: 14px;
+        }
+
+        .panel-title > a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+        }
+
+        .more-less {
+            float: right;
+            color: #212121;
+        }
+
+        .panel-default > .panel-heading + .panel-collapse > .panel-body {
+            border-top-color: #EEEEEE;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 
     <article>
@@ -134,6 +181,8 @@
 
 {% block js %}
 
+    <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
+
     <script>
 
         $(document).ready(function () {
@@ -155,8 +204,6 @@
                 if (curSize2 >= 5)
                     $('.c').css('font-size', curSize2);
             });
-            $('.c').css('font-size', 14);
-            $('#content').css('font-size', 14);
 
             var b = document.documentElement;
             b.setAttribute('data-useragent', navigator.userAgent);

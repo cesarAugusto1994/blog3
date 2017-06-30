@@ -8,7 +8,6 @@
         pre {
             background-color: transparent;
             border: none;
-            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
         pre > span {
             font-size: 16px;
@@ -31,10 +30,10 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-7">
                         <ul class="nav navbar-nav">
-                            <li class="is-primary"><a href="{{ path('view_editar_letra_musica', { id : musica.id }) }}">Editar Letra</a></li>
-                            <li><a id="btnComCifra">Com Cifra</a></li>
-                            <li><a id="btnSemCifra">Sem Cifra</a></li>
-                            <li><a id="btnCores">Cores</a></li>
+                            <li class="button is-primary"><a href="{{ path('view_editar_letra_musica', { id : musica.id }) }}">Editar Letra</a></li>
+                            <li class="is-primary"><a id="btnComCifra">Com Cifra</a></li>
+                            <li class="is-primary"><a id="btnSemCifra">Sem Cifra</a></li>
+                            <li class="is-primary"><a id="btnCores">Cores</a></li>
                             <li><a id="btnInverter">Inverter Cores</a></li>
                             <li><a id="decfont">A-</a></li>
                             <li><a id="incfont">A+</a></li>
@@ -60,6 +59,7 @@
 {% endblock %}
 
 {% block js %}
+
     <script src="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery-Chord-Transposer/jquery.transposer.js') }}"></script>
 
     <script>
@@ -121,7 +121,5 @@
             if (curSize2 >= 5)
                 $('.c').css('font-size', curSize2);
         });
-        $('.c').css('font-size', 14);
-        $('#content').css('font-size', 14);
     </script>
 {% endblock %}
