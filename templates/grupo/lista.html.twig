@@ -25,44 +25,60 @@
                     <a class="button is-small is-danger is-inverted" id="compartilhar">Compartilhar Link</a>
                     <hr class="small"/>
 
-                    <figure>
-                        {% for grupo in grupoMusicas %}
-                            <figcaption>
-                                <p class="title is-4">
-                                    <a href="/user/praise/{{ grupo.musica.id }}-{{ grupo.musica.nome|lower|url_encode }}">{{ grupo.musica.numero }} {{ grupo.musica.nome }}</a>
-                                    {% if grupo.situacao.id == 1 %}
-                                        <span class="tag is-success">{{ grupo.situacao.label }}</span>
-                                    {% elseif grupo.situacao.id == 2 %}
-                                        <span class="tag is-danger">{{ grupo.situacao.label }}</span>
-                                    {% else %}
-                                        <span class="tag is-primary">{{ grupo.situacao.label }}</span>
-                                    {% endif %}
-                                    {% if grupo.musica.id in musicasGrupo and adm == true %}
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Inicio</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arquivos</a></li>
+                        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+                    </ul>
 
-                                        <button class="button is-danger is-small btnARemoveMusica is-pulled-right"
-                                                data-grupo="{{ grupo.grupo.id }}"
-                                                value="{{ grupo.musica.id }}">Remover
-                                        </button>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">Em breve...</div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
 
-                                    {% endif %}
-                                </p>
-                                {% if adm == true %}
+                            <figure>
+                                {% for grupo in grupoMusicas %}
+                                    <figcaption>
+                                        <p class="title is-4">
+                                            <a href="/user/praise/{{ grupo.musica.id }}-{{ grupo.musica.nome|lower|url_encode }}">{{ grupo.musica.numero }} {{ grupo.musica.nome }}</a>
+                                            {% if grupo.situacao.id == 1 %}
+                                                <span class="tag is-success">{{ grupo.situacao.label }}</span>
+                                            {% elseif grupo.situacao.id == 2 %}
+                                                <span class="tag is-danger">{{ grupo.situacao.label }}</span>
+                                            {% else %}
+                                                <span class="tag is-primary">{{ grupo.situacao.label }}</span>
+                                            {% endif %}
+                                            {% if grupo.musica.id in musicasGrupo and adm == true %}
 
-                                    {% if grupo.situacao.id == 1 %}
-                                        <button data-grupo="{{ grupo.grupo.id }}" data-musica="{{ grupo.musica.id }}"
-                                                class="button is-primary is-small btnEnsaiar">Ensaiar
-                                        </button>
-                                    {% elseif grupo.situacao.id == 2 %}
-                                        <button data-grupo="{{ grupo.grupo.id }}" data-musica="{{ grupo.musica.id }}"
-                                                class="button is-primary is-small btnJaEnsaiado">Já Ensaiado
-                                        </button>
-                                    {% endif %}
+                                                <button class="button is-danger is-small btnARemoveMusica is-pulled-right"
+                                                        data-grupo="{{ grupo.grupo.id }}"
+                                                        value="{{ grupo.musica.id }}">Remover
+                                                </button>
 
-                                {% endif %}
+                                            {% endif %}
+                                        </p>
+                                        {% if adm == true %}
 
-                            </figcaption>
-                        {% endfor %}
-                    </figure>
+                                            {% if grupo.situacao.id == 1 %}
+                                                <button data-grupo="{{ grupo.grupo.id }}" data-musica="{{ grupo.musica.id }}"
+                                                        class="button is-primary is-small btnEnsaiar">Ensaiar
+                                                </button>
+                                            {% elseif grupo.situacao.id == 2 %}
+                                                <button data-grupo="{{ grupo.grupo.id }}" data-musica="{{ grupo.musica.id }}"
+                                                        class="button is-primary is-small btnJaEnsaiado">Já Ensaiado
+                                                </button>
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                    </figcaption>
+                                {% endfor %}
+                            </figure>
+
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="messages">Em breve...</div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -89,14 +89,40 @@ $grupoMusicas->post('/add-repertorio', function (Request $request) use ($app) {
         $app['db']->beginTransaction();
 
         foreach ($grupoUsuarios as $grupoUsuario) {
+
+            $mensagem = 'O louvor ' . $musica->getNome() . ' foi adicionado ao grupo ' . $grupo->getNome();
+
             $notificacao = new Notificacao();
             $notificacao->setUsuario($grupoUsuario->getUsuario());
-            $notificacao->setMensagem('O louvor ' . $musica->getNome() . ' foi adicionado ao grupo ' . $grupo->getNome());
+            $notificacao->setMensagem($mensagem);
             $notificacao->setVisualizada(false);
             $notificacao->setDataHora(new DateTime('now'));
 
-
             $app['notificacao.repository']->save($notificacao);
+
+            $config = $app['config'];
+
+            $array = [
+                'mensagem' => $mensagem,
+                'site' => $config->getNome(),
+                'lema' => $config->getSubtitulo(),
+                'nome' => $grupoUsuario->getUsuario()->getNome()
+            ];
+
+            $body = $app['twig']->render('user/email_user.html.twig', $array);
+
+            $assunto = "NOTIFICAÇÂO - " . $grupo->getNome();
+
+            $email = new Email($assunto, $app['email.padrao'], $body);
+            $email->send($grupoUsuario->getUsuario()->getEmail(), $app);
+
+            $emailEnviado = new EmailEnviado();
+            $emailEnviado->setUsuario($grupoUsuario->getUsuario());
+            $emailEnviado->setTipo($assunto);
+            $emailEnviado->setMensagem($mensagem);
+            $emailEnviado->setDataHora(new DateTime('now'));
+
+            $app['email.enviado.repository']->save($emailEnviado);
         }
 
         $app['db']->commit();

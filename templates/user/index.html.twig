@@ -4,19 +4,6 @@
 
 {% block header %}&nbsp;{% endblock %}
 
-{% block stylesheet %}
-    <style>
-        .colecao-imagem {
-            -webkit-background-size: cover;
-            -o-background-size: cover;
-            -moz-background-size: cover;
-            background-size: cover;
-            background-size: 100% 100%;
-        }
-    </style>
-
-{% endblock %}
-
 {% block content %}
 
     <section id="hero-area">
@@ -107,7 +94,7 @@
                         <figure>
                             <div class="img-wrapper">
                                 <a href="{{ path('view_collection', { id : colecao.id, nome : colecao.nome|lower|url_encode }) }}">
-                                    <img src="{{ app['dir.colecao'] ~ colecao.imagem }}" class="img-responsive" alt="..." />
+                                    <img style="min-height:256px;max-height: 256px;min-width: 256px;max-width: 256px;" src="{{ app['dir.colecao'] ~ colecao.imagem }}" class="img-responsive" alt="..." />
                                     <div class="overlay"></div>
                                 </a>
                             </div>

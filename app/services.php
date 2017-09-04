@@ -335,7 +335,7 @@ $app['dir.base'] = function () use ($app) {
         return '';
     }
 
-    return '/web/';
+    return '/';
 };
 $app['dir.base2'] = function () use ($app) {
 

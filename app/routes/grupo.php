@@ -201,7 +201,7 @@ $grupo->get('/request', function (Request $request) use ($app) {
      */
     $usuario = $app['usuarios.repository']->find($request->get('user'));
     $grupo = $app['grupo.repository']->find($request->get('grupo'));
-    $grupoUsuarios = $app['grupo.usuarios.repository']->findOneBy(['grupo' => $grupo]);
+    //$grupoUsuarios = $app['grupo.usuarios.repository']->findOneBy(['grupo' => $grupo]);
 
     $gU = new GrupoUsuarios();
     $gU->setGrupo($grupo);
@@ -224,18 +224,44 @@ $grupo->get('/request', function (Request $request) use ($app) {
             continue;
         }
 
+        $mensagem = $usuario->getNome() . ' entrou para o grupo ' . $grupo->getNome() . '.';
+
         $notificacao = new Notificacao();
         $notificacao->setUsuario($grupoUsuario->getUsuario());
-        $notificacao->setMensagem($grupoUsuario->getUsuario()->getNome() . ' entrou para o grupo ' . $grupo->getNome() . '.');
+        $notificacao->setMensagem($mensagem);
         $notificacao->setVisualizada(false);
         $notificacao->setDataHora(new DateTime('now'));
         $app['notificacao.repository']->save($notificacao);
+
+        $config = $app['config'];
+
+        $array = [
+            'mensagem' => $mensagem,
+            'site' => $config->getNome(),
+            'lema' => $config->getSubtitulo(),
+            'nome' => $grupoUsuario->getUsuario()->getNome()
+        ];
+
+        $body = $app['twig']->render('user/email_user.html.twig', $array);
+
+        $assunto = "NOTIFICAÇÂO - " . $grupo->getNome();
+
+        $email = new Email($assunto, $app['email.padrao'], $body);
+        $email->send($grupoUsuario->getUsuario()->getEmail(), $app);
+
+        $emailEnviado = new EmailEnviado();
+        $emailEnviado->setUsuario($grupoUsuario->getUsuario());
+        $emailEnviado->setTipo($assunto);
+        $emailEnviado->setMensagem($mensagem);
+        $emailEnviado->setDataHora(new DateTime('now'));
+
+        $app['email.enviado.repository']->save($emailEnviado);
     }
     $app['db']->commit();
 
     $app['session']->getFlashBag()->add('mensagem', 'Você entrou no grupo ' . $grupo->getNome() . '.');
 
-    return $app->redirect('/user/grupos/');
+    return $app->redirect('/user/grupo/'.$grupo->getId().'-'.$grupo->getNome());
 
 })->bind('grupo_request');
 

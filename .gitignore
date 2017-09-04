@@ -1,6 +1,7 @@
 .idea/
-var/
-tests/
+var/cache/*
+var/logs/*
+tests/*
 web/assets/blog/musicas/*
 web/assets/blog/img/posts/*
 web/assets/blog/img/avatar/*
@@ -10,5 +11,6 @@ web/assets/blog/img/colecoes/*
 web/assets/blog/img/config/*
 web/assets/blog/img/menu/*
 web/assets/blog/img/widgets/*
-web/assets/vendor/
+web/assets/vendor/*
 .htaccess
+.manifest
