@@ -12,12 +12,12 @@
                 <div class="block wow fadeInUp">
                     <section class="cd-intro">
                         <h1 class="wow fadeInUp animated cd-headline slide">
-                            <span>Ol&aacute;,{{ app.usuario.nome }}.</span><br />
+                            <span>Ol&aacute;,{{ app.usuario.nome }}.</span><br/>
                         </h1>
                     </section>
                     <div class="container is-half">
                         <p class="title is-3 wow fadeInUp animated">
-                            {{app.blog.subtitulo}}
+                            {{ app.blog.subtitulo }}
                         </p>
                     </div>
                     <a class="button is-success is-large" href="/user/praise/new">Sugerir Louvor</a>
@@ -33,47 +33,7 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="block">
-                    <h2 class="title is-4">Acontecimentos</h2>
-                    <br/>
-                    <div class="row">
-                        {% for anexo in anexos %}
-                            <div class="col-md-3 col-sm-12">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <figure class="image is-48x48">
-                                                    <img src="{% if anexo.usuario.avatar %}{{ asset(app['dir.avatar'] ~ anexo.usuario.avatar ) }}{% else %}{{ asset(app['avatar.default']) }}{% endif %}" alt="Image">
-                                                </figure>
-                                            </div>
-                                            <div class="media-content">
-                                                <p class="title is-4"><a href="{{ path('users_view', { id : anexo.usuario.id , nome : anexo.usuario.nome|lower|replace(' ', '-') }) }}">{{ anexo.usuario.nome }}</a></p>
-                                            </div>
-                                        </div>
-                                        <div class="content">
-                                            Adicionou o arquivo {{ anexo.nome }}
-                                            <br>
-                                            <small>{{ anexo.cadastro|date('H:i:s d/F/y') }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="call-to-action">
-        <div class="container">
-            <div class="col-md-12">
-                <div class="block">
-                    <h2 class="title is-4">Adicione ou Encontre o seu Grupo</h2>
-                    <div class="row">
-                        <a href="/user/grupos" class="button is-danger is-large is-light">Acessar</a>
-                    </div>
+                    <h2 class="title is-4">Coleções</h2>
                 </div>
             </div>
         </div>
@@ -83,34 +43,24 @@
 
     <section>
         <div class="container">
-            <div class="section-heading">
-                <h1 class="title">Coleções</h1>
-            </div>
+            <br/>
             <div class="row">
-
-                {% for colecao in colecoes %}
-
-                    <div class="col-sm-3 col-xs-12">
+                <div class="column">
+                    {% for colecao in colecoes %}
                         <figure>
-                            <div class="img-wrapper">
-                                <a href="{{ path('view_collection', { id : colecao.id, nome : colecao.nome|lower|url_encode }) }}">
-                                    <img style="min-height:256px;max-height: 256px;min-width: 256px;max-width: 256px;" src="{{ app['dir.colecao'] ~ colecao.imagem }}" class="img-responsive" alt="..." />
-                                    <div class="overlay"></div>
-                                </a>
-                            </div>
                             <figcaption>
                                 <p class="title is-3">
                                     <a href="{{ path('view_collection', { id : colecao.id, nome : colecao.nome|lower|replace(' ', '-') }) }}">
-                                        {{colecao.nome}}
+                                        {{ colecao.nome }}
                                     </a>
                                 </p>
                             </figcaption>
                         </figure>
-                    </div>
-
-                {% endfor %}
-
+                    {% endfor %}
+                </div>
             </div>
+
+        </div>
         </div>
     </section>
 
@@ -118,10 +68,7 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="block">
-                    <h2 class="title">Adicione sua playlists</h2>
-                    <div class="row">
-                        <a href="{{ path('playlist') }}" class="button is-danger is-large is-light">Acessar</a>
-                    </div>
+                    <h2 class="title">Últimas Atualizações</h2>
                 </div>
             </div>
         </div>
@@ -132,19 +79,19 @@
 
     <section>
         <div class="container">
-            <div class="section-heading">
-                <h1 class="title">Últimas Adições</h1>
-            </div>
+            <br/>
             <div class="row">
-                <figure>
-                {% for musica in musicas %}
-                    <figcaption>
-                        <p class="title is-4">
-                            <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
-                        </p>
-                    </figcaption>
-                {% endfor %}
-                </figure>
+                <div class="column">
+                    {% for musica in musicas %}
+                        <figure>
+                            <figcaption>
+                                <p class="title is-4">
+                                    <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
+                                </p>
+                            </figcaption>
+                        </figure>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </section>
@@ -160,15 +107,17 @@
                             <figure>
                                 <div class="img-wrapper" style="width: 100%;">
                                     {% if video.link is not null %}
-                                        <iframe  width="100%" height="100%" src="https://www.youtube.com/embed/{{ video.link }}"
-                                                 frameborder="0" allowfullscreen></iframe>
+                                        <iframe width="100%" height="100%"
+                                                src="https://www.youtube.com/embed/{{ video.link }}"
+                                                frameborder="0" allowfullscreen></iframe>
                                     {% endif %}
                                 </div>
                                 <br>
                                 <br>
                                 <figcaption>
                                     <h4>
-                                        <a href="{{ path('musica_anexos', { id : video.musica.id, name : video.musica.nome }) }}" title="{{ video.nome }}">{{ video.nome|slice(0, 15) }}</a>
+                                        <a href="{{ path('musica_anexos', { id : video.musica.id, name : video.musica.nome }) }}"
+                                           title="{{ video.nome }}">{{ video.nome|slice(0, 15) }}</a>
                                     </h4>
                                 </figcaption>
                             </figure>

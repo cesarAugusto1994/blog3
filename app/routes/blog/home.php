@@ -39,7 +39,7 @@ $blog->post('/criar', function (Request $request) use ($app) {
     return $app['post.controller']->criar($request, $app);
 })->bind('criarPost');
 
-$blog->get('/{id}-{name}/editar', function($id, $name) use ($app) {
+$blog->get('/{id}/{name}/editar', function($id, $name) use ($app) {
     return $app['post.controller']->editarPost($id, $app);
 })->bind('editar_post');
 

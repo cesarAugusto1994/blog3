@@ -6,19 +6,7 @@
     {{ parent() }}
     <link href="{{ asset(app['dir.base'] ~ 'assets/plugins/jQuery.filer/css/jquery.filer.css') }}" type="text/css"
           rel="stylesheet"/>
-
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-
-    <style>
-
-        .dropdown-menu>ul {
-            color: white;
-        }
-
-    </style>
-
 {% endblock %}
 
 {% block header %}{{ parent() }}{% endblock %}
@@ -35,6 +23,8 @@
                     <button id="btnAddArquivos" class="button is-danger" data-toggle="modal"
                             data-target="#modal-musicas">Adicionar Arquivo
                     </button>
+
+                    <span class="button">{{ qtde }} Arquivo(s)</span>
 
                     <hr class="small"/>
 
@@ -169,41 +159,6 @@
                         <button type="submit" class="button is-success is-pulled-right">Salvar</button>
                     </div>
                 </form>
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                    <h4 class="modal-title">Vincular Arquivos - Cadastro</h4>
-                </div>
-                <form class="form-horizontal" id="form-vincular">
-                    <div class="modal-body">
-                        <input type="hidden" name="index" id="index"/>
-                        <input type="hidden" name="anexo" id="anexo"/>
-                        <label>Arquivo Selecionado</label>
-                        <p class="control">
-                            <input type="text" class="input" readonly="readonly" id="anexo-selecionado">
-                        </p>
-                        <label>Selecione a Musica</label>
-                        <p class="control">
-                            <select class="selectpicker show-tick" name="musica" id="musica" data-container="body" data-live-search="true" data-width="100%">
-                                <option value=""></option>
-                                {% for colecao in categoriasColecoes %}
-                                    <optgroup label="{{ colecao.nome }}">
-                                        {% for categoria in colecao.categorias %}
-                                            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                {% endfor %}
-                            </select>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="button is-danger is-pulled-left" data-dismiss="modal">Fechar</button>
-                        <button type="submit" class="button is-success is-pulled-right">Salvar</button>
-                    </div>
-                </form>
-
             </div>
         </div>
     </div>

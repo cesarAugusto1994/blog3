@@ -1,23 +1,20 @@
-{% extends 'blog/template.html.twig' %}
+{% extends "/blog/template-blog.html.twig" %}
 
-    {% block header %}
-        <header class="intro-header"
-                style="background-image: url('{% if app['config'].background is not null %}{{ asset(app['dir.img'] ~ app['config'].background ) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                        <div class="site-heading">
-                            <h1>{{ app['blog2'].nome }}</h1>
-                            <hr class="small">
-                            <span class="subheading">{{ app['blog2'].subtitulo }}</span>
-                        </div>
+{% block content %}
+
+
+    <header class="intro-header" style="background-image: url('{% if app['config.blog'].background is not null %}{{ asset(app['dir.img'] ~ app['config.blog'].background) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Palavra Revelada</h1>
                     </div>
                 </div>
             </div>
-        </header>
-    {% endblock %}
+        </div>
+    </header>
 
-{% block content %}
 
     <div class="container">
         <div class="row">

@@ -13,11 +13,11 @@ $app->get('user/posts', function ($page = 1) use ($app) {
 $app->post('/user/palavra/criar', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
     return $app['post.controller']->criar($request, $app);
 })->bind('newPost');
-/*
+
 $app->get('user/palavra/{postId}-{postTitulo}', function ($postId, $postTitulo) use ($app){
     return $app['post.controller']->post($postId, $app);
 })->bind('post');
-*/
+
 $app->get('user/palavra/listagem', function() use ($app) {
     return $app['twig']->render('admin/grid_posts.html.twig', [
         'posts' => $app['posts.repository']->findBy([], ['cadastro' => 'DESC'])

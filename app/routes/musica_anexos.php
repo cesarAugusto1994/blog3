@@ -532,6 +532,7 @@ $anexos->get('/anexos/sem-vinculo', function () use ($app) {
 
    return $app['twig']->render('/user/anexos/sem-vinculo.html.twig',
        [
+           'qtde' => count($anexos),
            'anexos' => $anexos,
            'musicas' => $array,
            'categoriasColecoes' => $categorias,

@@ -163,8 +163,10 @@ class PostController
         $post->setConteudo(strip_tags(trim(str_replace($search, $replace, $request->get('descricao')))));
         $post->setAtualizado(new \DateTime('now'));
 
-        if (!empty($_FILES['background']['size'])) {
+        if (!empty($_FILES['background']['size']) && ($_FILES['background']['size'][0] != 0)) {
             $post->setBackground($app['upload.service']->upload($_FILES['background'], 'post', $post->getBackground()));
+        } else {
+            $post->setBackground(null);
         }
     
         $app['db']->beginTransaction();
