@@ -67,7 +67,9 @@ class PagerController
      */
     public function pager(array $data, $page = 1)
     {
-        $this->countData = count($this->data = $data);
+        $this->data = $data;
+
+        $this->countData = count($data);
         
         $countPages = ceil(($this->countData ? $this->countData : 1) / $this->limit);
 

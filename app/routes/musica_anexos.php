@@ -14,7 +14,7 @@ use Symfony\Component\BrowserKit\Request;
 
 $anexos = $app['controllers_factory'];
 
-$anexos->get('/praise/{id}-{name}', function($id, $name) use ($app) {
+$anexos->get('/praise/{id}/{name}', function($id, $name) use ($app) {
     /**
      * @var \Api\Entities\Musica $musica
      */

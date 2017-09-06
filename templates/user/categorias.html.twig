@@ -19,13 +19,13 @@
 
                         <figcaption>
                             <p class="title is-5">
-                                <a href="{{ path('category_songs', { id : categoria.id, nome : categoria.nome|lower|url_encode }) }}">
+                                <a href="{{ path('category_songs', { id : categoria.id, nome : categoria.nome|lower|replace(' ', '-') }) }}">
                                     {{ categoria.nome }}
                                 </a>
 
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <span class="badge is-small is-pulled-right">{{ categoria.countMusicas }}</span>
-                                    <a href="{{ path('category_edit', { id : categoria.id, nome : categoria.nome|lower|url_encode }) }}" class="button is-light is-small is-pulled-right">Editar</a>
+                                    <a href="{{ path('category_edit', { id : categoria.id, nome : categoria.nome|lower|replace(' ', '-') }) }}" class="button is-light is-small is-pulled-right">Editar</a>
                                 {% endif %}
                             </p>
                         </figcaption>

@@ -34,13 +34,13 @@ class PostController
     {
         $pager = $app['pager.Controller'];
         $pager->pager($app['posts.repository']->findBy(['ativo' => true], ['cadastro' => 'DESC']), $page);
-    
         return $app['twig']->render('/blog/index.html.twig', [
             'posts' => $app['posts.repository']->getAll($pager->getOffset(), $pager->getLimit()),
             'firstPage' => $pager->getFirstPage(),
             'nextPage' => $pager->getNextPage(),
             'limitPerPage' => $pager->getLimit(),
-            'records' => $pager->getCountData()
+            'records' => $pager->getCountData(),
+            'app' => $app
         ]);
     }
     
@@ -55,7 +55,8 @@ class PostController
 
         return $app['twig']->render('/blog/post.html.twig', [
             'post' => $post,
-            'posts_relacionados' => []
+            'posts_relacionados' => [],
+            'app' => $app
         ]);
     }
 
@@ -104,15 +105,22 @@ class PostController
      * @param Application $app
      * @return mixed
      */
-    public function postsByTags($tag, Application $app)
+    public function postsByTags($tag, Application $app, $page = 1)
     {
         $posts = array_map(function ($tag) use($app) {
             return $tag->getPost();
         }, $app['tags.repository']->findByName($tag));
 
-        return $app['twig']->render('/user/index.html.twig', [
+        $pager = $app['pager.Controller'];
+        $pager->pager($posts, $page);
+
+        return $app['twig']->render('/blog/index.html.twig', [
             'posts' => $posts,
-            'tag_message' => 'Posts relacionados com: '. $tag
+            'firstPage' => $pager->getFirstPage(),
+            'nextPage' => $pager->getNextPage(),
+            'limitPerPage' => $pager->getLimit(),
+            'records' => $pager->getCountData(),
+            'app' => $app
         ]);
     }
 

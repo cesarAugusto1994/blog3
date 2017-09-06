@@ -1,7 +1,14 @@
 {% extends "/blog/template-blog.html.twig" %}
 
-{% block content %}
+{% block stylesheet %}
+    <style>
+        .pager li>a, .pager li>span {
+            background-color: #0085a1;
+        }
+    </style>
+{% endblock %}
 
+{% block content %}
 
     <header class="intro-header" style="background-image: url('{% if app['config.blog'].background is not null %}{{ asset(app['dir.img'] ~ app['config.blog'].background) }}{% else %}{{ asset(app['background.default']) }}{% endif %}')">
         <div class="container">
@@ -45,12 +52,12 @@
                 <ul class="pager">
                     {% if firstPage is defined and firstPage > 0 %}
                         <li class="previous">
-                            <a href="{{ path('palavra_page', { 'page' : firstPage }) }}">&xlarr; Newer Posts</a>
+                            <a href="{{ path('palavra_page', { 'page' : firstPage }) }}">&xlarr; Post Anterior</a>
                         </li>
                     {% endif %}
                     {% if nextPage is defined and nextPage > 0 %}
                         <li class="next">
-                            <a href="{{ path('palavra_page', { 'page' : nextPage }) }}">Older Posts &xrarr;</a>
+                            <a href="{{ path('palavra_page', { 'page' : nextPage }) }}">Pr&oacute;ximo Post &xrarr;</a>
                         </li>
                     {% endif %}
                 </ul>

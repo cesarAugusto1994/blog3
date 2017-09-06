@@ -14,10 +14,6 @@ $blog->get('/', function ($page = 1) use ($app) {
     return $app['post.controller']->posts($page, $app);
 })->bind('palavra');
 
-$blog->get('/add', function () use ($app) {
-    return $app['twig']->render('/blog/criar.html.twig');
-})->bind('form_post');
-
 $blog->get('/listagem', function() use ($app) {
     return $app['twig']->render('/blog/listagem.html.twig', [
         'posts' => $app['posts.repository']->findBy([], ['cadastro' => 'DESC'])
@@ -25,10 +21,10 @@ $blog->get('/listagem', function() use ($app) {
 })->bind('listagem_posts');
 
 $blog->get('/page/{page}', function($page, $userPage = false) use($app) {
-    if($userPage){
+
         return $app['post.controller']->posts($page, $app);
-    }
-    return $app['index.controller']->index($page, $app);
+
+    //return $app['index.controller']->index($page, $app);
 })->bind('palavra_page');
 
 $blog->get('/{postId}-{postTitulo}', function ($postId, $postTitulo) use ($app){

@@ -23,7 +23,7 @@ $categorias->get('categorias/{colecaoId}/{nome}', function($colecaoId, $nome) us
 
 })->bind('categorias');
 
-$categorias->get('/category/{id}-{nome}', function ($id, $nome) use ($app) {
+$categorias->get('/category/{id}/{nome}', function ($id, $nome) use ($app) {
 
     $categoria = $app['categoria.repository']->find($id);
 

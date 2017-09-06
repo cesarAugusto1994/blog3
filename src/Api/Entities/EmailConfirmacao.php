@@ -18,6 +18,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EmailConfirmacao
 {
+    const STATUS_CONFIRMADO = 2;
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")
@@ -166,5 +168,13 @@ class EmailConfirmacao
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConfirmado()
+    {
+        return self::STATUS_CONFIRMADO == $this->getStatus()->getId();
     }
 }

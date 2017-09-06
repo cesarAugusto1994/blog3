@@ -25,7 +25,7 @@ $app['security.encoder_factory'] = function ($app) {
 };
 $app['security.firewalls'] = array(
     'secured' => array(
-        'pattern' => '^/admin/|^/user/|^/blog/',
+        'pattern' => '^/admin/|^/user/|^/blog/|!^/user/palavra/*',
         'form' => array(
             'login_path' => '/login',
             'check_path' => '/admin/login_check',

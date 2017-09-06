@@ -217,6 +217,12 @@ $app->get('forgotten-passord/token/{token}', function ($token) use ($app) {
         return $app['twig']->render('token_invalido.html.twig', ['mensagem' => 'Código de autorização inválido!']);
     }
 
+    echo $emailConfirmacao->getStatus()->getId();
+
+    if ($emailConfirmacao->isConfirmado()) {
+        return $app['twig']->render('token_invalido.html.twig', ['mensagem' => 'Código de autorização já Confirmado!']);
+    }
+
     $dataAtual = new DateTime('now');
 
     if ($dataAtual > $emailConfirmacao->getValidade()) {
@@ -320,113 +326,127 @@ $app->post('forgot-password', function (\Symfony\Component\HttpFoundation\Reques
 
 });
 
-$app->match('register/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
+$app->post('register/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {
 
-    if ($app['usuarios.repository']->findBy(['email' => $request->request->get('email')])) {
+    try {
+
+        if ($app['usuarios.repository']->findBy(['email' => $request->request->get('email')])) {
+            return $app->json(
+                ['class' => 'error', 'message' => 'Este e-mail já está cadastrado.']
+            );
+        }
+
+        $encoder = $app['security.encoder.digest'];
+        $password = $encoder->encodePassword($request->get('password'), '');
+        $grupo = $app['grupo.repository']->find(1);
+
+        $app['db']->beginTransaction();
+
+        $usuario = new \Api\Entities\Usuarios();
+        $usuario->setNome(ucwords($request->request->get('nome')));
+        $usuario->setEmail(strtolower($request->request->get('email')));
+        $usuario->setSenha($request->get('password'));
+        $usuario->setPassword($password);
+        $usuario->setGrupo($grupo);
+        $usuario->setCadastro(new \DateTime('now'));
+        $usuario->setRoles(Usuarios::ROLE_USER);
+        $usuario->setAtivo(true);
+
+        $app['usuarios.repository']->save($usuario);
+
+        $grupoUsuarios = new GrupoUsuarios();
+        $grupoUsuarios->setGrupo($grupo);
+        $grupoUsuarios->setAdministrador(false);
+        $grupoUsuarios->setUsuario($usuario);
+
+        $app['db']->beginTransaction();
+        $app['grupo.usuarios.repository']->save($grupoUsuarios);
+        $app['db']->commit();
+
+        $uuid = $app['uuid.service'];
+
+        $link = "https://coletaneaicm.com/email/confirmation/" . $uuid . "/auth/" . $usuario->getEmail();
+
+        $dateTime = new DateTime('now');
+        $dataLimite = new DateTime('now');
+        $dataLimite->modify('+8 hours');
+
+        $statusEmail = $app['status.email.repository']->find(1);
+
+        $emailConfirmacao = new EmailConfirmacao();
+        $emailConfirmacao->setUsuario($usuario);
+        $emailConfirmacao->setToken($uuid);
+        $emailConfirmacao->setGeradoEm($dateTime);
+        $emailConfirmacao->setValidade($dataLimite);
+        $emailConfirmacao->setStatus($statusEmail);
+
+        //$app['email.confirmacao.repository']->save($emailConfirmacao);
+
+        $config = $app['config'];
+        $assunto = "Confirmar E-mail";
+        $mensagem = "Seja Bem Vindo(a) ao Coletânea ICM, você está cadastrado, agora só falta confirmar o seu e-mail.";
+        $obs = "Este link é válido por 8 horas";
+
+        $array = [
+            'mensagem' => $mensagem,
+            'link' => $link,
+            'confirmarEmail' => 'Ou confirme pelo link abaixo:',
+            'nome' => $usuario->getNome(),
+            'site' => $config->getNome(),
+            'lema' => $config->getSubtitulo(),
+            'obs' => $obs,
+        ];
+
+        $body = $app['twig']->render('/user/email_confirmation.twig', $array);
+        $email = new Email($assunto, $app['email.padrao'], $body);
+        //$email->send($request->request->get('email'), $app);
+
+        $emailEnviado = new EmailEnviado();
+        $emailEnviado->setUsuario($usuario);
+        $emailEnviado->setTipo($assunto);
+        $emailEnviado->setMensagem($mensagem);
+        $emailEnviado->setDataHora(new DateTime('now'));
+
+        //$app['email.enviado.repository']->save($emailEnviado);
+
+        $usuario = $app['usuarios.repository']->find(1);
+
+        $notificacao = new Notificacao();
+        $notificacao->setUsuario($usuario);
+        $notificacao->setMensagem($usuario->getNome() . ' se registrou no site.');
+        $notificacao->setVisualizada(false);
+        $notificacao->setDataHora(new DateTime('now'));
+
+        //$app['notificacao.repository']->save($notificacao);
+
+        $app['db']->commit();
+
         return $app->json(
-            ['class' => 'error', 'message' => 'Este e-mail já está cadastrado.']
+            [
+                'class' => 'success',
+                'bln' => true,
+                'user' => [
+                    'username' => $usuario->getEmail(),
+                    'password' => $usuario->getPassword(),
+                    'id' => $usuario->getId(),
+                    'nome' => $usuario->getNome()
+                ],
+                'message' => 'Usuario Registrado'
+            ]
+        );
+
+    } catch (Exception $e) {
+
+        $app['db']->rollBack();
+
+        return $app->json(
+            [
+                'class' => 'erro',
+                'bln' => true,
+                'message' => $e->getMessage()
+            ]
         );
     }
-
-    $encoder = $app['security.encoder.digest'];
-    $password = $encoder->encodePassword($request->get('password'), '');
-    $grupo = $app['grupo.repository']->find(1);
-
-    $usuario = new \Api\Entities\Usuarios();
-    $usuario->setNome(ucwords($request->request->get('nome')));
-    $usuario->setEmail(strtolower($request->request->get('email')));
-    $usuario->setSenha($request->get('password'));
-    $usuario->setPassword($password);
-    $usuario->setGrupo($grupo);
-    $usuario->setCadastro(new \DateTime('now'));
-    $usuario->setRoles(Usuarios::ROLE_USER);
-    $usuario->setAtivo(true);
-
-    $app['db']->beginTransaction();
-    $app['usuarios.repository']->save($usuario);
-    $app['db']->commit();
-
-    $grupoUsuarios = new GrupoUsuarios();
-    $grupoUsuarios->setGrupo($grupo);
-    $grupoUsuarios->setUsuario($usuario);
-
-    $app['db']->beginTransaction();
-    $app['grupo.usuarios.repository']->save($grupoUsuarios);
-    $app['db']->commit();
-
-    $uuid = $app['uuid.service'];
-
-    $link = "https://coletaneaicm.com/email/confirmation/" . $uuid . "/auth/" . $usuario->getEmail();
-
-    $dateTime = new DateTime('now');
-    $dataLimite = new DateTime('now');
-    $dataLimite->modify('+8 hours');
-
-    $statusEmail = $app['status.email.repository']->find(1);
-
-    $emailConfirmacao = new EmailConfirmacao();
-    $emailConfirmacao->setUsuario($usuario);
-    $emailConfirmacao->setToken($uuid);
-    $emailConfirmacao->setGeradoEm($dateTime);
-    $emailConfirmacao->setValidade($dataLimite);
-    $emailConfirmacao->setStatus($statusEmail);
-
-    $app['email.confirmacao.repository']->save($emailConfirmacao);
-
-    $config = $app['config'];
-    $assunto = "Confirmar E-mail";
-    $mensagem = "Seja Bem Vindo(a) ao Coletânea ICM, você está cadastrado, agora só falta confirmar o seu e-mail.";
-    $obs = "Este link é válido por 8 horas";
-
-    $array = [
-        'mensagem' => $mensagem,
-        'link' => $link,
-        'confirmarEmail' => 'Ou confirme pelo link abaixo:',
-        'nome' => $usuario->getNome(),
-        'site' => $config->getNome(),
-        'lema' => $config->getSubtitulo(),
-        'obs' => $obs,
-    ];
-
-    $body = $app['twig']->render('/user/email_confirmation.twig', $array);
-    $email = new Email($assunto, $app['email.padrao'], $body);
-    $email->send($request->request->get('email'), $app);
-
-    $emailEnviado = new EmailEnviado();
-    $emailEnviado->setUsuario($usuario);
-    $emailEnviado->setTipo($assunto);
-    $emailEnviado->setMensagem($mensagem);
-    $emailEnviado->setDataHora(new DateTime('now'));
-
-    $app['db']->beginTransaction();
-    $app['email.enviado.repository']->save($emailEnviado);
-    $app['db']->commit();
-
-    $usuario = $app['usuarios.repository']->find(1);
-
-    $notificacao = new Notificacao();
-    $notificacao->setUsuario($usuario);
-    $notificacao->setMensagem($usuario->getNome() . ' se registrou no site.');
-    $notificacao->setVisualizada(false);
-    $notificacao->setDataHora(new DateTime('now'));
-
-    $app['db']->beginTransaction();
-    $app['notificacao.repository']->save($notificacao);
-    $app['db']->commit();
-
-    return $app->json(
-        [
-            'class' => 'success',
-            'bln' => true,
-            'user' => [
-                'username' => $usuario->getEmail(),
-                'password' => $usuario->getPassword(),
-                'id' => $usuario->getId(),
-                'nome' => $usuario->getNome()
-            ],
-            'message' => 'Usuario Registrado'
-        ]
-    );
 });
 
 $app->post('forgotten-password/save', function (\Symfony\Component\HttpFoundation\Request $request) use ($app) {

@@ -17,7 +17,7 @@ $colecao->get('collections', function() use ($app){
 
 })->bind('colecoes');
 
-$colecao->get('/collection/{id}-{nome}', function ($id, $nome) use ($app) {
+$colecao->get('/collection/{id}/{nome}', function ($id, $nome) use ($app) {
 
     $colecao = $app['colecao.repository']->find($id);
     $categorias = $app['categoria.repository']->findBy(['colecao' => $colecao, 'ativo' => true], ['nome' => 'ASC']);

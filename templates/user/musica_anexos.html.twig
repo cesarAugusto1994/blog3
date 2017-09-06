@@ -382,7 +382,7 @@
 
             $("#compartilhar").click(function (e) {
                 e.preventDefault();
-                let link = 'Compartilhe este link: <a target="_blank" href="https://coletaneaicm.com/public/{{ musica.id }}-{{ musica.nome }}">https://coletaneaicm.com/public/{{ musica.id }}-{{ musica.nome }}</a>';
+                let link = 'Compartilhe este link: <a target="_blank" href="https://coletaneaicm.com/public/{{ musica.id }}/{{ musica.nome|lower|replace(' ', '-') }}">https://coletaneaicm.com/public/{{ musica.id }}/{{ musica.nome|lower|replace(' ', '-') }}</a>';
                 alertify.alert(link);
             });
 

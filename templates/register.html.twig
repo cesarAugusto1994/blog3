@@ -183,7 +183,7 @@
                                     //window.location.href = '/user/';
                                     return false;
                                 },
-                                error: function () {
+                                error: function (data) {
                                     unblock_screen();
                                     $("#btnSubmit").removeClass("is-loading");
                                     alertify.error("opss, algo deu errado...");

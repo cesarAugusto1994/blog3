@@ -30,10 +30,12 @@
 
                         {% endif %}
 
-                        {% if is_granted('ROLE_ADMIN') or post.usuario.id == app.usuario.id %}
-                            <a class="button"
-                               href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '-' })|lower }) }}">Editar
-                                Post</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            {% if post.usuario.id == app.usuario.id %}
+                                <a class="button"
+                                   href="{{ path('edit_post', { id : post.id, name : post.titulo|replace({'.': '', ' ' : '-' })|lower }) }}">Editar
+                                    Post</a>
+                            {% endif %}
                         {% endif %}
 
                     </div>

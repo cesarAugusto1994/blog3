@@ -4,10 +4,6 @@
 
 {% block headerNome %}Musicas/Arquivos{% endblock %}
 
-{% block stylesheet %}
-    <link href="{{ asset(app['dir.base'] ~ 'assets/blog/css/custom.css') }}" type="text/css" rel="stylesheet"/>
-{% endblock %}
-
 
 {% block content %}
 
@@ -24,18 +20,20 @@
 
                     <figure>
 
-                        <figcaption>
-                            <a class="button is-success" href="/user/praise/new?category_id={{ categoria.id }}&category_name={{ categoria.nome }}">Adicionar Musica</a>
-                        </figcaption>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <figcaption>
+                                <a class="button" href="/user/praise/new?category_id={{ categoria.id }}&category_name={{ categoria.nome }}">Adicionar Musica</a>
+                            </figcaption>
+                        {% endif %}
 
                         {% for musica in musicas %}
 
                             <figcaption>
-                                <p class="title is-5">
-                                    <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
+                                <p>
+                                    <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|replace(' ', '-') }) }}">{{ musica.numero }} {{ musica.nome }}</a>
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <span class="badge is-small is-pulled-right">{{ musica.countAnexos }}</span>
-                                        <a href="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome|lower|url_encode }) }}"
+                                        <a href="{{ path('view_editar_musica', { id : musica.id, nome : musica.nome|lower|replace(' ', '-') }) }}"
                                            class="button is-info is-inverted is-pulled-right is-small">Editar</a>
                                     {% endif %}
                                 </p>

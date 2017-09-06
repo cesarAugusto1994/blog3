@@ -20,29 +20,39 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <form method="post" class="form-horizontal" action="{{ path('criarPost') }}"
-                          enctype="multipart/form-data">
 
-                        <p class="control has-icon"><label>Titulo:</label>
-                            <input class="input is-large" type="text" autofocus placeholder="Titulo" name="titulo" required>
-                        </p>
-                        <p class="control has-icon"><label>Imagem:</label>
-                            <input class="input" type="file" id="filer_input" name="background" placeholder="Background" accept="image/*">
-                        </p>
-                        <p class="control"><label>Tags:</label>
-                            <input type="text" class="bootstrap-tagsinput" id="tag" name="tags" data-role="tagsinput" placeholder="Tags"/>
-                        </p>
-                        <p class="control"><label>Descri&ccedil;&atilde;o:</label>
-                            <textarea class="textarea form-control" id="descricao" name="descricao"
-                                      placeholder="Descricao" placeholder="Place some text here"
-                                      style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                        </p>
-                        <p class="control">
-                            <button class="button is-success" type="submit">
-                                Salvar
-                            </button>
-                        </p>
-                    </form>
+                    {% if is_granted('ROLE_USER') %}
+
+                        <form method="post" class="form-horizontal" action="{{ path('criarPost') }}"
+                              enctype="multipart/form-data">
+
+                            <p class="control has-icon"><label>Titulo:</label>
+                                <input class="input is-large" type="text" autofocus placeholder="Titulo" name="titulo" required>
+                            </p>
+                            <p class="control has-icon"><label>Imagem:</label>
+                                <input class="input" type="file" id="filer_input" name="background" placeholder="Background" accept="image/*">
+                            </p>
+                            <p class="control"><label>Tags:</label>
+                                <input type="text" class="bootstrap-tagsinput" id="tag" name="tags" data-role="tagsinput" placeholder="Tags"/>
+                            </p>
+                            <p class="control"><label>Descri&ccedil;&atilde;o:</label>
+                                <textarea class="textarea form-control" id="descricao" name="descricao"
+                                          placeholder="Descricao" placeholder="Place some text here"
+                                          style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                            </p>
+                            <p class="control">
+                                <button class="button is-success" type="submit">
+                                    Salvar
+                                </button>
+                            </p>
+                        </form>
+
+                    {% else %}
+
+                        <p>Deve Estar Cadastrado para Adicionar um Post</p>
+
+                    {% endif %}
+
                 </div>
             </div>
         </div>

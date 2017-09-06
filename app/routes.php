@@ -101,7 +101,7 @@ $app->get('/admin/usuario/{id}/status', function ($id) use ($app) {
     return $app['usuarios.controller']->alteraStatus($id, $app);
 })->bind('usuario_status');
 
-$app->get('public/{id}-{nome}', function ($id, $nome) use ($app) {
+$app->get('public/{id}/{nome}', function ($id, $nome) use ($app) {
 
     $musica = $app['musica.repository']->find($id);
     $tipo = $app['tipo.anexo.repository']->find(1);
@@ -110,7 +110,7 @@ $app->get('public/{id}-{nome}', function ($id, $nome) use ($app) {
 
    return $app['twig']->render('index.twig', ['musica' => $musica, 'musicas' => $musicas, 'anexos' => $anexos]);
 
-});
+})->bind('public_praise');
 
 $app->get('public/group/{id}-{nome}', function ($id, $nome) use ($app) {
 
@@ -171,7 +171,12 @@ $app->mount('/user/manager/email', include __DIR__ . '/routes/email.php');
 $app->mount('/user/manager/acesso', include __DIR__ . '/routes/login.php');
 $app->mount('/user/manager/comentarios', include __DIR__ . '/routes/comentarios.php');
 $app->mount('/user/manager/logs', include __DIR__ . '/routes/logs.php');
-$app->mount('/user/palavra/', include __DIR__ . '/routes/blog/home.php');
+$app->mount('/palavra/', include __DIR__ . '/routes/blog/home.php');
+
+$app->get('/user/palavra/add', function () use ($app) {
+    return $app['twig']->render('/blog/criar.html.twig');
+})->bind('form_post');
+
 $app->mount('/user/grupos/', include __DIR__ . '/routes/grupo.php');
 $app->mount('/user/grupo/', include __DIR__ . '/routes/grupo_musicas.php');
 

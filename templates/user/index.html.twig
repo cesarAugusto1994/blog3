@@ -33,7 +33,7 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="block">
-                    <h2 class="title is-4">Coleções</h2>
+                    <h2 class="title">Coleções</h2>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                     {% for colecao in colecoes %}
                         <figure>
                             <figcaption>
-                                <p class="title is-3">
+                                <p class="title is-2">
                                     <a href="{{ path('view_collection', { id : colecao.id, nome : colecao.nome|lower|replace(' ', '-') }) }}">
                                         {{ colecao.nome }}
                                     </a>
@@ -85,7 +85,7 @@
                     {% for musica in musicas %}
                         <figure>
                             <figcaption>
-                                <p class="title is-4">
+                                <p class="title is-2">
                                     <a href="{{ path('musica_anexos', { id : musica.id, name : musica.nome|lower|url_encode }) }}">{{ musica.numero }} {{ musica.nome }}</a>
                                 </p>
                             </figcaption>
