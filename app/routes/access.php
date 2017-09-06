@@ -217,8 +217,6 @@ $app->get('forgotten-passord/token/{token}', function ($token) use ($app) {
         return $app['twig']->render('token_invalido.html.twig', ['mensagem' => 'Código de autorização inválido!']);
     }
 
-    echo $emailConfirmacao->getStatus()->getId();
-
     if ($emailConfirmacao->isConfirmado()) {
         return $app['twig']->render('token_invalido.html.twig', ['mensagem' => 'Código de autorização já Confirmado!']);
     }
