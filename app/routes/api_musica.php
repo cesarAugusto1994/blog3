@@ -19,6 +19,32 @@ $musica->get('praise/{id}-{nome}', function($id, $nome) use ($app) {
 
 })->bind('api_praise');
 
+$musica->get('praises', function() use ($app) {
+
+    $paremetros['ativo'] = true;
+
+    $musicas = $app['musica.repository']->findBy($paremetros, ['numero' => 'ASC', 'nome' => 'ASC']);
+
+    $musicas = array_map(function($musica){
+
+        /**
+         * @var \Api\Entities\Musica $musica
+         */
+
+        return [
+            'id' => $musica->getId(),
+            'nome' => $musica->getNome(),
+            'numero' => $musica->getNumero(),
+            'letra' => $musica->getLetra(),
+            'tom' => $musica->getTom(),
+            'categoria' => $musica->getCategoria()->getId(),
+        ];
+
+    }, $musicas);
+
+    return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);
+
+})->bind('api_praises');
 
 $musica->get('/praises/added', function() use ($app) {
 

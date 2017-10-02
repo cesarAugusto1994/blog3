@@ -136,6 +136,10 @@ class Musica implements \JsonSerializable
      */
     public function getNumero()
     {
+        if (empty($this->numero)) {
+            return "";
+        }
+
         return $this->numero;
     }
     
@@ -184,6 +188,10 @@ class Musica implements \JsonSerializable
      */
     public function getLetra()
     {
+        if (empty($this->letra)) {
+            return "";
+        }
+
         return $this->letra;
     }
     

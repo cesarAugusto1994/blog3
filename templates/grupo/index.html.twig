@@ -7,50 +7,46 @@
 {% block content %}
 
     <article>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    {% if app.session.flashbag.has('mensagem') %}
-                        {% for alert in app.session.flashbag.get('mensagem') %}
-                            <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
-                        {% endfor %}
-                    {% endif %}
+        {% if app.session.flashbag.has('mensagem') %}
+            {% for alert in app.session.flashbag.get('mensagem') %}
+                <span id="snackbarid" data-toggle="snackbar" data-content="{{ alert }}"></span>
+            {% endfor %}
+        {% endif %}
 
-                    <a href="{{ path('gl_add') }}" class="button is-small is-danger">Criar Grupo</a>
-                    <hr class="small"/>
+        <a href="{{ path('gl_add') }}" class="button is-small is-danger">Criar Grupo</a>
+        <hr class="small"/>
 
-                    <figure>
+        <figure>
 
-                    {% for grupo in grupos %}
+            {% for grupo in grupos %}
 
-                        <figcaption>
-                            <p class="title is-4">
-                                {% if grupo.id in gruposUsuario %}
-                                    <a href="/user/grupo/{{ grupo.id }}-{{ grupo.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ grupo.nome }}</a>
-                                {% else %}
-                                    {{ grupo.nome }}
-                                    <span class="tag">{{ grupo.cidade }}</span>
-                                    <span class="tag">{{ grupo.uf }}</span>
-                                {% endif %}
+                <figcaption>
+                    <p class="title is-4">
+                        {% if grupo.id in gruposUsuario %}
+                            <a href="/user/grupo/{{ grupo.id }}-{{ grupo.nome|trim|lower|replace({'.': '_', ' ' : '_' }) }}">{{ grupo.nome }}</a>
+                        {% else %}
+                            {{ grupo.nome }}
+                            <span class="tag">{{ grupo.cidade }}</span>
+                            <span class="tag">{{ grupo.uf }}</span>
+                        {% endif %}
 
-                                {% if grupo.id in gruposUsuario %}
-                                    <a class="button is-danger is-small is-inverted is-mobile is-pulled-right"
-                                       href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}&leave=1">Deixar Grupo</a>
-                                {% else %}
-                                    <a class="button is-success is-small is-inverted is-pulled-right"
-                                       href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}">Participar deste grupo</a>
-                                {% endif %}
-                            </p>
-                        </figcaption>
+                        {% if grupo.id in gruposUsuario %}
+                            <a class="button is-danger is-small is-inverted is-mobile is-pulled-right"
+                               href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}&leave=1">Deixar
+                                Grupo</a>
+                        {% else %}
+                            <a class="button is-success is-small is-inverted is-pulled-right"
+                               href="/user/grupos/request?user={{ usuario.id }}&grupo={{ grupo.id }}">Participar deste
+                                grupo</a>
+                        {% endif %}
+                    </p>
+                </figcaption>
 
-                    {% endfor %}
+            {% endfor %}
 
-                    </figure>
+        </figure>
 
-                </div>
-            </div>
-        </div>
     </article>
 
 {% endblock %}

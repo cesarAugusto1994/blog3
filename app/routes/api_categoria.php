@@ -25,7 +25,7 @@ $categorias->post('category/edit', function (\Symfony\Component\HttpFoundation\R
     return $app['categoria.controller']->editar($request, $app);
 });
 
-$categorias->get('category/{id}-{nome}', function($id, $nome) use ($app) {
+$categorias->get('category/{id}', function($id) use ($app) {
 
     $categoria = $app['categoria.repository']->find($id);
 
@@ -33,11 +33,25 @@ $categorias->get('category/{id}-{nome}', function($id, $nome) use ($app) {
         'categoria' => $categoria
     ];
 
-    if (Usuarios::ROLE_ADMIN != $app["usuario"]->getRoles()) {
-        $paremetros['ativo'] = true;
-    }
+    $paremetros['ativo'] = true;
 
     $musicas = $app['musica.repository']->findBy($paremetros, ['numero' => 'ASC', 'nome' => 'ASC']);
+
+    $musicas = array_map(function($musica){
+
+        /**
+         * @var \Api\Entities\Musica $musica
+         */
+
+        return [
+            'id' => $musica->getId(),
+            'nome' => $musica->getNome(),
+            'numero' => $musica->getNumero(),
+            'categoria' => $musica->getCategoria()->getId(),
+        ];
+
+    }, $musicas);
+
     return new \Symfony\Component\HttpFoundation\JsonResponse($musicas);
 
 })->bind('api_praises_form_category');
