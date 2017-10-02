@@ -119,8 +119,8 @@ class Favoritos implements \JsonSerializable
     {
         return [
             "id" => $this->id,
-            "musica" => $this->musica,
-            "usuario" => $this->usuario,
+            "musicaId" => $this->musica->getId(),
+            "musicaNome" => $this->musica->getNome()
         ];
     }
 }

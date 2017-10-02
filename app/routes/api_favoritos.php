@@ -35,6 +35,16 @@ $favoritos->get('favorites', function() use ($app) {
 
 })->bind('api_user_favorites');
 
+$favoritos->get('/user/{id}/my-favorites', function($id) use ($app) {
+
+    $usuario = $app['usuarios.repository']->find($id);
+
+    $favoritos = $app['favoritos.repository']->findBy(['usuario' => $usuario]);
+
+    return new \Symfony\Component\HttpFoundation\JsonResponse($favoritos);
+
+})->bind('api_user_fav');
+
 $favoritos->post('favoritos/add-remove', function (Request $request) use ($app) {
 
     try {
