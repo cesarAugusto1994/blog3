@@ -24,8 +24,8 @@ $api->get('login/{email}/{password}', function($email, $password) use($app) {
     if (!$user) {
         return $app->json([
             'classe' => "Erro",
-            "msg" => utf8_encode("Usuário não Encontrado."),
-            "data" => null
+            "msg" => utf8_encode("Usuario nao Encontrado."),
+            "acerto" => false
         ]);
     }
 
@@ -33,16 +33,24 @@ $api->get('login/{email}/{password}', function($email, $password) use($app) {
         return $app->json([
             'classe' => "Erro",
             "msg" => utf8_encode("Senha Incorreta."),
-            "data" => null
+            "acerto" => false
         ]);
     }
 
     return new \Symfony\Component\HttpFoundation\JsonResponse([
         'classe' => "Sucesso",
-        "msg" => utf8_encode("Usuário Encontrado."),
-        "data" => $user
+        "msg" => utf8_encode("Usuario Encontrado."),
+        "acerto" => true
     ]);
 
 })->bind('api_login_user');
+
+$api->get('user/{email}/data', function($email) use($app) {
+
+    $user = $app['usuarios.repository']->findOneBy(['email' => $email]);
+
+    return new \Symfony\Component\HttpFoundation\JsonResponse($user);
+
+});
 
 return $api;
