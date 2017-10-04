@@ -156,6 +156,7 @@ $app->mount('/api', include __DIR__ . '/routes/api_menu.php');
 $app->mount('/api', include __DIR__ . '/routes/api_users.php');
 $app->mount('/api', include __DIR__ . '/routes/api_anexos.php');
 $app->mount('/api', include __DIR__ . '/routes/api_favoritos.php');
+$app->mount('/api', include __DIR__ . '/routes/api_access.php');
 
 $app->mount('/user', include __DIR__ . '/routes/musica.php');
 $app->mount('/user', include __DIR__ . '/routes/album.php');

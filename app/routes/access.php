@@ -378,7 +378,7 @@ $app->post('register/save', function (\Symfony\Component\HttpFoundation\Request 
         $emailConfirmacao->setValidade($dataLimite);
         $emailConfirmacao->setStatus($statusEmail);
 
-        //$app['email.confirmacao.repository']->save($emailConfirmacao);
+        $app['email.confirmacao.repository']->save($emailConfirmacao);
 
         $config = $app['config'];
         $assunto = "Confirmar E-mail";
@@ -397,7 +397,7 @@ $app->post('register/save', function (\Symfony\Component\HttpFoundation\Request 
 
         $body = $app['twig']->render('/user/email_confirmation.twig', $array);
         $email = new Email($assunto, $app['email.padrao'], $body);
-        //$email->send($request->request->get('email'), $app);
+        $email->send($request->request->get('email'), $app);
 
         $emailEnviado = new EmailEnviado();
         $emailEnviado->setUsuario($usuario);
@@ -405,7 +405,7 @@ $app->post('register/save', function (\Symfony\Component\HttpFoundation\Request 
         $emailEnviado->setMensagem($mensagem);
         $emailEnviado->setDataHora(new DateTime('now'));
 
-        //$app['email.enviado.repository']->save($emailEnviado);
+        $app['email.enviado.repository']->save($emailEnviado);
 
         $usuario = $app['usuarios.repository']->find(1);
 
@@ -415,7 +415,7 @@ $app->post('register/save', function (\Symfony\Component\HttpFoundation\Request 
         $notificacao->setVisualizada(false);
         $notificacao->setDataHora(new DateTime('now'));
 
-        //$app['notificacao.repository']->save($notificacao);
+        $app['notificacao.repository']->save($notificacao);
 
         $app['db']->commit();
 
