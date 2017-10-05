@@ -9,8 +9,8 @@ $grupos->get('{user}/groups', function ($user) use ($app) {
 
     $grupoUsuarios = $app['grupo.usuarios.repository']->findBy(['usuario' => $usuario]);
 
-    $grupos = array_map(function ($gUser) {
-        return $gUser->getGrupo();
+    $grupos = array_map(function ($grupoUsuarios) {
+        return $grupoUsuarios->getGrupo();
     }, $grupoUsuarios);
 
 
