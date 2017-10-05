@@ -37,6 +37,21 @@ $api->get('login/{email}/{password}', function($email, $password) use($app) {
         ]);
     }
 
+    $sessao = null;
+
+    if ($app['session']->getId()) {
+        $sessao = $app['session']->getId();
+    }
+
+    $login = new \Api\Entities\Login();
+    $login->setUsuario($user);
+    $login->setSessao($sessao);
+    $login->setDataLogin(new DateTime('now'));
+
+    $app['db']->beginTransaction();
+    $app['login.repository']->save($login);
+    $app['db']->commit();
+
     return new \Symfony\Component\HttpFoundation\JsonResponse([
         'classe' => "Sucesso",
         "msg" => utf8_encode("Usuario Encontrado."),
