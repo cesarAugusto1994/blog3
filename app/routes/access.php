@@ -363,7 +363,7 @@ $app->post('register/save', function (\Symfony\Component\HttpFoundation\Request 
 
         $uuid = $app['uuid.service'];
 
-        $link = "https://coletaneaicm.com/email/confirmation/" . $uuid . "/auth/" . $usuario->getEmail();
+        $link = "https://coletaneaicm.com/email/confirmation/" . $uuid . "/auth/" . $usuario->getId();
 
         $dateTime = new DateTime('now');
         $dataLimite = new DateTime('now');
@@ -518,7 +518,7 @@ $app->post('/new-conformation-code/save', function (\Symfony\Component\HttpFound
          */
         $usuario = $app['usuarios.repository']->findOneBy(['email' => $request->request->get('email')]);
 
-        $link = "https://coletaneaicm.com/email/confirmation/" . $uuid . "/auth/" . $usuario->getEmail();
+        $link = "https://coletaneaicm.com/email/confirmation/" . $uuid . "/auth/" . $usuario->getId();
 
         $dateTime = new DateTime('now');
         $dataLimite = new DateTime('now');
@@ -579,7 +579,7 @@ $app->post('/new-conformation-code/save', function (\Symfony\Component\HttpFound
     }
 });
 
-$app->get('/email/confirmation/{token}/auth/{email}', function ($token, $email) use ($app) {
+$app->get('/email/confirmation/{token}/auth/{userId}', function ($token, $userId) use ($app) {
 
     /**
      * @var EmailConfirmacao $emailConfirmacao
@@ -616,7 +616,7 @@ $app->get('/email/confirmation/{token}/auth/{email}', function ($token, $email) 
     /**
      * @var Usuarios $usuario
      */
-    $usuario = $app['usuarios.repository']->findOneBy(['email' => $email]);
+    $usuario = $app['usuarios.repository']->find($userId);
 
     return $app['twig']->render('login-auto.html.twig', ['usuario' => $usuario]);
 
